@@ -1,0 +1,78 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+
+    tools:context="com.contentws.cws.Activity.LaunchScreenActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/relative_layout">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="HUMANIZE"
+            android:textColor="@color/colorWhite"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/relative_layout"
+        android:background="@color/colorWhite">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/login_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/smallMargin"
+            android:layout_marginRight="@dimen/smallMargin"
+            android:layout_marginTop="@dimen/smallMargin"
+            android:layout_marginBottom="@dimen/smallMargin"
+            android:textColor="@color/colorWhite"
+            android:transitionName="loginTransition"
+            android:background="@color/colorAccent"
+            android:layout_alignParentTop="true"
+            android:clickable="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="LOGIN" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:id="@+id/line"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/smallMargin"
+            android:layout_marginRight="@dimen/smallMargin"
+            android:layout_below="@+id/login_button"
+            android:background="@android:color/darker_gray"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/signup_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:elevation="4dp"
+            android:layout_marginLeft="@dimen/smallMargin"
+            android:layout_marginRight="@dimen/smallMargin"
+            android:layout_marginTop="@dimen/smallMargin"
+            android:layout_marginBottom="@dimen/smallMargin"
+            android:layout_below="@+id/line"
+            android:textColor="@color/colorWhite"
+            android:transitionName="signupTransition"
+            android:background="@color/colorAccent"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:clickable="true"
+            android:text="SIGNUP" />
+
+    </RelativeLayout>
+</RelativeLayout>

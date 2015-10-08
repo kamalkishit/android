@@ -1,0 +1,121 @@
+<resources>
+    <string name="app_name">ContentWS</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_web_view">WebView</string>
+    <string name="title_activity_content">ContentActivity</string>
+    <string name="icon_bookmark">&#xf097;</string>
+    <string name="icon_thumbs_up">&#xf087;</string>
+    <string name="icon_thumbs_down">&#xf088;</string>
+    <string name="icon_share">&#xf1e0;</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_logo">NATIONAL GEOGRAPHIC</string>
+    <string name="btn_skip_intro">Skip Intro</string>
+
+
+    <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
+    <string name="title_activity_daily">DailyActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
+
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="register_title">Register</string>
+    <string name="login_title">Login</string>
+    <string name="name">Name</string>
+    <string name="pwd">Password</string>
+    <string name="btnRegister">Register</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="title_activity_pseudo">PseudoActivity</string>
+    <string name="title_activity_new_login">NewLogin</string>
+    <string name="title_activity_activity_signup">activity_signup</string>
+    <string name="title_activity_signup">SignupActivity</string>
+    <string name="title_activity_paper">PaperActivity</string>
+
+    <string name="action_search">Search</string>
+    <string name="action_create">Create</string>
+    <string name="action_camera">Camera</string>
+    <string name="action_home">Home</string>
+
+    <string name="facebook_app_id">705154309615340</string>
+
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <string name="nav_item_home">Home</string>
+
+
+    <string name="nav_item_profile">Profile</string>
+    <string name="nav_item_paper">Paper</string>
+    <string name="nav_item_bookmarks">Bookmarks</string>
+    <string name="nav_item_recommended">Recommended</string>
+    <string name="nav_item_created">Created</string>
+    <string name="nav_item_settings">Settings</string>
+    <string name="nav_item_about_us">About Us</string>
+
+    <!-- navigation drawer item labels  -->
+    <string-array name="nav_drawer_labels">
+        <item>@string/nav_item_profile</item>
+        <item>@string/nav_item_paper</item>
+        <item>@string/nav_item_bookmarks</item>
+        <item>@string/nav_item_recommended</item>
+        <item>@string/nav_item_created</item>
+        <item>@string/nav_item_settings</item>
+        <item>@string/nav_item_about_us</item>
+    </string-array>
+
+    <string-array name="planets_array">
+        <item>Education</item>
+        <item>Health</item>
+        <item>Governance</item>
+        <item>Humanity</item>
+    </string-array>
+
+    <string name="categories_spinner_title">WHY select</string>
+
+    <string-array name="categories">
+        <item>Select Category</item>
+        <item>Achievers</item>
+        <item>Beautiful</item>
+        <item>Education</item>
+        <item>Empowerment</item>
+        <item>Environment</item>
+        <item>Governance</item>
+        <item>Health</item>
+        <item>Humanity</item>
+        <item>Human Rights</item>
+        <item>Law \u0026 Justice</item>
+        <item>Real Heroes</item>
+        <item>Science \u0026 Technology</item>
+        <item>Sports</item>
+        <item>Woman \u0026 Child</item>
+    </string-array>
+
+    <string-array name="sub_categories">
+        <item>Select SubCategory</item>
+        <item>Inspiring</item>
+        <item>Innovative</item>
+        <item>Creativity</item>
+        <item>Courageous</item>
+    </string-array>
+
+
+    <string name="title_messages">Messages</string>
+    <string name="title_friends">Friends</string>
+    <string name="title_home">Home</string>
+    <string name="title_activity_paper_notifier">PaperNotifier</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_card">CardActivity</string>
+    <string name="title_activity_launch_screen">LaunchScreenActivity</string>
+    <string name="title_activity_paper_launcher">PaperLauncherActivity</string>
+    <string name="title_activity_submit">SubmitActivity</string>
+    <string name="title_activity_facebook_login">FacebookLoginActivity</string>
+    <string name="title_activity_camera">CameraActivity</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_spinner">SpinnerActivity</string>
+    <string name="title_activity_likes">LikesActivity</string>
+    <string name="title_activity_bookmarks">BookmarksActivity</string>
+    <string name="title_activity_app_launcher">AppLauncherActivity</string>
+</resources>

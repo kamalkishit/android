@@ -1,0 +1,27 @@
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.contentws.cws.Activity.CardActivity">
+
+    <item
+        android:id="@+id/action_camera"
+        android:icon="@drawable/ic_photo_camera_white_24dp"
+        android:title="@string/action_camera"
+        android:orderInCategory="100"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_create"
+        android:icon="@drawable/ic_create_white_24dp"
+        android:title="@string/action_create"
+        android:orderInCategory="100"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search_white_24dp"
+        android:title="@string/action_search"
+        android:orderInCategory="100"
+        app:showAsAction="always" />
+</menu>
