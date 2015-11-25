@@ -89,7 +89,19 @@ public class HttpUtil {
     public void getContents(Callback callback) {
         String url = Config.CONTENT_FIND_URL;
 
-        ArrayList<String> categories = new ArrayList<String>(ApplicationState.getUser().getCategories());
+        //ArrayList<String> categories = new ArrayList<String>(ApplicationState.getUser().getCategories());
+
+        ArrayList<String> categories = new ArrayList<String>();
+        categories.add("Education");
+        categories.add("Health");
+        categories.add("Environment");
+        categories.add("Humanity");
+        categories.add("Empowerment");
+        categories.add("Real Heroes");
+        categories.add("Achievers");
+        categories.add("Sports");
+        categories.add("Governance");
+        categories.add("Beautiful");
 
         if (categories != null) {
             url = url + "?categories=";
@@ -112,6 +124,37 @@ public class HttpUtil {
         get(url, httpResponseCallback);
     }
 
+    public void refreshContents(String endDate, Callback callback) {
+        String url = Config.CONTENT_FIND_URL;
+
+        ArrayList<String> categories = new ArrayList<String>();
+        categories.add("Education");
+        categories.add("Health");
+        categories.add("Environment");
+        categories.add("Humanity");
+        categories.add("Empowerment");
+        categories.add("Real Heroes");
+        categories.add("Achievers");
+        categories.add("Sports");
+        categories.add("Governance");
+        categories.add("Beautiful");
+
+        if (categories != null) {
+            url = url + "?categories=";
+
+            for (String category: categories) {
+                url += category + ",";
+            }
+        }
+
+        if (endDate != null) {
+            url += "&enddate=" + endDate;
+        }
+
+        System.out.println(url);
+        get(url, callback);
+    }
+
     public void getMoreContents(String startDate, final HttpResponseCallback httpResponseCallback) {
         String url = Config.CONTENT_FIND_URL;
         if (startDate != null) {
@@ -119,6 +162,35 @@ public class HttpUtil {
         }
 
         get(url, httpResponseCallback);
+    }
+
+    public void getMoreContents(String startDate, Callback callback) {
+        String url = Config.CONTENT_FIND_URL;
+
+        ArrayList<String> categories = new ArrayList<String>();
+        categories.add("Education");
+        categories.add("Health");
+        categories.add("Environment");
+        categories.add("Humanity");
+        categories.add("Empowerment");
+        categories.add("Real Heroes");
+        categories.add("Achievers");
+        categories.add("Sports");
+        categories.add("Governance");
+        categories.add("Beautiful");
+
+        if (categories != null) {
+            url = url + "?categories=";
+
+            for (String category: categories) {
+                url += category + ",";
+            }
+        }
+        if (startDate != null) {
+            url += "&startdate=" + startDate;
+        }
+
+        get(url, callback);
     }
 
     public void getUserdata(String url, final HttpResponseCallback httpResponseCallback) {

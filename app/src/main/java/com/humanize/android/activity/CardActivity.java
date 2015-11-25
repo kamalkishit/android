@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -20,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.humanize.android.ContentFragmentDrawerListener;
@@ -33,9 +36,14 @@ import com.humanize.android.content.data.Contents;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 public class CardActivity extends AppCompatActivity {
 
@@ -131,28 +139,7 @@ public class CardActivity extends AppCompatActivity {
 
     private void getMoreContents(String startDate) {
         HttpUtil httpUtil = HttpUtil.getInstance();
-        httpUtil.getMoreContents(startDate, new HttpResponseCallback() {
-            @Override
-            public void onSuccess(String response) {
-                try {
-                    System.out.println("got new content");
-                    Contents contents = new Gson().fromJson(response, Contents.class);
-
-                    if (contents != null) {
-                        recyclerViewAdapter.contents.getContents().addAll(contents.getContents());
-                        recyclerViewAdapter.notifyDataSetChanged();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(String errorMsg) {
-                System.out.println(errorMsg);
-                System.out.println("why failure");
-            }
-        });
+        httpUtil.getMoreContents(startDate, new MoreContent());
     }
 
     private void failure(String msg) {
@@ -177,32 +164,7 @@ public class CardActivity extends AppCompatActivity {
             String endDate = Long.toString(recyclerViewAdapter.contents.getContents().get(0).getCreatedDate());
             HttpUtil httpUtil = HttpUtil.getInstance();
 
-            httpUtil.refreshContents(endDate, new HttpResponseCallback() {
-                @Override
-                public void onSuccess(String response) {
-                    try {
-                        Contents contents = new Gson().fromJson(response, Contents.class);
-
-                        if (contents != null && contents.getContents().size() >= 20) {
-                            recyclerViewAdapter.contents = contents;
-                            recyclerViewAdapter.notifyDataSetChanged();
-                        } else if (contents != null) {
-                            recyclerViewAdapter.contents.getContents().addAll(0, contents.getContents());
-                            recyclerViewAdapter.notifyDataSetChanged();
-                        }
-                        swipeRefreshLayout.setRefreshing(false);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                }
-
-                @Override
-                public void onFailure(String errorMsg) {
-                    System.out.println("failure");
-                    swipeRefreshLayout.setRefreshing(false);
-                }
-            });
+            httpUtil.refreshContents(endDate, new NewContent());
         } else {
 
         }
@@ -296,7 +258,7 @@ public class CardActivity extends AppCompatActivity {
 
                 configureListeners();
 
-                update();
+                //update();
 
                 view.setOnClickListener(this);
             }
@@ -438,4 +400,97 @@ public class CardActivity extends AppCompatActivity {
 
         public abstract void onLoadMore(int current_page);
     }
+
+    private class MoreContent implements Callback {
+        @Override
+        public void onFailure(Request request, IOException e) {
+            e.printStackTrace();
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "Network connection error", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+
+        @Override
+        public void onResponse(final Response response) throws IOException {
+            if (!response.isSuccessful()) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                    }
+                });
+            } else {
+                final String responseStr = response.body().string().toString();
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+                        try {
+                            System.out.println("got new content");
+                            Contents contents = new Gson().fromJson(responseStr, Contents.class);
+
+                            if (contents != null) {
+                                recyclerViewAdapter.contents.getContents().addAll(contents.getContents());
+                                recyclerViewAdapter.notifyDataSetChanged();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    private class NewContent implements Callback {
+        @Override
+        public void onFailure(Request request, IOException e) {
+            e.printStackTrace();
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "Network connection error", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+
+        @Override
+        public void onResponse(final Response response) throws IOException {
+            if (!response.isSuccessful()) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                    }
+                });
+            } else {
+                final String responseStr = response.body().string().toString();
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+                        try {
+                            Contents contents = new Gson().fromJson(responseStr, Contents.class);
+
+                            if (contents != null && contents.getContents().size() >= 20) {
+                                recyclerViewAdapter.contents = contents;
+                                recyclerViewAdapter.notifyDataSetChanged();
+                            } else if (contents != null) {
+                                recyclerViewAdapter.contents.getContents().addAll(0, contents.getContents());
+                                recyclerViewAdapter.notifyDataSetChanged();
+                            }
+                            swipeRefreshLayout.setRefreshing(false);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    }
+                });
+            }
+        }
+    }
+
 }

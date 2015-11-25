@@ -188,10 +188,12 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         public void onFailure(Request request, IOException e) {
+            e.printStackTrace();
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
                     Toast.makeText(getApplicationContext(), "Network connection error", Toast.LENGTH_LONG).show();
+                    loginButton.setEnabled(true);
                     progressDialog.dismiss();
                 }
             });
@@ -204,20 +206,18 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                        loginButton.setEnabled(true);
                         progressDialog.dismiss();
                     }
                 });
             } else {
+                final String responseStr = response.body().string().toString();
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            progressDialog.dismiss();
-                            String responseStr = response.body().string().toString();
-                            loginSuccess(responseStr);
-                        } catch (IOException exception) {
-                            Log.e(TAG, exception.toString());
-                        }
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+                        loginSuccess(responseStr);
                     }
                 });
             }

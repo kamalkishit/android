@@ -182,6 +182,40 @@ public class AppLauncherActivity extends AppCompatActivity {
     private class ContentCallback implements Callback {
         @Override
         public void onFailure(Request request, IOException e) {
+            e.printStackTrace();
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "Network connection error", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+
+        @Override
+        public void onResponse(final Response response) throws IOException {
+            if (!response.isSuccessful()) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                    }
+                });
+            } else {
+                final String responseStr = response.body().string().toString();
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                            success(responseStr);
+                    }
+                });
+            }
+        }
+    }
+
+    private class UserDataCallback implements Callback {
+        @Override
+        public void onFailure(Request request, IOException e) {
+            e.printStackTrace();
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
