@@ -36,6 +36,7 @@ public class Config {
     public final static String CONTENT_CREATE_URL = SERVER_URL + "/content/create";
     public final static String CONTENT_UPDATE_URL = SERVER_URL + "/content/update";
     public final static String CONTENT_FIND_URL = SERVER_URL + "/content/find";
+    public final static String IMAGES_URL = SERVER_URL + "/images";
 
     public final static String PAPER_CREATE_URL = SERVER_URL + "/paper/create";
     public final static String PAPER_UPDATE_URL = SERVER_URL + "/paper/update";

@@ -28,7 +28,6 @@ import com.google.gson.Gson;
 import com.humanize.android.ContentFragmentDrawerListener;
 import com.humanize.android.ContentService;
 import com.humanize.android.FragmentDrawer;
-import com.humanize.android.HttpResponseCallback;
 import com.humanize.android.R;
 import com.humanize.android.UserService;
 import com.humanize.android.content.data.Content;
@@ -36,7 +35,6 @@ import com.humanize.android.content.data.Contents;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
-import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -58,11 +56,11 @@ public class CardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card);
+
         initialize();
     }
 
     private void initialize() {
-
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimaryDark, R.color.colorPrimary, R.color.colorAccent);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -142,23 +140,6 @@ public class CardActivity extends AppCompatActivity {
         httpUtil.getMoreContents(startDate, new MoreContent());
     }
 
-    private void failure(String msg) {
-
-    }
-
-    private void success(String response) {
-        try {
-            /*JSONObject jsonObject = new JSONObject(response);
-            ArrayList<Content> contents = JSONObjectParser.parseContents(
-                    jsonObject);*/
-
-            Contents contents = new Gson().fromJson(response, Contents.class);
-            recyclerViewAdapter.contents.getContents().addAll(contents.getContents());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     private void refreshContents() {
         if (recyclerViewAdapter.contents.getContents().size() > 0) {
             String endDate = Long.toString(recyclerViewAdapter.contents.getContents().get(0).getCreatedDate());
@@ -210,7 +191,7 @@ public class CardActivity extends AppCompatActivity {
                 viewHolder.bookmarkButton.setBackgroundResource(R.drawable.ic_bookmark_border_white_24dp);
             }
 
-            Picasso.with(ApplicationState.getAppContext()).load(Config.SERVER_URL + "/images/" + content.getImageURL())
+            Picasso.with(ApplicationState.getAppContext()).load(Config.IMAGES_URL + content.getImageURL())
                     .placeholder(R.drawable.background).resize(Config.IMAGE_WIDTH, Config.IMAGE_HEIGHT)
                     .into(viewHolder.imageView);
         }
@@ -225,6 +206,7 @@ public class CardActivity extends AppCompatActivity {
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
             protected Content content;
             protected String id;
             protected TextView title;
@@ -241,7 +223,6 @@ public class CardActivity extends AppCompatActivity {
             private View shareableContentView;
 
             public ViewHolder(View view) {
-
                 super(view);
                 this.shareableContentView = view;
                 userService = new UserService(ApplicationState.getUser());
@@ -258,7 +239,7 @@ public class CardActivity extends AppCompatActivity {
 
                 configureListeners();
 
-                //update();
+                update();
 
                 view.setOnClickListener(this);
             }
@@ -453,6 +434,7 @@ public class CardActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     Toast.makeText(getApplicationContext(), "Network connection error", Toast.LENGTH_LONG).show();
+                    swipeRefreshLayout.setRefreshing(false);
                 }
             });
         }
@@ -464,6 +446,7 @@ public class CardActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                        swipeRefreshLayout.setRefreshing(false);
                     }
                 });
             } else {
