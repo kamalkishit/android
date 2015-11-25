@@ -1,6 +1,6 @@
 package com.humanize.android;
 
-import com.humanize.android.data.Content;
+import com.humanize.android.content.data.Content;
 import com.humanize.android.data.User;
 import com.humanize.android.service.BookmarkService;
 import com.humanize.android.service.LikeService;

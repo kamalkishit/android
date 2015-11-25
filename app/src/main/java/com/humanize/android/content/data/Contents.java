@@ -1,4 +1,4 @@
-package com.humanize.android.data;
+package com.humanize.android.content.data;
 
 import java.util.ArrayList;
 import java.util.ListIterator;

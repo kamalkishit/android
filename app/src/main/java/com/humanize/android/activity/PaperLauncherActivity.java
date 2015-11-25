@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import com.google.gson.Gson;
 import com.humanize.android.HttpResponseCallback;
 import com.humanize.android.R;
-import com.humanize.android.data.Contents;
+import com.humanize.android.content.data.Contents;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;

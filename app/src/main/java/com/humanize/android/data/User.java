@@ -4,8 +4,10 @@ package com.humanize.android.data;
  * Created by Kamal on 9/17/15.
  */
 
-import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 public class User {
 
@@ -16,6 +18,14 @@ public class User {
     private String emailId;
 
     private String password;
+
+    private String tempPassword;
+
+    private String invitationCode;
+
+    private List<String> typeOfArticles;
+
+    private List<String> categories;
 
     private Set<String> likes;
 
@@ -28,9 +38,19 @@ public class User {
     private long lastModifiedDate;
 
     public User() {
+        this.typeOfArticles = new ArrayList<String>();
+        this.categories = new ArrayList<String>();
         this.likes = new LinkedHashSet<String>();
         this.bookmarks = new LinkedHashSet<String>();
         this.contentsCreated = new LinkedHashSet<String>();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getUserId() {
@@ -49,6 +69,14 @@ public class User {
         this.emailId = emailId;
     }
 
+    public String getTempPassword() {
+        return tempPassword;
+    }
+
+    public void setTempPassword(String tempPassword) {
+        this.tempPassword = tempPassword;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -57,12 +85,28 @@ public class User {
         this.password = password;
     }
 
-    public String getId() {
-        return id;
+    public String getInvitationCode() {
+        return invitationCode;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setInvitationCode(String invitationCode) {
+        this.invitationCode = invitationCode;
+    }
+
+    public List<String> getTypeOfArticles() {
+        return typeOfArticles;
+    }
+
+    public void setTypeOfArticles(List<String> typeOfArticles) {
+        this.typeOfArticles = typeOfArticles;
+    }
+
+    public List<String> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<String> categories) {
+        this.categories = categories;
     }
 
     public Set<String> getLikes() {

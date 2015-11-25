@@ -5,14 +5,18 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.humanize.android.AlarmReceiver;
 import com.humanize.android.HttpResponseCallback;
 import com.humanize.android.R;
-import com.humanize.android.data.Contents;
+import com.humanize.android.content.data.Contents;
 import com.humanize.android.data.User;
 import com.humanize.android.service.BookmarkService;
 import com.humanize.android.service.LikeService;
@@ -20,10 +24,16 @@ import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
 import com.humanize.android.util.SharedPreferencesStorage;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
+import java.io.IOException;
 import java.util.Calendar;
 
 public class AppLauncherActivity extends AppCompatActivity {
+
+    private static final String TAG = "AppLauncherActivity";
 
     SharedPreferencesStorage sharedPreferencesStorage = null;
 
@@ -74,7 +84,7 @@ public class AppLauncherActivity extends AppCompatActivity {
 
     private void getUserdata() {
         HttpUtil httpUtil = HttpUtil.getInstance();
-        httpUtil.getUserdata(Config.GET_USERDATA_URL, new HttpResponseCallback() {
+        httpUtil.getUserdata(Config.USER_DATA_URL, new HttpResponseCallback() {
             @Override
             public void onSuccess(String response) {
                 System.out.println(" user data success");
@@ -97,19 +107,7 @@ public class AppLauncherActivity extends AppCompatActivity {
 
     private void getContents() {
         HttpUtil httpUtil = HttpUtil.getInstance();
-        httpUtil.getContents(new HttpResponseCallback() {
-            @Override
-            public void onSuccess(String response) {
-                System.out.println("success");
-                success(response);
-            }
-
-            @Override
-            public void onFailure(String errorMsg) {
-                System.out.println("failure");
-                failure(errorMsg);
-            }
-        });
+        httpUtil.getContents(new ContentCallback());
     }
 
     private void success(String response) {
@@ -154,7 +152,7 @@ public class AppLauncherActivity extends AppCompatActivity {
         sharedPreferencesStorage.putString(Config.JSON_CONTENTS, new Gson().toJson(CardActivity.contents));
         sharedPreferencesStorage.putString(Config.JSON_LIKES, new Gson().toJson(LikeService.getInstance().getLikes()));
         sharedPreferencesStorage.putString(Config.JSON_BOOKMARKS, new Gson().toJson(BookmarkService.getInstance().getBookmarks()));
-        updateUserData();
+        //updateUserData();
         updateContentsData();
         super.onDestroy();
     }
@@ -181,4 +179,39 @@ public class AppLauncherActivity extends AppCompatActivity {
 
     }
 
+    private class ContentCallback implements Callback {
+        @Override
+        public void onFailure(Request request, IOException e) {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "Network connection error", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+
+        @Override
+        public void onResponse(final Response response) throws IOException {
+            if (!response.isSuccessful()) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                    }
+                });
+            } else {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            String responseStr = response.body().string().toString();
+                            success(responseStr);
+                        } catch (IOException exception) {
+                            Log.e(TAG, exception.toString());
+                        }
+                    }
+                });
+            }
+        }
+    }
 }

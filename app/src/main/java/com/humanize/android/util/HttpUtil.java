@@ -39,7 +39,7 @@ public class HttpUtil {
     }
 
     public void getPaper(final HttpResponseCallback httpResponseCallback) {
-        String url = Config.PAPER_URL;
+        String url = Config.PAPER_FIND_URL;
         get(url, httpResponseCallback);
     }
 
@@ -82,12 +82,27 @@ public class HttpUtil {
     }
 
     public void getContents(final HttpResponseCallback httpResponseCallback) {
-        String url = Config.GET_CONTENTS_URL;
+        String url = Config.CONTENT_FIND_URL;
         get(url, httpResponseCallback);
     }
 
+    public void getContents(Callback callback) {
+        String url = Config.CONTENT_FIND_URL;
+
+        ArrayList<String> categories = new ArrayList<String>(ApplicationState.getUser().getCategories());
+
+        if (categories != null) {
+            url = url + "?categories=";
+
+            for (String category: categories) {
+                url += category + ",";
+            }
+        }
+        get(url, callback);
+    }
+
     public void refreshContents(String endDate, final HttpResponseCallback httpResponseCallback) {
-        String url = Config.REFRESH_CONTENTS_URL;
+        String url = Config.CONTENT_FIND_URL;
 
         if (endDate != null) {
             url += "?enddate=" + endDate;
@@ -98,7 +113,7 @@ public class HttpUtil {
     }
 
     public void getMoreContents(String startDate, final HttpResponseCallback httpResponseCallback) {
-        String url = Config.GET_MORE_CONTENTS_URL;
+        String url = Config.CONTENT_FIND_URL;
         if (startDate != null) {
             url += "?startdate=" + startDate;
         }
@@ -119,16 +134,30 @@ public class HttpUtil {
         post(url, json, httpResponseCallback);
     }
 
+    public void login(String url, String json, Callback callback) {
+        System.out.println(json);
+        post(url, json, callback);
+    }
+
     public void signup(String url, Map<String, String> params, final HttpResponseCallback httpResponseCallback) {
         post(url, params, httpResponseCallback);
     }
 
-    public void signup(String url, String json, final HttpResponseCallback httpResponseCallback) {
-        post(url, json, httpResponseCallback);
+    public void signup(String url, String json, Callback callback) {
+        post(url, json, callback);
     }
 
     public void updateUser(String url, String json, final HttpResponseCallback httpResponseCallback) {
         post(url, json, httpResponseCallback);
+    }
+
+    private void get(String url, Callback callback) {
+        System.out.println(url);
+        OkHttpClient okHttpClient = new OkHttpClient();
+        okHttpClient.setReadTimeout(Config.READ_TIMEOUT, TimeUnit.SECONDS.MILLISECONDS);
+        Request request = new Request.Builder().url(url).build();
+
+        okHttpClient.newCall(request).enqueue(callback);
     }
 
     private void get(String url, final HttpResponseCallback httpResponseCallback) {
@@ -180,6 +209,15 @@ public class HttpUtil {
         });
     }
 
+    private void post(String url, String json, Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        //RequestBody requestBody = getParams(params);
+        RequestBody requestBody = RequestBody.create(JSON, json);
+        Request request = new Request.Builder().url(url).post(requestBody).build();
+
+        client.newCall(request).enqueue(callback);
+    }
+
     private void post(String url, String json, final HttpResponseCallback httpResponseCallback) {
         OkHttpClient client = new OkHttpClient();
         //RequestBody requestBody = getParams(params);
@@ -189,6 +227,7 @@ public class HttpUtil {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException ioException) {
+                System.out.println("onFailure");
                 ioException.printStackTrace();
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
@@ -201,6 +240,8 @@ public class HttpUtil {
             @Override
             public void onResponse(final Response response) throws IOException {
                 if (!response.isSuccessful()) {
+                    System.out.println("isSuccessful");
+                    System.out.println(response.body().source().toString());
                     throw new IOException("Unexpected code " + response);
                 }
 

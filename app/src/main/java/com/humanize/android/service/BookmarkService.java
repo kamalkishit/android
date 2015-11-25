@@ -1,7 +1,7 @@
 package com.humanize.android.service;
 
-import com.humanize.android.data.Content;
-import com.humanize.android.data.Contents;
+import com.humanize.android.content.data.Content;
+import com.humanize.android.content.data.Contents;
 
 /**
  * Created by Kamal on 10/3/15.

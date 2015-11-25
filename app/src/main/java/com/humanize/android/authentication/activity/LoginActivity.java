@@ -1,10 +1,13 @@
-package com.humanize.android.activity;
+package com.humanize.android.authentication.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,24 +18,32 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.humanize.android.HttpResponseCallback;
 import com.humanize.android.R;
+import com.humanize.android.activity.AppLauncherActivity;
 import com.humanize.android.data.User;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
 import com.humanize.android.util.SharedPreferencesStorage;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
+import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class LoginActivity extends AppCompatActivity {
+
     private static final String TAG = "LoginActivity";
-    private EditText email;
+    private EditText emailId;
     private EditText password;
     private Button loginButton;
     private TextView signupLink;
     private Toolbar toolbar;
     SharedPreferencesStorage sharedPreferencesStorage;
+
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-        email = (EditText) findViewById(R.id.email);
+        emailId = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
         loginButton = (Button) findViewById(R.id.login_button);
         //signupLink = (TextView) findViewById(R.id.signup_link);
@@ -75,40 +86,23 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login() {
-        if (!validate()) {
-            loginFailure();
-            return;
+        if (validate()) {
+            loginButton.setEnabled(false);
+
+            progressDialog = new ProgressDialog(LoginActivity.this);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage("Authenticating...");
+            progressDialog.show();
+
+            User user = new User();
+            user.setEmailId(emailId.getText().toString());
+            user.setPassword(password.getText().toString());
+
+            String json = new Gson().toJson(user);
+
+            HttpUtil httpUtil = HttpUtil.getInstance();
+            httpUtil.login(Config.USER_LOGIN_URL, json, new LoginCallback());
         }
-
-        loginButton.setEnabled(false);
-
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating...");
-        //progressDialog.show();
-
-        User user = new User();
-        user.setEmailId(email.getText().toString());
-        user.setPassword(password.getText().toString());
-
-        String json = new Gson().toJson(user);
-
-        HttpUtil httpUtil = HttpUtil.getInstance();
-        httpUtil.login(Config.LOGIN_URL, json, new HttpResponseCallback() {
-            @Override
-            public void onSuccess(String response) {
-                System.out.println("i m here");
-                //progressDialog.dismiss();
-                loginSuccess(response);
-            }
-
-            @Override
-            public void onFailure(String errorMsg) {
-                System.out.println("or here");
-                //progressDialog.dismiss();
-                loginFailure();
-            }
-        });
     }
 
     @Override
@@ -121,6 +115,18 @@ public class LoginActivity extends AppCompatActivity {
         System.out.println("login success");
 
         User user = new Gson().fromJson(response, User.class);
+        ArrayList<String> categories = new ArrayList<String>();
+        categories.add("Education");
+        categories.add("Health");
+        categories.add("Environment");
+        categories.add("Humanity");
+        categories.add("Empowerment");
+        categories.add("Real Heroes");
+        categories.add("Achievers");
+        categories.add("Sports");
+        categories.add("Governance");
+        categories.add("Beautiful");
+        user.setCategories(categories);
         if (user != null) {
             ApplicationState.setUser(user);
             sharedPreferencesStorage.putBoolean(Config.IS_LOGGED_IN, true);
@@ -137,26 +143,20 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public boolean validate() {
-        boolean valid = true;
-
-        String emailStr = email.getText().toString();
+        String emailStr = emailId.getText().toString();
         String passwordStr = password.getText().toString();
 
         if (emailStr.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(emailStr).matches()) {
-            email.setError("enter a valid email address");
-            valid = false;
-        } else {
-            email.setError(null);
+            emailId.setError("enter a valid email address");
+            return false;
         }
 
         if (passwordStr.isEmpty() || passwordStr.length() < Config.PASSWORD_MIN_LENGTH || password.length() > Config.PASSWORD_MAX_LENGTH) {
             password.setError("between 4 and 10 characters");
-            valid = false;
-        } else {
-            password.setError(null);
+            return false;
         }
 
-        return valid;
+        return true;
     }
 
     @Override
@@ -182,6 +182,46 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), AppLauncherActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    private class LoginCallback implements Callback {
+
+        @Override
+        public void onFailure(Request request, IOException e) {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "Network connection error", Toast.LENGTH_LONG).show();
+                    progressDialog.dismiss();
+                }
+            });
+        }
+
+        @Override
+        public void onResponse(final Response response) throws IOException {
+            if (!response.isSuccessful()) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                        progressDialog.dismiss();
+                    }
+                });
+            } else {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            progressDialog.dismiss();
+                            String responseStr = response.body().string().toString();
+                            loginSuccess(responseStr);
+                        } catch (IOException exception) {
+                            Log.e(TAG, exception.toString());
+                        }
+                    }
+                });
+            }
+        }
     }
 }
 

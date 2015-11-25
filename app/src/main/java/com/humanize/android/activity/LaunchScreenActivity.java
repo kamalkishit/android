@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.humanize.android.R;
+import com.humanize.android.authentication.activity.LoginActivity;
+import com.humanize.android.authentication.activity.SignupActivity;
 import com.humanize.android.util.SharedPreferencesStorage;
 
 public class LaunchScreenActivity extends AppCompatActivity {

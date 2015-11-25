@@ -31,7 +31,7 @@
             android:paddingRight="@dimen/mediumMargin">
 
             <EditText
-                android:id="@+id/email"
+                android:id="@+id/emailId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorBlack"
@@ -48,6 +48,22 @@
 
             <EditText
                 android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorBlack"
+                android:inputType="textPassword"
+                android:drawableLeft="@drawable/ic_vpn_key_black_24dp" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/mediumMargin"
+            android:paddingRight="@dimen/mediumMargin"
+            android:paddingBottom="@dimen/smallMargin">
+
+            <EditText
+                android:id="@+id/invitationCode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorBlack"

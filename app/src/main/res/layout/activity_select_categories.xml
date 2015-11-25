@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="@color/colorWhite" android:layout_width="fill_parent" android:layout_height="wrap_content" android:baselineAligned="false"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <android.support.v7.widget.AppCompatButton
+        android:textColor="@color/colorBlack"
+        android:gravity="center"
+        android:background="@color/colorWhite"
+        android:clickable="false"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/mediumMargin"
+        android:text="Please select Minimum 3 Categories" />
+
+    <org.apmem.tools.layouts.FlowLayout
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/mediumMargin">
+
+        <android.support.v7.widget.AppCompatButton
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textStyle="normal"
+            android:textColor="@color/colorBlack"
+            android:gravity="center"
+            android:id="@+id/achievers"
+            android:background="@color/colorWhite"
+            android:layout_width="120.0dip"
+            android:layout_height="30.0dip"
+            android:layout_marginLeft="@dimen/mediumMargin"
+            android:layout_marginTop="@dimen/mediumMargin"
+            android:foreground="?android:selectableItemBackground"
+            android:text="Achievers" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textStyle="normal"
+            android:textColor="@color/colorBlack"
+            android:id="@+id/beautiful"
+            android:background="@color/colorWhite"
+            android:layout_width="120.0dip"
+            android:layout_height="30.0dip"
+            android:layout_marginLeft="@dimen/mediumMargin"
+            android:layout_marginTop="@dimen/mediumMargin"
+            android:text="Beautiful" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textStyle="normal"
+            android:textColor="@color/colorBlack"
+            android:id="@+id/education"
+            android:background="@color/colorWhite"
+            android:layout_width="120.0dip"
+            android:layout_height="30.0dip"
+            android:layout_marginLeft="@dimen/mediumMargin"
+            android:layout_marginTop="@dimen/mediumMargin"
+            android:text="Education" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textStyle="normal" android:textColor="@color/colorBlack"
+            android:id="@+id/empowerment" android:background="@color/colorWhite"
+            android:layout_width="120.0dip" android:layout_height="30.0dip"
+            android:layout_marginLeft="@dimen/mediumMargin"
+            android:layout_marginTop="@dimen/mediumMargin"
+            android:text="Empowerment" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textStyle="normal" android:textColor="@color/colorBlack"
+            android:id="@+id/environment" android:background="@color/colorWhite"
+            android:layout_width="120.0dip" android:layout_height="30.0dip"
+            android:layout_marginLeft="@dimen/mediumMargin"
+            android:layout_marginTop="@dimen/mediumMargin"
+            android:text="Environment" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textStyle="normal"
+            android:textColor="@color/colorBlack"
+            android:id="@+id/governance"
+            android:background="@color/colorWhite"
+            android:layout_width="120.0dip"
+            android:layout_height="30.0dip"
+            android:layout_marginLeft="@dimen/mediumMargin"
+            android:layout_marginTop="@dimen/mediumMargin"
+            android:text="Governance" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textStyle="normal"
+            android:textColor="@color/colorBlack"
+            android:id="@+id/health"
+            android:background="@color/colorWhite"
+            android:layout_width="120.0dip"
+            android:layout_height="30.0dip"
+            android:layout_marginLeft="@dimen/mediumMargin"
+            android:layout_marginTop="@dimen/mediumMargin"
+            android:text="Health"
+            android:layout_below="@id/text_input" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textStyle="normal"
+            android:textColor="@color/colorBlack"
+            android:id="@+id/humanity"
+            android:background="@color/colorWhite"
+            android:layout_width="120.0dip"
+            android:layout_height="30.0dip"
+            android:layout_marginLeft="@dimen/mediumMargin"
+            android:layout_marginTop="@dimen/mediumMargin"
+            android:text="Humanity" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textStyle="normal"
+            android:textColor="@color/colorBlack"
+            android:id="@+id/law"
+            android:background="@color/colorWhite"
+            android:layout_width="120.0dip"
+            android:layout_height="30.0dip"
+            android:layout_marginLeft="@dimen/mediumMargin"
+            android:layout_marginTop="@dimen/mediumMargin"
+            android:text="Law &amp; Justice" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textStyle="normal"
+            android:textColor="@color/colorBlack"
+            android:id="@+id/realHeroes"
+            android:background="@color/colorWhite"
+            android:layout_width="120.0dip"
+            android:layout_height="30.0dip"
+            android:layout_marginLeft="@dimen/mediumMargin"
+            android:layout_marginTop="@dimen/mediumMargin"
+            android:text="Real Heroes" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textStyle="normal"
+            android:textColor="@color/colorBlack"
+            android:id="@+id/science"
+            android:background="@color/colorWhite"
+            android:layout_width="120.0dip"
+            android:layout_height="30.0dip"
+            android:layout_marginLeft="@dimen/mediumMargin"
+            android:layout_marginTop="@dimen/mediumMargin"
+            android:text="Science &amp; Tech" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textStyle="normal"
+            android:textColor="@color/colorBlack"
+            android:id="@+id/sports"
+            android:background="@color/colorWhite"
+            android:layout_width="120.0dip"
+            android:layout_height="30.0dip"
+            android:layout_marginLeft="@dimen/mediumMargin"
+            android:layout_marginTop="@dimen/mediumMargin"
+            android:layout_marginBottom="@dimen/mediumMargin"
+            android:text="Sports" />
+    </org.apmem.tools.layouts.FlowLayout>
+
+    <android.support.v7.widget.AppCompatButton
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textStyle="normal" android:textColor="@color/colorWhite"
+        android:id="@+id/nextButton"
+        android:background="@drawable/button_selector"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/mediumMargin"
+        android:layout_marginBottom="50.0dip" android:text="NEXT" />
+</LinearLayout>

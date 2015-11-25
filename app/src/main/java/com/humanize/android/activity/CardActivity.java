@@ -28,8 +28,8 @@ import com.humanize.android.FragmentDrawer;
 import com.humanize.android.HttpResponseCallback;
 import com.humanize.android.R;
 import com.humanize.android.UserService;
-import com.humanize.android.data.Content;
-import com.humanize.android.data.Contents;
+import com.humanize.android.content.data.Content;
+import com.humanize.android.content.data.Contents;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
@@ -38,6 +38,7 @@ import com.squareup.picasso.Picasso;
 import java.io.ByteArrayOutputStream;
 
 public class CardActivity extends AppCompatActivity {
+
     public static Contents contents = null;
     private Toolbar toolbar;
     private FragmentDrawer fragmentDrawer;

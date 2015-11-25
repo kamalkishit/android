@@ -7,10 +7,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.humanize.android.activity.PaperActivity;
-import com.humanize.android.data.Content;
+import com.humanize.android.content.data.Content;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.HttpUtil;
-import com.humanize.android.HttpResponseCallback;
 
 import org.json.JSONObject;
 

@@ -1,6 +1,6 @@
 package com.humanize.android;
 
-import com.humanize.android.data.Content;
+import com.humanize.android.content.data.Content;
 
 import java.util.HashMap;
 import java.util.Map;

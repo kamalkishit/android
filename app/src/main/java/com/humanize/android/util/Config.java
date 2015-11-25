@@ -22,23 +22,24 @@ public class Config {
 
     // URLS
     //public final static String SERVER_URL = "http://10.0.2.2:8080";
-    public final static String SERVER_URL = "http://128.199.230.120:8080/server-0.1.0";
-    //public final static String SERVER_URL = "http://192.168.1.2:8080";
+    //public final static String SERVER_URL = "http://128.199.230.120:8080/server-0.1.0";
+    public final static String SERVER_URL = "http://192.168.1.2:8080";
 
-    public final static String SIGNUP_URL = SERVER_URL + "/users/signup";
-    public final static String LOGIN_URL = SERVER_URL + "/users/login";
+    public final static String USER_SIGNUP_URL = SERVER_URL + "/users/signup";
+    public final static String USER_LOGIN_URL = SERVER_URL + "/users/login";
     public final static String USER_UPDATE_URL = SERVER_URL + "/users/update";
-    public final static String GET_CONTENTS_URL = SERVER_URL + "/contents/getcontent";
-    public final static String REFRESH_CONTENTS_URL = SERVER_URL + "/contents/getnewcontent";
-    public final static String GET_MORE_CONTENTS_URL = SERVER_URL + "/contents/getmorecontent";
-    public final static String PAPER_URL = SERVER_URL + "/contents/paper";
-    public final static String GET_USERDATA_URL = SERVER_URL + "/users/data";
-    public final static String LIKE_URL = SERVER_URL + "/contents/likes";
-    public final static String UNLIKE_URL = SERVER_URL + "/unlike";
-    public final static String BOOKMARK_URL = SERVER_URL + "/contents/bookmarks";
-    public final static String UNBOOKMARK_URL = SERVER_URL + "/unbookmark";
-    public final static String INCREMENT_VIEW_COUNT_URL = SERVER_URL + "/incrviewcount";
-    public final static String SUBMIT_URL = SERVER_URL + "/contents/create";
+    public final static String USER_LOGOUT_URL = SERVER_URL + "/users/logout";
+    public final static String USER_VERIFY_URL = SERVER_URL + "/users/verify";
+    public final static String USER_INVITE_URL = SERVER_URL + "/users/invite";
+    public final static String USER_DATA_URL = SERVER_URL + "/users/data";
+
+    public final static String CONTENT_CREATE_URL = SERVER_URL + "/content/create";
+    public final static String CONTENT_UPDATE_URL = SERVER_URL + "/content/update";
+    public final static String CONTENT_FIND_URL = SERVER_URL + "/content/find";
+
+    public final static String PAPER_CREATE_URL = SERVER_URL + "/paper/create";
+    public final static String PAPER_UPDATE_URL = SERVER_URL + "/paper/update";
+    public final static String PAPER_FIND_URL = SERVER_URL + "/paper/find";
 
     public final static String NULL_STR = "";
 

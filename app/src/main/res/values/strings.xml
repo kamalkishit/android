@@ -104,7 +104,7 @@
     <string name="title_home">Home</string>
     <string name="title_activity_paper_notifier">PaperNotifier</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_card">CardActivity</string>
     <string name="title_activity_launch_screen">LaunchScreenActivity</string>
@@ -118,4 +118,6 @@
     <string name="title_activity_likes">LikesActivity</string>
     <string name="title_activity_bookmarks">BookmarksActivity</string>
     <string name="title_activity_app_launcher">AppLauncherActivity</string>
+    <string name="title_activity_select_categories">SelectCategories</string>
+    <string name="title_activity_paper_reminder">PaperReminder</string>
 </resources>

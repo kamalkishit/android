@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:background="@color/colorWhite"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.v7.widget.AppCompatButton
+        android:textColor="@color/colorBlack"
+        android:gravity="center"
+        android:id="@+id/paperReminder"
+        android:background="@color/colorWhite"
+        android:clickable="false"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/mediumMargin"
+        android:text="Please Choose Paper Time" />
+
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/mediumMargin"
+        android:layout_below="@id/paperReminder" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:textColor="@color/colorWhite"
+        android:id="@+id/doneButton"
+        android:background="@drawable/button_selector"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/mediumMargin"
+        android:layout_marginRight="@dimen/mediumMargin"
+        android:text="DONE"
+        android:layout_below="@id/timePicker" />
+</RelativeLayout>

@@ -4,8 +4,8 @@ package com.humanize.android.service;
  * Created by Kamal on 10/3/15.
  */
 
-import com.humanize.android.data.Content;
-import com.humanize.android.data.Contents;
+import com.humanize.android.content.data.Content;
+import com.humanize.android.content.data.Contents;
 
 public class LikeService {
 

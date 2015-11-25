@@ -8,7 +8,7 @@ import com.crashlytics.android.ndk.CrashlyticsNdk;
 import com.google.gson.Gson;
 import com.humanize.android.HttpResponseCallback;
 import com.humanize.android.activity.CardActivity;
-import com.humanize.android.data.Contents;
+import com.humanize.android.content.data.Contents;
 import com.humanize.android.data.User;
 import com.humanize.android.service.BookmarkService;
 import com.humanize.android.service.LikeService;
@@ -55,13 +55,13 @@ public class ApplicationState extends Application{
             likeService.setLikes(likes);
         }
 
-        if (SharedPreferencesStorage.getInstance().getString(Config.JSON_PAPER) != null) {
+        /*if (SharedPreferencesStorage.getInstance().getString(Config.JSON_PAPER) != null) {
             Contents paper = new Gson().fromJson(SharedPreferencesStorage.getInstance().getString(Config.JSON_PAPER), Contents.class);
             PaperService paperService = PaperService.getInstance();
             paperService.setPaper(paper);
         } else {
             getPaper();
-        }
+        }*/
 
         // for disk caching in picasso
         // http://stackoverflow.com/questions/23978828/how-do-i-use-disk-caching-in-picasso
