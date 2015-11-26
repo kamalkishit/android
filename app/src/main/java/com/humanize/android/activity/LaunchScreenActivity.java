@@ -13,14 +13,14 @@ import android.widget.TextView;
 import com.humanize.android.R;
 import com.humanize.android.authentication.activity.LoginActivity;
 import com.humanize.android.authentication.activity.SignupActivity;
-import com.humanize.android.util.SharedPreferencesStorage;
+import com.humanize.android.service.SharedPreferencesService;
 
 public class LaunchScreenActivity extends AppCompatActivity {
 
     TextView title;
     Button loginButton;
     Button signupButton;
-    SharedPreferencesStorage sharedPreferencesStorage;
+    SharedPreferencesService sharedPreferencesService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class LaunchScreenActivity extends AppCompatActivity {
     private void initialize() {
         loginButton = (Button) findViewById(R.id.login_button);
         signupButton = (Button) findViewById(R.id.signup_button);
-        sharedPreferencesStorage = SharedPreferencesStorage.getInstance();
+        sharedPreferencesService = SharedPreferencesService.getInstance();
     }
 
     private void configureListeners() {

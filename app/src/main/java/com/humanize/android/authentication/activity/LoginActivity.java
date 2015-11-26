@@ -24,7 +24,7 @@ import com.humanize.android.data.User;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
-import com.humanize.android.util.SharedPreferencesStorage;
+import com.humanize.android.service.SharedPreferencesService;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginButton;
     private TextView signupLink;
     private Toolbar toolbar;
-    SharedPreferencesStorage sharedPreferencesStorage;
+    SharedPreferencesService sharedPreferencesService;
 
     ProgressDialog progressDialog;
 
@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        sharedPreferencesStorage = SharedPreferencesStorage.getInstance();
+        sharedPreferencesService = SharedPreferencesService.getInstance();
     }
 
     private void configureListeners() {
@@ -129,8 +129,8 @@ public class LoginActivity extends AppCompatActivity {
         user.setCategories(categories);
         if (user != null) {
             ApplicationState.setUser(user);
-            sharedPreferencesStorage.putBoolean(Config.IS_LOGGED_IN, true);
-            sharedPreferencesStorage.putString(Config.USER_DATA_JSON, response);
+            sharedPreferencesService.putBoolean(Config.IS_LOGGED_IN, true);
+            sharedPreferencesService.putString(Config.USER_DATA_JSON, response);
             navigatetoMainActivity();
         } else {
             // need to show error message

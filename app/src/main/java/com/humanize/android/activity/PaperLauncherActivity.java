@@ -13,7 +13,7 @@ import com.humanize.android.content.data.Contents;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
-import com.humanize.android.util.SharedPreferencesStorage;
+import com.humanize.android.service.SharedPreferencesService;
 
 public class PaperLauncherActivity extends AppCompatActivity {
 
@@ -29,7 +29,7 @@ public class PaperLauncherActivity extends AppCompatActivity {
                 try {
                     Contents contents = new Gson().fromJson(response, Contents.class);
                     PaperActivity.PaperAdapter.contents = contents.getContents();
-                    SharedPreferencesStorage.getInstance().putString(Config.JSON_PAPER, response);
+                    SharedPreferencesService.getInstance().putString(Config.JSON_PAPER, response);
                     Intent intent = new Intent(ApplicationState.getAppContext(), PaperActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     ApplicationState.getAppContext().startActivity(intent);

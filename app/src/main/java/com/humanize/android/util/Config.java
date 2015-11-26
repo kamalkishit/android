@@ -8,7 +8,7 @@ public class Config {
     public final static String CONTENTS = "contents";
 
     // sharedPreferences data
-    public final static String CWS_SHARED_PREFERENCES = "cwsSharedPreferences";
+    public final static String SHARED_PREFERENCES = "sharedPreferences";
     public final static String FIRST_TIME = "firstTime";
     public final static String JSON_CONTENTS = "jsonContents";
     public final static String JSON_BOOKMARKS = "jsonBookmarks";

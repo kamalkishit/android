@@ -14,7 +14,7 @@ import com.humanize.android.service.LikeService;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
-import com.humanize.android.util.SharedPreferencesStorage;
+import com.humanize.android.service.SharedPreferencesService;
 
 /**
  * Created by Kamal on 8/23/15.
@@ -26,8 +26,8 @@ public class ContentFragmentDrawerListener implements  FragmentDrawer.FragmentDr
         Intent intent = new Intent();
         switch(position){
             case 1:
-                if (SharedPreferencesStorage.getInstance().getString(Config.JSON_PAPER) != null) {
-                    Contents contents = new Gson().fromJson(SharedPreferencesStorage.getInstance().getString(Config.JSON_PAPER), Contents.class);
+                if (SharedPreferencesService.getInstance().getString(Config.JSON_PAPER) != null) {
+                    Contents contents = new Gson().fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_PAPER), Contents.class);
                     PaperActivity.PaperAdapter.contents = contents.getContents();
                     intent = new Intent(ApplicationState.getAppContext(), PaperActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

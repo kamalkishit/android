@@ -23,7 +23,7 @@ import com.humanize.android.service.LikeService;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
-import com.humanize.android.util.SharedPreferencesStorage;
+import com.humanize.android.service.SharedPreferencesService;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -35,7 +35,7 @@ public class AppLauncherActivity extends AppCompatActivity {
 
     private static final String TAG = "AppLauncherActivity";
 
-    SharedPreferencesStorage sharedPreferencesStorage = null;
+    SharedPreferencesService sharedPreferencesService = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +49,7 @@ public class AppLauncherActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-        sharedPreferencesStorage = SharedPreferencesStorage.getInstance();
+        sharedPreferencesService = SharedPreferencesService.getInstance();
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int px = Math.round(32 * (metrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)); // TBD: hardcoding of 32 dp for side margin
@@ -62,7 +62,7 @@ public class AppLauncherActivity extends AppCompatActivity {
     }
 
     private void startNextActivity() {
-        boolean isLoggedIn = sharedPreferencesStorage.getBoolean(Config.IS_LOGGED_IN);
+        boolean isLoggedIn = sharedPreferencesService.getBoolean(Config.IS_LOGGED_IN);
 
         if (isLoggedIn && ApplicationState.getUser() != null) {
             startCardActivity();
@@ -114,7 +114,7 @@ public class AppLauncherActivity extends AppCompatActivity {
         System.out.println(response);
         try {
             Contents contents = new Gson().fromJson(response, Contents.class);
-            sharedPreferencesStorage.putString(Config.JSON_CONTENTS, response);
+            sharedPreferencesService.putString(Config.JSON_CONTENTS, response);
             CardActivity.contents = contents;
 
             Intent intent = new Intent(getApplicationContext(), CardActivity.class);
@@ -148,10 +148,10 @@ public class AppLauncherActivity extends AppCompatActivity {
     }
 
     public void onDestroy() {
-        sharedPreferencesStorage.putString(Config.USER_DATA_JSON, new Gson().toJson(ApplicationState.getUser()));
-        sharedPreferencesStorage.putString(Config.JSON_CONTENTS, new Gson().toJson(CardActivity.contents));
-        sharedPreferencesStorage.putString(Config.JSON_LIKES, new Gson().toJson(LikeService.getInstance().getLikes()));
-        sharedPreferencesStorage.putString(Config.JSON_BOOKMARKS, new Gson().toJson(BookmarkService.getInstance().getBookmarks()));
+        sharedPreferencesService.putString(Config.USER_DATA_JSON, new Gson().toJson(ApplicationState.getUser()));
+        sharedPreferencesService.putString(Config.JSON_CONTENTS, new Gson().toJson(CardActivity.contents));
+        sharedPreferencesService.putString(Config.JSON_LIKES, new Gson().toJson(LikeService.getInstance().getLikes()));
+        sharedPreferencesService.putString(Config.JSON_BOOKMARKS, new Gson().toJson(BookmarkService.getInstance().getBookmarks()));
         //updateUserData();
         updateContentsData();
         super.onDestroy();

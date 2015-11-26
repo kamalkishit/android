@@ -1,24 +1,28 @@
-package com.humanize.android.util;
+package com.humanize.android.service;
 
 import android.content.SharedPreferences;
+
+import com.humanize.android.util.ApplicationState;
+import com.humanize.android.util.Config;
 
 /**
  * Created by Kamal on 7/20/15.
  */
-public class SharedPreferencesStorage {
-    private static SharedPreferencesStorage sharedPreferencesStorage = null;
+public class SharedPreferencesService {
+
+    private static SharedPreferencesService sharedPreferencesInstance = null;
     private SharedPreferences sharedPreferences;
 
-    public SharedPreferencesStorage() {
-        sharedPreferences = ApplicationState.getAppContext().getSharedPreferences(Config.CWS_SHARED_PREFERENCES, 0);
+    public SharedPreferencesService() {
+        sharedPreferences = ApplicationState.getAppContext().getSharedPreferences(Config.SHARED_PREFERENCES, 0);
     }
 
-    public static SharedPreferencesStorage getInstance() {
-        if (sharedPreferencesStorage == null) {
-            sharedPreferencesStorage = new SharedPreferencesStorage();
+    public static SharedPreferencesService getInstance() {
+        if (sharedPreferencesInstance == null) {
+            sharedPreferencesInstance = new SharedPreferencesService();
         }
 
-        return sharedPreferencesStorage;
+        return sharedPreferencesInstance;
     }
 
     public void putString(String key, String value) {
