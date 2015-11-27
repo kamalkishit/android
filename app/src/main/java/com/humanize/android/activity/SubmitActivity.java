@@ -2,6 +2,8 @@ package com.humanize.android.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.humanize.android.HttpResponseCallback;
@@ -23,7 +26,11 @@ import com.humanize.android.content.data.Content;
 import com.humanize.android.content.data.Contents;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -117,34 +124,11 @@ public class SubmitActivity extends AppCompatActivity {
         if (!isValidUrl(contentURL.getText().toString())) {
             Snackbar.make(view, "Invalid URL", Snackbar.LENGTH_SHORT).show();
         } else {
-
             HttpUtil httpUtil = HttpUtil.getInstance();
             System.out.println("inside submit");
             content.setContentURL(contentURL.getText().toString());
             System.out.println(new Gson().toJson(content));
-            httpUtil.submit(Config.CONTENT_CREATE_URL, new Gson().toJson(content), new HttpResponseCallback() {
-                public void onSuccess(String response) {
-                    try {
-                        Contents contents = new Gson().fromJson(response, Contents.class);
-
-                        if (contents != null && contents.getContents().size() >= 20) {
-                            CardActivity.contents = contents;
-                        } else if (contents != null) {
-                            CardActivity.contents.getContents().addAll(0, contents.getContents());
-                        }
-
-                        Intent intent = new Intent(getApplicationContext(), CardActivity.class);
-                        startActivity(intent);
-                    } catch (Exception exception) {
-                        exception.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailure(String errorMsg) {
-                    System.out.println("failure");
-                }
-            });
+            httpUtil.submit(Config.CONTENT_CREATE_URL, new Gson().toJson(content), new ContentCreateCallback());
         }
     }
 
@@ -229,6 +213,53 @@ public class SubmitActivity extends AppCompatActivity {
         public void onNothingSelected(AdapterView<?> arg0) {
             // TODO Auto-generated method stub
 
+        }
+    }
+
+    private class ContentCreateCallback implements Callback {
+
+        @Override
+        public void onFailure(Request request, IOException e) {
+            e.printStackTrace();
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "Network connection error", Toast.LENGTH_LONG).show();;
+                }
+            });
+        }
+
+        @Override
+        public void onResponse(final Response response) throws IOException {
+            if (!response.isSuccessful()) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                    }
+                });
+            } else {
+                final String responseStr = response.body().string().toString();
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Contents contents = new Gson().fromJson(responseStr, Contents.class);
+
+                            if (contents != null && contents.getContents().size() >= 20) {
+                                CardActivity.contents = contents;
+                            } else if (contents != null) {
+                                CardActivity.contents.getContents().addAll(0, contents.getContents());
+                            }
+
+                            Intent intent = new Intent(getApplicationContext(), CardActivity.class);
+                            startActivity(intent);
+                        } catch (Exception exception) {
+                            exception.printStackTrace();
+                        }
+                    }
+                });
+            }
         }
     }
 }

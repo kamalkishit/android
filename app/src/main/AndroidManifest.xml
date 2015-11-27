@@ -104,6 +104,24 @@
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme" />
+
+        <activity
+            android:name=".activity.SelectCategoriesActivity"
+            android:label="@string/title_activity_bookmarks"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyMaterialTheme" >
+
+        </activity>
+
+        <activity
+            android:name=".activity.PaperReminderActivity"
+            android:label="@string/title_activity_bookmarks"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyMaterialTheme" >
+
+        </activity>
         <activity
             android:name=".activity.AppLauncherActivity"
             android:label="Humanize"
@@ -115,6 +133,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
     </application>
 

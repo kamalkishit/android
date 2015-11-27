@@ -84,20 +84,7 @@ public class AppLauncherActivity extends AppCompatActivity {
 
     private void getUserdata() {
         HttpUtil httpUtil = HttpUtil.getInstance();
-        httpUtil.getUserdata(Config.USER_DATA_URL, new HttpResponseCallback() {
-            @Override
-            public void onSuccess(String response) {
-                System.out.println(" user data success");
-                ApplicationState.setUser(new Gson().fromJson(response, User.class));
-                startCardActivity();
-            }
-
-            @Override
-            public void onFailure(String errorMsg) {
-                System.out.println("failure");
-                failure(errorMsg);
-            }
-        });
+        httpUtil.getUserdata(Config.USER_DATA_URL, new UserDataCallback());
     }
 
     private void startLoginSignupActivity() {
@@ -161,17 +148,7 @@ public class AppLauncherActivity extends AppCompatActivity {
         String userdataJson = new Gson().toJson(ApplicationState.getUser());
 
         if (userdataJson != null) {
-            HttpUtil.getInstance().updateUser(Config.USER_UPDATE_URL, userdataJson, new HttpResponseCallback() {
-                @Override
-                public void onSuccess(String response) {
-                    System.out.println("updated successfully");
-                }
-
-                @Override
-                public void onFailure(String errorMsg) {
-                    System.out.println("update failure");
-                }
-            });
+            HttpUtil.getInstance().updateUser(Config.USER_UPDATE_URL, userdataJson, new UserUpdationCallback());
         }
     }
 
@@ -213,6 +190,41 @@ public class AppLauncherActivity extends AppCompatActivity {
     }
 
     private class UserDataCallback implements Callback {
+        @Override
+        public void onFailure(Request request, IOException e) {
+            e.printStackTrace();
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "Network connection error", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+
+        @Override
+        public void onResponse(final Response response) throws IOException {
+            if (!response.isSuccessful()) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                    }
+                });
+            } else {
+                final String responseStr = response.body().string().toString();
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ApplicationState.setUser(new Gson().fromJson(responseStr, User.class));
+                        startCardActivity();
+                        success(responseStr);
+                    }
+                });
+            }
+        }
+    }
+
+    private class UserUpdationCallback implements Callback {
         @Override
         public void onFailure(Request request, IOException e) {
             e.printStackTrace();

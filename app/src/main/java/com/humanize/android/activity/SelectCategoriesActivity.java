@@ -19,17 +19,18 @@ import java.io.PrintStream;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 // Referenced classes of package com.humanize.android.activity:
 //            PaperReminderActivity
 
 public class SelectCategoriesActivity extends AppCompatActivity {
 
+    private Set<String> categories;
     private Button achievers;
     private boolean achieversFlag;
     private Button beautiful;
     private boolean beautifulFlag;
-    private Set<String> categories;
     private Button education;
     private boolean educationFlag;
     private Button empowerment;
@@ -57,6 +58,7 @@ public class SelectCategoriesActivity extends AppCompatActivity {
         nextButton.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view)
             {
+                //User user = ApplicationState.getUser().setCategories(Arrays.asList(String [])(categories.toArray()));
                 startPaperTimeSelectorActivity();
             }
         });

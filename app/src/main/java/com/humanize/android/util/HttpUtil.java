@@ -43,42 +43,8 @@ public class HttpUtil {
         get(url, httpResponseCallback);
     }
 
-    public void getLikes(String url, HttpResponseCallback httpResponseCallback) {
-        ArrayList<String> likes = new ArrayList<String>(ApplicationState.getUser().getLikes());
-
-        if (likes != null) {
-            url = url + "?ids=";
-
-            for (String like: likes) {
-                url += like + ",";
-            }
-        }
-
-        System.out.println(url);
-        get(url, httpResponseCallback);
-    }
-
-    public void getBookmarks(String url, HttpResponseCallback httpResponseCallback) {
-        ArrayList<String> bookmarks = new ArrayList<String>(ApplicationState.getUser().getBookmarks());
-
-        if (bookmarks != null) {
-            url = url + "?ids=";
-
-            for (String bookmark: bookmarks) {
-                url += bookmark + ",";
-            }
-        }
-
-        System.out.println(url);
-        get(url, httpResponseCallback);
-    }
-
-    public void submit(String url, Map<String, String> params, final HttpResponseCallback httpResponseCallback) {
-        post(url, params, httpResponseCallback);
-    }
-
-    public void submit(String url, String json, final HttpResponseCallback httpResponseCallback) {
-        post(url, json, httpResponseCallback);
+    public void submit(String url, String json, Callback callback) {
+        post(url, json, callback);
     }
 
     public void getContents(final HttpResponseCallback httpResponseCallback) {
@@ -111,17 +77,6 @@ public class HttpUtil {
             }
         }
         get(url, callback);
-    }
-
-    public void refreshContents(String endDate, final HttpResponseCallback httpResponseCallback) {
-        String url = Config.CONTENT_FIND_URL;
-
-        if (endDate != null) {
-            url += "?enddate=" + endDate;
-        }
-
-        System.out.println(url);
-        get(url, httpResponseCallback);
     }
 
     public void refreshContents(String endDate, Callback callback) {
@@ -193,17 +148,8 @@ public class HttpUtil {
         get(url, callback);
     }
 
-    public void getUserdata(String url, final HttpResponseCallback httpResponseCallback) {
-        get(url, httpResponseCallback);
-    }
-
-    public void login(String url, Map<String, String> params, final HttpResponseCallback httpResponseCallback) {
-        post(url, params, httpResponseCallback);
-    }
-
-    public void login(String url, String json, final HttpResponseCallback httpResponseCallback) {
-        System.out.println(json);
-        post(url, json, httpResponseCallback);
+    public void getUserdata(String url, Callback callback) {
+        get(url, callback);
     }
 
     public void login(String url, String json, Callback callback) {
@@ -211,16 +157,12 @@ public class HttpUtil {
         post(url, json, callback);
     }
 
-    public void signup(String url, Map<String, String> params, final HttpResponseCallback httpResponseCallback) {
-        post(url, params, httpResponseCallback);
-    }
-
     public void signup(String url, String json, Callback callback) {
         post(url, json, callback);
     }
 
-    public void updateUser(String url, String json, final HttpResponseCallback httpResponseCallback) {
-        post(url, json, httpResponseCallback);
+    public void updateUser(String url, String json, Callback callback) {
+        post(url, json, callback);
     }
 
     private void get(String url, Callback callback) {

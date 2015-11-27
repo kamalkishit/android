@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,9 +26,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.humanize.android.Constants;
 import com.humanize.android.ContentFragmentDrawerListener;
 import com.humanize.android.ContentService;
 import com.humanize.android.FragmentDrawer;
+import com.humanize.android.JsonParser;
 import com.humanize.android.R;
 import com.humanize.android.UserService;
 import com.humanize.android.content.data.Content;
@@ -51,6 +54,9 @@ public class CardActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerViewAdapter recyclerViewAdapter;
+    LinearLayoutManager linearLayoutManager;
+
+    private static String TAG = "CardActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +64,7 @@ public class CardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_card);
 
         initialize();
+        configureListeners();
     }
 
     private void initialize() {
@@ -66,26 +73,19 @@ public class CardActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                refreshContents();
+                if (recyclerViewAdapter.contents.getContents().size() > 0) {
+                    getNewContent(Long.toString(recyclerViewAdapter.contents.getContents().get(0).getCreatedDate()););
+                }
             }
         });
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
         recyclerViewAdapter = new RecyclerViewAdapter(contents);
         recyclerView.setAdapter(recyclerViewAdapter);
-
-        recyclerView.setOnScrollListener(new EndlessRecyclerViewOnScrollListener(linearLayoutManager) {
-            @Override
-            public void onLoadMore(int current_page) {
-                if (recyclerViewAdapter.contents.getContents().size() > 0) {
-                    getMoreContents(Long.toString(recyclerViewAdapter.contents.getContents().get(recyclerViewAdapter.contents.getContents().size() - 1).getCreatedDate()));
-                }
-            }
-        });
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setCollapsible(true);
@@ -97,6 +97,17 @@ public class CardActivity extends AppCompatActivity {
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         fragmentDrawer.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
         fragmentDrawer.setDrawerListener(new ContentFragmentDrawerListener());
+    }
+
+    private void configureListeners() {
+        recyclerView.setOnScrollListener(new EndlessRecyclerViewOnScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                if (recyclerViewAdapter.contents.getContents().size() > 0) {
+                    getMoreContent(Long.toString(recyclerViewAdapter.contents.getContents().get(recyclerViewAdapter.contents.getContents().size() - 1).getCreatedDate()));
+                }
+            }
+        });
     }
 
     @Override
@@ -135,20 +146,12 @@ public class CardActivity extends AppCompatActivity {
         drawerLayout.openDrawer(Gravity.LEFT);
     }
 
-    private void getMoreContents(String startDate) {
-        HttpUtil httpUtil = HttpUtil.getInstance();
-        httpUtil.getMoreContents(startDate, new MoreContent());
+    private void getMoreContent(String startDate) {
+        HttpUtil.getInstance().getMoreContents(startDate, new MoreContentCallback());
     }
 
-    private void refreshContents() {
-        if (recyclerViewAdapter.contents.getContents().size() > 0) {
-            String endDate = Long.toString(recyclerViewAdapter.contents.getContents().get(0).getCreatedDate());
-            HttpUtil httpUtil = HttpUtil.getInstance();
-
-            httpUtil.refreshContents(endDate, new NewContent());
-        } else {
-
-        }
+    private void getNewContent(String endDate) {
+        HttpUtil.getInstance().refreshContents(endDate, new NewContentCallback());
     }
 
     public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
@@ -171,9 +174,6 @@ public class CardActivity extends AppCompatActivity {
             viewHolder.title.setText(content.getTitle());
             viewHolder.description.setText(content.getDescription());
             viewHolder.source.setText(content.getSource());
-            System.out.println(content.getCategory());
-            String data = content.getLikesCount() + "likes, " + content.getViewsCount() + "views, " + content.getSharedCount() + "shares";
-            //viewHolder.miscContent.setText(data);
             viewHolder.category.setText(content.getCategory());
             //viewHolder.imageView.setImageResource(R.drawable.background);
             viewHolder.imageView.getLayoutParams().width = Config.IMAGE_WIDTH;
@@ -213,7 +213,6 @@ public class CardActivity extends AppCompatActivity {
             protected TextView description;
             protected ImageView imageView;
             protected TextView source;
-            protected TextView miscContent;
             protected TextView category;
             protected Button likeButton;
             protected Button bookmarkButton;
@@ -231,7 +230,6 @@ public class CardActivity extends AppCompatActivity {
                 description = (TextView) view.findViewById(R.id.content_description);
                 imageView = (ImageView) view.findViewById(R.id.content_image);
                 source = (TextView) view.findViewById(R.id.content_source);
-                //miscContent = (TextView) view.findViewById(R.id.content_misc);
                 category = (TextView) view.findViewById(R.id.content_category);
                 likeButton= (Button) view.findViewById(R.id.image_button_like);
                 bookmarkButton = (Button) view.findViewById(R.id.image_button_bookmark);
@@ -382,10 +380,10 @@ public class CardActivity extends AppCompatActivity {
         public abstract void onLoadMore(int current_page);
     }
 
-    private class MoreContent implements Callback {
+    private class MoreContentCallback implements Callback {
         @Override
-        public void onFailure(Request request, IOException e) {
-            e.printStackTrace();
+        public void onFailure(Request request, IOException exception) {
+            Log.e(TAG, exception.toString());
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
@@ -410,15 +408,14 @@ public class CardActivity extends AppCompatActivity {
                     public void run() {
                         Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
                         try {
-                            System.out.println("got new content");
-                            Contents contents = new Gson().fromJson(responseStr, Contents.class);
+                            Contents contents = new JsonParser().fromJson(responseStr, Contents.class);
 
                             if (contents != null) {
                                 recyclerViewAdapter.contents.getContents().addAll(contents.getContents());
                                 recyclerViewAdapter.notifyDataSetChanged();
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        } catch (Exception exception) {
+                            Log.e(TAG, exception.toString());
                         }
                     }
                 });
@@ -426,10 +423,10 @@ public class CardActivity extends AppCompatActivity {
         }
     }
 
-    private class NewContent implements Callback {
+    private class NewContentCallback implements Callback {
         @Override
-        public void onFailure(Request request, IOException e) {
-            e.printStackTrace();
+        public void onFailure(Request request, IOException exception) {
+            Log.e(TAG, exception.toString());
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
@@ -454,20 +451,19 @@ public class CardActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
                         try {
-                            Contents contents = new Gson().fromJson(responseStr, Contents.class);
+                            Contents contents = new JsonParser().fromJson(responseStr, Contents.class);
 
-                            if (contents != null && contents.getContents().size() >= 20) {
+                            if (contents != null && contents.getContents().size() >= Constants.DEFAULT_CONTENTS_SIZE) {
                                 recyclerViewAdapter.contents = contents;
                                 recyclerViewAdapter.notifyDataSetChanged();
                             } else if (contents != null) {
                                 recyclerViewAdapter.contents.getContents().addAll(0, contents.getContents());
                                 recyclerViewAdapter.notifyDataSetChanged();
                             }
-                            swipeRefreshLayout.setRefreshing(false);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        } catch (Exception exception) {
+                            Log.e(TAG, exception.toString());
+                        } finally {
                             swipeRefreshLayout.setRefreshing(false);
                         }
                     }
@@ -475,5 +471,4 @@ public class CardActivity extends AppCompatActivity {
             }
         }
     }
-
 }
