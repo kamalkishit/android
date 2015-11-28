@@ -74,7 +74,7 @@ public class CardActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 if (recyclerViewAdapter.contents.getContents().size() > 0) {
-                    getNewContent(Long.toString(recyclerViewAdapter.contents.getContents().get(0).getCreatedDate()););
+                    getNewContent(Long.toString(recyclerViewAdapter.contents.getContents().get(0).getCreatedDate()));
                 }
             }
         });

@@ -7,7 +7,7 @@
     tools:context="com.contentws.cws.Activity.SubmitActivity" >
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar_layout"
+        android:id="@+id/appbarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorWhite">
@@ -19,7 +19,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/text_input"
+        android:id="@+id/textInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/mediumMargin"
@@ -28,7 +28,7 @@
         android:layout_below="@id/appbar_layout">
 
         <EditText
-            android:id="@+id/content_url"
+            android:id="@+id/contentUrl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorBlack"
@@ -36,7 +36,7 @@
     </android.support.design.widget.TextInputLayout>
 
     <Spinner
-        android:id="@+id/categories_spinner"
+        android:id="@+id/categoriesSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/mediumMargin"
@@ -45,23 +45,23 @@
         android:layout_below="@+id/text_input" />
 
     <Spinner
-        android:id="@+id/subcategories_spinner"
+        android:id="@+id/subCategoriesSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/mediumMargin"
         android:layout_marginBottom="@dimen/mediumMargin"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/categories_spinner"
+        android:layout_below="@+id/categoriesSpinner"
         style="@style/Base.Widget.AppCompat.Spinner.Underlined" />
 
     <android.support.v7.widget.AppCompatButton
-        android:id="@+id/submit"
+        android:id="@+id/submitButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/mediumMargin"
         android:layout_marginRight="@dimen/mediumMargin"
         android:layout_marginTop="@dimen/mediumMargin"
-        android:layout_below="@id/subcategories_spinner"
+        android:layout_below="@id/subCategoriesSpinner"
         android:foreground="?android:attr/selectableItemBackground"
         android:background="@color/colorAccent"
         android:clickable="true"

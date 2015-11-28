@@ -18,6 +18,7 @@ import android.widget.Toast;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.humanize.android.JsonParser;
 import com.humanize.android.R;
 import com.humanize.android.data.User;
 import com.humanize.android.util.Config;
@@ -30,14 +31,16 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import butterknife.Bind;
+
 public class SignupActivity extends AppCompatActivity {
 
-    private EditText emailId;
-    private EditText password;
-    private EditText invitationCode;
-    private Button signupButton;
-    private TextView loginLink;
-    private Toolbar toolbar;
+    @Bind(R.id.emailId) private EditText emailId;
+    @Bind(R.id.password) private EditText password;
+    @Bind(R.id.invitationCode) private EditText invitationCode;
+    @Bind(R.id.signupButton) private Button signupButton;
+    @Bind(R.id.toolbar) private Toolbar toolbar;
+
     private ProgressDialog progressDialog;
 
     private static final String TAG = "SignupActivity";
@@ -58,14 +61,8 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-        emailId = (EditText) findViewById(R.id.emailId);
-        password = (EditText) findViewById(R.id.password);
-        invitationCode = (EditText) findViewById(R.id.invitationCode);
-        signupButton = (Button) findViewById(R.id.signup_button);
-        signupButton.setEnabled(true);
         //loginLink = (TextView) findViewById(R.id.login_link);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setCollapsible(true);
 
         setSupportActionBar(toolbar);
@@ -102,9 +99,11 @@ public class SignupActivity extends AppCompatActivity {
             user.setEmailId(emailId.getText().toString());
             user.setPassword(password.getText().toString());
             user.setInvitationCode(invitationCode.getText().toString());
-
-            HttpUtil asyncHttpWrapper = HttpUtil.getInstance();
-            asyncHttpWrapper.signup(Config.USER_SIGNUP_URL, new Gson().toJson(user), new SignupCallback());
+            try {
+                HttpUtil.getInstance().signup(Config.USER_SIGNUP_URL, new JsonParser().toJson(user), new SignupCallback());
+            } catch (Exception exception) {
+                Log.e(TAG, exception.toString());
+            }
         }
     }
 
@@ -167,7 +166,8 @@ public class SignupActivity extends AppCompatActivity {
     private class SignupCallback implements Callback {
 
         @Override
-        public void onFailure(Request request, IOException e) {
+        public void onFailure(Request request, IOException exception) {
+            Log.e(TAG, exception.toString());
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
@@ -196,6 +196,8 @@ public class SignupActivity extends AppCompatActivity {
                             signupSuccess(responseStr);
                         } catch (IOException exception) {
                             Log.e(TAG, exception.toString());
+                        } finally {
+                            progressDialog.dismiss();
                         }
                     }
                 });

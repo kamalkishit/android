@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.humanize.android.JsonParser;
 import com.humanize.android.R;
 import com.humanize.android.activity.AppLauncherActivity;
 import com.humanize.android.data.User;
@@ -32,17 +33,19 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import butterknife.Bind;
+
 
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
-    private EditText emailId;
-    private EditText password;
-    private Button loginButton;
-    private TextView signupLink;
-    private Toolbar toolbar;
-    SharedPreferencesService sharedPreferencesService;
 
+    @Bind(R.id.emailId) private EditText emailId;
+    @Bind(R.id.password) private EditText password;
+    @Bind(R.id.loginButton) private Button loginButton;
+    @Bind(R.id.toolbar) private Toolbar toolbar;
+
+    SharedPreferencesService sharedPreferencesService;
     ProgressDialog progressDialog;
 
     @Override
@@ -55,12 +58,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-        emailId = (EditText) findViewById(R.id.email);
-        password = (EditText) findViewById(R.id.password);
-        loginButton = (Button) findViewById(R.id.login_button);
-        //signupLink = (TextView) findViewById(R.id.signup_link);
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setCollapsible(true);
 
         setSupportActionBar(toolbar);
@@ -98,10 +95,11 @@ public class LoginActivity extends AppCompatActivity {
             user.setEmailId(emailId.getText().toString());
             user.setPassword(password.getText().toString());
 
-            String json = new Gson().toJson(user);
-
-            HttpUtil httpUtil = HttpUtil.getInstance();
-            httpUtil.login(Config.USER_LOGIN_URL, json, new LoginCallback());
+            try {
+                HttpUtil.getInstance().login(Config.USER_LOGIN_URL, new JsonParser().toJson(user), new LoginCallback());
+            } catch (Exception exception) {
+                Log.e(TAG, exception.toString());
+            }
         }
     }
 
@@ -113,28 +111,37 @@ public class LoginActivity extends AppCompatActivity {
     public void loginSuccess(String response) {
         loginButton.setEnabled(true);
         System.out.println("login success");
+        User user = null;
 
-        User user = new Gson().fromJson(response, User.class);
-        ArrayList<String> categories = new ArrayList<String>();
-        categories.add("Education");
-        categories.add("Health");
-        categories.add("Environment");
-        categories.add("Humanity");
-        categories.add("Empowerment");
-        categories.add("Real Heroes");
-        categories.add("Achievers");
-        categories.add("Sports");
-        categories.add("Governance");
-        categories.add("Beautiful");
-        user.setCategories(categories);
-        if (user != null) {
-            ApplicationState.setUser(user);
-            sharedPreferencesService.putBoolean(Config.IS_LOGGED_IN, true);
-            sharedPreferencesService.putString(Config.USER_DATA_JSON, response);
-            navigatetoMainActivity();
-        } else {
-            // need to show error message
+        try {
+            user = new JsonParser().fromJson(response, User.class);
+
+            ArrayList<String> categories = new ArrayList<String>();
+            categories.add("Education");
+            categories.add("Health");
+            categories.add("Environment");
+            categories.add("Humanity");
+            categories.add("Empowerment");
+            categories.add("Real Heroes");
+            categories.add("Achievers");
+            categories.add("Sports");
+            categories.add("Governance");
+            categories.add("Beautiful");
+            user.setCategories(categories);
+
+            if (user != null) {
+                ApplicationState.setUser(user);
+                sharedPreferencesService.putBoolean(Config.IS_LOGGED_IN, true);
+                sharedPreferencesService.putString(Config.USER_DATA_JSON, response);
+                navigatetoMainActivity();
+            } else {
+                Log.e(TAG, "user is null");
+            }
+        } catch (Exception exception) {
+            Log.e(TAG, exception.toString());
         }
+
+
     }
 
     public void loginFailure() {
@@ -187,8 +194,8 @@ public class LoginActivity extends AppCompatActivity {
     private class LoginCallback implements Callback {
 
         @Override
-        public void onFailure(Request request, IOException e) {
-            e.printStackTrace();
+        public void onFailure(Request request, IOException exception) {
+            Log.e(TAG, exception.toString());
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {

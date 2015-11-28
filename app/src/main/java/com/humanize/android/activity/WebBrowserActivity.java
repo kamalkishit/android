@@ -14,23 +14,30 @@ import android.widget.ProgressBar;
 import com.humanize.android.R;
 import com.humanize.android.util.Config;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class WebBrowserActivity extends AppCompatActivity {
-    private ProgressBar progress;
+
+    @Bind(R.id.progressBar) private ProgressBar progressBar;
+    @Bind(R.id.webview) private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_browser);
 
-        progress = (ProgressBar) findViewById(R.id.progressBar);
-        progress.setProgress(0);
+        ButterKnife.bind(this);
+    }
 
-        WebView browser = (WebView) findViewById(R.id.webview);
+    private void initialize() {
+        progressBar.setProgress(0);
+
         Intent intent = getIntent();
-        browser.setWebChromeClient(new MyWebChromeClient());
-        browser.setWebViewClient(new MyWebViewClient());
-        browser.getSettings().setJavaScriptEnabled(true);
-        browser.loadUrl(intent.getStringExtra(Config.CONTENT_URL));
+        webView.setWebChromeClient(new MyWebChromeClient());
+        webView.setWebViewClient(new MyWebViewClient());
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.loadUrl(intent.getStringExtra(Config.CONTENT_URL));
         //browser.loadUrl(CardActivity.RecyclerViewAdapter.contents.getContents().get(CardActivity.RecyclerViewAdapter.currentItem).getContentURL());
     }
 
@@ -78,6 +85,6 @@ public class WebBrowserActivity extends AppCompatActivity {
     }
 
     public void setValue(int progress) {
-        this.progress.setProgress(progress);
+        this.progressBar.setProgress(progress);
     }
 }

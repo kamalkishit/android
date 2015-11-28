@@ -7,6 +7,7 @@ import android.os.Looper;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,7 +21,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.humanize.android.Constants;
 import com.humanize.android.HttpResponseCallback;
+import com.humanize.android.JsonParser;
 import com.humanize.android.R;
 import com.humanize.android.content.data.Content;
 import com.humanize.android.content.data.Contents;
@@ -35,52 +38,53 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class SubmitActivity extends AppCompatActivity {
 
-    private EditText contentURL;
-    private Button submitButton;
-    private Toolbar toolbar;
-    private Spinner categoriesSpinner;
-    private Spinner subCategoriesSpinner;
+    @Bind(R.id.contentUrl)  EditText contentURL;
+    @Bind(R.id.submitButton) Button submitButton;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.categoriesSpinner) Spinner categoriesSpinner;
+    @Bind(R.id.subCategoriesSpinner) Spinner subCategoriesSpinner;
+
     private Content content;
+
+    private static String TAG = "SubmitActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit);
+        ButterKnife.bind(this);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        initialize();
+        configureListeners();
+    }
 
+    private void initialize() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        contentURL = (EditText) findViewById(R.id.content_url);
-        submitButton = (Button) findViewById(R.id.submit);
         content = new Content();
-
         submitButton.setEnabled(false);
 
-        categoriesSpinner = (Spinner) findViewById(R.id.categories_spinner);
-        //categoriesSpinner.setEnabled(false);
-        subCategoriesSpinner = (Spinner) findViewById(R.id.subcategories_spinner);
-        //subCategoriesSpinner.setEnabled(false);
         categoriesSpinner.setOnItemSelectedListener(new SpinnerCategoriesHandler());
         subCategoriesSpinner.setOnItemSelectedListener(new SpinnnerSubCategoriesHandler());
 
         ArrayAdapter<CharSequence> categoriesAdapter = ArrayAdapter.createFromResource(this,
                 R.array.categories, R.layout.spinner_item);
 
-        ArrayAdapter<CharSequence> subcategoriesAdapter = ArrayAdapter.createFromResource(this, R.array.sub_categories, R.layout.spinner_item);
+        ArrayAdapter<CharSequence> subcategoriesAdapter = ArrayAdapter.createFromResource(this,
+                R.array.sub_categories, R.layout.spinner_item);
 
-        //categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categoriesAdapter.setDropDownViewResource(R.layout.spinner_categories);
         categoriesSpinner.setAdapter(categoriesAdapter);
 
         subcategoriesAdapter.setDropDownViewResource(R.layout.spinner_categories);
         subCategoriesSpinner.setAdapter(subcategoriesAdapter);
-
-        submitButton.setEnabled(false);
-        configureListeners();
+        //categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
 
     private void configureListeners() {
@@ -112,23 +116,30 @@ public class SubmitActivity extends AppCompatActivity {
     }
 
     private boolean isValidUrl(String url) {
+        if (url == null || url.length() == 0) {
+            return false;
+        }
+
         Pattern p = Patterns.WEB_URL;
         Matcher m = p.matcher(url);
-        if(m.matches())
+        if(m.matches()) {
             return true;
-        else
-            return false;
+        }
+
+        return false;
     }
 
     private void submit(final View view) {
         if (!isValidUrl(contentURL.getText().toString())) {
             Snackbar.make(view, "Invalid URL", Snackbar.LENGTH_SHORT).show();
         } else {
-            HttpUtil httpUtil = HttpUtil.getInstance();
-            System.out.println("inside submit");
             content.setContentURL(contentURL.getText().toString());
-            System.out.println(new Gson().toJson(content));
-            httpUtil.submit(Config.CONTENT_CREATE_URL, new Gson().toJson(content), new ContentCreateCallback());
+            try {
+                HttpUtil.getInstance().submit(Config.CONTENT_CREATE_URL, new JsonParser().toJson(content), new CreateContentCallback());
+            } catch (Exception exception) {
+                Log.e(TAG, exception.toString());
+                Snackbar.make(view, "Submit failed", Snackbar.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -216,15 +227,15 @@ public class SubmitActivity extends AppCompatActivity {
         }
     }
 
-    private class ContentCreateCallback implements Callback {
+    private class CreateContentCallback implements Callback {
 
         @Override
-        public void onFailure(Request request, IOException e) {
-            e.printStackTrace();
+        public void onFailure(Request request, IOException exception) {
+            Log.e(TAG, exception.toString());
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), "Network connection error", Toast.LENGTH_LONG).show();;
+                    Toast.makeText(getApplicationContext(), "Network connection error", Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -244,9 +255,9 @@ public class SubmitActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            Contents contents = new Gson().fromJson(responseStr, Contents.class);
+                            Contents contents = new JsonParser().fromJson(responseStr, Contents.class);
 
-                            if (contents != null && contents.getContents().size() >= 20) {
+                            if (contents != null && contents.getContents().size() >= Constants.DEFAULT_CONTENTS_SIZE) {
                                 CardActivity.contents = contents;
                             } else if (contents != null) {
                                 CardActivity.contents.getContents().addAll(0, contents.getContents());
@@ -255,7 +266,7 @@ public class SubmitActivity extends AppCompatActivity {
                             Intent intent = new Intent(getApplicationContext(), CardActivity.class);
                             startActivity(intent);
                         } catch (Exception exception) {
-                            exception.printStackTrace();
+                            Log.e(TAG, exception.toString());
                         }
                     }
                 });
