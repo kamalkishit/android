@@ -123,10 +123,10 @@ public class LikesActivity extends AppCompatActivity {
 
             public ViewHolder(View view) {
                 super(view);
-                title =  (TextView) view.findViewById(R.id.content_title);
-                description = (TextView)  view.findViewById(R.id.content_description);
-                imageView = (ImageView) view.findViewById(R.id.content_image);
-                source = (TextView) view.findViewById(R.id.content_source);
+                title =  (TextView) view.findViewById(R.id.contentTitle);
+                description = (TextView)  view.findViewById(R.id.contentDescription);
+                imageView = (ImageView) view.findViewById(R.id.contentImage);
+                //source = (TextView) view.findViewById(R.id.contentSource);
                 view.setOnClickListener(this);
             }
 

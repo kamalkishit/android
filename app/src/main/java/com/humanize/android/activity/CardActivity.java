@@ -26,7 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.humanize.android.Constants;
+import com.humanize.android.common.Constants;
 import com.humanize.android.ContentFragmentDrawerListener;
 import com.humanize.android.ContentService;
 import com.humanize.android.FragmentDrawer;
@@ -46,15 +46,20 @@ import com.squareup.picasso.Picasso;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class CardActivity extends AppCompatActivity {
 
     public static Contents contents = null;
-    private Toolbar toolbar;
+
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.recyclerView) RecyclerView recyclerView;
+    @Bind(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
+
     private FragmentDrawer fragmentDrawer;
-    private RecyclerView recyclerView;
-    private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerViewAdapter recyclerViewAdapter;
-    LinearLayoutManager linearLayoutManager;
+    private LinearLayoutManager linearLayoutManager;
 
     private static String TAG = "CardActivity";
 
@@ -63,12 +68,13 @@ public class CardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card);
 
+        ButterKnife.bind(this);
+
         initialize();
         configureListeners();
     }
 
     private void initialize() {
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimaryDark, R.color.colorPrimary, R.color.colorAccent);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -79,7 +85,6 @@ public class CardActivity extends AppCompatActivity {
             }
         });
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -87,15 +92,14 @@ public class CardActivity extends AppCompatActivity {
         recyclerViewAdapter = new RecyclerViewAdapter(contents);
         recyclerView.setAdapter(recyclerViewAdapter);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setCollapsible(true);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         fragmentDrawer = (FragmentDrawer)
-                getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
-        fragmentDrawer.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
+                getSupportFragmentManager().findFragmentById(R.id.fragmentNavigationDrawer);
+        fragmentDrawer.setUp(R.id.fragmentNavigationDrawer, (DrawerLayout) findViewById(R.id.drawerLayout), toolbar);
         fragmentDrawer.setDrawerListener(new ContentFragmentDrawerListener());
     }
 
@@ -142,7 +146,7 @@ public class CardActivity extends AppCompatActivity {
     }
 
     public void openNavigationDrawer(MenuItem menuItem) {
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         drawerLayout.openDrawer(Gravity.LEFT);
     }
 
@@ -173,13 +177,13 @@ public class CardActivity extends AppCompatActivity {
             viewHolder.id = content.getId();
             viewHolder.title.setText(content.getTitle());
             viewHolder.description.setText(content.getDescription());
-            viewHolder.source.setText(content.getSource());
+            //viewHolder.source.setText(content.getSource());
             viewHolder.category.setText(content.getCategory());
             //viewHolder.imageView.setImageResource(R.drawable.background);
             viewHolder.imageView.getLayoutParams().width = Config.IMAGE_WIDTH;
             viewHolder.imageView.getLayoutParams().height = Config.IMAGE_HEIGHT;
 
-            if (ApplicationState.getUser().getLikes().contains(viewHolder.id)) {
+            /*if (ApplicationState.getUser().getLikes().contains(viewHolder.id)) {
                 viewHolder.likeButton.setBackgroundResource(R.drawable.ic_favorite_white_24dp);
             } else {
                 viewHolder.likeButton.setBackgroundResource(R.drawable.ic_favorite_border_white_24dp);
@@ -189,11 +193,14 @@ public class CardActivity extends AppCompatActivity {
                 viewHolder.bookmarkButton.setBackgroundResource(R.drawable.ic_bookmark_white_24dp);
             } else {
                 viewHolder.bookmarkButton.setBackgroundResource(R.drawable.ic_bookmark_border_white_24dp);
-            }
+            }*/
 
-            Picasso.with(ApplicationState.getAppContext()).load(Config.IMAGES_URL + content.getImageURL())
+            Picasso.with(ApplicationState.getAppContext()).load(content.getOriginalImageURL())
                     .placeholder(R.drawable.background).resize(Config.IMAGE_WIDTH, Config.IMAGE_HEIGHT)
                     .into(viewHolder.imageView);
+            /*Picasso.with(ApplicationState.getAppContext()).load("http://www.storypick.com/wp-content/uploads/2015/11/awesome-dad-cover.jpg")
+                    .placeholder(R.drawable.background).resize(Config.IMAGE_WIDTH, Config.IMAGE_HEIGHT)
+                    .into(viewHolder.imageView);*/
         }
 
         @Override
@@ -226,23 +233,23 @@ public class CardActivity extends AppCompatActivity {
                 this.shareableContentView = view;
                 userService = new UserService(ApplicationState.getUser());
                 contentService = ContentService.getInstance();
-                title = (TextView) view.findViewById(R.id.content_title);
-                description = (TextView) view.findViewById(R.id.content_description);
-                imageView = (ImageView) view.findViewById(R.id.content_image);
-                source = (TextView) view.findViewById(R.id.content_source);
-                category = (TextView) view.findViewById(R.id.content_category);
-                likeButton= (Button) view.findViewById(R.id.image_button_like);
-                bookmarkButton = (Button) view.findViewById(R.id.image_button_bookmark);
-                shareButton = (Button) view.findViewById(R.id.image_button_share);
+                title = (TextView) view.findViewById(R.id.contentTitle);
+                description = (TextView) view.findViewById(R.id.contentDescription);
+                imageView = (ImageView) view.findViewById(R.id.contentImage);
+                //source = (TextView) view.findViewById(R.id.contentSource);
+                category = (TextView) view.findViewById(R.id.contentCategory);
+                likeButton= (Button) view.findViewById(R.id.recommendButton);
+                bookmarkButton = (Button) view.findViewById(R.id.bookmarkButton);
+                shareButton = (Button) view.findViewById(R.id.shareButton);
 
                 configureListeners();
 
-                update();
+                //updateDefaultView();
 
                 view.setOnClickListener(this);
             }
 
-            private void update() {
+            private void updateDefaultView() {
                 updateLikeButton();
                 updateBookmarkButton();
             }
@@ -251,14 +258,14 @@ public class CardActivity extends AppCompatActivity {
                 likeButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        like();
+                        //like();
                     }
                 });
 
                 bookmarkButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        bookmark();
+                        //bookmark();
                     }
                 });
 
@@ -326,7 +333,7 @@ public class CardActivity extends AppCompatActivity {
                 Intent intent = new Intent(ApplicationState.getAppContext(), WebBrowserActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra(Config.CONTENT_URL, content.getContentURL());
-                View line = (View) findViewById(R.id.line);
+                View line = findViewById(R.id.line);
                 /*ActivityOptionsCompat options = ActivityOptionsCompat.
                         makeSceneTransitionAnimation(CardActivity.this, (View)line, "webViewTransition");
                 startActivity(intent, options.toBundle());*/

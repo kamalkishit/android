@@ -21,7 +21,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.humanize.android.Constants;
+import com.humanize.android.common.Constants;
 import com.humanize.android.HttpResponseCallback;
 import com.humanize.android.JsonParser;
 import com.humanize.android.R;
@@ -68,10 +68,9 @@ public class SubmitActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         content = new Content();
-        submitButton.setEnabled(false);
 
         categoriesSpinner.setOnItemSelectedListener(new SpinnerCategoriesHandler());
-        subCategoriesSpinner.setOnItemSelectedListener(new SpinnnerSubCategoriesHandler());
+        //subCategoriesSpinner.setOnItemSelectedListener(new SpinnnerSubCategoriesHandler());
 
         ArrayAdapter<CharSequence> categoriesAdapter = ArrayAdapter.createFromResource(this,
                 R.array.categories, R.layout.spinner_item);
@@ -103,6 +102,7 @@ public class SubmitActivity extends AppCompatActivity {
                 categoriesSpinner.setEnabled(true);
             }
         });
+
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,17 +122,11 @@ public class SubmitActivity extends AppCompatActivity {
 
         Pattern p = Patterns.WEB_URL;
         Matcher m = p.matcher(url);
-        if(m.matches()) {
-            return true;
-        }
-
-        return false;
+        return m.matches();
     }
 
     private void submit(final View view) {
-        if (!isValidUrl(contentURL.getText().toString())) {
-            Snackbar.make(view, "Invalid URL", Snackbar.LENGTH_SHORT).show();
-        } else {
+        if (validate()) {
             content.setContentURL(contentURL.getText().toString());
             try {
                 HttpUtil.getInstance().submit(Config.CONTENT_CREATE_URL, new JsonParser().toJson(content), new CreateContentCallback());
@@ -141,6 +135,25 @@ public class SubmitActivity extends AppCompatActivity {
                 Snackbar.make(view, "Submit failed", Snackbar.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private boolean validate() {
+        if (contentURL == null || contentURL.getText().length() == 0) {
+            Toast.makeText(getApplicationContext(), "URL is null", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        if (!isValidUrl(contentURL.getText().toString())) {
+            Toast.makeText(getApplicationContext(), "URL is invalid", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        if (content.getCategory() == null || content.getCategory().length() == 0 || content.getCategory().equals("Select Category")) {
+            Toast.makeText(getApplicationContext(), "Please select category", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        return true;
     }
 
     private void success(String response) {
@@ -156,19 +169,19 @@ public class SubmitActivity extends AppCompatActivity {
         @Override
         public void onItemSelected(AdapterView<? > parent, View view, int position, long id) {
 
-            if (contentURL != null && contentURL.getText().length() > 0) {
-                if (isValidUrl(contentURL.getText().toString())) {
+            //if (contentURL != null && contentURL.getText().length() > 0) {
+              //  if (isValidUrl(contentURL.getText().toString())) {
                     categoriesSpinner.setSelection(position);
                     content.setContentURL(contentURL.getText().toString());
                     content.setCategory(parent.getItemAtPosition(position).toString());
-                } else {
-                    categoriesSpinner.setSelection(0);
-                    Snackbar.make(view, "Please insert a proper URL", Snackbar.LENGTH_SHORT).show();
-                }
-            } else {
-                categoriesSpinner.setSelection(0);
-                Snackbar.make(view, "URL is empty", Snackbar.LENGTH_SHORT).show();
-            }
+               // } else {
+               //     categoriesSpinner.setSelection(0);
+               //     Snackbar.make(view, "Please insert a proper URL", Snackbar.LENGTH_SHORT).show();
+            //    }
+           // } else {
+            //    categoriesSpinner.setSelection(0);
+             //   Snackbar.make(view, "URL is empty", Snackbar.LENGTH_SHORT).show();
+            //}
         }
 
         public void onNothingSelected(AdapterView<?> arg0) {
@@ -208,7 +221,7 @@ public class SubmitActivity extends AppCompatActivity {
             if (contentURL != null && contentURL.getText().length() > 0) {
                 if (content.getCategory() != null) {
                     subCategoriesSpinner.setSelection(position);
-                    ArrayList<String> arrayList = new ArrayList<String>();
+                    ArrayList<String> arrayList = new ArrayList<>();
                     arrayList.add(parent.getItemAtPosition(position).toString());
                     content.setSubCategories(arrayList);
                     submitButton.setEnabled(true);

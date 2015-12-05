@@ -4,6 +4,7 @@ package com.humanize.android.data;
  * Created by Kamal on 9/17/15.
  */
 
+import java.sql.Time;
 import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
@@ -27,6 +28,8 @@ public class User {
 
     private List<String> categories;
 
+    private Time paperTime;
+
     private Set<String> likes;
 
     private Set<String> bookmarks;
@@ -38,11 +41,11 @@ public class User {
     private long lastModifiedDate;
 
     public User() {
-        this.typeOfArticles = new ArrayList<String>();
-        this.categories = new ArrayList<String>();
-        this.likes = new LinkedHashSet<String>();
-        this.bookmarks = new LinkedHashSet<String>();
-        this.contentsCreated = new LinkedHashSet<String>();
+        this.typeOfArticles = new ArrayList<>();
+        this.categories = new ArrayList<>();
+        this.likes = new LinkedHashSet<>();
+        this.bookmarks = new LinkedHashSet<>();
+        this.contentsCreated = new LinkedHashSet<>();
     }
 
     public String getId() {
@@ -107,6 +110,14 @@ public class User {
 
     public void setCategories(List<String> categories) {
         this.categories = categories;
+    }
+
+    public Time getPaperTime() {
+        return paperTime;
+    }
+
+    public void setPaperTime(Time paperTime) {
+        this.paperTime = paperTime;
     }
 
     public Set<String> getLikes() {

@@ -15,29 +15,17 @@ import java.util.Calendar;
 // Referenced classes of package com.humanize.android.util:
 //            ApplicationState
 
-public class AlarmHelper
-{
+public class AlarmHelper {
 
-    public AlarmHelper()
-    {
-    }
+    public void createAlarm(Time time) {
+        AlarmManager alarmmanager = (AlarmManager)ApplicationState.getAppContext().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(ApplicationState.getAppContext(), AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(ApplicationState.getAppContext(), 0, intent, 0);
 
-    public void createAlarm(Time time)
-    {
-        AlarmManager alarmmanager = (AlarmManager)ApplicationState.getAppContext().getSystemService("alarm");
-        Object obj = new Intent(ApplicationState.getAppContext(), AlarmReceiver.class);
-        obj = PendingIntent.getBroadcast(ApplicationState.getAppContext(), 0, ((Intent) (obj)), 0);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        if (time != null)
-        {
-            calendar.set(11, time.getHours());
-            calendar.set(12, time.getMinutes());
-        } else
-        {
-            calendar.set(11, 8);
-            calendar.set(12, 0);
-        }
-        alarmmanager.setRepeating(0, calendar.getTimeInMillis(), 0x5265c00L, ((PendingIntent) (obj)));
+        calendar.set(Calendar.HOUR_OF_DAY, time.getHours());
+        calendar.set(Calendar.MINUTE, time.getMinutes());
+        alarmmanager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000*60*24, pendingIntent);
     }
 }

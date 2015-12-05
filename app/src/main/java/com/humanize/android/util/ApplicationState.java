@@ -26,8 +26,8 @@ import io.fabric.sdk.android.Fabric;
  */
 public class ApplicationState extends Application{
 
-    private static Context context;
-    private static User user = null;
+    public static Context context;
+    public static User user = null;
 
     public void onCreate(){
         super.onCreate();

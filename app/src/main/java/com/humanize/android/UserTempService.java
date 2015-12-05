@@ -1,10 +1,15 @@
 package com.humanize.android;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
+import com.humanize.android.authentication.activity.SignupActivity;
 import com.humanize.android.data.User;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
@@ -14,64 +19,67 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
- * Created by kamal on 11/26/15.
+ * Created by kamal on 11/29/15.
  */
-public class UserCRUDService {
+public class UserTempService {
 
-    private static final String TAG = "UserCRUDService";
+    ProgressDialog progressDialog;
+    View view;
 
-    public void create() {
+    private static final String TAG = "UserTempService";
 
-    }
+    public void signup(Context context, View view, User user) {
+        this.view = view;
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setIndeterminate(true);
 
-    public void update() {
+        progressDialog.setMessage("Registering...");
+        progressDialog.show();
+
         try {
-            HttpUtil.getInstance().updateUser(Config.USER_UPDATE_URL, new JsonParser().toJson(ApplicationState.getUser()), new UpdateCallback());
+            HttpUtil.getInstance().signup(Config.USER_SIGNUP_URL, new JsonParser().toJson(user), new SignupCallback());
         } catch (Exception exception) {
-            Log.e(TAG, exception.toString());
+
         }
-    }
-
-    public void findByEmailId() {
 
     }
 
-    private class UpdateCallback implements Callback {
+    private class SignupCallback implements Callback {
 
         @Override
         public void onFailure(Request request, IOException exception) {
+            progressDialog.dismiss();
             Log.e(TAG, exception.toString());
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
+                    Snackbar.make(view, "Network connection error", Snackbar.LENGTH_SHORT).show();
+
                 }
             });
         }
 
         @Override
         public void onResponse(final Response response) throws IOException {
+            progressDialog.dismiss();
             if (!response.isSuccessful()) {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
+                        Snackbar.make(view, "Error", Snackbar.LENGTH_SHORT).show();
                     }
                 });
             } else {
-                final String responseStr = response.body().string().toString();
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            User user = new JsonParser().fromJson(responseStr, User.class);
-
-                            if (user != null) {
-                                ApplicationState.setUser(user);
-                            }
-                        } catch (Exception exception) {
+                            String responseStr = response.body().string().toString();
+                        } catch (IOException exception) {
                             Log.e(TAG, exception.toString());
+                        } finally {
                         }
                     }
                 });

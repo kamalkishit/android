@@ -19,8 +19,8 @@ import butterknife.ButterKnife;
 
 public class WebBrowserActivity extends AppCompatActivity {
 
-    @Bind(R.id.progressBar) private ProgressBar progressBar;
-    @Bind(R.id.webview) private WebView webView;
+    @Bind(R.id.progressBar) ProgressBar progressBar;
+    @Bind(R.id.webView) WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -34,16 +34,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
 
-    @Bind(R.id.emailId) private EditText emailId;
-    @Bind(R.id.password) private EditText password;
-    @Bind(R.id.loginButton) private Button loginButton;
-    @Bind(R.id.toolbar) private Toolbar toolbar;
+    @Bind(R.id.emailId) EditText emailId;
+    @Bind(R.id.password) EditText password;
+    @Bind(R.id.loginButton) Button loginButton;
+    @Bind(R.id.toolbar) Toolbar toolbar;
 
     SharedPreferencesService sharedPreferencesService;
     ProgressDialog progressDialog;
@@ -52,6 +53,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        ButterKnife.bind(this);
 
         initialize();
         configureListeners();
@@ -111,12 +114,12 @@ public class LoginActivity extends AppCompatActivity {
     public void loginSuccess(String response) {
         loginButton.setEnabled(true);
         System.out.println("login success");
-        User user = null;
+        User user;
 
         try {
             user = new JsonParser().fromJson(response, User.class);
 
-            ArrayList<String> categories = new ArrayList<String>();
+            ArrayList<String> categories = new ArrayList<>();
             categories.add("Education");
             categories.add("Health");
             categories.add("Environment");

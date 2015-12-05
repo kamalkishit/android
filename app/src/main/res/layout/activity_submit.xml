@@ -25,7 +25,7 @@
         android:layout_marginLeft="@dimen/mediumMargin"
         android:layout_marginRight="@dimen/mediumMargin"
         android:layout_marginTop="@dimen/smallMargin"
-        android:layout_below="@id/appbar_layout">
+        android:layout_below="@id/appbarLayout">
 
         <EditText
             android:id="@+id/contentUrl"
@@ -42,7 +42,7 @@
         android:layout_marginTop="@dimen/mediumMargin"
         android:layout_centerHorizontal="true"
         style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-        android:layout_below="@+id/text_input" />
+        android:layout_below="@+id/textInput" />
 
     <Spinner
         android:id="@+id/subCategoriesSpinner"
@@ -70,4 +70,15 @@
         android:textStyle="normal"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textAlignment="center"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/submitButton"
+        android:src="@drawable/ic_bookmark_border_black_24dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="50dp"
+        />
 </RelativeLayout>

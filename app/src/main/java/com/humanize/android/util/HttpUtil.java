@@ -44,6 +44,8 @@ public class HttpUtil {
     }
 
     public void submit(String url, String json, Callback callback) {
+        System.out.println(url);
+        System.out.println(json);
         post(url, json, callback);
     }
 
@@ -57,7 +59,7 @@ public class HttpUtil {
 
         //ArrayList<String> categories = new ArrayList<String>(ApplicationState.getUser().getCategories());
 
-        ArrayList<String> categories = new ArrayList<String>();
+        ArrayList<String> categories = new ArrayList<>();
         categories.add("Education");
         categories.add("Health");
         categories.add("Environment");
@@ -82,7 +84,7 @@ public class HttpUtil {
     public void refreshContents(String endDate, Callback callback) {
         String url = Config.CONTENT_FIND_URL;
 
-        ArrayList<String> categories = new ArrayList<String>();
+        ArrayList<String> categories = new ArrayList<>();
         categories.add("Education");
         categories.add("Health");
         categories.add("Environment");
@@ -122,7 +124,7 @@ public class HttpUtil {
     public void getMoreContents(String startDate, Callback callback) {
         String url = Config.CONTENT_FIND_URL;
 
-        ArrayList<String> categories = new ArrayList<String>();
+        ArrayList<String> categories = new ArrayList<>();
         categories.add("Education");
         categories.add("Health");
         categories.add("Environment");

@@ -5,6 +5,5 @@ package com.humanize.android;
  */
 public class Constants {
 
-    public static final int DEFAULT_CONTENTS_SIZE = 20;
-    public static final int SCROLL_THRESHOLD_SIZE = 5;
+
 }

@@ -1,8 +1,6 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/tools"
-
     android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -21,14 +19,29 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+
         <ImageView
-            android:id="@+id/content_image"
+            android:id="@+id/contentImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/background" />
 
-        <Button
-            android:id="@+id/image_button_more"
+        <TextView
+            android:id="@+id/contentTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/smallMargin"
+            android:layout_marginRight="@dimen/smallMargin"
+            android:layout_marginTop="@dimen/smallMargin"
+            android:layout_alignLeft="@id/contentImage"
+            android:layout_alignBottom="@id/contentImage"
+            android:text="title "
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <!--<Button
+            android:id="@+id/imageButtonMore"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:background="@drawable/ic_more_vert_white_24dp"
@@ -39,7 +52,7 @@
             android:layout_alignParentStart="true" />
 
         <Button
-            android:id="@+id/image_button_like"
+            android:id="@+id/imageButtonLike"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:background="@drawable/ic_favorite_border_white_24dp"
@@ -50,83 +63,75 @@
             android:layout_alignParentEnd="true" />
 
         <Button
-            android:id="@+id/image_button_bookmark"
+            android:id="@+id/imageButtonBookmark"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:background="@drawable/ic_bookmark_border_white_24dp"
             android:layout_alignParentTop="true"
             android:layout_marginRight="@dimen/smallMargin"
             android:layout_marginTop="@dimen/smallMargin"
-            android:layout_toLeftOf="@+id/image_button_like"/>
+            android:layout_toLeftOf="@+id/imageButtonLike"/>
 
         <Button
-            android:id="@+id/image_button_share"
+            android:id="@+id/imageButtonShare"
             android:layout_width="@dimen/mediumIconSize"
             android:layout_height="@dimen/mediumIconSize"
             android:background="@drawable/ic_share_white_24dp"
             android:layout_marginRight="@dimen/smallMargin"
             android:layout_marginBottom="@dimen/smallMargin"
-            android:layout_alignBottom="@+id/content_image"
-            android:layout_alignEnd="@+id/content_image"/>
+            android:layout_alignBottom="@+id/contentImage"
+            android:layout_alignEnd="@+id/contentImage"/>
 
         <TextView
-            android:id="@+id/content_source"
+            android:id="@+id/contentSource"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/smallMargin"
             android:layout_marginBottom="@dimen/smallMargin"
             android:textStyle="bold"
             android:textColor="@color/colorWhite"
-            android:layout_alignBottom="@+id/content_image"
-            android:layout_alignStart="@+id/content_image"
+            android:layout_alignBottom="@+id/contentImage"
+            android:layout_alignStart="@+id/contentImage"
             android:text="source"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textAppearance="?android:attr/textAppearanceSmall" /> -->
 
-        <TextView
-            android:id="@+id/content_category"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/smallMargin"
-            android:layout_marginLeft="@dimen/smallMargin"
-            android:layout_marginBottom="@dimen/smallMargin"
-            android:layout_below="@+id/content_image"
-            android:textStyle="bold"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:id="@+id/ll1"
+            android:layout_below="@id/contentImage">
 
-        <View
+            <TextView
+                android:id="@+id/contentCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/smallMargin"
+                android:layout_marginTop="@dimen/smallMargin"
+                android:layout_marginBottom="@dimen/smallMargin"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </LinearLayout>
+
+        <!--<View
             android:id="@+id/line1"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="@dimen/smallMargin"
             android:layout_marginRight="@dimen/smallMargin"
-            android:transitionName="webViewTransition"
-            android:layout_below="@+id/content_category"
-            android:background="@android:color/darker_gray"/>
-
-        <TextView
-            android:id="@+id/content_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/smallMargin"
-            android:layout_marginRight="@dimen/smallMargin"
-            android:layout_marginTop="@dimen/smallMargin"
-            android:layout_marginBottom="@dimen/smallMargin"
-            android:layout_below="@+id/line1"
-            android:text="title "
-            android:textStyle="bold"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
+            android:layout_below="@+id/ll1"
+            android:background="@android:color/darker_gray"/> -->
         <View
             android:id="@+id/line2"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="@dimen/smallMargin"
             android:layout_marginRight="@dimen/smallMargin"
-            android:layout_below="@+id/content_title"
+            android:layout_below="@+id/ll1"
             android:background="@android:color/darker_gray"/>
 
         <TextView
-            android:id="@+id/content_description"
+            android:id="@+id/contentDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/smallMargin"
@@ -138,5 +143,49 @@
             android:maxLines="5"
             android:text="description"
             android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/contentDescription"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/recommendButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorSecondary"
+                android:layout_marginRight="1dp"
+                android:text="Recommend"
+                android:drawableTop="@drawable/ic_favorite_border_white_24dp"
+                android:textAllCaps="false"
+                android:textSize="10sp"
+                android:layout_weight="1.0" />
+
+            <Button
+                android:id="@+id/bookmarkButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorSecondary"
+                android:layout_marginRight="1dp"
+                android:text="Bookmark"
+                android:drawableTop="@drawable/ic_bookmark_border_white_24dp"
+                android:textAllCaps="false"
+                android:textSize="10sp"
+                android:layout_weight="1.0" />
+
+            <Button
+                android:id="@+id/shareButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorSecondary"
+                android:text="Share"
+                android:drawableTop="@drawable/ic_share_white_24dp"
+                android:textAllCaps="false"
+                android:textSize="10sp"
+                android:layout_weight="1.0" />
+
+        </LinearLayout>
     </RelativeLayout>
 </android.support.v7.widget.CardView>

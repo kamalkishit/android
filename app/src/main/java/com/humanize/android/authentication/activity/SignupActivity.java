@@ -20,6 +20,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.humanize.android.JsonParser;
 import com.humanize.android.R;
+import com.humanize.android.UserTempService;
 import com.humanize.android.data.User;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
@@ -32,14 +33,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class SignupActivity extends AppCompatActivity {
 
-    @Bind(R.id.emailId) private EditText emailId;
-    @Bind(R.id.password) private EditText password;
-    @Bind(R.id.invitationCode) private EditText invitationCode;
-    @Bind(R.id.signupButton) private Button signupButton;
-    @Bind(R.id.toolbar) private Toolbar toolbar;
+    @Bind(R.id.emailId) EditText emailId;
+    @Bind(R.id.password) EditText password;
+    @Bind(R.id.invitationCode) EditText invitationCode;
+    @Bind(R.id.signupButton) Button signupButton;
+    @Bind(R.id.toolbar) Toolbar toolbar;
 
     private ProgressDialog progressDialog;
 
@@ -49,6 +51,8 @@ public class SignupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
+        ButterKnife.bind(this);
 
         initialize();
         configureListeners();
@@ -76,7 +80,10 @@ public class SignupActivity extends AppCompatActivity {
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signup();
+                UserTempService userTempService = new UserTempService();
+                userTempService.signup(SignupActivity.this, view, new User());
+
+                //signup();
             }
         });
 
