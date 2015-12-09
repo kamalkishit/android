@@ -7,15 +7,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.google.gson.Gson;
 import com.humanize.android.AlarmReceiver;
 import com.humanize.android.HttpResponseCallback;
+import com.humanize.android.NewLoginActivity;
 import com.humanize.android.R;
+import com.humanize.android.authentication.activity.LoginActivity;
+import com.humanize.android.common.Constants;
+import com.humanize.android.common.StringConstants;
 import com.humanize.android.content.data.Contents;
 import com.humanize.android.data.User;
 import com.humanize.android.service.BookmarkService;
@@ -30,35 +39,60 @@ import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class AppLauncherActivity extends AppCompatActivity {
 
-    private static final String TAG = "AppLauncherActivity";
+    @Bind(R.id.title) TextView title;
+
+    private static final String TAG = AppLauncherActivity.class.getSimpleName();
 
     SharedPreferencesService sharedPreferencesService = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /*requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN); */
         setContentView(R.layout.activity_app_launcher);
+
+        ButterKnife.bind(this);
 
         initialize();
         //JobScheduler.schedulePaper();
         //createAlarm();
-        startNextActivity();
+        startActivitya();
+        //startNextActivity();
     }
 
     private void initialize() {
         sharedPreferencesService = SharedPreferencesService.getInstance();
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        int px = Math.round(32 * (metrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)); // TBD: hardcoding of 32 dp for side margin
-        int imageWidth = metrics.widthPixels - px;
+
+        // total pixel width of screen - margin on both side for content card
+        int sidePixels = Math.round(Constants.MEDIUM_MARGIN * 2 * (metrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        int imageWidth = metrics.widthPixels - sidePixels;
         int imageHeight = (imageWidth*Config.ASPECT_RATIO_WIDTH)/Config.ASPECT_RATIO_HEIGHT;
         Config.IMAGE_WIDTH = imageWidth;
         Config.IMAGE_HEIGHT = imageHeight;
-        System.out.println(imageHeight);
-        System.out.println(imageWidth);
+    }
+
+    private void startActivitya() {
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                Intent intent = new Intent(getApplicationContext(), NewLoginActivity.class);
+                //ActivityOptionsCompat options = ActivityOptionsCompat.
+                  //      makeSceneTransitionAnimation(AppLauncherActivity.this, (View) title, "loginTransition");
+                startActivity(intent/*, options.toBundle()*/);
+                finish();
+            }
+        }, Constants.SPLASH_SCREEN_DELAY_TIME);
     }
 
     private void startNextActivity() {
@@ -112,7 +146,6 @@ public class AppLauncherActivity extends AppCompatActivity {
     }
 
     private void failure(String response) {
-        System.out.println("failure");
         System.out.println(response);
     }
 
@@ -163,7 +196,7 @@ public class AppLauncherActivity extends AppCompatActivity {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), "Network connection error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), StringConstants.NETWORK_CONNECTION_ERROR_STR, Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -174,7 +207,7 @@ public class AppLauncherActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), StringConstants.FAILURE_STR, Toast.LENGTH_LONG).show();
                     }
                 });
             } else {
@@ -196,7 +229,7 @@ public class AppLauncherActivity extends AppCompatActivity {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), "Network connection error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), StringConstants.NETWORK_CONNECTION_ERROR_STR, Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -207,7 +240,7 @@ public class AppLauncherActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), StringConstants.FAILURE_STR, Toast.LENGTH_LONG).show();
                     }
                 });
             } else {
@@ -231,7 +264,7 @@ public class AppLauncherActivity extends AppCompatActivity {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), "Network connection error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), StringConstants.NETWORK_CONNECTION_ERROR_STR, Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -242,7 +275,7 @@ public class AppLauncherActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), StringConstants.FAILURE_STR, Toast.LENGTH_LONG).show();
                     }
                 });
             } else {

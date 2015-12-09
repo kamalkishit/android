@@ -33,6 +33,7 @@ import com.humanize.android.FragmentDrawer;
 import com.humanize.android.JsonParser;
 import com.humanize.android.R;
 import com.humanize.android.UserService;
+import com.humanize.android.common.StringConstants;
 import com.humanize.android.content.data.Content;
 import com.humanize.android.content.data.Contents;
 import com.humanize.android.util.ApplicationState;
@@ -61,7 +62,7 @@ public class CardActivity extends AppCompatActivity {
     private RecyclerViewAdapter recyclerViewAdapter;
     private LinearLayoutManager linearLayoutManager;
 
-    private static String TAG = "CardActivity";
+    private static String TAG = CardActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,8 +98,7 @@ public class CardActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        fragmentDrawer = (FragmentDrawer)
-                getSupportFragmentManager().findFragmentById(R.id.fragmentNavigationDrawer);
+        fragmentDrawer = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragmentNavigationDrawer);
         fragmentDrawer.setUp(R.id.fragmentNavigationDrawer, (DrawerLayout) findViewById(R.id.drawerLayout), toolbar);
         fragmentDrawer.setDrawerListener(new ContentFragmentDrawerListener());
     }
@@ -175,13 +175,13 @@ public class CardActivity extends AppCompatActivity {
             Content content = contents.getContents().get(index);
             viewHolder.content = content;
             viewHolder.id = content.getId();
-            viewHolder.title.setText(content.getTitle());
-            viewHolder.description.setText(content.getDescription());
+            viewHolder.contentTitle.setText(content.getTitle());
+            viewHolder.contentDescription.setText(content.getDescription());
             //viewHolder.source.setText(content.getSource());
-            viewHolder.category.setText(content.getCategory());
+            //viewHolder.category.setText(content.getCategory());
             //viewHolder.imageView.setImageResource(R.drawable.background);
-            viewHolder.imageView.getLayoutParams().width = Config.IMAGE_WIDTH;
-            viewHolder.imageView.getLayoutParams().height = Config.IMAGE_HEIGHT;
+            viewHolder.contentImage.getLayoutParams().width = Config.IMAGE_WIDTH;
+            viewHolder.contentImage.getLayoutParams().height = Config.IMAGE_HEIGHT;
 
             /*if (ApplicationState.getUser().getLikes().contains(viewHolder.id)) {
                 viewHolder.likeButton.setBackgroundResource(R.drawable.ic_favorite_white_24dp);
@@ -197,7 +197,7 @@ public class CardActivity extends AppCompatActivity {
 
             Picasso.with(ApplicationState.getAppContext()).load(content.getOriginalImageURL())
                     .placeholder(R.drawable.background).resize(Config.IMAGE_WIDTH, Config.IMAGE_HEIGHT)
-                    .into(viewHolder.imageView);
+                    .into(viewHolder.contentImage);
             /*Picasso.with(ApplicationState.getAppContext()).load("http://www.storypick.com/wp-content/uploads/2015/11/awesome-dad-cover.jpg")
                     .placeholder(R.drawable.background).resize(Config.IMAGE_WIDTH, Config.IMAGE_HEIGHT)
                     .into(viewHolder.imageView);*/
@@ -216,14 +216,15 @@ public class CardActivity extends AppCompatActivity {
 
             protected Content content;
             protected String id;
-            protected TextView title;
-            protected TextView description;
-            protected ImageView imageView;
-            protected TextView source;
-            protected TextView category;
-            protected Button likeButton;
-            protected Button bookmarkButton;
-            protected Button shareButton;
+            @Bind(R.id.contentTitle) TextView contentTitle;
+            @Bind(R.id.contentDescription) TextView contentDescription;
+            @Bind(R.id.contentImage) ImageView contentImage;
+            //@Bind(R.id.contentSource) TextView contentSource;
+            //@Bind(R.id.contentCategory) TextView contentCategory;
+            @Bind(R.id.recommendButton) Button recommendButton;
+            @Bind(R.id.bookmarkButton) Button bookmarkButton;
+            @Bind(R.id.shareButton) Button shareButton;
+
             private UserService userService;
             private ContentService contentService;
             private View shareableContentView;
@@ -233,14 +234,8 @@ public class CardActivity extends AppCompatActivity {
                 this.shareableContentView = view;
                 userService = new UserService(ApplicationState.getUser());
                 contentService = ContentService.getInstance();
-                title = (TextView) view.findViewById(R.id.contentTitle);
-                description = (TextView) view.findViewById(R.id.contentDescription);
-                imageView = (ImageView) view.findViewById(R.id.contentImage);
-                //source = (TextView) view.findViewById(R.id.contentSource);
-                category = (TextView) view.findViewById(R.id.contentCategory);
-                likeButton= (Button) view.findViewById(R.id.recommendButton);
-                bookmarkButton = (Button) view.findViewById(R.id.bookmarkButton);
-                shareButton = (Button) view.findViewById(R.id.shareButton);
+
+                //ButterKnife.bind(this);
 
                 configureListeners();
 
@@ -255,7 +250,7 @@ public class CardActivity extends AppCompatActivity {
             }
 
             private void configureListeners() {
-                likeButton.setOnClickListener(new View.OnClickListener() {
+                recommendButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         //like();
@@ -295,9 +290,9 @@ public class CardActivity extends AppCompatActivity {
 
             private void updateLikeButton() {
                 if (ApplicationState.getUser().getLikes().contains(id)) {
-                    likeButton.setBackgroundResource(R.drawable.ic_favorite_white_24dp);
+                    recommendButton.setBackgroundResource(R.drawable.ic_favorite_white_24dp);
                 } else {
-                    likeButton.setBackgroundResource(R.drawable.ic_favorite_border_white_24dp);
+                    recommendButton.setBackgroundResource(R.drawable.ic_favorite_border_white_24dp);
                 }
             }
 
@@ -315,7 +310,7 @@ public class CardActivity extends AppCompatActivity {
                 shareableContentView.setDrawingCacheEnabled(false);
 
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, Constants.IMAGE_QUALITY_VALUE, byteArrayOutputStream);
                 String path = MediaStore.Images.Media.insertImage(ApplicationState.getAppContext().getContentResolver(), bitmap, "Title", null);
                 Uri imageUri = Uri.parse(path);
 
@@ -371,11 +366,7 @@ public class CardActivity extends AppCompatActivity {
                     previousTotal = totalItemCount;
                 }
             }
-            if (!loading && (totalItemCount - visibleItemCount)
-                    <= (firstVisibleItem + visibleThreshold)) {
-                // End has been reached
-
-                // Do something
+            if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
                 current_page++;
 
                 onLoadMore(current_page);
@@ -394,7 +385,7 @@ public class CardActivity extends AppCompatActivity {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), "Network connection error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), StringConstants.NETWORK_CONNECTION_ERROR_STR, Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -405,7 +396,7 @@ public class CardActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), StringConstants.FAILURE_STR, Toast.LENGTH_LONG).show();
                     }
                 });
             } else {
@@ -437,7 +428,7 @@ public class CardActivity extends AppCompatActivity {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), "Network connection error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), StringConstants.NETWORK_CONNECTION_ERROR_STR, Toast.LENGTH_LONG).show();
                     swipeRefreshLayout.setRefreshing(false);
                 }
             });
@@ -449,7 +440,7 @@ public class CardActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), StringConstants.FAILURE_STR, Toast.LENGTH_LONG).show();
                         swipeRefreshLayout.setRefreshing(false);
                     }
                 });

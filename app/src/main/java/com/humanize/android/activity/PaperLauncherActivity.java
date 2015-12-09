@@ -36,7 +36,6 @@ public class PaperLauncherActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
 
             @Override

@@ -9,27 +9,10 @@
     <string name="icon_thumbs_up">&#xf087;</string>
     <string name="icon_thumbs_down">&#xf088;</string>
     <string name="icon_share">&#xf1e0;</string>
-    <string name="title_activity_main2">Main2Activity</string>
-    <string name="title_logo">NATIONAL GEOGRAPHIC</string>
-    <string name="btn_skip_intro">Skip Intro</string>
 
-
-    <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
-    <string name="title_activity_daily">DailyActivity</string>
-    <string name="title_activity_login">LoginActivity</string>
-
-    <string name="title_activity_home">HomeActivity</string>
-    <string name="register_title">Register</string>
-    <string name="login_title">Login</string>
     <string name="name">Name</string>
     <string name="pwd">Password</string>
     <string name="btnRegister">Register</string>
-    <string name="title_activity_register">RegisterActivity</string>
-    <string name="title_activity_pseudo">PseudoActivity</string>
-    <string name="title_activity_new_login">NewLogin</string>
-    <string name="title_activity_activity_signup">activity_signup</string>
-    <string name="title_activity_signup">SignupActivity</string>
-    <string name="title_activity_paper">PaperActivity</string>
 
     <string name="action_search">Search</string>
     <string name="action_create">Create</string>
@@ -70,8 +53,6 @@
         <item>Humanity</item>
     </string-array>
 
-    <string name="categories_spinner_title">WHY select</string>
-
     <string-array name="categories">
         <item>Select Category</item>
         <item>Achievers</item>
@@ -90,7 +71,7 @@
         <item>Woman \u0026 Child</item>
     </string-array>
 
-    <string-array name="sub_categories">
+    <string-array name="subCategories">
         <item>Select SubCategory</item>
         <item>Inspiring</item>
         <item>Innovative</item>
@@ -98,26 +79,16 @@
         <item>Courageous</item>
     </string-array>
 
-
-    <string name="title_messages">Messages</string>
-    <string name="title_friends">Friends</string>
-    <string name="title_home">Home</string>
-    <string name="title_activity_paper_notifier">PaperNotifier</string>
-
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_card">CardActivity</string>
-    <string name="title_activity_launch_screen">LaunchScreenActivity</string>
     <string name="title_activity_paper_launcher">PaperLauncherActivity</string>
     <string name="title_activity_submit">SubmitActivity</string>
     <string name="title_activity_facebook_login">FacebookLoginActivity</string>
     <string name="title_activity_camera">CameraActivity</string>
     <string name="title_activity_search">SearchActivity</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_spinner">SpinnerActivity</string>
     <string name="title_activity_likes">LikesActivity</string>
     <string name="title_activity_bookmarks">BookmarksActivity</string>
-    <string name="title_activity_app_launcher">AppLauncherActivity</string>
-    <string name="title_activity_select_categories">SelectCategories</string>
-    <string name="title_activity_paper_reminder">PaperReminder</string>
+    <string name="title_activity_new_login">NewLoginActivity</string>
+    <string name="title_activity_new_register">NewRegisterActivity</string>
+    <string name="title_activity_forgot_password">ForgotPassword</string>
+    <string name="title_activity_invitation_code">InvitationCodeActivity</string>
 </resources>

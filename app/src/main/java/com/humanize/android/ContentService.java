@@ -12,6 +12,11 @@ public class ContentService {
     private Map<String, Content> contentMap;
     private static ContentService contentService = null;
 
+    public void createContent(Content content) {
+
+
+    }
+
     private ContentService() {
         this.contentMap = new HashMap<String, Content>();
     }

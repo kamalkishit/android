@@ -36,14 +36,14 @@ public class BookmarksActivity extends AppCompatActivity {
         toolbar.setTitle("Bookmarks");
         toolbar.setCollapsible(true);
 
-        TextView textView = (TextView) findViewById(R.id.toolbar_text_view);
+        TextView textView = (TextView) findViewById(R.id.toolbarText);
         textView.setText("Bookmarks");
 
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);

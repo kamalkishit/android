@@ -22,7 +22,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class LikesActivity extends AppCompatActivity {
+
+    @Bind(R.id.toolbarText) TextView toolbarText;
+
     private RecyclerView recyclerView;
     private Toolbar toolbar;
 
@@ -31,18 +37,22 @@ public class LikesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_likes);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
+
+        initialize();
+    }
+
+    private void initialize() {
         toolbar.setTitle("Likes");
         toolbar.setCollapsible(true);
 
-        TextView textView = (TextView) findViewById(R.id.toolbar_text_view);
-        textView.setText("Likes");
+        toolbarText.setText("Likes");
 
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -95,15 +105,15 @@ public class LikesActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(ViewHolder viewHolder, int index) {
             Content content = contents.get(index);
-            viewHolder.title.setText(content.getTitle());
-            viewHolder.description.setText(content.getDescription());
-            viewHolder.source.setText(content.getSource());
-            viewHolder.imageView.setImageResource(R.drawable.background);
-            viewHolder.imageView.getLayoutParams().width = Config.IMAGE_WIDTH;
-            viewHolder.imageView.getLayoutParams().height = Config.IMAGE_HEIGHT;
-            Picasso.with(ApplicationState.getAppContext()).load(Config.SERVER_URL + "/images/" + content.getImageURL())
+            viewHolder.contentTitle.setText(content.getTitle());
+            viewHolder.contentDescription.setText(content.getDescription());
+            viewHolder.contentSource.setText(content.getSource());
+            viewHolder.contentImage.setImageResource(R.drawable.background);
+            viewHolder.contentImage.getLayoutParams().width = Config.IMAGE_WIDTH;
+            viewHolder.contentImage.getLayoutParams().height = Config.IMAGE_HEIGHT;
+            Picasso.with(ApplicationState.getAppContext()).load(Config.IMAGES_URL + content.getImageURL())
                     .placeholder(R.drawable.background)
-                    .resize(Config.IMAGE_WIDTH, Config.IMAGE_HEIGHT).into(viewHolder.imageView);
+                    .resize(Config.IMAGE_WIDTH, Config.IMAGE_HEIGHT).into(viewHolder.contentImage);
         }
 
         @Override
@@ -116,17 +126,17 @@ public class LikesActivity extends AppCompatActivity {
         }
 
         public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-            protected TextView title;
-            protected TextView description;
-            protected ImageView imageView;
-            protected TextView source;
+            protected TextView contentTitle;
+            protected TextView contentDescription;
+            protected ImageView contentImage;
+            protected TextView contentSource;
 
             public ViewHolder(View view) {
                 super(view);
-                title =  (TextView) view.findViewById(R.id.contentTitle);
-                description = (TextView)  view.findViewById(R.id.contentDescription);
-                imageView = (ImageView) view.findViewById(R.id.contentImage);
-                //source = (TextView) view.findViewById(R.id.contentSource);
+                contentTitle =  (TextView) view.findViewById(R.id.contentTitle);
+                contentDescription = (TextView)  view.findViewById(R.id.contentDescription);
+                contentImage = (ImageView) view.findViewById(R.id.contentImage);
+                //contentSource = (TextView) view.findViewById(R.id.contentSource);
                 view.setOnClickListener(this);
             }
 

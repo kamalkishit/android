@@ -32,7 +32,7 @@ public class LaunchScreenActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-        loginButton = (Button) findViewById(R.id.login_button);
+        loginButton = (Button) findViewById(R.id.loginButton);
         signupButton = (Button) findViewById(R.id.signup_button);
         sharedPreferencesService = SharedPreferencesService.getInstance();
     }

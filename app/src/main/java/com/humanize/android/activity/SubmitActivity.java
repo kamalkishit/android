@@ -51,12 +51,13 @@ public class SubmitActivity extends AppCompatActivity {
 
     private Content content;
 
-    private static String TAG = "SubmitActivity";
+    private static String TAG = SubmitActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit);
+
         ButterKnife.bind(this);
 
         initialize();
@@ -64,10 +65,9 @@ public class SubmitActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        content = new Content();
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        content = new Content();
 
         categoriesSpinner.setOnItemSelectedListener(new SpinnerCategoriesHandler());
         //subCategoriesSpinner.setOnItemSelectedListener(new SpinnnerSubCategoriesHandler());
@@ -76,7 +76,7 @@ public class SubmitActivity extends AppCompatActivity {
                 R.array.categories, R.layout.spinner_item);
 
         ArrayAdapter<CharSequence> subcategoriesAdapter = ArrayAdapter.createFromResource(this,
-                R.array.sub_categories, R.layout.spinner_item);
+                R.array.subCategories, R.layout.spinner_item);
 
         categoriesAdapter.setDropDownViewResource(R.layout.spinner_categories);
         categoriesSpinner.setAdapter(categoriesAdapter);

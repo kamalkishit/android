@@ -66,17 +66,12 @@
             android:label="@string/title_activity_submit"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/MyMaterialTheme" >
-
-        </activity>
+            android:theme="@style/MyMaterialTheme" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity
-            android:name=".activity.FacebookLoginActivity"
-            android:label="@string/title_activity_facebook_login" />
         <activity
             android:name=".activity.CameraActivity"
             android:label="@string/title_activity_camera"
@@ -106,16 +101,18 @@
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme" />
-
         <activity
             android:name=".activity.SelectCategoriesActivity"
             android:label="@string/title_activity_bookmarks"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MyMaterialTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.PaperReminderActivity"
             android:label="@string/title_activity_bookmarks"
@@ -129,14 +126,37 @@
             android:label="Humanize"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/MyMaterialTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:theme="@style/MyMaterialTheme" >
 
         </activity>
+        <activity
+            android:name=".NewLoginActivity"
+            android:label="@string/title_activity_new_login"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyMaterialTheme">
+
+        </activity>
+        <activity
+            android:name=".NewRegisterActivity"
+            android:label="@string/title_activity_new_register"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyMaterialTheme">
+
+        </activity>
+        <activity
+            android:name=".ForgotPassword"
+            android:label="@string/title_activity_forgot_password"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyMaterialTheme"></activity>
+        <activity
+            android:name=".activity.InvitationCodeActivity"
+            android:label="@string/title_activity_invitation_code"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyMaterialTheme"></activity>
     </application>
 
 </manifest>

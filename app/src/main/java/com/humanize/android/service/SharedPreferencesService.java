@@ -13,7 +13,7 @@ public class SharedPreferencesService {
     private static SharedPreferencesService sharedPreferencesInstance = null;
     private SharedPreferences sharedPreferences;
 
-    public SharedPreferencesService() {
+    private SharedPreferencesService() {
         sharedPreferences = ApplicationState.getAppContext().getSharedPreferences(Config.SHARED_PREFERENCES, 0);
     }
 

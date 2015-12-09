@@ -13,7 +13,6 @@
         android:layout_marginLeft="@dimen/smallMargin"
         android:layout_marginRight="@dimen/smallMargin"
         android:transitionName="webViewTransition"
-        android:layout_below="@+id/content_category"
         android:background="@android:color/darker_gray"/>
 
     <ProgressBar

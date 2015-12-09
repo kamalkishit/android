@@ -26,18 +26,26 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class PaperActivity extends AppCompatActivity {
-    private RecyclerView recyclerView;
-    private Toolbar toolbar;
+
+    @Bind(R.id.toolbarText) TextView toolbarText;
+    @Bind(R.id.recyclerView) RecyclerView recyclerView;
+    @Bind(R.id.toolbar) Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_paper);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        ButterKnife.bind(this);
+
+        initialize();
+    }
+
+    private void initialize() {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -46,13 +54,11 @@ public class PaperActivity extends AppCompatActivity {
         PaperAdapter paperAdapter = new PaperAdapter();
         recyclerView.setAdapter(paperAdapter);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setCollapsible(true);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        TextView textView = (TextView) findViewById(R.id.toolbar_text_view);
-        textView.setText("Paper");
+        toolbarText.setText("Paper");
     }
 
     @Override

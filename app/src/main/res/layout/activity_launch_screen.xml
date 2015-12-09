@@ -33,7 +33,7 @@
         android:background="@color/colorWhite">
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/login_button"
+            android:id="@+id/loginButton"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/smallMargin"
@@ -54,7 +54,7 @@
             android:layout_height="1dp"
             android:layout_marginLeft="@dimen/smallMargin"
             android:layout_marginRight="@dimen/smallMargin"
-            android:layout_below="@+id/login_button"
+            android:layout_below="@+id/loginButton"
             android:background="@android:color/darker_gray"/>
 
         <android.support.v7.widget.AppCompatButton

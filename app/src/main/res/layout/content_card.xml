@@ -26,19 +26,18 @@
             android:layout_height="wrap_content"
             android:src="@drawable/background" />
 
-        <TextView
-            android:id="@+id/contentTitle"
+        <!--<TextView
+            android:id="@+id/contentCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/smallMargin"
-            android:layout_marginRight="@dimen/smallMargin"
             android:layout_marginTop="@dimen/smallMargin"
-            android:layout_alignLeft="@id/contentImage"
+            android:layout_marginBottom="@dimen/smallMargin"
             android:layout_alignBottom="@id/contentImage"
-            android:text="title "
+            android:layout_alignStart="@id/contentImage"
             android:textColor="@color/colorAccent"
             android:textStyle="bold"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textAppearance="?android:attr/textAppearanceSmall" /> -->
 
         <!--<Button
             android:id="@+id/imageButtonMore"
@@ -95,7 +94,17 @@
             android:text="source"
             android:textAppearance="?android:attr/textAppearanceSmall" /> -->
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/contentTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/smallMargin"
+            android:layout_below="@id/contentImage"
+            android:text="title "
+            android:textStyle="bold"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/ll1"
@@ -111,24 +120,24 @@
                 android:textColor="@color/colorAccent"
                 android:textStyle="bold"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
-        </LinearLayout>
+        </LinearLayout> -->
 
-        <!--<View
+        <View
             android:id="@+id/line1"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="@dimen/smallMargin"
             android:layout_marginRight="@dimen/smallMargin"
-            android:layout_below="@+id/ll1"
-            android:background="@android:color/darker_gray"/> -->
-        <View
+            android:layout_below="@+id/contentTitle"
+            android:background="@android:color/darker_gray"/>
+        <!--<View
             android:id="@+id/line2"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="@dimen/smallMargin"
             android:layout_marginRight="@dimen/smallMargin"
             android:layout_below="@+id/ll1"
-            android:background="@android:color/darker_gray"/>
+            android:background="@android:color/darker_gray"/> -->
 
         <TextView
             android:id="@+id/contentDescription"
@@ -138,7 +147,7 @@
             android:layout_marginRight="@dimen/smallMargin"
             android:layout_marginTop="@dimen/smallMargin"
             android:layout_marginBottom="@dimen/smallMargin"
-            android:layout_below="@+id/line2"
+            android:layout_below="@+id/line1"
             android:ellipsize="end"
             android:maxLines="5"
             android:text="description"

@@ -5,7 +5,7 @@
     android:background="@color/colorWhite">
 
     <RelativeLayout
-        android:id="@+id/nav_header_container"
+        android:id="@+id/navHeaderContainer"
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:layout_alignParentTop="true"
@@ -24,6 +24,6 @@
         android:id="@+id/drawerList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/nav_header_container"
+        android:layout_below="@id/navHeaderContainer"
         android:layout_marginTop="15dp" />
 </RelativeLayout>

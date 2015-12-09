@@ -5,23 +5,29 @@
     android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <android.support.v7.widget.AppCompatButton
-        android:textColor="@color/colorBlack"
-        android:gravity="center"
-        android:id="@+id/paperReminder"
-        android:background="@color/colorWhite"
-        android:clickable="false"
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/mediumMargin"
-        android:text="Please Choose Paper Time" />
+        android:background="@color/colorPrimary"
+        android:id="@+id/linearLayout" >
+
+        <TextView
+            android:id="@+id/paperReminderText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/mediumMargin"
+            android:gravity="center"
+            android:textColor="@color/colorWhite"
+            android:text="SELECT PAPER TIME"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </LinearLayout>
 
     <TimePicker
         android:id="@+id/timePicker"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/mediumMargin"
-        android:layout_below="@id/paperReminder" />
+        android:layout_below="@id/linearLayout" />
 
     <android.support.v7.widget.AppCompatButton
         android:textColor="@color/colorWhite"

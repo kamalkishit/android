@@ -10,16 +10,31 @@
     <dimen name="snackbar_elevation">6dp</dimen>
     <dimen name="nav_drawer_elevation">16dp</dimen>
 
-    <dimen name="extraSmallMargin">8dp</dimen>
-    <dimen name="smallMargin">10dp</dimen>
+    <dimen name="extraSmallMargin">4dp</dimen>
+    <dimen name="smallMargin">8dp</dimen>
     <dimen name="mediumMargin">16dp</dimen>
     <dimen name="largeMargin">24dp</dimen>
 
-    <dimen name="smallIconSize">16dp</dimen>
-    <dimen name="mediumIconSize">24dp</dimen>
+    <dimen name="extraSmallIconSize">4dp</dimen>
+    <dimen name="smallIconSize">8dp</dimen>
+    <dimen name="mediumIconSize">16dp</dimen>
+    <dimen name="largeIconSize">24dp</dimen>
+
+    <dimen name="extraSmallSizeFont">4sp</dimen>
+    <dimen name="smallSizeFont">8sp</dimen>
+    <dimen name="mediumSizeFont">16sp</dimen>
+    <dimen name="largeSizeFont">24sp</dimen>
 
     <dimen name="nav_drawer_width">300dp</dimen>
     <dimen name="imageButtonWidth">40dp</dimen>
     <dimen name="imageButtonHeight">40dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="lineWidthSmall">1dp</dimen>
+    <dimen name="lineWidthMedium">2dp</dimen>
+    <dimen name="lineWidthLarge">4dp</dimen>
+
+    <dimen name="widthSmall">1dp</dimen>
+    <dimen name="widthMedium">2dp</dimen>
+    <dimen name="widthlarge">4dp</dimen>
 </resources>

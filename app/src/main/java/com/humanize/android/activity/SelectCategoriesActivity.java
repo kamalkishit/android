@@ -174,9 +174,9 @@ public class SelectCategoriesActivity extends AppCompatActivity {
 
     private void initialize() {
         selectedCategoriesCount = 0;
-        nextButton.setEnabled(false);
+        nextButton.setEnabled(true);
         categories = new HashSet();
-        achievers = (Button)findViewById(R.id.achievers);
+        /*achievers = (Button)findViewById(R.id.achievers);
         beautiful = (Button)findViewById(R.id.beautiful);
         education = (Button)findViewById(R.id.education);
         empowerment = (Button)findViewById(R.id.empowerment);
@@ -187,7 +187,7 @@ public class SelectCategoriesActivity extends AppCompatActivity {
         law = (Button)findViewById(R.id.law);
         realHeroes = (Button)findViewById(R.id.realHeroes);
         science = (Button)findViewById(R.id.science);
-        sports = (Button)findViewById(R.id.sports);
+        sports = (Button)findViewById(R.id.sports);*/
         achieversFlag = false;
         beautifulFlag = false;
         educationFlag = false;
@@ -218,6 +218,6 @@ public class SelectCategoriesActivity extends AppCompatActivity {
 
         nextButton = (Button)findViewById(R.id.nextButton);
         initialize();
-        configureListeners();
+        //configureListeners();
     }
 }

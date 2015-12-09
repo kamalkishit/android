@@ -11,37 +11,38 @@ import java.util.Collections;
 import java.util.List;
 
 public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDrawerAdapter.MyViewHolder> {
-    List<NavDrawerItem> data = Collections.emptyList();
-    private LayoutInflater inflater;
+
+    List<NavDrawerItem> navDrawerItemList = Collections.emptyList();
+    private LayoutInflater layoutInflater;
     private Context context;
 
-    public NavigationDrawerAdapter(Context context, List<NavDrawerItem> data) {
+    public NavigationDrawerAdapter(Context context, List<NavDrawerItem> navDrawerItemList) {
         this.context = context;
-        inflater = LayoutInflater.from(context);
-        this.data = data;
+        layoutInflater = LayoutInflater.from(context);
+        this.navDrawerItemList = navDrawerItemList;
     }
 
     public void delete(int position) {
-        data.remove(position);
+        navDrawerItemList.remove(position);
         notifyItemRemoved(position);
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.nav_drawer_row, parent, false);
+        View view = layoutInflater.inflate(R.layout.nav_drawer_row, parent, false);
         MyViewHolder holder = new MyViewHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        NavDrawerItem current = data.get(position);
+        NavDrawerItem current = navDrawerItemList.get(position);
         holder.title.setText(current.getTitle());
     }
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return navDrawerItemList.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
