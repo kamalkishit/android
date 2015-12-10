@@ -28,13 +28,15 @@ public class User {
 
     private List<String> categories;
 
-    private Time paperTime;
+    //private Time paperTime;
 
     private Set<String> likes;
 
     private Set<String> bookmarks;
 
     private Set<String> contentsCreated;
+
+    private boolean isConfigured;
 
     private long createdDate;
 
@@ -112,14 +114,6 @@ public class User {
         this.categories = categories;
     }
 
-    public Time getPaperTime() {
-        return paperTime;
-    }
-
-    public void setPaperTime(Time paperTime) {
-        this.paperTime = paperTime;
-    }
-
     public Set<String> getLikes() {
         return likes;
     }
@@ -142,6 +136,14 @@ public class User {
 
     public void setContentsCreated(Set<String> contentsCreated) {
         this.contentsCreated = contentsCreated;
+    }
+
+    public boolean getIsConfigured() {
+        return isConfigured;
+    }
+
+    public void setIsConfigured(boolean isConfigured) {
+        this.isConfigured = isConfigured;
     }
 
     public long getCreatedDate() {

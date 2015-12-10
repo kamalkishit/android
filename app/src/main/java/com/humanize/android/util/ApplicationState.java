@@ -2,6 +2,7 @@ package com.humanize.android.util;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.DisplayMetrics;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.ndk.CrashlyticsNdk;
@@ -10,6 +11,7 @@ import com.google.gson.Gson;
 import com.humanize.android.HttpResponseCallback;
 import com.humanize.android.JsonParser;
 import com.humanize.android.activity.CardActivity;
+import com.humanize.android.common.Constants;
 import com.humanize.android.content.data.Contents;
 import com.humanize.android.data.User;
 import com.humanize.android.service.BookmarkService;
@@ -39,6 +41,15 @@ public class ApplicationState extends Application{
 
     private void initialize() {
         ApplicationState.context = getApplicationContext();
+
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+
+        // total pixel width of screen - margin on both side for content card
+        int sidePixels = Math.round(Constants.MEDIUM_MARGIN * 2 * (metrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        int imageWidth = metrics.widthPixels - sidePixels;
+        int imageHeight = (imageWidth*Config.ASPECT_RATIO_WIDTH)/Config.ASPECT_RATIO_HEIGHT;
+        Config.IMAGE_WIDTH = imageWidth;
+        Config.IMAGE_HEIGHT = imageHeight;
 
         JsonParser jsonParser = new JsonParser();
 

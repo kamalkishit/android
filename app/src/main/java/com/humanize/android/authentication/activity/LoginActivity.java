@@ -143,8 +143,6 @@ public class LoginActivity extends AppCompatActivity {
         } catch (Exception exception) {
             Log.e(TAG, exception.toString());
         }
-
-
     }
 
     public void loginFailure() {

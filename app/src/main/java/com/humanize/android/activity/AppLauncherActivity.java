@@ -66,30 +66,17 @@ public class AppLauncherActivity extends AppCompatActivity {
         initialize();
         //JobScheduler.schedulePaper();
         //createAlarm();
-        startActivitya();
-        //startNextActivity();
+        startNextActivity();
     }
 
     private void initialize() {
         sharedPreferencesService = SharedPreferencesService.getInstance();
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
-        // total pixel width of screen - margin on both side for content card
-        int sidePixels = Math.round(Constants.MEDIUM_MARGIN * 2 * (metrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-        int imageWidth = metrics.widthPixels - sidePixels;
-        int imageHeight = (imageWidth*Config.ASPECT_RATIO_WIDTH)/Config.ASPECT_RATIO_HEIGHT;
-        Config.IMAGE_WIDTH = imageWidth;
-        Config.IMAGE_HEIGHT = imageHeight;
     }
 
-    private void startActivitya() {
+    private void startLoginActivity() {
         new Handler().postDelayed(new Runnable() {
             public void run() {
-                Intent intent = new Intent(getApplicationContext(), NewLoginActivity.class);
-                //ActivityOptionsCompat options = ActivityOptionsCompat.
-                  //      makeSceneTransitionAnimation(AppLauncherActivity.this, (View) title, "loginTransition");
-                startActivity(intent/*, options.toBundle()*/);
+                ActivityLauncher.startNewLoginActivity();
                 finish();
             }
         }, Constants.SPLASH_SCREEN_DELAY_TIME);
@@ -103,14 +90,13 @@ public class AppLauncherActivity extends AppCompatActivity {
         } else if (isLoggedIn){
             getUserdata();
         } else {
-            startLoginSignupActivity();
+            startLoginActivity();
         }
     }
 
     private void startCardActivity() {
         if (CardActivity.contents != null) {
-            Intent intent = new Intent(getApplicationContext(), CardActivity.class);
-            startActivity(intent);
+            ActivityLauncher.startCardActivity();
         } else {
             getContents();
         }
@@ -138,8 +124,7 @@ public class AppLauncherActivity extends AppCompatActivity {
             sharedPreferencesService.putString(Config.JSON_CONTENTS, response);
             CardActivity.contents = contents;
 
-            Intent intent = new Intent(getApplicationContext(), CardActivity.class);
-            startActivity(intent);
+            ActivityLauncher.startCardActivity();
         } catch (Exception e) {
             e.printStackTrace();
         }

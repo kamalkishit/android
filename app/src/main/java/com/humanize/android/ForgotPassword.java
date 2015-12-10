@@ -1,12 +1,11 @@
 package com.humanize.android;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +22,7 @@ public class ForgotPassword extends AppCompatActivity {
     @Bind(R.id.emailId) EditText emailId;
     @Bind(R.id.submitButton) Button submitButton;
 
+    private static final String TAG = ForgotPassword.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,17 @@ public class ForgotPassword extends AppCompatActivity {
     }
 
     private void configureListeners() {
+        emailId.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                if (emailId.getError() != null) {
+                    emailId.setError(null);
+                }
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){}
+        });
+
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,6 +69,7 @@ public class ForgotPassword extends AppCompatActivity {
         if (emailStr.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(emailStr).matches()) {
             emailId.setError(StringConstants.EMAIL_VALIDATION_ERROR_STR);
             Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.EMAIL_VALIDATION_ERROR_STR, Snackbar.LENGTH_SHORT);
+            snackbar.show();
             return false;
         }
 

@@ -49,8 +49,8 @@ public class Config {
     public static int IMAGE_WIDTH = 720;
     public static int IMAGE_HEIGHT = 405;
     public final static String IS_LOGGED_IN = "isLoggedIn";
-    public final static int PASSWORD_MIN_LENGTH = 8;
-    public final static int PASSWORD_MAX_LENGTH = 16;
+    public final static int PASSWORD_MIN_LENGTH = 4;
+    public final static int PASSWORD_MAX_LENGTH = 10;
 
     public static boolean isCallDone = false;
 

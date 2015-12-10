@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.humanize.android.HttpResponseCallback;
+import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.MediaType;
@@ -57,19 +58,7 @@ public class HttpUtil {
     public void getContents(Callback callback) {
         String url = Config.CONTENT_FIND_URL;
 
-        //ArrayList<String> categories = new ArrayList<String>(ApplicationState.getUser().getCategories());
-
-        ArrayList<String> categories = new ArrayList<>();
-        categories.add("Education");
-        categories.add("Health");
-        categories.add("Environment");
-        categories.add("Humanity");
-        categories.add("Empowerment");
-        categories.add("Real Heroes");
-        categories.add("Achievers");
-        categories.add("Sports");
-        categories.add("Governance");
-        categories.add("Beautiful");
+        ArrayList<String> categories = new ArrayList<String>(ApplicationState.getUser().getCategories());
 
         if (categories != null) {
             url = url + "?categories=";
@@ -84,17 +73,7 @@ public class HttpUtil {
     public void refreshContents(String endDate, Callback callback) {
         String url = Config.CONTENT_FIND_URL;
 
-        ArrayList<String> categories = new ArrayList<>();
-        categories.add("Education");
-        categories.add("Health");
-        categories.add("Environment");
-        categories.add("Humanity");
-        categories.add("Empowerment");
-        categories.add("Real Heroes");
-        categories.add("Achievers");
-        categories.add("Sports");
-        categories.add("Governance");
-        categories.add("Beautiful");
+        ArrayList<String> categories = new ArrayList<String>(ApplicationState.getUser().getCategories());
 
         if (categories != null) {
             url = url + "?categories=";
@@ -114,11 +93,28 @@ public class HttpUtil {
 
     public void getMoreContents(String startDate, final HttpResponseCallback httpResponseCallback) {
         String url = Config.CONTENT_FIND_URL;
+
+        ArrayList<String> categories = new ArrayList<String>(ApplicationState.getUser().getCategories());
+
+        if (categories != null) {
+            url = url + "?categories=";
+
+            for (String category: categories) {
+                url += category + ",";
+            }
+        }
         if (startDate != null) {
             url += "?startdate=" + startDate;
         }
 
         get(url, httpResponseCallback);
+    }
+
+    public void inviteUser(String emailId, final Callback callback) {
+        String url = Config.USER_INVITE_URL;
+        url += "?emailId=" + emailId;
+
+        get(url, callback);
     }
 
     public void getMoreContents(String startDate, Callback callback) {
@@ -157,6 +153,11 @@ public class HttpUtil {
     public void login(String url, String json, Callback callback) {
         System.out.println(json);
         post(url, json, callback);
+    }
+
+    public void login(String url, String emailId, String password, Callback callback) {
+        url += "?emailId=" + emailId + "&password=" + password;
+        get(url, callback);
     }
 
     public void signup(String url, String json, Callback callback) {

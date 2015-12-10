@@ -45,7 +45,7 @@ public class PaperReminderActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Time time = new Time(timePicker.getCurrentHour().intValue(), timePicker.getCurrentMinute().intValue(), 0);
                 (new AlarmHelper()).createAlarm(time);
-                ApplicationState.getUser().setPaperTime(new Time(time.getHours(), time.getMinutes(), time.getSeconds()));
+                //ApplicationState.getUser().setPaperTime(new Time(time.getHours(), time.getMinutes(), time.getSeconds()));
                 navigatetoMainActivity();
             }
         });

@@ -21,7 +21,6 @@ import com.humanize.android.R;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 public class CameraActivity extends AppCompatActivity {
@@ -82,7 +81,7 @@ public class CameraActivity extends AppCompatActivity {
         }
 
         // Create a media file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+        /*String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
                 Locale.getDefault()).format(new Date());
         File mediaFile;
         if (type == MEDIA_TYPE_IMAGE) {
@@ -93,9 +92,10 @@ public class CameraActivity extends AppCompatActivity {
                     + "VID_" + timeStamp + ".mp4");
         } else {
             return null;
-        }
+        }*/
 
-        return mediaFile;
+        //return mediaFile;
+        return null;
     }
 
     @Override

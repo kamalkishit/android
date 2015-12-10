@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -57,10 +59,11 @@ public class CardActivity extends AppCompatActivity {
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.recyclerView) RecyclerView recyclerView;
     @Bind(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
-
+    @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
     private FragmentDrawer fragmentDrawer;
     private RecyclerViewAdapter recyclerViewAdapter;
     private LinearLayoutManager linearLayoutManager;
+    private boolean doubleBackToExitPressedOnce;
 
     private static String TAG = CardActivity.class.getSimpleName();
 
@@ -75,7 +78,28 @@ public class CardActivity extends AppCompatActivity {
         configureListeners();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.DOUBLE_BACK_EXIT_STR, Snackbar.LENGTH_SHORT);
+        snackbar.show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, Constants.DOUBLE_EXIT_DELAY_TIME);
+    }
+
     private void initialize() {
+        doubleBackToExitPressedOnce = false;
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimaryDark, R.color.colorPrimary, R.color.colorAccent);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -216,14 +240,14 @@ public class CardActivity extends AppCompatActivity {
 
             protected Content content;
             protected String id;
-            @Bind(R.id.contentTitle) TextView contentTitle;
-            @Bind(R.id.contentDescription) TextView contentDescription;
-            @Bind(R.id.contentImage) ImageView contentImage;
+            protected TextView contentTitle;
+            protected TextView contentDescription;
+            protected ImageView contentImage;
             //@Bind(R.id.contentSource) TextView contentSource;
             //@Bind(R.id.contentCategory) TextView contentCategory;
-            @Bind(R.id.recommendButton) Button recommendButton;
-            @Bind(R.id.bookmarkButton) Button bookmarkButton;
-            @Bind(R.id.shareButton) Button shareButton;
+            protected Button recommendButton;
+            protected Button bookmarkButton;
+            protected Button shareButton;
 
             private UserService userService;
             private ContentService contentService;
@@ -234,6 +258,12 @@ public class CardActivity extends AppCompatActivity {
                 this.shareableContentView = view;
                 userService = new UserService(ApplicationState.getUser());
                 contentService = ContentService.getInstance();
+                contentTitle = (TextView) view.findViewById(R.id.contentTitle);
+                contentDescription = (TextView) view.findViewById(R.id.contentDescription);
+                contentImage = (ImageView) view.findViewById(R.id.contentImage);
+                recommendButton = (Button) view.findViewById(R.id.recommendButton);
+                bookmarkButton = (Button) view.findViewById(R.id.bookmarkButton);
+                shareButton = (Button) view.findViewById(R.id.shareButton);
 
                 //ButterKnife.bind(this);
 
