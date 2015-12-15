@@ -1,5 +1,6 @@
 package com.humanize.android.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,7 +12,9 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -25,6 +28,7 @@ import com.humanize.android.common.Constants;
 import com.humanize.android.HttpResponseCallback;
 import com.humanize.android.JsonParser;
 import com.humanize.android.R;
+import com.humanize.android.common.StringConstants;
 import com.humanize.android.content.data.Content;
 import com.humanize.android.content.data.Contents;
 import com.humanize.android.util.Config;
@@ -47,7 +51,7 @@ public class SubmitActivity extends AppCompatActivity {
     @Bind(R.id.submitButton) Button submitButton;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.categoriesSpinner) Spinner categoriesSpinner;
-    @Bind(R.id.subCategoriesSpinner) Spinner subCategoriesSpinner;
+    //@Bind(R.id.subCategoriesSpinner) Spinner subCategoriesSpinner;
 
     private Content content;
 
@@ -72,17 +76,15 @@ public class SubmitActivity extends AppCompatActivity {
         categoriesSpinner.setOnItemSelectedListener(new SpinnerCategoriesHandler());
         //subCategoriesSpinner.setOnItemSelectedListener(new SpinnnerSubCategoriesHandler());
 
-        ArrayAdapter<CharSequence> categoriesAdapter = ArrayAdapter.createFromResource(this,
-                R.array.categories, R.layout.spinner_item);
+        ArrayAdapter<CharSequence> categoriesAdapter = ArrayAdapter.createFromResource(this, R.array.categories, R.layout.spinner_item);
 
-        ArrayAdapter<CharSequence> subcategoriesAdapter = ArrayAdapter.createFromResource(this,
-                R.array.subCategories, R.layout.spinner_item);
+        ArrayAdapter<CharSequence> subcategoriesAdapter = ArrayAdapter.createFromResource(this, R.array.subCategories, R.layout.spinner_item);
 
         categoriesAdapter.setDropDownViewResource(R.layout.spinner_categories);
         categoriesSpinner.setAdapter(categoriesAdapter);
 
         subcategoriesAdapter.setDropDownViewResource(R.layout.spinner_categories);
-        subCategoriesSpinner.setAdapter(subcategoriesAdapter);
+        //subCategoriesSpinner.setAdapter(subcategoriesAdapter);
         //categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
 
@@ -103,11 +105,22 @@ public class SubmitActivity extends AppCompatActivity {
             }
         });
 
+        categoriesSpinner.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                return false;
+            }
+        }) ;
+
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (contentURL.getText().toString().length() == 0) {
-                    Snackbar.make(view, "URL is empty", Snackbar.LENGTH_SHORT).show();
+                String contentURLStr = contentURL.getText().toString();
+                if (contentURLStr.isEmpty()) {
+                    Snackbar.make(view, StringConstants.URL_VALIDATION_ERROR_STR, Snackbar.LENGTH_LONG).show();
                 } else {
                     submit(view);
                 }
@@ -138,17 +151,17 @@ public class SubmitActivity extends AppCompatActivity {
     }
 
     private boolean validate() {
-        if (contentURL == null || contentURL.getText().length() == 0) {
+        if (contentURL == null || contentURL.getText().toString().isEmpty()) {
             Toast.makeText(getApplicationContext(), "URL is null", Toast.LENGTH_LONG).show();
             return false;
         }
 
         if (!isValidUrl(contentURL.getText().toString())) {
-            Toast.makeText(getApplicationContext(), "URL is invalid", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), StringConstants.URL_VALIDATION_ERROR_STR, Toast.LENGTH_LONG).show();
             return false;
         }
 
-        if (content.getCategory() == null || content.getCategory().length() == 0 || content.getCategory().equals("Select Category")) {
+        if (content.getCategory() == null || content.getCategory().isEmpty() || content.getCategory().equals("Select Category")) {
             Toast.makeText(getApplicationContext(), "Please select category", Toast.LENGTH_LONG).show();
             return false;
         }
@@ -163,6 +176,10 @@ public class SubmitActivity extends AppCompatActivity {
 
     private void failure(View view, String errorMsg) {
         Snackbar.make(view, errorMsg, Snackbar.LENGTH_SHORT).show();
+    }
+
+    public void onCheckboxClicked(View view) {
+
     }
 
     public class SpinnerCategoriesHandler implements OnItemSelectedListener {
@@ -220,13 +237,13 @@ public class SubmitActivity extends AppCompatActivity {
 
             if (contentURL != null && contentURL.getText().length() > 0) {
                 if (content.getCategory() != null) {
-                    subCategoriesSpinner.setSelection(position);
+                    //subCategoriesSpinner.setSelection(position);
                     ArrayList<String> arrayList = new ArrayList<>();
                     arrayList.add(parent.getItemAtPosition(position).toString());
                     content.setSubCategories(arrayList);
                     submitButton.setEnabled(true);
                 } else {
-                    subCategoriesSpinner.setSelection(0);
+                    //subCategoriesSpinner.setSelection(0);
                     Snackbar.make(view, "Please select category first", Snackbar.LENGTH_SHORT).show();
                 }
             } else {

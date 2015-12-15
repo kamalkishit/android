@@ -9,4 +9,4 @@
     android:clickable="true"
     android:textSize="@dimen/mediumSizeFont"
     android:background="@color/colorWhite"
-    android:textColor="@color/colorBlack" />
+    android:textColor="@color/colorPrimary" />

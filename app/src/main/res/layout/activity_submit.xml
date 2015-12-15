@@ -18,7 +18,7 @@
         </include>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <!--<android.support.design.widget.TextInputLayout
         android:id="@+id/textInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,37 +33,82 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorBlack"
             android:hint="Paste a URL" />
-    </android.support.design.widget.TextInputLayout>
+    </android.support.design.widget.TextInputLayout> -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginRight="36dp"
+        android:background="@drawable/border_button_green"
+        android:layout_below="@id/appbarLayout"
+        android:id="@+id/linearLayoutEmail" >
+
+        <EditText
+            android:id="@+id/contentUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/smallMargin"
+            android:layout_marginTop="@dimen/smallMargin"
+            android:layout_marginBottom="@dimen/smallMargin"
+            android:textColor="@color/colorPrimary"
+            android:background="@null"
+            android:hint="Enter URL"
+            android:textColorHint="@color/colorPrimary"
+            android:inputType="textEmailAddress"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+    </LinearLayout>
 
     <Spinner
         android:id="@+id/categoriesSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/mediumMargin"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginRight="36dp"
         android:layout_centerHorizontal="true"
+        android:dropDownSelector="@drawable/spinner_ripple"
+        android:backgroundTint="@color/colorSecondary"
         style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-        android:layout_below="@+id/textInput" />
+        android:layout_below="@+id/linearLayoutEmail" />
 
-    <Spinner
+    <!--<Spinner
         android:id="@+id/subCategoriesSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:layout_marginRight="36dp"
         android:layout_marginTop="@dimen/mediumMargin"
         android:layout_marginBottom="@dimen/mediumMargin"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/categoriesSpinner"
-        style="@style/Base.Widget.AppCompat.Spinner.Underlined" />
+        android:backgroundTint="@color/colorSecondary"
+        style="@style/Base.Widget.AppCompat.Spinner.Underlined" />-->
+
+    <CheckBox android:id="@+id/checkbox_meat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/mediumMargin"
+        android:layout_below="@id/categoriesSpinner"
+        android:scaleX=".8"
+        android:scaleY=".8"
+        android:text="have you verified the article"
+        android:textColor="@color/colorPrimary"
+        android:buttonTint="@color/colorSecondary"
+        android:layout_centerHorizontal="true"
+        android:onClick="onCheckboxClicked"/>
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/submitButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/mediumMargin"
-        android:layout_marginRight="@dimen/mediumMargin"
-        android:layout_marginTop="@dimen/mediumMargin"
-        android:layout_below="@id/subCategoriesSpinner"
+        android:layout_marginLeft="36dp"
+        android:layout_marginRight="36dp"
+        android:layout_marginTop="24dp"
+        android:layout_below="@id/checkbox_meat"
         android:foreground="?android:attr/selectableItemBackground"
-        android:background="@color/colorAccent"
+        android:background="@drawable/button_selector"
         android:clickable="true"
         android:textColor="@color/colorBlack"
         android:text="SUBMIT"

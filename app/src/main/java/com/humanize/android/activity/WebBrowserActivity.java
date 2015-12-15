@@ -28,6 +28,9 @@ public class WebBrowserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_web_browser);
 
         ButterKnife.bind(this);
+
+        initialize();
+        configureListeners();
     }
 
     private void initialize() {
@@ -39,6 +42,10 @@ public class WebBrowserActivity extends AppCompatActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(intent.getStringExtra(Config.CONTENT_URL));
         //browser.loadUrl(CardActivity.RecyclerViewAdapter.contents.getContents().get(CardActivity.RecyclerViewAdapter.currentItem).getContentURL());
+    }
+
+    private void configureListeners() {
+
     }
 
     @Override

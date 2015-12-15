@@ -9,17 +9,13 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.google.gson.Gson;
 import com.humanize.android.AlarmReceiver;
-import com.humanize.android.HttpResponseCallback;
 import com.humanize.android.NewLoginActivity;
 import com.humanize.android.R;
 import com.humanize.android.authentication.activity.LoginActivity;
@@ -27,6 +23,7 @@ import com.humanize.android.common.Constants;
 import com.humanize.android.common.StringConstants;
 import com.humanize.android.content.data.Contents;
 import com.humanize.android.data.User;
+import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.service.BookmarkService;
 import com.humanize.android.service.LikeService;
 import com.humanize.android.util.ApplicationState;
@@ -39,8 +36,6 @@ import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -76,7 +71,11 @@ public class AppLauncherActivity extends AppCompatActivity {
     private void startLoginActivity() {
         new Handler().postDelayed(new Runnable() {
             public void run() {
-                ActivityLauncher.startNewLoginActivity();
+                Intent intent = new Intent(getApplicationContext(), NewLoginActivity.class);
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation(AppLauncherActivity.this, (View)title, "loginTransition");
+                startActivity(intent, options.toBundle());
+                //ActivityLauncher.startNewLoginActivity();
                 finish();
             }
         }, Constants.SPLASH_SCREEN_DELAY_TIME);

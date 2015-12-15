@@ -41,7 +41,7 @@ public class PaperNotifier extends Activity {
     public void load(View view) {
         System.out.println("load");
         HttpUtil httpUtil = HttpUtil.getInstance();
-        httpUtil.getContents(new HttpResponseCallback() {
+        /*httpUtil.getContents(new HttpResponseCallback() {
             @Override
             public void onSuccess(String response) {
                 try {
@@ -60,7 +60,7 @@ public class PaperNotifier extends Activity {
             public void onFailure(String errorMsg) {
                 System.out.println("failure");
             }
-        });
+        });*/
     }
 }
 

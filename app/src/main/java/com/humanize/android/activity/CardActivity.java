@@ -158,12 +158,6 @@ public class CardActivity extends AppCompatActivity {
         } else if (id == R.id.action_create) {
             Intent intent = new Intent(getApplicationContext(), SubmitActivity.class);
             startActivity(intent);
-        } else if (id == R.id.action_camera) {
-            Intent intent = new Intent(getApplicationContext(), CameraActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.action_search) {
-            Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
-            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -201,8 +195,8 @@ public class CardActivity extends AppCompatActivity {
             viewHolder.id = content.getId();
             viewHolder.contentTitle.setText(content.getTitle());
             viewHolder.contentDescription.setText(content.getDescription());
-            //viewHolder.source.setText(content.getSource());
-            //viewHolder.category.setText(content.getCategory());
+            viewHolder.contentSource.setText(content.getSource());
+            viewHolder.contentCategory.setText(content.getCategory());
             //viewHolder.imageView.setImageResource(R.drawable.background);
             viewHolder.contentImage.getLayoutParams().width = Config.IMAGE_WIDTH;
             viewHolder.contentImage.getLayoutParams().height = Config.IMAGE_HEIGHT;
@@ -220,8 +214,8 @@ public class CardActivity extends AppCompatActivity {
             }*/
 
             Picasso.with(ApplicationState.getAppContext()).load(content.getOriginalImageURL())
-                    .placeholder(R.drawable.background).resize(Config.IMAGE_WIDTH, Config.IMAGE_HEIGHT)
-                    .into(viewHolder.contentImage);
+                    .placeholder(R.drawable.background)//.resize(Config.IMAGE_WIDTH, Config.IMAGE_HEIGHT)
+                    .fit().into(viewHolder.contentImage);
             /*Picasso.with(ApplicationState.getAppContext()).load("http://www.storypick.com/wp-content/uploads/2015/11/awesome-dad-cover.jpg")
                     .placeholder(R.drawable.background).resize(Config.IMAGE_WIDTH, Config.IMAGE_HEIGHT)
                     .into(viewHolder.imageView);*/
@@ -243,8 +237,8 @@ public class CardActivity extends AppCompatActivity {
             protected TextView contentTitle;
             protected TextView contentDescription;
             protected ImageView contentImage;
-            //@Bind(R.id.contentSource) TextView contentSource;
-            //@Bind(R.id.contentCategory) TextView contentCategory;
+            @Bind(R.id.contentSource) TextView contentSource;
+            @Bind(R.id.contentCategory) TextView contentCategory;
             protected Button recommendButton;
             protected Button bookmarkButton;
             protected Button shareButton;
@@ -258,6 +252,8 @@ public class CardActivity extends AppCompatActivity {
                 this.shareableContentView = view;
                 userService = new UserService(ApplicationState.getUser());
                 contentService = ContentService.getInstance();
+                contentCategory = (TextView) view.findViewById(R.id.contentCategory);
+                contentSource = (TextView) view.findViewById(R.id.contentSource);
                 contentTitle = (TextView) view.findViewById(R.id.contentTitle);
                 contentDescription = (TextView) view.findViewById(R.id.contentDescription);
                 contentImage = (ImageView) view.findViewById(R.id.contentImage);

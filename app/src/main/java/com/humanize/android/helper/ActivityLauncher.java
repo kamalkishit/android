@@ -1,8 +1,12 @@
-package com.humanize.android.activity;
+package com.humanize.android.helper;
 
 import android.content.Intent;
 
 import com.humanize.android.NewLoginActivity;
+import com.humanize.android.activity.BookmarksActivity;
+import com.humanize.android.activity.CardActivity;
+import com.humanize.android.activity.LikesActivity;
+import com.humanize.android.activity.PaperActivity;
 import com.humanize.android.util.ApplicationState;
 
 /**

@@ -28,8 +28,6 @@ public class User {
 
     private List<String> categories;
 
-    //private Time paperTime;
-
     private Set<String> likes;
 
     private Set<String> bookmarks;
@@ -37,6 +35,8 @@ public class User {
     private Set<String> contentsCreated;
 
     private boolean isConfigured;
+
+    private long paperConfigurationDate;
 
     private long createdDate;
 
@@ -144,6 +144,14 @@ public class User {
 
     public void setIsConfigured(boolean isConfigured) {
         this.isConfigured = isConfigured;
+    }
+
+    public long getPaperConfigurationDate() {
+        return paperConfigurationDate;
+    }
+
+    public void setPaperConfigurationDate(long paperConfigurationDate) {
+        this.paperConfigurationDate = paperConfigurationDate;
     }
 
     public long getCreatedDate() {
