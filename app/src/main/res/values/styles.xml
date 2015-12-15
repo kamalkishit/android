@@ -1,10 +1,10 @@
 <resources>
 
-    <style name="MyMaterialTheme" parent="MyMaterialTheme.Base"></style>
+    <style name="MaterialDesignTheme" parent="MaterialDesignTheme.Base"></style>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar"></style>
 
-    <style name="MyMaterialTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="MaterialDesignTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="colorPrimary">@color/colorPrimary</item>

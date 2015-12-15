@@ -3,28 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.contentws.cws.Activity.WebBrowserActivity" >
-
-    <View
-        android:id="@+id/line"
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="@dimen/smallMargin"
-        android:layout_marginRight="@dimen/smallMargin"
-        android:transitionName="webViewTransition"
-        android:background="@android:color/darker_gray"/>
+    android:layout_height="match_parent" >
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="6dp" />
 
     <WebView
         android:id="@+id/webView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/progressBar" />
 </RelativeLayout>
 

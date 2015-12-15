@@ -176,8 +176,8 @@ public class CardActivity extends AppCompatActivity {
         HttpUtil.getInstance().refreshContents(endDate, new NewContentCallback());
     }
 
-    public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
-        protected Contents contents = null;
+    protected class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+        private Contents contents = null;
 
         public RecyclerViewAdapter(Contents contents) {
             this.contents = contents;
