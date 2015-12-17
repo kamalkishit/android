@@ -1,4 +1,4 @@
-package com.humanize.android;
+package com.humanize.android.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -11,18 +11,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.humanize.android.R;
 import com.humanize.android.common.StringConstants;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ForgotPassword extends AppCompatActivity {
+public class ForgotPasswordActivity extends AppCompatActivity {
 
     @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
     @Bind(R.id.emailId) EditText emailId;
     @Bind(R.id.submitButton) Button submitButton;
 
-    private static final String TAG = ForgotPassword.class.getSimpleName();
+    private static final String TAG = ForgotPasswordActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

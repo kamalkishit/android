@@ -8,19 +8,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.humanize.android.AlarmReceiver;
 import com.humanize.android.JsonParser;
-import com.humanize.android.NewLoginActivity;
 import com.humanize.android.R;
-import com.humanize.android.authentication.activity.LoginActivity;
 import com.humanize.android.common.Constants;
 import com.humanize.android.common.StringConstants;
 import com.humanize.android.content.data.Contents;
@@ -71,7 +67,7 @@ public class AppLauncherActivity extends AppCompatActivity {
     private void startLoginActivity() {
         new Handler().postDelayed(new Runnable() {
             public void run() {
-                Intent intent = new Intent(getApplicationContext(), NewLoginActivity.class);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
                 finish();
             }

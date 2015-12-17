@@ -1,4 +1,4 @@
-package com.humanize.android;
+package com.humanize.android.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -14,16 +14,17 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.humanize.android.activity.AppLauncherActivity;
-import com.humanize.android.activity.InvitationCodeActivity;
-import com.humanize.android.activity.SelectCategoriesActivity;
+import com.humanize.android.JsonParser;
+import com.humanize.android.R;
 import com.humanize.android.common.Constants;
 import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.User;
+import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
@@ -37,22 +38,25 @@ import java.io.IOException;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class NewRegisterActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
     @Bind(R.id.emailId) EditText emailId;
     @Bind(R.id.password) EditText password;
-    @Bind(R.id.invitationCode) EditText invitationCode;
     @Bind(R.id.submitButton) Button submitButton;
-    @Bind(R.id.invitationCodeLink) TextView invitationCodeLink;
+    @Bind(R.id.forgotPasswordLink) TextView forgotPasswordLink;
+    @Bind(R.id.registerLink) TextView registerLink;
 
     private ProgressDialog progressDialog;
-    private static final String TAG = NewRegisterActivity.class.getSimpleName();
+    private boolean doubleBackToExitPressedOnce;
+    private ActivityLauncher activityLauncher;
+
+    private static final String TAG = LoginActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_register);
+        setContentView(R.layout.activity_login);
 
         ButterKnife.bind(this);
 
@@ -60,9 +64,33 @@ public class NewRegisterActivity extends AppCompatActivity {
         configureListeners();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.DOUBLE_BACK_EXIT_STR, Snackbar.LENGTH_SHORT);
+        snackbar.show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, Constants.DOUBLE_EXIT_DELAY_TIME);
+    }
+
     private void initialize() {
         progressDialog = new ProgressDialog(this);
-        invitationCodeLink.setText(Html.fromHtml(StringConstants.INVITATION_CODE_STR));
+        activityLauncher = new ActivityLauncher();
+        doubleBackToExitPressedOnce = false;
+        forgotPasswordLink.setText(Html.fromHtml(StringConstants.FORGOT_PASSWORD_STR));
+        registerLink.setText(Html.fromHtml(StringConstants.REGISTER_STR));
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
     private void configureListeners() {
@@ -90,38 +118,49 @@ public class NewRegisterActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count){}
         });
 
-        invitationCode.addTextChangedListener(new TextWatcher() {
-            // after every change has been made to this editText, we would like to check validity
-            public void afterTextChanged(Editable s) {
-                if (invitationCode.getError() != null) {
-                    invitationCode.setError(null);
-                }
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-            public void onTextChanged(CharSequence s, int start, int before, int count){}
-        });
-
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signup();
+                login();
             }
         });
 
-        invitationCodeLink.setOnClickListener(new View.OnClickListener() {
+        forgotPasswordLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), InvitationCodeActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ForgotPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        registerLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
                 startActivity(intent);
             }
         });
     }
 
-    private boolean validate() {
+    private void login() {
+        if (validate()) {
+            submitButton.setEnabled(false);
+
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage(StringConstants.AUTHENTICATING);
+            progressDialog.show();
+
+            User user = new User();
+            user.setEmailId(emailId.getText().toString());
+            user.setPassword(password.getText().toString());
+
+            HttpUtil.getInstance().login(Config.USER_LOGIN_URL, emailId.getText().toString(), password.getText().toString(), new LoginCallback());
+        }
+    }
+
+    public boolean validate() {
         String emailStr = emailId.getText().toString();
         String passwordStr = password.getText().toString();
-        String invitationCodeStr = invitationCode.getText().toString();
 
         if (emailStr.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(emailStr).matches()) {
             emailId.setError(StringConstants.EMAIL_VALIDATION_ERROR_STR);
@@ -137,37 +176,10 @@ public class NewRegisterActivity extends AppCompatActivity {
             return false;
         }
 
-        if (invitationCodeStr.isEmpty()) {
-            invitationCode.setError(StringConstants.INVITATION_CODE_VALIDATION_ERROR_STR);
-            Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.INVITATION_CODE_VALIDATION_ERROR_STR, Snackbar.LENGTH_SHORT);
-            snackbar.show();
-            return false;
-        }
-
         return true;
     }
 
-    private void signup() {
-        if (validate()) {
-            submitButton.setEnabled(false);
-            progressDialog.setIndeterminate(true);
-            progressDialog.setMessage("Registering...");
-            progressDialog.show();
-
-            User user = new User();
-            user.setEmailId(emailId.getText().toString());
-            user.setPassword(password.getText().toString());
-            user.setInvitationCode(invitationCode.getText().toString());
-
-            try {
-                HttpUtil.getInstance().signup(Config.USER_SIGNUP_URL, new JsonParser().toJson(user), new SignupCallback());
-            } catch (Exception exception) {
-                Log.e(TAG, exception.toString());
-            }
-        }
-    }
-
-    private void signupSuccess(String response) {
+    private void loginSuccess(String response) {
         try {
             User user = new JsonParser().fromJson(response, User.class);
 
@@ -175,9 +187,12 @@ public class NewRegisterActivity extends AppCompatActivity {
                 ApplicationState.setUser(user);
                 SharedPreferencesService.getInstance().putBoolean(Config.IS_LOGGED_IN, true);
                 SharedPreferencesService.getInstance().putString(Config.USER_DATA_JSON, response);
-
-                Intent intent = new Intent(getApplicationContext(), SelectCategoriesActivity.class);
-                startActivity(intent);
+                if (user.getIsConfigured()) {
+                    activityLauncher.startCardActivity(coordinatorLayout);
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), SelectCategoriesActivity.class);
+                    startActivity(intent);
+                }
             } else {
                 Log.e(TAG, "user is null");
             }
@@ -186,7 +201,7 @@ public class NewRegisterActivity extends AppCompatActivity {
         }
     }
 
-    private class SignupCallback implements Callback {
+    private class LoginCallback implements Callback {
 
         @Override
         public void onFailure(Request request, IOException exception) {
@@ -195,10 +210,9 @@ public class NewRegisterActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     progressDialog.dismiss();
-                    submitButton.setEnabled(true);
-                    Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG);
                     snackbar.show();
-                    //Toast.makeText(getApplicationContext(), StringConstants.NETWORK_CONNECTION_ERROR_STR, Toast.LENGTH_LONG).show();
+                    submitButton.setEnabled(true);
                 }
             });
         }
@@ -210,9 +224,9 @@ public class NewRegisterActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         progressDialog.dismiss();
-                        submitButton.setEnabled(true);
-                        Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.FAILURE_STR, Snackbar.LENGTH_SHORT);
+                        Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.LOGIN_FAILURE_STR, Snackbar.LENGTH_LONG);
                         snackbar.show();
+                        submitButton.setEnabled(true);
                     }
                 });
             } else {
@@ -221,8 +235,7 @@ public class NewRegisterActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         progressDialog.dismiss();
-                        submitButton.setEnabled(true);
-                        signupSuccess(responseStr);
+                        loginSuccess(responseStr);
                     }
                 });
             }

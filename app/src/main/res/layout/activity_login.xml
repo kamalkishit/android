@@ -1,80 +1,116 @@
-<ScrollView
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.contentws.cws.Activity.LoginActivity" >
+    android:background="@color/colorPrimary"
+    tools:context=".activity.LoginActivity">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp" >
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/appbarLayout"
+        <TextView
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhite">
+            android:layout_marginTop="100dp"
+            android:gravity="center"
+            android:transitionName="loginTransition"
+            android:textColor="@color/colorWhite"
+            android:text="HUMANIZE"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <include
-                android:id="@+id/toolbar"
-                layout="@layout/toolbar">
-            </include>
-        </android.support.design.widget.AppBarLayout>
+        <View
+            android:id="@+id/line"
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:layout_marginLeft="@dimen/smallMargin"
+            android:layout_marginRight="@dimen/smallMargin"
+            android:layout_marginTop="@dimen/mediumMargin"
+            android:layout_marginBottom="40dp"
+            android:background="@color/colorWhite" />
 
-        <android.support.design.widget.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/smallMargin"
-            android:layout_marginBottom="@dimen/smallMargin"
-            android:paddingLeft="@dimen/mediumMargin"
-            android:paddingRight="@dimen/mediumMargin">
+            android:background="@color/colorWhite"
+            android:id="@+id/linearLayoutEmail" >
 
             <EditText
                 android:id="@+id/emailId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorBlack"
-                android:inputType="textEmailAddress" />
+                android:layout_marginLeft="@dimen/smallMargin"
+                android:layout_marginTop="@dimen/smallMargin"
+                android:layout_marginBottom="@dimen/smallMargin"
+                android:textColor="@color/colorPrimary"
+                android:background="@null"
+                android:hint="Enter Email Address"
+                android:textColorHint="@color/colorPrimary"
+                android:inputType="textEmailAddress"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </LinearLayout>
 
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/mediumMargin"
-            android:paddingRight="@dimen/mediumMargin"
-            android:paddingBottom="@dimen/smallMargin">
+            android:layout_marginTop="25dp"
+            android:background="@color/colorWhite"
+            android:id="@+id/linearLayoutPassword" >
 
             <EditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/smallMargin"
+                android:layout_marginTop="@dimen/smallMargin"
+                android:layout_marginBottom="@dimen/smallMargin"
+                android:textColor="@color/colorPrimary"
+                android:background="@null"
+                android:hint="Enter Password"
+                android:textColorHint="@color/colorPrimary"
                 android:inputType="textPassword"
-                android:textColor="@color/colorBlack" />
-        </android.support.design.widget.TextInputLayout>
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/forgotPasswordLink"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/smallMargin"
+            android:layout_marginBottom="@dimen/smallMargin"
+            android:textColor="@color/colorWhite"
+            android:gravity="right"
+            android:text="Forgot Password?"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/loginButton"
+            android:id="@+id/submitButton"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/mediumMargin"
-            android:layout_marginBottom="@dimen/mediumMargin"
-            android:layout_marginLeft="@dimen/mediumMargin"
-            android:layout_marginRight="@dimen/mediumMargin"
-            android:transitionName="loginTransition"
             android:textColor="@color/colorWhite"
-            android:background="@color/colorAccent"
+            android:background="@drawable/button_selector"
             android:text="LOGIN" />
 
-        <!--<TextView
-            android:id="@+id/signupLink"
-            android:layout_width="fill_parent"
+        <TextView
+            android:id="@+id/registerLink"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/mediumMargin"
-            android:text="No account yet? Create one"
+            android:layout_marginTop="@dimen/largeMargin"
+            android:layout_marginBottom="@dimen/smallMargin"
+            android:textColor="@color/colorWhite"
             android:gravity="center"
-            android:textSize="16dp"/>-->
+            android:text="Dont have an account? Please register"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
     </LinearLayout>
-</ScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

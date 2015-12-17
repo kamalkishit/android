@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class LikesActivity extends AppCompatActivity {
+public class RecommendationsActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbarText) TextView toolbarText;
     @Bind(R.id.recyclerView) RecyclerView recyclerView;
@@ -35,7 +35,7 @@ public class LikesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_likes);
+        setContentView(R.layout.activity_recommendations);
 
         ButterKnife.bind(this);
 
@@ -67,7 +67,7 @@ public class LikesActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_likes, menu);
+        getMenuInflater().inflate(R.menu.menu_recommendations, menu);
         return true;
     }
 

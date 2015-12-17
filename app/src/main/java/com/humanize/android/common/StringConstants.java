@@ -23,6 +23,8 @@ public class StringConstants {
     public static String PAPER = "Paper";
     public static String RECOMMEND_ARTICLE = "Recommend an Article";
     public static String SELECT_CATEGORY = "Select a Category";
+    public static String REGISTERING = "Registering...";
+    public static String AUTHENTICATING = "Authenticating...";
 
     public static String NETWORK_CONNECTION_ERROR_STR = "Network connection error";
     public static String FAILURE_STR = "Failure";

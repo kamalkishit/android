@@ -8,9 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 
-import com.humanize.android.authentication.activity.SignupActivity;
 import com.humanize.android.data.User;
-import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
 import com.squareup.okhttp.Callback;

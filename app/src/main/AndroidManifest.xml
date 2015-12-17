@@ -22,17 +22,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
         <activity
-            android:name=".authentication.activity.LoginActivity"
-            android:label="HUMANIZE"
-            android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme" />
-        <activity
-            android:name=".authentication.activity.SignupActivity"
-            android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme" />
-        <activity
             android:name=".activity.WebBrowserActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
@@ -80,7 +69,7 @@
             android:value="03639786c99eae8b1629cad76bcef8cb5ffa2aeb" />
 
         <activity
-            android:name=".activity.LikesActivity"
+            android:name=".activity.RecommendationsActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
@@ -93,12 +82,12 @@
             android:name=".activity.SelectCategoriesActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme"></activity>
+            android:theme="@style/MaterialDesignTheme" />
         <activity
             android:name=".activity.PaperReminderActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme"></activity>
+            android:theme="@style/MaterialDesignTheme" />
         <activity
             android:name=".activity.AppLauncherActivity"
             android:label="Humanize"
@@ -112,37 +101,51 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NewLoginActivity"
+            android:name=".activity.LoginActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme"
-            android:windowSoftInputMode="stateVisible|adjustResize">
-        </activity>
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
-            android:name=".NewRegisterActivity"
+            android:name=".activity.SignupActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme">
-        </activity>
+            android:theme="@style/MaterialDesignTheme" />
         <activity
-            android:name=".ForgotPassword"
+            android:name=".activity.ForgotPasswordActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme">
-        </activity>
+            android:theme="@style/MaterialDesignTheme" />
         <activity
             android:name=".activity.InvitationCodeActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme">
-        </activity>
+            android:theme="@style/MaterialDesignTheme" />
         <activity
             android:name=".activity.RecommendArticleActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme">
-
-        </activity>
+            android:theme="@style/MaterialDesignTheme" />
+        <activity
+            android:name=".activity.AboutUsActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/MaterialDesignTheme" />
+        <activity
+            android:name=".activity.UsageActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/MaterialDesignTheme" />
+        <activity
+            android:name=".activity.PrivacyActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/MaterialDesignTheme" />
+        <activity
+            android:name=".activity.ContactUsActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/MaterialDesignTheme"></activity>
     </application>
 
 </manifest>

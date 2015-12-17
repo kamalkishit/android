@@ -23,27 +23,33 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class BookmarksActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private Toolbar toolbar;
+    @Bind(R.id.recyclerView) RecyclerView recyclerView;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.toolbarText) TextView toolbarText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookmarks);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
+
+        initialize();
+        configureListeners();
+    }
+
+    private void initialize() {
+        toolbarText.setText(StringConstants.BOOKMARKED);
+
         toolbar.setCollapsible(true);
-
-        TextView textView = (TextView) findViewById(R.id.toolbarText);
-        textView.setText(StringConstants.BOOKMARKED);
-
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -52,10 +58,12 @@ public class BookmarksActivity extends AppCompatActivity {
         BookmarksAdapter bookmarksAdapter = new BookmarksAdapter();
         recyclerView.setAdapter(bookmarksAdapter);
 
-
-
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    private void configureListeners() {
+
     }
 
     @Override

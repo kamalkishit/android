@@ -235,7 +235,7 @@ public class SubmitActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_signup, menu);
+        getMenuInflater().inflate(R.menu.menu_submit, menu);
         return true;
     }
 

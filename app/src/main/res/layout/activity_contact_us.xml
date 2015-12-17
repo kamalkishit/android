@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.humanize.android.activity.ContactUsActivity">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite">
+
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar">
+            </include>
+        </android.support.design.widget.AppBarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
+            android:background="@drawable/border_button_green"
+            android:layout_below="@id/appbarLayout"
+            android:id="@+id/linearLayoutName" >
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/smallMargin"
+                android:layout_marginTop="@dimen/smallMargin"
+                android:layout_marginBottom="@dimen/smallMargin"
+                android:textColor="@color/colorPrimary"
+                android:background="@null"
+                android:hint="Name"
+                android:textColorHint="@color/colorPrimary"
+                android:inputType="textUri"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
+            android:background="@drawable/border_button_green"
+            android:layout_below="@id/linearLayoutName"
+            android:id="@+id/linearLayoutEmail" >
+
+            <EditText
+                android:id="@+id/emailId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/smallMargin"
+                android:layout_marginTop="@dimen/smallMargin"
+                android:layout_marginBottom="@dimen/smallMargin"
+                android:textColor="@color/colorPrimary"
+                android:background="@null"
+                android:hint="Enter EmailId"
+                android:textColorHint="@color/colorPrimary"
+                android:inputType="textUri"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
+            android:background="@drawable/border_button_green"
+            android:layout_below="@id/linearLayoutEmail"
+            android:id="@+id/linearLayoutSubject" >
+
+            <EditText
+                android:id="@+id/subject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/smallMargin"
+                android:layout_marginTop="@dimen/smallMargin"
+                android:layout_marginBottom="@dimen/smallMargin"
+                android:textColor="@color/colorPrimary"
+                android:background="@null"
+                android:hint="Enter subject"
+                android:textColorHint="@color/colorPrimary"
+                android:inputType="textUri"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
+            android:background="@drawable/border_button_green"
+            android:layout_below="@id/linearLayoutSubject"
+            android:id="@+id/linearLayoutBody" >
+
+            <EditText
+                android:id="@+id/body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/smallMargin"
+                android:layout_marginTop="@dimen/smallMargin"
+                android:layout_marginBottom="@dimen/smallMargin"
+                android:textColor="@color/colorPrimary"
+                android:background="@null"
+                android:hint="Feedback"
+                android:minLines="2"
+                android:inputType="textMultiLine"
+                android:textColorHint="@color/colorPrimary"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </LinearLayout>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/submitButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
+            android:layout_marginTop="24dp"
+            android:layout_below="@id/linearLayoutBody"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:background="@drawable/button_selector"
+            android:clickable="true"
+            android:textColor="@color/colorBlack"
+            android:text="SUBMIT"
+            android:textStyle="normal"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAlignment="center"/>
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

@@ -5,7 +5,7 @@ import android.view.View;
 
 import com.google.gson.Gson;
 import com.humanize.android.activity.BookmarksActivity;
-import com.humanize.android.activity.LikesActivity;
+import com.humanize.android.activity.RecommendationsActivity;
 import com.humanize.android.activity.PaperActivity;
 import com.humanize.android.activity.PaperLauncherActivity;
 import com.humanize.android.content.data.Contents;
@@ -50,8 +50,8 @@ public class ContentFragmentDrawerListener implements  FragmentDrawer.FragmentDr
                 break;
 
             case 3:
-                LikesActivity.LikesAdapter.contents = LikeService.getInstance().getLikes().getContents();
-                intent = new Intent(ApplicationState.getAppContext(), LikesActivity.class);
+                RecommendationsActivity.LikesAdapter.contents = LikeService.getInstance().getLikes().getContents();
+                intent = new Intent(ApplicationState.getAppContext(), RecommendationsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 ApplicationState.getAppContext().startActivity(intent);
                 break;
@@ -60,9 +60,25 @@ public class ContentFragmentDrawerListener implements  FragmentDrawer.FragmentDr
                 activityLauncher.startRecommendAnArticleActivity();
                 break;
 
+            case 5:
+                activityLauncher.startAboutUsActivity();
+                break;
+
+            case 6:
+                activityLauncher.startContactUsActivity();
+                break;
+
+            case 8:
+                activityLauncher.startUsageActivity();
+                break;
+
             case 9:
+                activityLauncher.startPrivacyActivity();
+                break;
+
+            case 10:
                 SharedPreferencesService.getInstance().putBoolean(Config.IS_LOGGED_IN, false);
-                activityLauncher.startNewLoginActivity();
+                activityLauncher.startLoginActivityWithClearStack();
                 break;
         }
     }

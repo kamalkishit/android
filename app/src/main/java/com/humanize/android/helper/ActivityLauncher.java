@@ -7,13 +7,17 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import com.google.gson.Gson;
-import com.humanize.android.NewLoginActivity;
+import com.humanize.android.activity.AboutUsActivity;
+import com.humanize.android.activity.ContactUsActivity;
+import com.humanize.android.activity.LoginActivity;
 import com.humanize.android.activity.AppLauncherActivity;
 import com.humanize.android.activity.BookmarksActivity;
 import com.humanize.android.activity.CardActivity;
-import com.humanize.android.activity.LikesActivity;
+import com.humanize.android.activity.PrivacyActivity;
+import com.humanize.android.activity.RecommendationsActivity;
 import com.humanize.android.activity.PaperActivity;
 import com.humanize.android.activity.RecommendArticleActivity;
+import com.humanize.android.activity.UsageActivity;
 import com.humanize.android.common.StringConstants;
 import com.humanize.android.content.data.Contents;
 import com.humanize.android.service.SharedPreferencesService;
@@ -30,6 +34,24 @@ import java.io.IOException;
  * Created by kamal on 12/9/15.
  */
 public class ActivityLauncher {
+
+    public void startAboutUsActivity() {
+        Intent intent = new Intent(ApplicationState.getAppContext(), AboutUsActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ApplicationState.getAppContext().startActivity(intent);
+    }
+
+    public void startUsageActivity() {
+        Intent intent = new Intent(ApplicationState.getAppContext(), UsageActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ApplicationState.getAppContext().startActivity(intent);
+    }
+
+    public void startPrivacyActivity() {
+        Intent intent = new Intent(ApplicationState.getAppContext(), PrivacyActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ApplicationState.getAppContext().startActivity(intent);
+    }
 
     public void startAppLauncherActivity() {
         Intent intent = new Intent(ApplicationState.getAppContext(), AppLauncherActivity.class);
@@ -61,7 +83,7 @@ public class ActivityLauncher {
     }
 
     public void startRecommendedActivity() {
-        Intent intent = new Intent(ApplicationState.getAppContext(), LikesActivity.class);
+        Intent intent = new Intent(ApplicationState.getAppContext(), RecommendationsActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ApplicationState.getAppContext().startActivity(intent);
     }
@@ -72,8 +94,21 @@ public class ActivityLauncher {
         ApplicationState.getAppContext().startActivity(intent);
     }
 
-    public void startNewLoginActivity() {
-        Intent intent = new Intent(ApplicationState.getAppContext(), NewLoginActivity.class);
+    public void startLoginActivity() {
+        Intent intent = new Intent(ApplicationState.getAppContext(), LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ApplicationState.getAppContext().startActivity(intent);
+    }
+
+    public void startLoginActivityWithClearStack() {
+        Intent intent = new Intent(ApplicationState.getAppContext(), LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ApplicationState.getAppContext().startActivity(intent);
+    }
+
+    public void startContactUsActivity() {
+        Intent intent = new Intent(ApplicationState.getAppContext(), ContactUsActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ApplicationState.getAppContext().startActivity(intent);
     }
