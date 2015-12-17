@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.contentws.cws.Activity.LikesActivity">
 
-    <item android:id="@+id/action_refresh"
+    <item android:id="@+id/actionRefresh"
         android:icon="@drawable/ic_refresh_white_24dp"
         android:title="@string/action_search"
         app:showAsAction="ifRoom"
         android:orderInCategory="100"/>
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/actionSettings"
         android:title="@string/action_settings"
         android:orderInCategory="100"
         app:showAsAction="never" />

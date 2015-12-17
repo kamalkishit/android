@@ -98,7 +98,7 @@
                     android:elevation="@dimen/cardElevation"
                     android:text="Achievers"
                     android:textColor="@color/colorSecondary"
-                    android:drawableTop="@drawable/achievers_normal"
+                    android:drawableTop="@drawable/achivers_green"
                     android:textAllCaps="false"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_weight="1.0" />
@@ -113,7 +113,7 @@
                     android:elevation="@dimen/cardElevation"
                     android:text="Beautiful"
                     android:textColor="@color/colorSecondary"
-                    android:drawableTop="@drawable/beautiful_normal"
+                    android:drawableTop="@drawable/beautiful_green"
                     android:textAllCaps="false"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_weight="1.0" />
@@ -127,7 +127,7 @@
                     android:elevation="@dimen/cardElevation"
                     android:text="Education"
                     android:textColor="@color/colorSecondary"
-                    android:drawableTop="@drawable/education_normal"
+                    android:drawableTop="@drawable/education_green"
                     android:textAllCaps="false"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_weight="1.0" />
@@ -149,7 +149,7 @@
                     android:elevation="@dimen/cardElevation"
                     android:text="Empowerment"
                     android:textColor="@color/colorSecondary"
-                    android:drawableTop="@drawable/empowerment_normal"
+                    android:drawableTop="@drawable/empowerment_green"
                     android:textAllCaps="false"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_weight="1.0" />
@@ -164,7 +164,7 @@
                     android:elevation="@dimen/cardElevation"
                     android:text="Environment"
                     android:textColor="@color/colorSecondary"
-                    android:drawableTop="@drawable/environment_selected_copy"
+                    android:drawableTop="@drawable/environment_green"
                     android:textAllCaps="false"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_weight="1.0" />
@@ -178,7 +178,7 @@
                     android:elevation="@dimen/cardElevation"
                     android:text="Governance"
                     android:textColor="@color/colorSecondary"
-                    android:drawableTop="@drawable/governance_normal"
+                    android:drawableTop="@drawable/governence_green"
                     android:textAllCaps="false"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_weight="1.0" />
@@ -201,7 +201,7 @@
                     android:text="Health"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:textColor="@color/colorSecondary"
-                    android:drawableTop="@drawable/health_selected_copy"
+                    android:drawableTop="@drawable/health_green"
                     android:textAllCaps="false"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_weight="1.0" />
@@ -216,7 +216,7 @@
                     android:elevation="@dimen/cardElevation"
                     android:text="Humanity"
                     android:textColor="@color/colorSecondary"
-                    android:drawableTop="@drawable/humanity_normal"
+                    android:drawableTop="@drawable/humanity_green"
                     android:textAllCaps="false"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_weight="1.0" />
@@ -230,7 +230,7 @@
                     android:elevation="@dimen/cardElevation"
                     android:text="Law \u0026 Justice"
                     android:textColor="@color/colorSecondary"
-                    android:drawableTop="@drawable/law_normal"
+                    android:drawableTop="@drawable/law_green"
                     android:textAllCaps="false"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_weight="1.0" />
@@ -252,7 +252,7 @@
                     android:elevation="@dimen/cardElevation"
                     android:text="Real heroes"
                     android:textColor="@color/colorSecondary"
-                    android:drawableTop="@drawable/real_normal"
+                    android:drawableTop="@drawable/hero_green"
                     android:textAllCaps="false"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_weight="1.0" />
@@ -267,7 +267,7 @@
                     android:elevation="@dimen/cardElevation"
                     android:text="Science \u0026 Tech"
                     android:textColor="@color/colorSecondary"
-                    android:drawableTop="@drawable/science_normal"
+                    android:drawableTop="@drawable/science_green"
                     android:textAllCaps="false"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_weight="1.0" />
@@ -281,7 +281,7 @@
                     android:elevation="@dimen/cardElevation"
                     android:text="Sports"
                     android:textColor="@color/colorSecondary"
-                    android:drawableTop="@drawable/sports_normal"
+                    android:drawableTop="@drawable/sports_green"
                     android:textAllCaps="false"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_weight="1.0" />

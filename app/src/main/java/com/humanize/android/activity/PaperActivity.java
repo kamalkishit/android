@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.humanize.android.HttpResponseCallback;
 import com.humanize.android.R;
+import com.humanize.android.common.StringConstants;
 import com.humanize.android.content.data.Content;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
@@ -58,7 +59,7 @@ public class PaperActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        toolbarText.setText("Paper");
+        toolbarText.setText(StringConstants.PAPER);
     }
 
     @Override
@@ -76,7 +77,7 @@ public class PaperActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_refresh) {
+        if (id == R.id.actionRefresh) {
             refresh();
         } else if (id == android.R.id.home) {
             super.onBackPressed();
@@ -92,7 +93,7 @@ public class PaperActivity extends AppCompatActivity {
             public void onSuccess(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    ArrayList<Content> contents = new ArrayList<Content>();
+                    ArrayList<Content> contents = new ArrayList<>();
                     PaperActivity.PaperAdapter.contents = contents;
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -101,13 +102,13 @@ public class PaperActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(String errorMsg) {
-                System.out.println("failure");
+
             }
         });
     }
 
     public static class PaperAdapter extends RecyclerView.Adapter<PaperAdapter.ViewHolder> {
-        public static ArrayList<Content> contents = new ArrayList<Content>();
+        public static ArrayList<Content> contents = new ArrayList<>();
         public static int currentItem = 0;
 
         public PaperAdapter() {
@@ -127,7 +128,7 @@ public class PaperActivity extends AppCompatActivity {
             viewHolder.source.setText(content.getSource());
             viewHolder.imageView.getLayoutParams().width = Config.IMAGE_WIDTH;
             viewHolder.imageView.getLayoutParams().height = Config.IMAGE_HEIGHT;
-            Picasso.with(ApplicationState.getAppContext()).load(Config.SERVER_URL + "/images/" + content.getImageURL())
+            Picasso.with(ApplicationState.getAppContext()).load(Config.IMAGES_URL + content.getImageURL())
                     .placeholder(R.drawable.background)
                     .resize(Config.IMAGE_WIDTH, Config.IMAGE_HEIGHT).into(viewHolder.imageView);
         }

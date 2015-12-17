@@ -8,6 +8,8 @@ import android.os.Looper;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.Menu;
@@ -19,9 +21,10 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.humanize.android.common.Constants;
@@ -47,10 +50,12 @@ import butterknife.ButterKnife;
 
 public class SubmitActivity extends AppCompatActivity {
 
+    @Bind(R.id.relativeLayout) RelativeLayout relativeLayout;
     @Bind(R.id.contentUrl)  EditText contentURL;
     @Bind(R.id.submitButton) Button submitButton;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.categoriesSpinner) Spinner categoriesSpinner;
+    @Bind(R.id.isVerified) CheckBox isVerified;
     //@Bind(R.id.subCategoriesSpinner) Spinner subCategoriesSpinner;
 
     private Content content;
@@ -89,6 +94,18 @@ public class SubmitActivity extends AppCompatActivity {
     }
 
     private void configureListeners() {
+        contentURL.addTextChangedListener(new TextWatcher() {
+            // after every change has been made to this editText, we would like to check validity
+            public void afterTextChanged(Editable s) {
+                if (contentURL.getError() != null) {
+                    contentURL.setError(null);
+                }
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){}
+        });
+
         /*categoriesSpinner.setOnClickListener(new View.OnClickListener() {
                                                  @Override
                                                  public void onClick(View view) {
@@ -115,9 +132,21 @@ public class SubmitActivity extends AppCompatActivity {
             }
         }) ;
 
+        isVerified.setOnTouchListener(new View.OnTouchListener() {
+
+                                          @Override
+                                          public boolean onTouch(View v, MotionEvent event) {
+                                              InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                                              inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                                              return false;
+                                          }
+                                      });
+
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                 String contentURLStr = contentURL.getText().toString();
                 if (contentURLStr.isEmpty()) {
                     Snackbar.make(view, StringConstants.URL_VALIDATION_ERROR_STR, Snackbar.LENGTH_LONG).show();
@@ -145,24 +174,20 @@ public class SubmitActivity extends AppCompatActivity {
                 HttpUtil.getInstance().submit(Config.CONTENT_CREATE_URL, new JsonParser().toJson(content), new CreateContentCallback());
             } catch (Exception exception) {
                 Log.e(TAG, exception.toString());
-                Snackbar.make(view, "Submit failed", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(view, StringConstants.FAILURE_STR, Snackbar.LENGTH_SHORT).show();
             }
         }
     }
 
     private boolean validate() {
-        if (contentURL == null || contentURL.getText().toString().isEmpty()) {
-            Toast.makeText(getApplicationContext(), "URL is null", Toast.LENGTH_LONG).show();
-            return false;
-        }
-
-        if (!isValidUrl(contentURL.getText().toString())) {
-            Toast.makeText(getApplicationContext(), StringConstants.URL_VALIDATION_ERROR_STR, Toast.LENGTH_LONG).show();
+        if (contentURL == null || contentURL.getText().toString().isEmpty() || !isValidUrl(contentURL.getText().toString())) {
+            contentURL.setError(StringConstants.URL_VALIDATION_ERROR_STR);
+            Snackbar.make(relativeLayout, StringConstants.URL_VALIDATION_ERROR_STR, Snackbar.LENGTH_SHORT).show();
             return false;
         }
 
         if (content.getCategory() == null || content.getCategory().isEmpty() || content.getCategory().equals("Select Category")) {
-            Toast.makeText(getApplicationContext(), "Please select category", Toast.LENGTH_LONG).show();
+            Snackbar.make(relativeLayout, StringConstants.SELECT_CATEGORY, Snackbar.LENGTH_SHORT).show();
             return false;
         }
 
@@ -222,7 +247,7 @@ public class SubmitActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_refresh) {
+        if (id == R.id.actionRefresh) {
             //refresh();
         } else if (id == android.R.id.home) {
             super.onBackPressed();
@@ -265,7 +290,7 @@ public class SubmitActivity extends AppCompatActivity {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), "Network connection error", Toast.LENGTH_LONG).show();
+                    Snackbar.make(relativeLayout, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG).show();
                 }
             });
         }
@@ -276,7 +301,7 @@ public class SubmitActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
+                        Snackbar.make(relativeLayout, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG).show();
                     }
                 });
             } else {
@@ -285,6 +310,7 @@ public class SubmitActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
+                            Snackbar.make(relativeLayout, StringConstants.SUCCESS_STR, Snackbar.LENGTH_LONG).show();
                             Contents contents = new JsonParser().fromJson(responseStr, Contents.class);
 
                             if (contents != null && contents.getContents().size() >= Constants.DEFAULT_CONTENTS_SIZE) {

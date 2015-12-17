@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.humanize.android.R;
+import com.humanize.android.common.StringConstants;
 import com.humanize.android.content.data.Content;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
@@ -33,11 +34,10 @@ public class BookmarksActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bookmarks);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Bookmarks");
         toolbar.setCollapsible(true);
 
         TextView textView = (TextView) findViewById(R.id.toolbarText);
-        textView.setText("Bookmarks");
+        textView.setText(StringConstants.BOOKMARKED);
 
         setSupportActionBar(toolbar);
 
@@ -73,7 +73,7 @@ public class BookmarksActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_refresh) {
+        if (id == R.id.actionRefresh) {
             //refresh();
         } else if (id == android.R.id.home) {
             super.onBackPressed();
@@ -105,7 +105,7 @@ public class BookmarksActivity extends AppCompatActivity {
             viewHolder.imageView.setImageResource(R.drawable.background);
             viewHolder.imageView.getLayoutParams().width = Config.IMAGE_WIDTH;
             viewHolder.imageView.getLayoutParams().height = Config.IMAGE_HEIGHT;
-            Picasso.with(ApplicationState.getAppContext()).load(Config.SERVER_URL + "/images/" + content.getImageURL())
+            Picasso.with(ApplicationState.getAppContext()).load(Config.IMAGES_URL + content.getImageURL())
                     .placeholder(R.drawable.background)
                     .resize(Config.IMAGE_WIDTH, Config.IMAGE_HEIGHT).into(viewHolder.imageView);
         }

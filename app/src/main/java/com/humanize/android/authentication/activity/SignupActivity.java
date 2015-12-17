@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -13,14 +14,13 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.humanize.android.JsonParser;
 import com.humanize.android.R;
 import com.humanize.android.UserTempService;
+import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.User;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
@@ -117,7 +117,6 @@ public class SignupActivity extends AppCompatActivity {
     public void signupSuccess(String response) {
         progressDialog.dismiss();
         signupButton.setEnabled(true);
-        Toast.makeText(getApplicationContext(), "Please check your mail for verification code", Toast.LENGTH_LONG).show();
         navigateToLoginActivity();
     }
 
@@ -178,7 +177,6 @@ public class SignupActivity extends AppCompatActivity {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), "Network connection error", Toast.LENGTH_LONG).show();
                     progressDialog.dismiss();
                 }
             });
@@ -190,7 +188,6 @@ public class SignupActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
                         progressDialog.dismiss();
                     }
                 });

@@ -3,7 +3,6 @@ package com.humanize.android;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.humanize.android.data.User;
 import com.humanize.android.util.ApplicationState;

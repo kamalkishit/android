@@ -17,7 +17,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.humanize.android.activity.AppLauncherActivity;
 import com.humanize.android.activity.InvitationCodeActivity;
@@ -214,7 +213,6 @@ public class NewRegisterActivity extends AppCompatActivity {
                         submitButton.setEnabled(true);
                         Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.FAILURE_STR, Snackbar.LENGTH_SHORT);
                         snackbar.show();
-                        Toast.makeText(getApplicationContext(), StringConstants.FAILURE_STR, Toast.LENGTH_LONG).show();
                     }
                 });
             } else {

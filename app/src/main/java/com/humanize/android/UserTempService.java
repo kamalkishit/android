@@ -7,7 +7,6 @@ import android.os.Looper;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.humanize.android.authentication.activity.SignupActivity;
 import com.humanize.android.data.User;

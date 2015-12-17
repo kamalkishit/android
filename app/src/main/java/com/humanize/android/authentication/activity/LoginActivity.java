@@ -14,8 +14,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.humanize.android.JsonParser;
@@ -147,7 +145,6 @@ public class LoginActivity extends AppCompatActivity {
 
     public void loginFailure() {
         loginButton.setEnabled(true);
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
     }
 
     public boolean validate() {
@@ -200,7 +197,6 @@ public class LoginActivity extends AppCompatActivity {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), "Network connection error", Toast.LENGTH_LONG).show();
                     loginButton.setEnabled(true);
                     progressDialog.dismiss();
                 }
@@ -213,7 +209,6 @@ public class LoginActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_LONG).show();
                         loginButton.setEnabled(true);
                         progressDialog.dismiss();
                     }
@@ -224,7 +219,6 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
                         loginSuccess(responseStr);
                     }
                 });

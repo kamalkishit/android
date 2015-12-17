@@ -47,7 +47,7 @@ public class FragmentDrawer extends Fragment {
         super.onCreate(savedInstanceState);
 
         // drawer labels
-        titles = getActivity().getResources().getStringArray(R.array.nav_drawer_labels);
+        titles = getActivity().getResources().getStringArray(R.array.navDrawerLabels);
     }
 
     @Override
@@ -186,9 +186,9 @@ public class FragmentDrawer extends Fragment {
             } else if (position == 1) {
                 holder.image.setImageResource(R.drawable.ic_library_books_black_24dp);
             } else if (position == 2) {
-                holder.image.setImageResource(R.drawable.ic_bookmark_black_24dp);
+                holder.image.setImageResource(R.drawable.bookmark);
             } else if (position == 3) {
-                holder.image.setImageResource(R.drawable.ic_favorite_black_24dp);
+                holder.image.setImageResource(R.drawable.recomended);
             } else if (position == 4) {
                 holder.image.setImageResource(R.drawable.ic_create_black_24dp);
             } else if (position == 5) {

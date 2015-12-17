@@ -35,8 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorBlack"
-                android:inputType="textEmailAddress"
-                android:drawableLeft="@drawable/ic_email_black_24dp" />
+                android:inputType="textEmailAddress" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -51,8 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorBlack"
-                android:inputType="textPassword"
-                android:drawableLeft="@drawable/ic_vpn_key_black_24dp" />
+                android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -68,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorBlack"
                 android:inputType="textPassword"
-                android:drawableLeft="@drawable/ic_vpn_key_black_24dp" />
+                 />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatButton

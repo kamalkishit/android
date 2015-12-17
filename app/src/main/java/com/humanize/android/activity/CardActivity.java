@@ -2,6 +2,7 @@ package com.humanize.android.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,7 +26,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.humanize.android.common.Constants;
@@ -55,6 +55,8 @@ import butterknife.ButterKnife;
 public class CardActivity extends AppCompatActivity {
 
     public static Contents contents = null;
+    private ContentService contentService;
+    private UserService userService;
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.recyclerView) RecyclerView recyclerView;
@@ -99,8 +101,11 @@ public class CardActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        contentService = new ContentService();
+        userService = new UserService();
         doubleBackToExitPressedOnce = false;
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimaryDark, R.color.colorPrimary, R.color.colorAccent);
+        //swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimaryDark, R.color.colorPrimary, R.color.colorAccent);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -153,9 +158,9 @@ public class CardActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.actionSettings) {
             return true;
-        } else if (id == R.id.action_create) {
+        } else if (id == R.id.actionCreate) {
             Intent intent = new Intent(getApplicationContext(), SubmitActivity.class);
             startActivity(intent);
         }
@@ -201,20 +206,25 @@ public class CardActivity extends AppCompatActivity {
             viewHolder.contentImage.getLayoutParams().width = Config.IMAGE_WIDTH;
             viewHolder.contentImage.getLayoutParams().height = Config.IMAGE_HEIGHT;
 
-            /*if (ApplicationState.getUser().getLikes().contains(viewHolder.id)) {
-                viewHolder.likeButton.setBackgroundResource(R.drawable.ic_favorite_white_24dp);
+            if (ApplicationState.getUser().getLikes().contains(viewHolder.id)) {
+                Drawable drawableTop = getResources().getDrawable(R.drawable.recomended_selected);
+                viewHolder.recommendButton.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop, null, null);
             } else {
-                viewHolder.likeButton.setBackgroundResource(R.drawable.ic_favorite_border_white_24dp);
+                Drawable drawableTop = getResources().getDrawable(R.drawable.recomended);
+                viewHolder.recommendButton.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop, null, null);
             }
 
             if (ApplicationState.getUser().getBookmarks().contains(viewHolder.id)) {
-                viewHolder.bookmarkButton.setBackgroundResource(R.drawable.ic_bookmark_white_24dp);
+                Drawable drawableTop = getResources().getDrawable(R.drawable.bookmark_selected);
+                viewHolder.bookmarkButton.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop, null, null);
             } else {
-                viewHolder.bookmarkButton.setBackgroundResource(R.drawable.ic_bookmark_border_white_24dp);
-            }*/
+                Drawable drawableTop = getResources().getDrawable(R.drawable.bookmark);
+                viewHolder.bookmarkButton.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop, null, null);
+            }
 
-            Picasso.with(ApplicationState.getAppContext()).load(content.getOriginalImageURL())
-                    .placeholder(R.drawable.background)//.resize(Config.IMAGE_WIDTH, Config.IMAGE_HEIGHT)
+            Picasso.with(ApplicationState.getAppContext())
+                    .load(content.getOriginalImageURL())
+                    .placeholder(R.drawable.background)
                     .fit().into(viewHolder.contentImage);
             /*Picasso.with(ApplicationState.getAppContext()).load("http://www.storypick.com/wp-content/uploads/2015/11/awesome-dad-cover.jpg")
                     .placeholder(R.drawable.background).resize(Config.IMAGE_WIDTH, Config.IMAGE_HEIGHT)
@@ -279,7 +289,7 @@ public class CardActivity extends AppCompatActivity {
                 recommendButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //like();
+                        recommend();
                     }
                 });
 
@@ -298,39 +308,49 @@ public class CardActivity extends AppCompatActivity {
                 });
             }
 
-            private void like() {
-                userService.like(content);
-                if (userService.isLiked(id)) {
-                    contentService.incrementLikeCount(id);
+            private void recommend() {
+                //userService.recommendContent(content.getId());
+
+                if (ApplicationState.getUser().getLikes().contains(id)) {
+                    ApplicationState.getUser().getLikes().remove(id);
+                    userService.unrecommendContent(id);
+                    contentService.decrRecommendationCount(id);
                 } else {
-                    contentService.decrementLikeCount(id);
+                    ApplicationState.getUser().getLikes().add(id);
+                    contentService.incrRecommendationCount(id);
                 }
+
+                content.setLikesCount(content.getLikesCount() + 1);
+                updateContent(content);
 
                 updateLikeButton();
             }
 
             private void bookmark() {
-                userService.bookmark(content);
+                userService.bookmarkContent(content.getId());
                 updateBookmarkButton();
             }
 
             private void updateLikeButton() {
                 if (ApplicationState.getUser().getLikes().contains(id)) {
-                    recommendButton.setBackgroundResource(R.drawable.ic_favorite_white_24dp);
+                    recommendButton.setBackgroundResource(R.drawable.recomended_selected);
+                    recommendButton.setText(StringConstants.RECOMMENDED);
                 } else {
-                    recommendButton.setBackgroundResource(R.drawable.ic_favorite_border_white_24dp);
+                    recommendButton.setBackgroundResource(R.drawable.recomended);
+                    recommendButton.setText(StringConstants.RECOMMEND);
                 }
             }
 
             private void updateBookmarkButton() {
                 if (ApplicationState.getUser().getBookmarks().contains(id)) {
-                    bookmarkButton.setBackgroundResource(R.drawable.ic_bookmark_white_24dp);
+                    bookmarkButton.setBackgroundResource(R.drawable.bookmark_selected);
                 } else {
-                    bookmarkButton.setBackgroundResource(R.drawable.ic_bookmark_border_white_24dp);
+                    bookmarkButton.setBackgroundResource(R.drawable.bookmark);
                 }
             }
 
             private void share() {
+                contentService.incrSharedCount(content.getId());
                 shareableContentView.setDrawingCacheEnabled(true);
                 Bitmap bitmap = Bitmap.createBitmap(shareableContentView.getDrawingCache());
                 shareableContentView.setDrawingCacheEnabled(false);
@@ -339,6 +359,9 @@ public class CardActivity extends AppCompatActivity {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, Constants.IMAGE_QUALITY_VALUE, byteArrayOutputStream);
                 String path = MediaStore.Images.Media.insertImage(ApplicationState.getAppContext().getContentResolver(), bitmap, "Title", null);
                 Uri imageUri = Uri.parse(path);
+
+                content.setSharedCount(content.getSharedCount() + 1);
+                updateContent(content);
 
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("image/*");
@@ -350,14 +373,13 @@ public class CardActivity extends AppCompatActivity {
             }
 
             public void onClick(View view) {
-                contentService.incrementViewCount(id);
+                contentService.incrementViewCount(content.getId());
+                content.setViewsCount(content.getViewsCount() + 1);
+                updateContent(content);
                 Intent intent = new Intent(ApplicationState.getAppContext(), WebBrowserActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra(Config.CONTENT_URL, content.getContentURL());
-                View line = findViewById(R.id.line);
-                /*ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation(CardActivity.this, (View)line, "webViewTransition");
-                startActivity(intent, options.toBundle());*/
+                //View line = findViewById(R.id.line);
                 ApplicationState.getAppContext().startActivity(intent);
             }
         }
@@ -404,6 +426,14 @@ public class CardActivity extends AppCompatActivity {
         public abstract void onLoadMore(int current_page);
     }
 
+    private void updateContent(Content content) {
+        try {
+            HttpUtil.getInstance().updateUser(Config.USER_UPDATE_URL, new JsonParser().toJson(content), new UpdateContentCallback());
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
     private class MoreContentCallback implements Callback {
         @Override
         public void onFailure(Request request, IOException exception) {
@@ -411,7 +441,6 @@ public class CardActivity extends AppCompatActivity {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), StringConstants.NETWORK_CONNECTION_ERROR_STR, Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -422,7 +451,6 @@ public class CardActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(), StringConstants.FAILURE_STR, Toast.LENGTH_LONG).show();
                     }
                 });
             } else {
@@ -430,7 +458,6 @@ public class CardActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
                         try {
                             Contents contents = new JsonParser().fromJson(responseStr, Contents.class);
 
@@ -454,7 +481,6 @@ public class CardActivity extends AppCompatActivity {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), StringConstants.NETWORK_CONNECTION_ERROR_STR, Toast.LENGTH_LONG).show();
                     swipeRefreshLayout.setRefreshing(false);
                 }
             });
@@ -466,7 +492,6 @@ public class CardActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(), StringConstants.FAILURE_STR, Toast.LENGTH_LONG).show();
                         swipeRefreshLayout.setRefreshing(false);
                     }
                 });
@@ -490,6 +515,38 @@ public class CardActivity extends AppCompatActivity {
                         } finally {
                             swipeRefreshLayout.setRefreshing(false);
                         }
+                    }
+                });
+            }
+        }
+    }
+
+    private class UpdateContentCallback implements Callback {
+        @Override
+        public void onFailure(Request request, IOException exception) {
+            Log.e(TAG, exception.toString());
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+
+                }
+            });
+        }
+
+        @Override
+        public void onResponse(final Response response) throws IOException {
+            if (!response.isSuccessful()) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                    }
+                });
+            } else {
+                final String responseStr = response.body().string().toString();
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+
                     }
                 });
             }

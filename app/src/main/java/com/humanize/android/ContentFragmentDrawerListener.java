@@ -9,6 +9,7 @@ import com.humanize.android.activity.LikesActivity;
 import com.humanize.android.activity.PaperActivity;
 import com.humanize.android.activity.PaperLauncherActivity;
 import com.humanize.android.content.data.Contents;
+import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.service.BookmarkService;
 import com.humanize.android.service.LikeService;
 import com.humanize.android.util.ApplicationState;
@@ -24,6 +25,7 @@ public class ContentFragmentDrawerListener implements  FragmentDrawer.FragmentDr
 
         HttpUtil httpUtil = HttpUtil.getInstance();
         Intent intent = new Intent();
+        ActivityLauncher activityLauncher = new ActivityLauncher();
         switch(position){
             case 1:
                 if (SharedPreferencesService.getInstance().getString(Config.JSON_PAPER) != null) {
@@ -52,6 +54,15 @@ public class ContentFragmentDrawerListener implements  FragmentDrawer.FragmentDr
                 intent = new Intent(ApplicationState.getAppContext(), LikesActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 ApplicationState.getAppContext().startActivity(intent);
+                break;
+
+            case 4:
+                activityLauncher.startRecommendAnArticleActivity();
+                break;
+
+            case 9:
+                SharedPreferencesService.getInstance().putBoolean(Config.IS_LOGGED_IN, false);
+                activityLauncher.startNewLoginActivity();
                 break;
         }
     }

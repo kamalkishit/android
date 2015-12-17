@@ -23,10 +23,10 @@ import java.util.concurrent.TimeUnit;
  * Created by Kamal on 7/1/15.
  */
 public class HttpUtil {
+
     private static HttpUtil httpUtil = null;
 
-    public static final MediaType JSON
-            = MediaType.parse("application/json; charset=utf-8");
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     private HttpUtil() {
     }
@@ -39,15 +39,48 @@ public class HttpUtil {
         return httpUtil;
     }
 
+    public void recommendContentForUser(String url, String userId, String contentId, boolean flag, Callback callback) {
+        url += "?userId=" + userId + "&contentId=" + contentId + "&flag=" + flag;
+        get(url, callback);
+    }
+
+    public void bookmarkContentForUser(String url, String userId, String contentId, boolean flag, Callback callback) {
+        url += "?userId=" + userId + "&contentId=" + contentId + "&flag=" + flag;
+        get(url, callback);
+    }
+
+    public void incrViewCount(String url, String contentId, Callback callback) {
+        url += "?contentId=" + contentId;
+        get(url, callback);
+    }
+
+    public void updateRecommendationCount(String url, String contentId, boolean flag, Callback callback) {
+        url += "?contentId=" + contentId + "&flag=" + flag;
+        get(url, callback);
+    }
+
+    public void incrSharedCount(String url, String contentId, Callback callback) {
+        url += "?contentId=" + contentId;
+        get(url, callback);
+    }
+
+
     public void getPaper(final HttpResponseCallback httpResponseCallback) {
         String url = Config.PAPER_FIND_URL;
         get(url, httpResponseCallback);
     }
 
+
+
     public void submit(String url, String json, Callback callback) {
         System.out.println(url);
         System.out.println(json);
         post(url, json, callback);
+    }
+
+    public void recommendArticle(String url, String contentUrl, Callback callback) {
+        url += "?contentUrl=" + contentUrl;
+        get(url, callback);
     }
 
     public void getContents(Callback callback) {

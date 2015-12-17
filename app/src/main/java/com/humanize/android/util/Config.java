@@ -22,8 +22,8 @@ public class Config {
 
     // URLS
     //public final static String SERVER_URL = "http://10.0.2.2:8080";
-    //public final static String SERVER_URL = "http://128.199.230.120:8080/server-0.1.0";
-    public final static String SERVER_URL = "http://192.168.1.2:8080";
+    public final static String SERVER_URL = "http://188.166.213.251:8080/server-0.1.0";
+    //public final static String SERVER_URL = "http://192.168.1.2:8080";
 
     public final static String USER_SIGNUP_URL = SERVER_URL + "/users/signup";
     public final static String USER_LOGIN_URL = SERVER_URL + "/users/login";
@@ -32,11 +32,17 @@ public class Config {
     public final static String USER_VERIFY_URL = SERVER_URL + "/users/verify";
     public final static String USER_INVITE_URL = SERVER_URL + "/users/invite";
     public final static String USER_DATA_URL = SERVER_URL + "/users/data";
+    public final static String USER_CONTENT_BOOKMARK_URL = SERVER_URL + "/users/bookmark";
+    public final static String USER_CONTENT_RECOMMEND_URL = SERVER_URL + "/users/recommend";
 
     public final static String CONTENT_CREATE_URL = SERVER_URL + "/content/create";
     public final static String CONTENT_UPDATE_URL = SERVER_URL + "/content/update";
     public final static String CONTENT_FIND_URL = SERVER_URL + "/content/find";
     public final static String IMAGES_URL = SERVER_URL + "/images";
+    public final static String RECOMMEND_ARTICLE_URL = SERVER_URL + "/content/recommendArticle";
+    public final static String UPDATE_RECOMMENDATION_COUNT = SERVER_URL + "/content/recommend";
+    public final static String INCR_VIEW_COUNT = SERVER_URL + "/content/viewed";
+    public final static String INCR_SHARED_COUNT = SERVER_URL + "/content/shared";
 
     public final static String PAPER_CREATE_URL = SERVER_URL + "/paper/create";
     public final static String PAPER_UPDATE_URL = SERVER_URL + "/paper/update";

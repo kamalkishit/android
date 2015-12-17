@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.humanize.android.R;
+import com.humanize.android.common.StringConstants;
 import com.humanize.android.content.data.Content;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
@@ -28,9 +29,8 @@ import butterknife.ButterKnife;
 public class LikesActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbarText) TextView toolbarText;
-
-    private RecyclerView recyclerView;
-    private Toolbar toolbar;
+    @Bind(R.id.recyclerView) RecyclerView recyclerView;
+    @Bind(R.id.toolbar) Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +43,9 @@ public class LikesActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-        toolbar.setTitle("Likes");
         toolbar.setCollapsible(true);
 
-        toolbarText.setText("Likes");
+        toolbarText.setText(StringConstants.RECOMMENDED);
 
         setSupportActionBar(toolbar);
 
@@ -80,7 +79,7 @@ public class LikesActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_refresh) {
+        if (id == R.id.actionRefresh) {
             //refresh();
         } else if (id == android.R.id.home) {
             super.onBackPressed();
@@ -90,7 +89,7 @@ public class LikesActivity extends AppCompatActivity {
     }
 
     public static class LikesAdapter extends RecyclerView.Adapter<LikesAdapter.ViewHolder> {
-        public static ArrayList<Content> contents = new ArrayList<Content>();
+        public static ArrayList<Content> contents = new ArrayList<>();
         public static int currentItem = 0;
 
         public LikesAdapter() {

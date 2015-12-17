@@ -39,7 +39,7 @@ public class SearchActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_refresh) {
+        if (id == R.id.actionRefresh) {
             //refresh();
         } else if (id == android.R.id.home) {
             super.onBackPressed();

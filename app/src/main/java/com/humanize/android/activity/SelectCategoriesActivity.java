@@ -12,6 +12,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -22,13 +24,13 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.view.Gravity;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.humanize.android.JsonParser;
 import com.humanize.android.R;
 import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.User;
+import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
@@ -54,6 +56,8 @@ public class SelectCategoriesActivity extends AppCompatActivity {
 
     private Set<String> categories;
     private int selectedCategoriesCount;
+
+    @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
     private Toolbar toolbar;
     private Category achievers;
     private Category beautiful;
@@ -69,20 +73,24 @@ public class SelectCategoriesActivity extends AppCompatActivity {
     private Category sports;
     private Button submitButton;
 
+    private ActivityLauncher activityLauncher;
+
     private static final String TAG = SelectCategoriesActivity.class.getSimpleName();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_categories);
 
-        initialize();
+        ButterKnife.bind(this);
 
+        initialize();
         configureListeners();
     }
 
     private void initialize() {
         selectedCategoriesCount = 0;
-        categories = new HashSet<String>();
+        categories = new HashSet<>();
+        activityLauncher = new ActivityLauncher();
 
         submitButton = (Button)findViewById(R.id.nextButton);
         submitButton.setEnabled(false);
@@ -91,7 +99,7 @@ public class SelectCategoriesActivity extends AppCompatActivity {
         toolbar.setCollapsible(true);
         setSupportActionBar(toolbar);
 
-        categories = new HashSet();
+        categories = new HashSet<>();
 
         achievers = new Category();
         achievers.button = (Button)findViewById(R.id.achievers);
@@ -142,12 +150,11 @@ public class SelectCategoriesActivity extends AppCompatActivity {
 
                 try {
                     String userdataJson = new JsonParser().toJson(ApplicationState.getUser());
-                    System.out.println("########################");
                     System.out.println(Config.USER_UPDATE_URL);
                     System.out.println(userdataJson);
 
                     if (userdataJson != null) {
-                        HttpUtil.getInstance().updateUser(Config.USER_UPDATE_URL, userdataJson, new UserUpdationCallback());
+                        HttpUtil.getInstance().updateUser(Config.USER_UPDATE_URL, userdataJson, new UserUpdationCallback(coordinatorLayout));
                     }
                 } catch (Exception exception) {
 
@@ -159,10 +166,10 @@ public class SelectCategoriesActivity extends AppCompatActivity {
             public void onClick(View view) {
                 handleButtonSelection(achievers);
                 if (achievers.isSelected) {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.achievers_selected);
+                    Drawable drawableTop = getResources().getDrawable(R.drawable.achivers_white);
                     achievers.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
                 } else {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.achievers_normal);
+                    Drawable drawableTop = getResources().getDrawable(R.drawable.achivers_green);
                     achievers.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
                 }
             }
@@ -172,10 +179,10 @@ public class SelectCategoriesActivity extends AppCompatActivity {
             public void onClick(View view) {
                 handleButtonSelection(beautiful);
                 if (beautiful.isSelected) {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.beautiful_selected);
+                    Drawable drawableTop = getResources().getDrawable(R.drawable.beautiful_white);
                     beautiful.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
                 } else {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.beautiful_normal);
+                    Drawable drawableTop = getResources().getDrawable(R.drawable.beautiful_green);
                     beautiful.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
                 }
             }
@@ -186,10 +193,10 @@ public class SelectCategoriesActivity extends AppCompatActivity {
                 handleButtonSelection(education);
 
                 if (education.isSelected) {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.education_selected);
+                    Drawable drawableTop = getResources().getDrawable(R.drawable.education_white);
                     education.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
                 } else {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.education_normal);
+                    Drawable drawableTop = getResources().getDrawable(R.drawable.education_green);
                     education.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
                 }
             }
@@ -200,10 +207,10 @@ public class SelectCategoriesActivity extends AppCompatActivity {
                 handleButtonSelection(empowerment);
 
                 if (empowerment.isSelected) {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.empowerment_selected);
+                    Drawable drawableTop = getResources().getDrawable(R.drawable.empowerment_white);
                     empowerment.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
                 } else {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.empowerment_normal);
+                    Drawable drawableTop = getResources().getDrawable(R.drawable.empowerment_green);
                     empowerment.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
                 }
             }
@@ -214,10 +221,10 @@ public class SelectCategoriesActivity extends AppCompatActivity {
                 handleButtonSelection(environment);
 
                 if (environment.isSelected) {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.environment_selected);
+                    Drawable drawableTop = getResources().getDrawable(R.drawable.environment_white);
                     environment.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
                 } else {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.environment_selected_copy);
+                    Drawable drawableTop = getResources().getDrawable(R.drawable.environment_green);
                     environment.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
                 }
             }
@@ -228,10 +235,10 @@ public class SelectCategoriesActivity extends AppCompatActivity {
                 handleButtonSelection(governance);
 
                 if (governance.isSelected) {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.governance_normal_copy);
+                    Drawable drawableTop = getResources().getDrawable(R.drawable.governence_white);
                     governance.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
                 } else {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.governance_normal);
+                    Drawable drawableTop = getResources().getDrawable(R.drawable.governence_green);
                     governance.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
                 }
             }
@@ -242,10 +249,10 @@ public class SelectCategoriesActivity extends AppCompatActivity {
                 handleButtonSelection(health);
 
                 if (health.isSelected) {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.health_selected);
+                    Drawable drawableTop = getResources().getDrawable(R.drawable.health_white);
                     health.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
                 } else {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.health_selected_copy);
+                    Drawable drawableTop = getResources().getDrawable(R.drawable.health_green);
                     health.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
                 }
             }
@@ -256,10 +263,10 @@ public class SelectCategoriesActivity extends AppCompatActivity {
                 handleButtonSelection(humanity);
 
                 if (humanity.isSelected) {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.humanity_selected);
+                    Drawable drawableTop = getResources().getDrawable(R.drawable.humanity_white);
                     humanity.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
                 } else {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.humanity_normal);
+                    Drawable drawableTop = getResources().getDrawable(R.drawable.humanity_green);
                     humanity.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
                 }
             }
@@ -270,10 +277,10 @@ public class SelectCategoriesActivity extends AppCompatActivity {
                 handleButtonSelection(lawAndJustice);
 
                 if (lawAndJustice.isSelected) {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.law_selected);
+                    Drawable drawableTop = getResources().getDrawable(R.drawable.law_white);
                     lawAndJustice.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
                 } else {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.law_normal);
+                    Drawable drawableTop = getResources().getDrawable(R.drawable.law_green);
                     lawAndJustice.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
                 }
             }
@@ -284,10 +291,10 @@ public class SelectCategoriesActivity extends AppCompatActivity {
                 handleButtonSelection(realHeroes);
 
                 if (realHeroes.isSelected) {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.real_selected);
+                    Drawable drawableTop = getResources().getDrawable(R.drawable.hero_white);
                     realHeroes.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
                 } else {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.real_normal);
+                    Drawable drawableTop = getResources().getDrawable(R.drawable.hero_green);
                     realHeroes.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
                 }
             }
@@ -298,10 +305,10 @@ public class SelectCategoriesActivity extends AppCompatActivity {
                 handleButtonSelection(scienceAndTech);
 
                 if (scienceAndTech.isSelected) {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.science_copy);
+                    Drawable drawableTop = getResources().getDrawable(R.drawable.science_white);
                     scienceAndTech.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
                 } else {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.science_normal);
+                    Drawable drawableTop = getResources().getDrawable(R.drawable.science_green);
                     scienceAndTech.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
                 }
             }
@@ -312,10 +319,10 @@ public class SelectCategoriesActivity extends AppCompatActivity {
                 handleButtonSelection(sports);
 
                 if (sports.isSelected) {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.sports_selected);
+                    Drawable drawableTop = getResources().getDrawable(R.drawable.sports_white);
                     sports.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
                 } else {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.sports_normal);
+                    Drawable drawableTop = getResources().getDrawable(R.drawable.sports_green);
                     sports.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
                 }
             }
@@ -323,87 +330,85 @@ public class SelectCategoriesActivity extends AppCompatActivity {
     }
 
     private void selectAllCategories() {
-        Drawable drawableTop = null;
-
         achievers.isSelected = true;
-        drawableTop = getResources().getDrawable(R.drawable.achievers_selected);
+        Drawable drawableTop = getResources().getDrawable(R.drawable.achivers_green);
         achievers.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
         achievers.button.setTextColor(getResources().getColor(R.color.colorWhite));
         achievers.button.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
         categories.add(achievers.button.getText().toString());
 
         beautiful.isSelected = true;
-        drawableTop = getResources().getDrawable(R.drawable.beautiful_selected);
+        drawableTop = getResources().getDrawable(R.drawable.beautiful_green);
         beautiful.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
         beautiful.button.setTextColor(getResources().getColor(R.color.colorWhite));
         beautiful.button.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
         categories.add(beautiful.button.getText().toString());
 
         education.isSelected = true;
-        drawableTop = getResources().getDrawable(R.drawable.education_selected);
+        drawableTop = getResources().getDrawable(R.drawable.education_green);
         education.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
         education.button.setTextColor(getResources().getColor(R.color.colorWhite));
         education.button.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
         categories.add(education.button.getText().toString());
 
         empowerment.isSelected = true;
-        drawableTop = getResources().getDrawable(R.drawable.empowerment_selected);
+        drawableTop = getResources().getDrawable(R.drawable.empowerment_green);
         empowerment.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
         empowerment.button.setTextColor(getResources().getColor(R.color.colorWhite));
         empowerment.button.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
         categories.add(empowerment.button.getText().toString());
 
         environment.isSelected = true;
-        drawableTop = getResources().getDrawable(R.drawable.environment_selected);
+        drawableTop = getResources().getDrawable(R.drawable.environment_green);
         environment.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
         environment.button.setTextColor(getResources().getColor(R.color.colorWhite));
         environment.button.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
         categories.add(environment.button.getText().toString());
 
         governance.isSelected = true;
-        drawableTop = getResources().getDrawable(R.drawable.governance_normal_copy);
+        drawableTop = getResources().getDrawable(R.drawable.governence_green);
         governance.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
         governance.button.setTextColor(getResources().getColor(R.color.colorWhite));
         governance.button.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
         categories.add(governance.button.getText().toString());
 
         health.isSelected = true;
-        drawableTop = getResources().getDrawable(R.drawable.health_selected);
+        drawableTop = getResources().getDrawable(R.drawable.health_green);
         health.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
         health.button.setTextColor(getResources().getColor(R.color.colorWhite));
         health.button.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
         categories.add(health.button.getText().toString());
 
         humanity.isSelected = true;
-        drawableTop = getResources().getDrawable(R.drawable.humanity_selected);
+        drawableTop = getResources().getDrawable(R.drawable.humanity_green);
         humanity.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
         humanity.button.setTextColor(getResources().getColor(R.color.colorWhite));
         humanity.button.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
         categories.add(humanity.button.getText().toString());
 
         lawAndJustice.isSelected = true;
-        drawableTop = getResources().getDrawable(R.drawable.law_selected);
+        drawableTop = getResources().getDrawable(R.drawable.law_green);
         lawAndJustice.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
         lawAndJustice.button.setTextColor(getResources().getColor(R.color.colorWhite));
         lawAndJustice.button.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
         categories.add(lawAndJustice.button.getText().toString());
 
         realHeroes.isSelected = true;
-        drawableTop = getResources().getDrawable(R.drawable.real_selected);
+        drawableTop = getResources().getDrawable(R.drawable.hero_green);
         realHeroes.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
         realHeroes.button.setTextColor(getResources().getColor(R.color.colorWhite));
         realHeroes.button.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
         categories.add(realHeroes.button.getText().toString());
 
         scienceAndTech.isSelected = true;
-        drawableTop = getResources().getDrawable(R.drawable.science_copy);
+        drawableTop = getResources().getDrawable(R.drawable.science_green);
         scienceAndTech.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
         scienceAndTech.button.setTextColor(getResources().getColor(R.color.colorWhite));
         scienceAndTech.button.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
         categories.add(scienceAndTech.button.getText().toString());
 
         sports.isSelected = true;
-        drawableTop = getResources().getDrawable(R.drawable.sports_selected);
+        drawableTop = getResources().getDrawable(R.drawable.sports_green);
         sports.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
         sports.button.setTextColor(getResources().getColor(R.color.colorWhite));
         sports.button.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
@@ -495,13 +500,19 @@ public class SelectCategoriesActivity extends AppCompatActivity {
     }
 
     private class UserUpdationCallback implements Callback {
+
+        private View view;
+
+        public UserUpdationCallback(View view) {
+            this.view = view;
+        }
         @Override
         public void onFailure(Request request, IOException e) {
             e.printStackTrace();
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), StringConstants.NETWORK_CONNECTION_ERROR_STR, Toast.LENGTH_LONG).show();
+                    Snackbar.make(view, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG).show();
                 }
             });
         }
@@ -512,7 +523,7 @@ public class SelectCategoriesActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(), StringConstants.FAILURE_STR, Toast.LENGTH_LONG).show();
+                        Snackbar.make(view, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG).show();
                     }
                 });
             } else {
@@ -523,8 +534,7 @@ public class SelectCategoriesActivity extends AppCompatActivity {
                         try {
                             User user = new JsonParser().fromJson(responseStr, User.class);
                             ApplicationState.setUser(user);
-                            Intent intent = new Intent(getApplicationContext(), AppLauncherActivity.class);
-                            startActivity(intent);
+                            activityLauncher.startCardActivity(view);
                         } catch (Exception exception) {
 
                         }

@@ -18,7 +18,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.humanize.android.activity.AppLauncherActivity;
 import com.humanize.android.activity.CardActivity;
@@ -27,6 +26,7 @@ import com.humanize.android.activity.SelectCategoriesActivity;
 import com.humanize.android.common.Constants;
 import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.User;
+import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
@@ -52,6 +52,7 @@ public class NewLoginActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
     private boolean doubleBackToExitPressedOnce;
+    private ActivityLauncher activityLauncher;
 
     private static final String TAG = NewLoginActivity.class.getSimpleName();
 
@@ -88,6 +89,7 @@ public class NewLoginActivity extends AppCompatActivity {
 
     private void initialize() {
         progressDialog = new ProgressDialog(this);
+        activityLauncher = new ActivityLauncher();
         doubleBackToExitPressedOnce = false;
         forgotPasswordLink.setText(Html.fromHtml(StringConstants.FORGOT_PASSWORD_STR));
         registerLink.setText(Html.fromHtml(StringConstants.REGISTER_STR));
@@ -189,8 +191,7 @@ public class NewLoginActivity extends AppCompatActivity {
                 SharedPreferencesService.getInstance().putBoolean(Config.IS_LOGGED_IN, true);
                 SharedPreferencesService.getInstance().putString(Config.USER_DATA_JSON, response);
                 if (user.getIsConfigured()) {
-                    Intent intent = new Intent(getApplicationContext(), AppLauncherActivity.class);
-                    startActivity(intent);
+                    activityLauncher.startCardActivity(coordinatorLayout);
                 } else {
                     Intent intent = new Intent(getApplicationContext(), SelectCategoriesActivity.class);
                     startActivity(intent);
@@ -214,7 +215,6 @@ public class NewLoginActivity extends AppCompatActivity {
                     progressDialog.dismiss();
                     Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG);
                     snackbar.show();
-                    //Toast.makeText(getApplicationContext(), StringConstants.NETWORK_CONNECTION_ERROR_STR, Toast.LENGTH_SHORT).show();
                     submitButton.setEnabled(true);
                 }
             });
@@ -227,9 +227,8 @@ public class NewLoginActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         progressDialog.dismiss();
-                        Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG);
+                        Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.LOGIN_FAILURE_STR, Snackbar.LENGTH_LONG);
                         snackbar.show();
-                        //Toast.makeText(getApplicationContext(), StringConstants.FAILURE_STR, Toast.LENGTH_SHORT).show();
                         submitButton.setEnabled(true);
                     }
                 });

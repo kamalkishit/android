@@ -7,15 +7,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.humanize.android.AlarmReceiver;
+import com.humanize.android.JsonParser;
 import com.humanize.android.NewLoginActivity;
 import com.humanize.android.R;
 import com.humanize.android.authentication.activity.LoginActivity;
@@ -42,18 +44,16 @@ import butterknife.ButterKnife;
 
 public class AppLauncherActivity extends AppCompatActivity {
 
+    @Bind(R.id.relativeLayout) RelativeLayout relativeLayout;
     @Bind(R.id.title) TextView title;
 
-    private static final String TAG = AppLauncherActivity.class.getSimpleName();
+    ActivityLauncher activityLauncher;
 
-    SharedPreferencesService sharedPreferencesService = null;
+    private static final String TAG = AppLauncherActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN); */
         setContentView(R.layout.activity_app_launcher);
 
         ButterKnife.bind(this);
@@ -65,24 +65,21 @@ public class AppLauncherActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-        sharedPreferencesService = SharedPreferencesService.getInstance();
+        activityLauncher = new ActivityLauncher();
     }
 
     private void startLoginActivity() {
         new Handler().postDelayed(new Runnable() {
             public void run() {
                 Intent intent = new Intent(getApplicationContext(), NewLoginActivity.class);
-                ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation(AppLauncherActivity.this, (View)title, "loginTransition");
-                startActivity(intent, options.toBundle());
-                //ActivityLauncher.startNewLoginActivity();
+                startActivity(intent);
                 finish();
             }
         }, Constants.SPLASH_SCREEN_DELAY_TIME);
     }
 
     private void startNextActivity() {
-        boolean isLoggedIn = sharedPreferencesService.getBoolean(Config.IS_LOGGED_IN);
+        boolean isLoggedIn = SharedPreferencesService.getInstance().getBoolean(Config.IS_LOGGED_IN);
 
         if (isLoggedIn && ApplicationState.getUser() != null) {
             startCardActivity();
@@ -95,7 +92,7 @@ public class AppLauncherActivity extends AppCompatActivity {
 
     private void startCardActivity() {
         if (CardActivity.contents != null) {
-            ActivityLauncher.startCardActivity();
+            activityLauncher.startCardActivity(relativeLayout);
         } else {
             getContents();
         }
@@ -104,11 +101,6 @@ public class AppLauncherActivity extends AppCompatActivity {
     private void getUserdata() {
         HttpUtil httpUtil = HttpUtil.getInstance();
         httpUtil.getUserdata(Config.USER_DATA_URL, new UserDataCallback());
-    }
-
-    private void startLoginSignupActivity() {
-        Intent intent = new Intent(getApplicationContext(), LaunchScreenActivity.class);
-        startActivity(intent);
     }
 
     private void getContents() {
@@ -120,10 +112,10 @@ public class AppLauncherActivity extends AppCompatActivity {
         System.out.println(response);
         try {
             Contents contents = new Gson().fromJson(response, Contents.class);
-            sharedPreferencesService.putString(Config.JSON_CONTENTS, response);
+            SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, response);
             CardActivity.contents = contents;
 
-            ActivityLauncher.startCardActivity();
+            activityLauncher.startCardActivity(relativeLayout);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -152,10 +144,15 @@ public class AppLauncherActivity extends AppCompatActivity {
     }
 
     public void onDestroy() {
-        sharedPreferencesService.putString(Config.USER_DATA_JSON, new Gson().toJson(ApplicationState.getUser()));
-        sharedPreferencesService.putString(Config.JSON_CONTENTS, new Gson().toJson(CardActivity.contents));
-        sharedPreferencesService.putString(Config.JSON_LIKES, new Gson().toJson(LikeService.getInstance().getLikes()));
-        sharedPreferencesService.putString(Config.JSON_BOOKMARKS, new Gson().toJson(BookmarkService.getInstance().getBookmarks()));
+        try {
+            SharedPreferencesService.getInstance().putString(Config.USER_DATA_JSON, new JsonParser().toJson(ApplicationState.getUser()));
+            SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, new JsonParser().toJson(CardActivity.contents));
+            SharedPreferencesService.getInstance().putString(Config.JSON_LIKES, new JsonParser().toJson(LikeService.getInstance().getLikes()));
+            SharedPreferencesService.getInstance().putString(Config.JSON_BOOKMARKS, new JsonParser().toJson(BookmarkService.getInstance().getBookmarks()));
+        } catch (Exception exception) {
+
+        }
+
         //updateUserData();
         updateContentsData();
         super.onDestroy();
@@ -180,7 +177,8 @@ public class AppLauncherActivity extends AppCompatActivity {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), StringConstants.NETWORK_CONNECTION_ERROR_STR, Toast.LENGTH_LONG).show();
+                    Snackbar snackbar = Snackbar.make(relativeLayout, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG);
+                    snackbar.show();
                 }
             });
         }
@@ -191,7 +189,8 @@ public class AppLauncherActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(), StringConstants.FAILURE_STR, Toast.LENGTH_LONG).show();
+                        Snackbar snackbar = Snackbar.make(relativeLayout, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG);
+                        snackbar.show();
                     }
                 });
             } else {
@@ -213,7 +212,8 @@ public class AppLauncherActivity extends AppCompatActivity {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), StringConstants.NETWORK_CONNECTION_ERROR_STR, Toast.LENGTH_LONG).show();
+                    Snackbar snackbar = Snackbar.make(relativeLayout, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG);
+                    snackbar.show();
                 }
             });
         }
@@ -224,7 +224,8 @@ public class AppLauncherActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(), StringConstants.FAILURE_STR, Toast.LENGTH_LONG).show();
+                        Snackbar snackbar = Snackbar.make(relativeLayout, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG);
+                        snackbar.show();
                     }
                 });
             } else {
@@ -248,7 +249,8 @@ public class AppLauncherActivity extends AppCompatActivity {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), StringConstants.NETWORK_CONNECTION_ERROR_STR, Toast.LENGTH_LONG).show();
+                    Snackbar snackbar = Snackbar.make(relativeLayout, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG);
+                    snackbar.show();
                 }
             });
         }
@@ -259,7 +261,8 @@ public class AppLauncherActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(), StringConstants.FAILURE_STR, Toast.LENGTH_LONG).show();
+                        Snackbar snackbar = Snackbar.make(relativeLayout, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG);
+                        snackbar.show();
                     }
                 });
             } else {

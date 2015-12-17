@@ -4,11 +4,11 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!-- Elevation height -->
-    <dimen name="cardElevation">4dp</dimen>
-    <dimen name="toolbar_elevation">4dp</dimen>
-    <dimen name="fab_elevation">6dp</dimen>
-    <dimen name="snackbar_elevation">6dp</dimen>
-    <dimen name="nav_drawer_elevation">16dp</dimen>
+    <dimen name="cardElevation">6dp</dimen>
+    <dimen name="toolbarElevation">4dp</dimen>
+    <dimen name="fabElevation">6dp</dimen>
+    <dimen name="snackbarElevation">6dp</dimen>
+    <dimen name="navDrawerElevation">16dp</dimen>
 
     <dimen name="extraSmallMargin">4dp</dimen>
     <dimen name="smallMargin">8dp</dimen>
@@ -25,10 +25,10 @@
     <dimen name="mediumSizeFont">16sp</dimen>
     <dimen name="largeSizeFont">24sp</dimen>
 
-    <dimen name="nav_drawer_width">300dp</dimen>
+    <dimen name="navDrawerWidth">300dp</dimen>
     <dimen name="imageButtonWidth">40dp</dimen>
     <dimen name="imageButtonHeight">40dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fabMargin">16dp</dimen>
 
     <dimen name="lineWidthSmall">1dp</dimen>
     <dimen name="lineWidthMedium">2dp</dimen>
@@ -40,4 +40,5 @@
 
     <dimen name="categoryButtonHeight">60dp</dimen>
     <dimen name="paddingTop">8dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

@@ -12,6 +12,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.humanize.android.R;
+import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
 
 import butterknife.Bind;
@@ -62,7 +63,7 @@ public class WebBrowserActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.actionSettings) {
             return true;
         } else if (id == android.R.id.home) {
             onBackPressed();
