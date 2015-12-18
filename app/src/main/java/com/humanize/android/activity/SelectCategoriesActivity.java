@@ -534,7 +534,8 @@ public class SelectCategoriesActivity extends AppCompatActivity {
                         try {
                             User user = new JsonParser().fromJson(responseStr, User.class);
                             ApplicationState.setUser(user);
-                            activityLauncher.startCardActivity(view);
+                            startPaperTimeSelectorActivity();
+                            //activityLauncher.startCardActivity(view);
                         } catch (Exception exception) {
 
                         }

@@ -1,33 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     android:background="@color/colorWhite"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:id="@+id/linearLayout" >
+        android:background="@color/colorWhite">
 
-        <TextView
-            android:id="@+id/paperReminderText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/mediumMargin"
-            android:gravity="center"
-            android:textColor="@color/colorWhite"
-            android:text="SELECT PAPER TIME"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-    </LinearLayout>
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar">
+        </include>
+    </android.support.design.widget.AppBarLayout>
 
     <TimePicker
         android:id="@+id/timePicker"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/mediumMargin"
-        android:layout_below="@id/linearLayout" />
+        android:layout_marginLeft="@dimen/largeMargin"
+        android:layout_marginRight="@dimen/largeMargin"
+        android:layout_marginTop="@dimen/mediumMargin"
+        android:layout_below="@id/appbarLayout" />
+
+    <CheckBox android:id="@+id/paperNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleX=".8"
+        android:scaleY=".8"
+        android:layout_below="@id/timePicker"
+        android:text="Paper Notification"
+        android:textColor="@color/colorSecondary"
+        android:buttonTint="@color/colorSecondary"
+        android:layout_centerHorizontal="true"
+        android:onClick="onCheckboxClicked"/>
 
     <android.support.v7.widget.AppCompatButton
         android:textColor="@color/colorWhite"
@@ -35,8 +44,9 @@
         android:background="@drawable/button_selector"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/mediumMargin"
-        android:layout_marginRight="@dimen/mediumMargin"
+        android:layout_marginTop="@dimen/mediumMargin"
+        android:layout_marginLeft="@dimen/largeMargin"
+        android:layout_marginRight="@dimen/largeMargin"
         android:text="DONE"
-        android:layout_below="@id/timePicker" />
+        android:layout_below="@id/paperNotification" />
 </RelativeLayout>

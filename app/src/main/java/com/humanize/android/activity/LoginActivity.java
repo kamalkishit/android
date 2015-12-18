@@ -187,7 +187,7 @@ public class LoginActivity extends AppCompatActivity {
                 ApplicationState.setUser(user);
                 SharedPreferencesService.getInstance().putBoolean(Config.IS_LOGGED_IN, true);
                 SharedPreferencesService.getInstance().putString(Config.USER_DATA_JSON, response);
-                if (user.getIsConfigured()) {
+                if (!user.getIsConfigured()) {
                     activityLauncher.startCardActivity(coordinatorLayout);
                 } else {
                     Intent intent = new Intent(getApplicationContext(), SelectCategoriesActivity.class);

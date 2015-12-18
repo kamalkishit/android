@@ -4,12 +4,15 @@ package com.humanize.android.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.humanize.android.R;
 import com.humanize.android.common.Constants;
+import com.humanize.android.common.StringConstants;
 import com.humanize.android.util.AlarmHelper;
 import com.humanize.android.util.ApplicationState;
 
@@ -23,6 +26,9 @@ import butterknife.ButterKnife;
 
 public class PaperReminderActivity extends AppCompatActivity {
 
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.toolbarText)
+    TextView toolbarText;
     @Bind(R.id.doneButton) Button doneButton;
     @Bind(R.id.timePicker) TimePicker timePicker;
 
@@ -32,9 +38,16 @@ public class PaperReminderActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        initialize();
+        configureListeners();
+    }
+
+    private void initialize() {
+        setSupportActionBar(toolbar);
+        toolbarText.setText(StringConstants.PAPER_TIME_SELECTOR);
+        toolbarText.setGravity(1);
         timePicker.setCurrentHour(Constants.DEFAULT_PAPER_TIME_HOUR);
         timePicker.setCurrentMinute(Constants.DEFAULT_PAPER_TIME_MINUTE);
-        configureListeners();
     }
 
     private void configureListeners() {

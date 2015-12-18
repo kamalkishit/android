@@ -95,7 +95,7 @@
         android:scaleX=".8"
         android:scaleY=".8"
         android:text="have you verified the article"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorSecondary"
         android:buttonTint="@color/colorSecondary"
         android:layout_centerHorizontal="true"
         android:onClick="onCheckboxClicked"/>
