@@ -9,9 +9,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.humanize.android.AlarmReceiver;
@@ -24,10 +23,10 @@ import com.humanize.android.data.User;
 import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.service.BookmarkService;
 import com.humanize.android.service.LikeService;
+import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
-import com.humanize.android.service.SharedPreferencesService;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -40,12 +39,9 @@ import butterknife.ButterKnife;
 
 public class AppLauncherActivity extends AppCompatActivity {
 
-    @Bind(R.id.relativeLayout) RelativeLayout relativeLayout;
-    @Bind(R.id.title) TextView title;
-
-    ActivityLauncher activityLauncher;
-
     private static final String TAG = AppLauncherActivity.class.getSimpleName();
+    @Bind(R.id.relativeLayout) RelativeLayout relativeLayout;
+    ActivityLauncher activityLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,14 +57,14 @@ public class AppLauncherActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         activityLauncher = new ActivityLauncher();
     }
 
     private void startLoginActivity() {
         new Handler().postDelayed(new Runnable() {
             public void run() {
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
+                activityLauncher.startLoginActivity();
                 finish();
             }
         }, Constants.SPLASH_SCREEN_DELAY_TIME);
@@ -88,7 +84,12 @@ public class AppLauncherActivity extends AppCompatActivity {
 
     private void startCardActivity() {
         if (CardActivity.contents != null) {
-            activityLauncher.startCardActivity(relativeLayout);
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    activityLauncher.startCardActivity(relativeLayout);
+                    finish();
+                }
+            }, Constants.SPLASH_SCREEN_DELAY_TIME);
         } else {
             getContents();
         }
@@ -141,8 +142,10 @@ public class AppLauncherActivity extends AppCompatActivity {
 
     public void onDestroy() {
         try {
+            System.out.println("##########################");
+            System.out.println("destroying");
             SharedPreferencesService.getInstance().putString(Config.USER_DATA_JSON, new JsonParser().toJson(ApplicationState.getUser()));
-            SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, new JsonParser().toJson(CardActivity.contents));
+            //SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, new JsonParser().toJson(CardActivity.contents));
             SharedPreferencesService.getInstance().putString(Config.JSON_LIKES, new JsonParser().toJson(LikeService.getInstance().getLikes()));
             SharedPreferencesService.getInstance().putString(Config.JSON_BOOKMARKS, new JsonParser().toJson(BookmarkService.getInstance().getBookmarks()));
         } catch (Exception exception) {
@@ -229,9 +232,13 @@ public class AppLauncherActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        ApplicationState.setUser(new Gson().fromJson(responseStr, User.class));
-                        startCardActivity();
-                        success(responseStr);
+                        try {
+                            ApplicationState.setUser(new JsonParser().fromJson(responseStr, User.class));
+                            startCardActivity();
+                            success(responseStr);
+                        } catch (Exception exception) {
+                            exception.printStackTrace();
+                        }
                     }
                 });
             }
@@ -262,15 +269,11 @@ public class AppLauncherActivity extends AppCompatActivity {
                     }
                 });
             } else {
+                final String responseStr = response.body().string().toString();
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            String responseStr = response.body().string().toString();
-                            success(responseStr);
-                        } catch (IOException exception) {
-                            Log.e(TAG, exception.toString());
-                        }
+                        success(responseStr);
                     }
                 });
             }

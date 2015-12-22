@@ -1,27 +1,17 @@
 package com.humanize.android.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.humanize.android.ContentRecyclerViewAdapter;
 import com.humanize.android.R;
 import com.humanize.android.common.StringConstants;
-import com.humanize.android.content.data.Content;
-import com.humanize.android.util.ApplicationState;
-import com.humanize.android.util.Config;
-import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -31,6 +21,8 @@ public class BookmarksActivity extends AppCompatActivity {
     @Bind(R.id.recyclerView) RecyclerView recyclerView;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbarText) TextView toolbarText;
+
+    private ContentRecyclerViewAdapter contentRecyclerViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +47,8 @@ public class BookmarksActivity extends AppCompatActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        BookmarksAdapter bookmarksAdapter = new BookmarksAdapter();
-        recyclerView.setAdapter(bookmarksAdapter);
+        contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(null);
+        recyclerView.setAdapter(contentRecyclerViewAdapter);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -88,67 +80,5 @@ public class BookmarksActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public static class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.ViewHolder> {
-
-        public static ArrayList<Content> contents = new ArrayList<Content>();
-        public static int currentItem = 0;
-
-        public BookmarksAdapter() {
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return contents.size();
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolder viewHolder, int index) {
-            Content content = contents.get(index);
-            viewHolder.title.setText(content.getTitle());
-            viewHolder.description.setText(content.getDescription());
-            viewHolder.source.setText(content.getSource());
-            viewHolder.imageView.setImageResource(R.drawable.background);
-            viewHolder.imageView.getLayoutParams().width = Config.IMAGE_WIDTH;
-            viewHolder.imageView.getLayoutParams().height = Config.IMAGE_HEIGHT;
-            Picasso.with(ApplicationState.getAppContext()).load(Config.IMAGES_URL + content.getImageURL())
-                    .placeholder(R.drawable.background)
-                    .resize(Config.IMAGE_WIDTH, Config.IMAGE_HEIGHT).into(viewHolder.imageView);
-        }
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int index) {
-            View cardView = LayoutInflater.
-                    from(viewGroup.getContext()).
-                    inflate(R.layout.content_card, viewGroup, false);
-
-            return new BookmarksAdapter.ViewHolder(cardView);
-        }
-
-        public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-            protected TextView title;
-            protected TextView description;
-            protected ImageView imageView;
-            protected TextView source;
-
-            public ViewHolder(View view) {
-                super(view);
-                title =  (TextView) view.findViewById(R.id.contentTitle);
-                description = (TextView)  view.findViewById(R.id.contentDescription);
-                imageView = (ImageView) view.findViewById(R.id.contentImage);
-                //source = (TextView) view.findViewById(R.id.contentSource);
-                view.setOnClickListener(this);
-            }
-
-            public void onClick(View view) {
-                currentItem = getAdapterPosition();
-                Intent intent = new Intent(ApplicationState.getAppContext(), WebBrowserActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                ApplicationState.getAppContext().startActivity(intent);
-            }
-        }
     }
 }

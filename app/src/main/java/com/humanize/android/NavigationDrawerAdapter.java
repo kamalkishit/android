@@ -30,8 +30,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.nav_drawer_row, parent, false);
-        MyViewHolder holder = new MyViewHolder(view);
-        return holder;
+        return new MyViewHolder(view);
     }
 
     @Override
@@ -54,7 +53,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
         }
 
         public void onClick(View view) {
-            //CardActivity.RecyclerViewAdapter.currentItem = getAdapterPosition();
+            //CardActivity.ContentRecyclerViewAdapter.currentItem = getAdapterPosition();
             /*Intent intent = new Intent(ApplicationState.getAppContext(), WebBrowserActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             ApplicationState.getAppContext().startActivity(intent);*/

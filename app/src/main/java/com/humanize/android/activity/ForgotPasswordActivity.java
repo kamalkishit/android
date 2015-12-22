@@ -1,29 +1,42 @@
 package com.humanize.android.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.humanize.android.R;
 import com.humanize.android.common.StringConstants;
+import com.humanize.android.helper.ActivityLauncher;
+import com.humanize.android.util.Config;
+import com.humanize.android.util.HttpUtil;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+
+import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
+    private static final String TAG = ForgotPasswordActivity.class.getSimpleName();
     @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
     @Bind(R.id.emailId) EditText emailId;
     @Bind(R.id.submitButton) Button submitButton;
-
-    private static final String TAG = ForgotPasswordActivity.class.getSimpleName();
+    private ActivityLauncher activityLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +50,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-
+        activityLauncher = new ActivityLauncher();
     }
 
     private void configureListeners() {
@@ -55,13 +68,29 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                resetPassword();
+                forgotPassword();
+            }
+        });
+
+        submitButton.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                return false;
             }
         });
     }
 
-    private void resetPassword() {
-        validate();
+    private void forgotPassword() {
+        if (validate()) {
+            try {
+                HttpUtil.getInstance().forgotPassword(Config.USER_FORGOT_PASSWORD_URL, emailId.getText().toString(), new ForgotPasswordCallback());
+            } catch (Exception exception) {
+                Log.e(TAG, exception.toString());
+            }
+        }
     }
 
     public boolean validate() {
@@ -75,5 +104,46 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    private void forgotPasswordSuccess() {
+        activityLauncher.startResetPasswordActivity();
+    }
+
+    private class ForgotPasswordCallback implements Callback {
+
+        @Override
+        public void onFailure(Request request, IOException exception) {
+            Log.e(TAG, exception.toString());
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    submitButton.setEnabled(true);
+                    Snackbar.make(coordinatorLayout, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        @Override
+        public void onResponse(final Response response) throws IOException {
+            if (!response.isSuccessful()) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        submitButton.setEnabled(true);
+                        Snackbar.make(coordinatorLayout, StringConstants.FAILURE_STR, Snackbar.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                final String responseStr = response.body().string().toString();
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        submitButton.setEnabled(true);
+                        forgotPasswordSuccess();
+                    }
+                });
+            }
+        }
     }
 }

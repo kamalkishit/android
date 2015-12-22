@@ -12,7 +12,7 @@ public class Content {
 
     private String contentId;
 
-    private String contentURL;
+    private String url;
 
     private String userId;
 
@@ -26,7 +26,7 @@ public class Content {
 
     private String source;
 
-    private String contentType;
+    private String type;
 
     private String category;
 
@@ -34,19 +34,23 @@ public class Content {
 
     private String videoURL;
 
-    private int likesCount;
+    private int recommendedCount;
 
-    private int viewsCount;
+    private int viewedCount;
 
     private int sharedCount;
 
-    public Content() {
-        this.subCategories = new ArrayList<String>();
-    }
+    private boolean isVerified;
+
+    private boolean isDeleted;
 
     private long createdDate;
 
     private long lastModifiedDate;
+
+    public Content() {
+        this.subCategories = new ArrayList<>();
+    }
 
     public String getId() {
         return id;
@@ -64,12 +68,12 @@ public class Content {
         this.contentId = contentId;
     }
 
-    public String getContentURL() {
-        return contentURL;
+    public String getUrl() {
+        return url;
     }
 
-    public void setContentURL(String contentURL) {
-        this.contentURL = contentURL;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getUserId() {
@@ -120,12 +124,12 @@ public class Content {
         this.source = source;
     }
 
-    public String getContentType() {
-        return contentType;
+    public String getType() {
+        return type;
     }
 
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getCategory() {
@@ -152,20 +156,20 @@ public class Content {
         this.videoURL = videoURL;
     }
 
-    public int getLikesCount() {
-        return likesCount;
+    public int getRecommendedCount() {
+        return recommendedCount;
     }
 
-    public void setLikesCount(int likesCount) {
-        this.likesCount = likesCount;
+    public void setRecommendedCount(int recommendedCount) {
+        this.recommendedCount = recommendedCount;
     }
 
-    public int getViewsCount() {
-        return viewsCount;
+    public int getViewedCount() {
+        return viewedCount;
     }
 
-    public void setViewsCount(int viewsCount) {
-        this.viewsCount = viewsCount;
+    public void setViewedCount(int viewsCount) {
+        this.viewedCount = viewsCount;
     }
 
     public int getSharedCount() {

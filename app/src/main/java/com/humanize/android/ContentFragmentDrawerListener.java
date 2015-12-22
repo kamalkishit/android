@@ -5,17 +5,16 @@ import android.view.View;
 
 import com.google.gson.Gson;
 import com.humanize.android.activity.BookmarksActivity;
-import com.humanize.android.activity.RecommendationsActivity;
 import com.humanize.android.activity.PaperActivity;
 import com.humanize.android.activity.PaperLauncherActivity;
+import com.humanize.android.activity.RecommendationsActivity;
 import com.humanize.android.content.data.Contents;
 import com.humanize.android.helper.ActivityLauncher;
-import com.humanize.android.service.BookmarkService;
 import com.humanize.android.service.LikeService;
+import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
-import com.humanize.android.service.SharedPreferencesService;
 
 /**
  * Created by Kamal on 8/23/15.
@@ -24,7 +23,7 @@ public class ContentFragmentDrawerListener implements  FragmentDrawer.FragmentDr
     public void onDrawerItemSelected(View view, int position) {
 
         HttpUtil httpUtil = HttpUtil.getInstance();
-        Intent intent = new Intent();
+        Intent intent;
         ActivityLauncher activityLauncher = new ActivityLauncher();
         switch(position){
             case 1:
@@ -43,7 +42,6 @@ public class ContentFragmentDrawerListener implements  FragmentDrawer.FragmentDr
                 break;
 
             case 2:
-                BookmarksActivity.BookmarksAdapter.contents = BookmarkService.getInstance().getBookmarks().getContents();
                 intent = new Intent(ApplicationState.getAppContext(), BookmarksActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 ApplicationState.getAppContext().startActivity(intent);

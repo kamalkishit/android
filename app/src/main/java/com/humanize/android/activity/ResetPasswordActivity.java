@@ -9,19 +9,17 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.humanize.android.JsonParser;
 import com.humanize.android.R;
-import com.humanize.android.common.Constants;
 import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.User;
 import com.humanize.android.helper.ActivityLauncher;
@@ -38,23 +36,29 @@ import java.io.IOException;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class LoginActivity extends AppCompatActivity {
+public class ResetPasswordActivity extends AppCompatActivity {
 
-    private static final String TAG = LoginActivity.class.getSimpleName();
-    @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
-    @Bind(R.id.emailId) EditText emailId;
-    @Bind(R.id.password) EditText password;
-    @Bind(R.id.submitButton) Button submitButton;
-    @Bind(R.id.forgotPasswordLink) TextView forgotPasswordLink;
-    @Bind(R.id.registerLink) TextView registerLink;
+    private static final String TAG = ResetPasswordActivity.class.getSimpleName();
+    @Bind(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
+    @Bind(R.id.emailId)
+    EditText emailId;
+    @Bind(R.id.tempPassword)
+    EditText tempPassword;
+    @Bind(R.id.newPassword)
+    EditText newPassword;
+    @Bind(R.id.submitButton)
+    Button submitButton;
+    ActivityLauncher activityLauncher;
+    String emailIdStr;
+    String tempPasswordStr;
+    String newPasswordStr;
     private ProgressDialog progressDialog;
-    private boolean doubleBackToExitPressedOnce;
-    private ActivityLauncher activityLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_reset_password);
 
         ButterKnife.bind(this);
 
@@ -62,33 +66,8 @@ public class LoginActivity extends AppCompatActivity {
         configureListeners();
     }
 
-    @Override
-    public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
-        }
-
-        this.doubleBackToExitPressedOnce = true;
-        Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.DOUBLE_BACK_EXIT_STR, Snackbar.LENGTH_SHORT);
-        snackbar.show();
-
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
-            }
-        }, Constants.DOUBLE_EXIT_DELAY_TIME);
-    }
-
     private void initialize() {
-        progressDialog = new ProgressDialog(this);
         activityLauncher = new ActivityLauncher();
-        doubleBackToExitPressedOnce = false;
-        forgotPasswordLink.setText(Html.fromHtml(StringConstants.FORGOT_PASSWORD_STR));
-        registerLink.setText(Html.fromHtml(StringConstants.REGISTER_STR));
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
     private void configureListeners() {
@@ -100,75 +79,97 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
 
-            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-            public void onTextChanged(CharSequence s, int start, int before, int count){}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
         });
 
-        password.addTextChangedListener(new TextWatcher() {
+        tempPassword.addTextChangedListener(new TextWatcher() {
             // after every change has been made to this editText, we would like to check validity
             public void afterTextChanged(Editable s) {
-                if (password.getError() != null) {
-                    password.setError(null);
+                if (tempPassword.getError() != null) {
+                    tempPassword.setError(null);
                 }
             }
 
-            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-            public void onTextChanged(CharSequence s, int start, int before, int count){}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+        });
+
+        newPassword.addTextChangedListener(new TextWatcher() {
+            // after every change has been made to this editText, we would like to check validity
+            public void afterTextChanged(Editable s) {
+                if (newPassword.getError() != null) {
+                    newPassword.setError(null);
+                }
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
         });
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                login();
+                resetPassword();
             }
         });
 
-        forgotPasswordLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ForgotPasswordActivity.class);
-                startActivity(intent);
-            }
-        });
+        submitButton.setOnTouchListener(new View.OnTouchListener() {
 
-        registerLink.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
-                startActivity(intent);
+            public boolean onTouch(View v, MotionEvent event) {
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                return false;
             }
         });
     }
 
-    private void login() {
+    private void resetPassword() {
         if (validate()) {
             submitButton.setEnabled(false);
-
             progressDialog.setIndeterminate(true);
-            progressDialog.setMessage(StringConstants.AUTHENTICATING);
+            progressDialog.setMessage(StringConstants.RESETTING_PASSWORD);
             progressDialog.show();
 
-            User user = new User();
-            user.setEmailId(emailId.getText().toString());
-            user.setPassword(password.getText().toString());
-
-            HttpUtil.getInstance().login(Config.USER_LOGIN_URL, emailId.getText().toString(), password.getText().toString(), new LoginCallback());
+            try {
+                HttpUtil.getInstance().resetPassword(Config.USER_RESET_PASSWORD_URL, emailIdStr, tempPasswordStr, newPasswordStr, new ResetPasswordCallback());
+            } catch (Exception exception) {
+                Log.e(TAG, exception.toString());
+            }
         }
     }
 
-    public boolean validate() {
-        String emailStr = emailId.getText().toString();
-        String passwordStr = password.getText().toString();
+    private boolean validate() {
+        emailIdStr = emailId.getText().toString();
+        tempPasswordStr = tempPassword.getText().toString();
+        newPasswordStr = newPassword.getText().toString();
 
-        if (emailStr.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(emailStr).matches()) {
+        if (emailIdStr.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(emailIdStr).matches()) {
             emailId.setError(StringConstants.EMAIL_VALIDATION_ERROR_STR);
             Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.EMAIL_VALIDATION_ERROR_STR, Snackbar.LENGTH_SHORT);
             snackbar.show();
             return false;
         }
 
-        if (passwordStr.isEmpty() || passwordStr.length() < Config.PASSWORD_MIN_LENGTH || password.length() > Config.PASSWORD_MAX_LENGTH) {
-            password.setError(StringConstants.PASSWORD_VALIDATION_ERROR_STR);
+        if (tempPasswordStr.isEmpty() || tempPasswordStr.length() < Config.PASSWORD_MIN_LENGTH || tempPassword.length() > Config.PASSWORD_MAX_LENGTH) {
+            tempPassword.setError(StringConstants.PASSWORD_VALIDATION_ERROR_STR);
+            Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.PASSWORD_VALIDATION_ERROR_STR, Snackbar.LENGTH_SHORT);
+            snackbar.show();
+            return false;
+        }
+
+        if (newPasswordStr.isEmpty() || newPasswordStr.length() < Config.PASSWORD_MIN_LENGTH || newPassword.length() > Config.PASSWORD_MAX_LENGTH) {
+            newPassword.setError(StringConstants.PASSWORD_VALIDATION_ERROR_STR);
             Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.PASSWORD_VALIDATION_ERROR_STR, Snackbar.LENGTH_SHORT);
             snackbar.show();
             return false;
@@ -177,7 +178,7 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    private void loginSuccess(String response) {
+    private void resetPasswordSuccess(String response) {
         try {
             User user = new JsonParser().fromJson(response, User.class);
 
@@ -185,7 +186,7 @@ public class LoginActivity extends AppCompatActivity {
                 ApplicationState.setUser(user);
                 SharedPreferencesService.getInstance().putBoolean(Config.IS_LOGGED_IN, true);
                 SharedPreferencesService.getInstance().putString(Config.USER_DATA_JSON, response);
-                if (user.getIsConfigured()) {
+                if (!user.getIsConfigured()) {
                     activityLauncher.startCardActivity(coordinatorLayout);
                 } else {
                     Intent intent = new Intent(getApplicationContext(), SelectCategoriesActivity.class);
@@ -199,7 +200,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private class LoginCallback implements Callback {
+    private class ResetPasswordCallback implements Callback {
 
         @Override
         public void onFailure(Request request, IOException exception) {
@@ -208,9 +209,8 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     progressDialog.dismiss();
-                    Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG);
-                    snackbar.show();
                     submitButton.setEnabled(true);
+                    Snackbar.make(coordinatorLayout, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_SHORT).show();
                 }
             });
         }
@@ -222,9 +222,8 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         progressDialog.dismiss();
-                        Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.LOGIN_FAILURE_STR, Snackbar.LENGTH_LONG);
-                        snackbar.show();
                         submitButton.setEnabled(true);
+                        Snackbar.make(coordinatorLayout, StringConstants.FAILURE_STR, Snackbar.LENGTH_SHORT).show();
                     }
                 });
             } else {
@@ -233,7 +232,8 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         progressDialog.dismiss();
-                        loginSuccess(responseStr);
+                        submitButton.setEnabled(true);
+                        resetPasswordSuccess(responseStr);
                     }
                 });
             }

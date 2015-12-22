@@ -26,6 +26,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -108,7 +109,7 @@ public class PaperActivity extends AppCompatActivity {
     }
 
     public static class PaperAdapter extends RecyclerView.Adapter<PaperAdapter.ViewHolder> {
-        public static ArrayList<Content> contents = new ArrayList<>();
+        public static List<Content> contents = new ArrayList<>();
         public static int currentItem = 0;
 
         public PaperAdapter() {

@@ -18,10 +18,21 @@ import java.util.Map;
  */
 public class ContentService {
 
-    private Map<String, Content> contentMap;
     private static ContentService contentService = null;
-
     private static String TAG = ContentService.class.getSimpleName();
+    private Map<String, Content> contentMap;
+
+    public ContentService() {
+        this.contentMap = new HashMap<>();
+    }
+
+    public static ContentService getInstance() {
+        if (contentService == null) {
+            contentService = new ContentService();
+        }
+
+        return contentService;
+    }
 
     public void incrRecommendationCount(String contentId) {
         HttpUtil.getInstance().updateRecommendationCount(Config.UPDATE_RECOMMENDATION_COUNT, contentId, true, new UpdateRecommendationCountCallback());
@@ -43,18 +54,6 @@ public class ContentService {
 
     }
 
-    public ContentService() {
-        this.contentMap = new HashMap<String, Content>();
-    }
-
-    public static ContentService getInstance() {
-        if (contentService == null) {
-            contentService = new ContentService();
-        }
-
-        return contentService;
-    }
-
     public Map<String, Content> getContentMap() {
         return contentMap;
     }
@@ -66,11 +65,11 @@ public class ContentService {
     public void incrementLikeCount(String id) {
         Content content = contentMap.get(id);
         if (content != null) {
-            content.setLikesCount(content.getLikesCount() + 1);
+            content.setRecommendedCount(content.getRecommendedCount() + 1);
         } else {
             content = new Content();
             content.setId(id);
-            content.setLikesCount(1);
+            content.setRecommendedCount(1);
             contentMap.put(id, content);
         }
     }
@@ -78,11 +77,11 @@ public class ContentService {
     public void decrementLikeCount(String id) {
         Content content = contentMap.get(id);
         if (content != null) {
-            content.setLikesCount(content.getLikesCount() - 1);
+            content.setRecommendedCount(content.getRecommendedCount() - 1);
         } else {
             content = new Content();
             content.setId(id);
-            content.setLikesCount(-1);
+            content.setRecommendedCount(-1);
             contentMap.put(id, content);
         }
     }
@@ -102,11 +101,11 @@ public class ContentService {
     public void incrementViewCount(String id) {
         Content content = contentMap.get(id);
         if (content != null) {
-            content.setViewsCount(content.getViewsCount() + 1);
+            content.setViewedCount(content.getViewedCount() + 1);
         } else {
             content = new Content();
             content.setId(id);
-            content.setViewsCount(1);
+            content.setViewedCount(1);
             contentMap.put(id, content);
         }
     }

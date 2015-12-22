@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.humanize.android.HttpResponseCallback;
-import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.MediaType;
@@ -24,9 +23,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class HttpUtil {
 
-    private static HttpUtil httpUtil = null;
-
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private static HttpUtil httpUtil = null;
 
     private HttpUtil() {
     }
@@ -37,6 +35,16 @@ public class HttpUtil {
         }
 
         return httpUtil;
+    }
+
+    public void forgotPassword(String url, String emailId, Callback callback) {
+        url += "?emailId=" + emailId;
+        get(url, callback);
+    }
+
+    public void resetPassword(String url, String emailId, String tempPassword, String newPassword, Callback callback) {
+        url += "?emailId=" + emailId + "&tempPassword=" + tempPassword + "&newPassword=" + newPassword;
+        get(url, callback);
     }
 
     public void recommendContentForUser(String url, String userId, String contentId, boolean flag, Callback callback) {
@@ -86,7 +94,7 @@ public class HttpUtil {
     public void getContents(Callback callback) {
         String url = Config.CONTENT_FIND_URL;
 
-        ArrayList<String> categories = new ArrayList<String>(ApplicationState.getUser().getCategories());
+        ArrayList<String> categories = new ArrayList<>(ApplicationState.getUser().getCategories());
 
         if (categories != null) {
             url = url + "?categories=";
@@ -101,7 +109,7 @@ public class HttpUtil {
     public void refreshContents(String createdDate, Callback callback) {
         String url = Config.CONTENT_FIND_URL;
 
-        ArrayList<String> categories = new ArrayList<String>(ApplicationState.getUser().getCategories());
+        ArrayList<String> categories = new ArrayList<>(ApplicationState.getUser().getCategories());
 
         if (categories != null) {
             url = url + "?categories=";
@@ -129,7 +137,7 @@ public class HttpUtil {
     public void getMoreContents(String createdDate, Callback callback) {
         String url = Config.CONTENT_FIND_URL;
 
-        ArrayList<String> categories = new ArrayList<String>(ApplicationState.getUser().getCategories());
+        ArrayList<String> categories = new ArrayList<>(ApplicationState.getUser().getCategories());
 
         if (categories != null) {
             url = url + "?categories=";
@@ -170,7 +178,7 @@ public class HttpUtil {
     private void get(String url, Callback callback) {
         System.out.println(url);
         OkHttpClient okHttpClient = new OkHttpClient();
-        okHttpClient.setReadTimeout(Config.READ_TIMEOUT, TimeUnit.SECONDS.MILLISECONDS);
+        okHttpClient.setReadTimeout(Config.READ_TIMEOUT, TimeUnit.MILLISECONDS);
         Request request = new Request.Builder().url(url).build();
 
         okHttpClient.newCall(request).enqueue(callback);
@@ -179,7 +187,7 @@ public class HttpUtil {
     private void get(String url, final HttpResponseCallback httpResponseCallback) {
         System.out.println(url);
         OkHttpClient okHttpClient = new OkHttpClient();
-        okHttpClient.setReadTimeout(Config.READ_TIMEOUT, TimeUnit.SECONDS.MILLISECONDS);
+        okHttpClient.setReadTimeout(Config.READ_TIMEOUT, TimeUnit.MILLISECONDS);
         Request request = new Request.Builder().url(url).build();
 
         okHttpClient.newCall(request).enqueue(new Callback() {

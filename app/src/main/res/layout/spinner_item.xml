@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/spinnerItem"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:clickable="true"
-    android:textSize="@dimen/mediumSizeFont"
     android:background="@color/colorWhite"
-    android:textColor="@color/colorPrimary" />
+    android:orientation="horizontal"
+    android:paddingRight="@dimen/largeMargin">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_gravity="center_vertical"
+        android:padding="10dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/mediumSizeFont" />
+</LinearLayout>

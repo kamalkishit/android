@@ -1,14 +1,8 @@
 package com.humanize.android;
 
-import android.content.Intent;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 
-import com.humanize.android.activity.CardActivity;
-import com.humanize.android.common.Constants;
 import com.humanize.android.content.data.Content;
-import com.humanize.android.content.data.Contents;
 import com.humanize.android.data.User;
 import com.humanize.android.service.BookmarkService;
 import com.humanize.android.service.LikeService;
@@ -26,32 +20,31 @@ import java.io.IOException;
  */
 public class UserService {
 
-    private User user;
-
     private static String TAG = UserService.class.getSimpleName();
+    private User user;
 
     public UserService() {
 
     }
 
+    public UserService(User user) {
+        this.user = user;
+    }
+
     public void recommendContent(String contentId) {
-        HttpUtil.getInstance().recommendContentForUser(Config.USER_CONTENT_RECOMMEND_URL, ApplicationState.getUser().getUserId(), contentId, true, new RecommendContentCallback());
+        HttpUtil.getInstance().recommendContentForUser(Config.USER_CONTENT_RECOMMEND_URL, ApplicationState.getUser().getId(), contentId, true, new RecommendContentCallback());
     }
 
     public void unrecommendContent(String contentId) {
-        HttpUtil.getInstance().recommendContentForUser(Config.USER_CONTENT_RECOMMEND_URL, ApplicationState.getUser().getUserId(), contentId, false, new RecommendContentCallback());
+        HttpUtil.getInstance().recommendContentForUser(Config.USER_CONTENT_RECOMMEND_URL, ApplicationState.getUser().getId(), contentId, false, new RecommendContentCallback());
     }
 
     public void bookmarkContent(String contentId) {
-        HttpUtil.getInstance().bookmarkContentForUser(Config.USER_CONTENT_BOOKMARK_URL, ApplicationState.getUser().getUserId(), contentId, true, new BookmarkContentCallback());
+        HttpUtil.getInstance().bookmarkContentForUser(Config.USER_CONTENT_BOOKMARK_URL, ApplicationState.getUser().getId(), contentId, true, new BookmarkContentCallback());
     }
 
     public void unbookmarkContent(String contentId) {
-        HttpUtil.getInstance().bookmarkContentForUser(Config.USER_CONTENT_BOOKMARK_URL, ApplicationState.getUser().getUserId(), contentId, false, new BookmarkContentCallback());
-    }
-
-    public UserService(User user) {
-        this.user = user;
+        HttpUtil.getInstance().bookmarkContentForUser(Config.USER_CONTENT_BOOKMARK_URL, ApplicationState.getUser().getId(), contentId, false, new BookmarkContentCallback());
     }
 
     public User getUser() {
@@ -73,19 +66,13 @@ public class UserService {
     }
 
     public boolean isLiked(String id) {
-        if (user.getLikes().contains(id)) {
-            return true;
-        }
+        return user.getLikes().contains(id);
 
-        return false;
     }
 
     public boolean isBookmarked(String id) {
-        if (user.getBookmarks().contains(id)) {
-            return true;
-        }
+        return user.getBookmarks().contains(id);
 
-        return false;
     }
 
     public void bookmark(Content content) {

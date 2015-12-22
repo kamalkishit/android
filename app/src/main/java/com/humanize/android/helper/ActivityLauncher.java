@@ -8,15 +8,16 @@ import android.view.View;
 
 import com.google.gson.Gson;
 import com.humanize.android.activity.AboutUsActivity;
-import com.humanize.android.activity.ContactUsActivity;
-import com.humanize.android.activity.LoginActivity;
 import com.humanize.android.activity.AppLauncherActivity;
 import com.humanize.android.activity.BookmarksActivity;
 import com.humanize.android.activity.CardActivity;
-import com.humanize.android.activity.PrivacyActivity;
-import com.humanize.android.activity.RecommendationsActivity;
+import com.humanize.android.activity.ContactUsActivity;
+import com.humanize.android.activity.LoginActivity;
 import com.humanize.android.activity.PaperActivity;
+import com.humanize.android.activity.PrivacyActivity;
 import com.humanize.android.activity.RecommendArticleActivity;
+import com.humanize.android.activity.RecommendationsActivity;
+import com.humanize.android.activity.ResetPasswordActivity;
 import com.humanize.android.activity.UsageActivity;
 import com.humanize.android.common.StringConstants;
 import com.humanize.android.content.data.Contents;
@@ -56,6 +57,12 @@ public class ActivityLauncher {
     public void startAppLauncherActivity() {
         Intent intent = new Intent(ApplicationState.getAppContext(), AppLauncherActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ApplicationState.getAppContext().startActivity(intent);
+    }
+
+    public void startResetPasswordActivity() {
+        Intent intent = new Intent(ApplicationState.getAppContext(), ResetPasswordActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ApplicationState.getAppContext().startActivity(intent);
     }

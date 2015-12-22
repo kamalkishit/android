@@ -1,5 +1,6 @@
 package com.humanize.android.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,10 +13,12 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -23,14 +26,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.humanize.android.common.Constants;
-import com.humanize.android.HttpResponseCallback;
 import com.humanize.android.JsonParser;
 import com.humanize.android.R;
+import com.humanize.android.SpinnerItem;
+import com.humanize.android.common.Constants;
 import com.humanize.android.common.StringConstants;
 import com.humanize.android.content.data.Content;
 import com.humanize.android.content.data.Contents;
@@ -50,17 +54,16 @@ import butterknife.ButterKnife;
 
 public class SubmitActivity extends AppCompatActivity {
 
+    private static String TAG = SubmitActivity.class.getSimpleName();
     @Bind(R.id.relativeLayout) RelativeLayout relativeLayout;
     @Bind(R.id.contentUrl)  EditText contentURL;
     @Bind(R.id.submitButton) Button submitButton;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.categoriesSpinner) Spinner categoriesSpinner;
-    @Bind(R.id.isVerified) CheckBox isVerified;
     //@Bind(R.id.subCategoriesSpinner) Spinner subCategoriesSpinner;
-
+    @Bind(R.id.isVerified)
+    CheckBox isVerified;
     private Content content;
-
-    private static String TAG = SubmitActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,17 +81,26 @@ public class SubmitActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        ArrayList<SpinnerItem> list = new ArrayList<>();
+        list.add(new SpinnerItem("Select Category", R.drawable.ic_privacy));
+        list.add(new SpinnerItem("Science & Tech", R.drawable.ic_about_us));
+        list.add(new SpinnerItem("Law & Justice", R.drawable.ic_comment));
+        list.add(new SpinnerItem("Governance", R.drawable.ic_bookmark));
+        list.add(new SpinnerItem("Achievers", R.drawable.ic_suggest_article));
+        SpinnerAdapter adapter = new SpinnerAdapter(this, R.layout.spinner_item, R.id.textView, list);
+        categoriesSpinner.setAdapter(adapter);
+
         categoriesSpinner.setOnItemSelectedListener(new SpinnerCategoriesHandler());
         //subCategoriesSpinner.setOnItemSelectedListener(new SpinnnerSubCategoriesHandler());
 
-        ArrayAdapter<CharSequence> categoriesAdapter = ArrayAdapter.createFromResource(this, R.array.categories, R.layout.spinner_item);
+        //ArrayAdapter<CharSequence> categoriesAdapter = ArrayAdapter.createFromResource(this, R.array.categories, R.layout.spinner_item);
 
-        ArrayAdapter<CharSequence> subcategoriesAdapter = ArrayAdapter.createFromResource(this, R.array.subCategories, R.layout.spinner_item);
+        //ArrayAdapter<CharSequence> subcategoriesAdapter = ArrayAdapter.createFromResource(this, R.array.subCategories, R.layout.spinner_item);
 
-        categoriesAdapter.setDropDownViewResource(R.layout.spinner_categories);
-        categoriesSpinner.setAdapter(categoriesAdapter);
+        //categoriesAdapter.setDropDownViewResource(R.layout.spinner_categories);
+        //categoriesSpinner.setAdapter(categoriesAdapter);
 
-        subcategoriesAdapter.setDropDownViewResource(R.layout.spinner_categories);
+        //subcategoriesAdapter.setDropDownViewResource(R.layout.spinner_categories);
         //subCategoriesSpinner.setAdapter(subcategoriesAdapter);
         //categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
@@ -169,7 +181,8 @@ public class SubmitActivity extends AppCompatActivity {
 
     private void submit(final View view) {
         if (validate()) {
-            content.setContentURL(contentURL.getText().toString());
+            content.setUrl(contentURL.getText().toString());
+            content.setCategory("Humanity");
             try {
                 HttpUtil.getInstance().submit(Config.CONTENT_CREATE_URL, new JsonParser().toJson(content), new CreateContentCallback());
             } catch (Exception exception) {
@@ -207,31 +220,6 @@ public class SubmitActivity extends AppCompatActivity {
 
     }
 
-    public class SpinnerCategoriesHandler implements OnItemSelectedListener {
-        @Override
-        public void onItemSelected(AdapterView<? > parent, View view, int position, long id) {
-
-            //if (contentURL != null && contentURL.getText().length() > 0) {
-              //  if (isValidUrl(contentURL.getText().toString())) {
-                    categoriesSpinner.setSelection(position);
-                    content.setContentURL(contentURL.getText().toString());
-                    content.setCategory(parent.getItemAtPosition(position).toString());
-               // } else {
-               //     categoriesSpinner.setSelection(0);
-               //     Snackbar.make(view, "Please insert a proper URL", Snackbar.LENGTH_SHORT).show();
-            //    }
-           // } else {
-            //    categoriesSpinner.setSelection(0);
-             //   Snackbar.make(view, "URL is empty", Snackbar.LENGTH_SHORT).show();
-            //}
-        }
-
-        public void onNothingSelected(AdapterView<?> arg0) {
-            // TODO Auto-generated method stub
-
-        }
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -254,6 +242,31 @@ public class SubmitActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public class SpinnerCategoriesHandler implements OnItemSelectedListener {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            if (contentURL != null && contentURL.getText().length() > 0) {
+                if (isValidUrl(contentURL.getText().toString())) {
+                    categoriesSpinner.setSelection(position);
+                    content.setUrl(contentURL.getText().toString());
+                    content.setCategory(parent.getItemAtPosition(position).toString());
+                } else {
+                    categoriesSpinner.setSelection(0);
+                    Snackbar.make(view, "Please insert a proper URL", Snackbar.LENGTH_SHORT).show();
+                }
+            } else {
+                categoriesSpinner.setSelection(0);
+                Snackbar.make(view, "URL is empty", Snackbar.LENGTH_SHORT).show();
+            }
+        }
+
+        public void onNothingSelected(AdapterView<?> arg0) {
+            // TODO Auto-generated method stub
+
+        }
     }
 
     public class SpinnnerSubCategoriesHandler implements OnItemSelectedListener {
@@ -327,6 +340,34 @@ public class SubmitActivity extends AppCompatActivity {
                     }
                 });
             }
+        }
+    }
+
+    public class SpinnerAdapter extends ArrayAdapter<SpinnerItem> {
+
+        int groupid;
+        Activity context;
+        ArrayList<SpinnerItem> list;
+        LayoutInflater inflater;
+
+        public SpinnerAdapter(Activity context, int groupid, int id, ArrayList<SpinnerItem> list) {
+            super(context, id, list);
+            this.list = list;
+            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            this.groupid = groupid;
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View itemView = inflater.inflate(groupid, parent, false);
+            ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
+            imageView.setImageResource(list.get(position).getImageId());
+            TextView textView = (TextView) itemView.findViewById(R.id.textView);
+            textView.setText(list.get(position).getText());
+            return itemView;
+        }
+
+        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            return getView(position, convertView, parent);
         }
     }
 }

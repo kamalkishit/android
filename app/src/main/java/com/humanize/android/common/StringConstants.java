@@ -20,11 +20,13 @@ public class StringConstants {
     public static String BOOKMARKED = "Bookmarked";
     public static String RECOMMENDED = "Recommended";
     public static String RECOMMEND = "Recommend";
+    public static String BOOKMARK = "Bookmark";
     public static String PAPER = "Paper";
     public static String RECOMMEND_ARTICLE = "Recommend an Article";
     public static String SELECT_CATEGORY = "Select a Category";
     public static String REGISTERING = "Registering...";
     public static String AUTHENTICATING = "Authenticating...";
+    public static String RESETTING_PASSWORD = "Resetting password...";
     public static String PAPER_TIME_SELECTOR = "SELECT PAPER TIME";
 
     public static String NETWORK_CONNECTION_ERROR_STR = "Network connection error";

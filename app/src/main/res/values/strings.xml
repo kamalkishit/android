@@ -115,4 +115,5 @@
     <string name="title_activity_usage">UsageActivity</string>
     <string name="title_activity_privacy">PrivacyActivity</string>
     <string name="title_activity_contact_us">ContactUsActivity</string>
+    <string name="title_activity_reset_password">ResetPasswordActivity</string>
 </resources>

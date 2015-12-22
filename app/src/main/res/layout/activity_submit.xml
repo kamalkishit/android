@@ -37,42 +37,42 @@
     </android.support.design.widget.TextInputLayout> -->
 
     <LinearLayout
+        android:id="@+id/linearLayoutEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_below="@id/appbarLayout"
         android:layout_marginLeft="36dp"
         android:layout_marginRight="36dp"
-        android:background="@drawable/border_button_green"
-        android:layout_below="@id/appbarLayout"
-        android:id="@+id/linearLayoutEmail" >
+        android:layout_marginTop="36dp"
+        android:background="@drawable/border_button_green">
 
         <EditText
             android:id="@+id/contentUrl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/smallMargin"
             android:layout_marginLeft="@dimen/smallMargin"
             android:layout_marginTop="@dimen/smallMargin"
-            android:layout_marginBottom="@dimen/smallMargin"
-            android:textColor="@color/colorPrimary"
             android:background="@null"
             android:hint="Enter URL"
-            android:textColorHint="@color/colorPrimary"
             android:inputType="textUri"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/colorAccent" />
     </LinearLayout>
 
     <Spinner
         android:id="@+id/categoriesSpinner"
+        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_below="@+id/linearLayoutEmail"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="36dp"
         android:layout_marginRight="36dp"
-        android:layout_centerHorizontal="true"
-        android:dropDownSelector="@drawable/spinner_ripple"
+        android:layout_marginTop="16dp"
         android:backgroundTint="@color/colorSecondary"
-        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-        android:layout_below="@+id/linearLayoutEmail" />
+        android:dropDownSelector="@drawable/spinner_ripple" />
 
     <!--<Spinner
         android:id="@+id/subCategoriesSpinner"
@@ -90,30 +90,30 @@
     <CheckBox android:id="@+id/isVerified"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/mediumMargin"
         android:layout_below="@id/categoriesSpinner"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/mediumMargin"
+        android:buttonTint="@color/colorSecondary"
+        android:onClick="onCheckboxClicked"
         android:scaleX=".8"
         android:scaleY=".8"
         android:text="have you verified the article"
-        android:textColor="@color/colorSecondary"
-        android:buttonTint="@color/colorSecondary"
-        android:layout_centerHorizontal="true"
-        android:onClick="onCheckboxClicked"/>
+        android:textColor="@color/colorSecondary" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/submitButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/isVerified"
         android:layout_marginLeft="36dp"
         android:layout_marginRight="36dp"
         android:layout_marginTop="24dp"
-        android:layout_below="@id/isVerified"
-        android:foreground="?android:attr/selectableItemBackground"
         android:background="@drawable/button_selector"
         android:clickable="true"
-        android:textColor="@color/colorBlack"
+        android:foreground="?android:attr/selectableItemBackground"
         android:text="SUBMIT"
-        android:textStyle="normal"
+        android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textAlignment="center"/>
+        android:textColor="@color/colorBlack"
+        android:textStyle="normal" />
 </RelativeLayout>
