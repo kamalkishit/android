@@ -37,43 +37,27 @@ public class FragmentDrawer extends Fragment {
 
     private static String TAG = FragmentDrawer.class.getSimpleName();
     private static String[] titles = null;
-    @Bind(R.id.profile)
-    LinearLayout profile;
-    @Bind(R.id.preferences)
-    LinearLayout preferences;
-    @Bind(R.id.bookmarkedArticles)
-    LinearLayout bookmarkedArticles;
-    @Bind(R.id.recommendedArticles)
-    LinearLayout recommendedArticles;
-    @Bind(R.id.recommendAnArticle)
-    LinearLayout recommendAnArticle;
-    @Bind(R.id.contactUs)
-    LinearLayout contactUs;
-    @Bind(R.id.aboutUs)
-    LinearLayout aboutUs;
-    @Bind(R.id.rateUs)
-    LinearLayout rateUs;
-    @Bind(R.id.termsOfUsage)
-    LinearLayout termsOfUsage;
-    @Bind(R.id.privacyPolicy)
-    LinearLayout privacyPolicy;
-    @Bind(R.id.logout)
-    LinearLayout logout;
-    private RecyclerView recyclerView;
+    @Bind(R.id.profile) LinearLayout profile;
+    @Bind(R.id.preferences) LinearLayout preferences;
+    @Bind(R.id.bookmarkedArticles) LinearLayout bookmarkedArticles;
+    @Bind(R.id.recommendedArticles) LinearLayout recommendedArticles;
+    @Bind(R.id.recommendAnArticle) LinearLayout recommendAnArticle;
+    @Bind(R.id.contactUs) LinearLayout contactUs;
+    @Bind(R.id.aboutUs) LinearLayout aboutUs;
+    @Bind(R.id.rateUs) LinearLayout rateUs;
+    @Bind(R.id.termsOfUsage) LinearLayout termsOfUsage;
+    @Bind(R.id.privacyPolicy) LinearLayout privacyPolicy;
+    @Bind(R.id.logout) LinearLayout logout;
+
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private DrawerLayout drawerLayout;
     private View containerView;
     private ActivityLauncher activityLauncher;
-    private FragmentDrawerListener fragmentDrawerListener;
 
     public FragmentDrawer() {
 
-    }
-
-    public void setDrawerListener(FragmentDrawerListener fragmentDrawerListener) {
-        this.fragmentDrawerListener = fragmentDrawerListener;
     }
 
     @Override
@@ -213,6 +197,7 @@ public class FragmentDrawer extends Fragment {
             @Override
             public void onClick(View view) {
                 activityLauncher.startUsageActivity();
+                drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });
 
@@ -242,25 +227,6 @@ public class FragmentDrawer extends Fragment {
         ButterKnife.bind(this, layout);
         initialize();
         configureListeners();
-        //recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
-        layoutManager=new LinearLayoutManager(ApplicationState.getAppContext());
-        //recyclerView.setLayoutManager(layoutManager);
-
-        adapter = new FragmentDrawerAdapter(new ArrayList<>(Arrays.asList(titles)), ApplicationState.getAppContext());
-        //recyclerView.setAdapter(adapter);
-
-        /*recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                fragmentDrawerListener.onDrawerItemSelected(view, position);
-                drawerLayout.closeDrawer(containerView);
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
-        }));*/
 
         return layout;
     }
@@ -298,120 +264,8 @@ public class FragmentDrawer extends Fragment {
 
     }
 
-    public interface ClickListener {
-        void onClick(View view, int position);
-
-        void onLongClick(View view, int position);
-    }
-
     public interface FragmentDrawerListener {
         void onDrawerItemSelected(View view, int position);
     }
 
-    static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
-
-        private GestureDetector gestureDetector;
-        private ClickListener clickListener;
-
-        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final ClickListener clickListener) {
-            this.clickListener = clickListener;
-            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-                @Override
-                public boolean onSingleTapUp(MotionEvent e) {
-                    return true;
-                }
-
-                @Override
-                public void onLongPress(MotionEvent e) {
-                    View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
-                    if (child != null && clickListener != null) {
-                        clickListener.onLongClick(child, recyclerView.getChildPosition(child));
-                    }
-                }
-            });
-        }
-
-        @Override
-        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-
-            View child = rv.findChildViewUnder(e.getX(), e.getY());
-            if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
-                clickListener.onClick(child, rv.getChildPosition(child));
-            }
-            return false;
-        }
-
-        @Override
-        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-        }
-
-        @Override
-        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-        }
-    }
-
-    public class FragmentDrawerAdapter extends RecyclerView.Adapter<FragmentDrawerAdapter.ViewHolder> {
-
-        ArrayList<String> planetList;
-
-        public FragmentDrawerAdapter(ArrayList<String> planetList, Context context) {
-            this.planetList = planetList;
-        }
-
-        @Override
-        public FragmentDrawerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.nav_drawer_item_row, parent, false);
-            ViewHolder viewHolder = new ViewHolder(v);
-            return viewHolder;
-        }
-
-        @Override
-        public void onBindViewHolder(FragmentDrawerAdapter.ViewHolder holder, int position) {
-            if (position == 0) {
-                holder.image.setImageResource(R.drawable.ic_person_black_24dp);
-            } else if (position == 1) {
-                holder.image.setImageResource(R.drawable.ic_settings_black_24dp);
-            } else if (position == 2) {
-                holder.image.setImageResource(R.drawable.ic_bookmark);
-            } else if (position == 3) {
-                holder.image.setImageResource(R.drawable.ic_recomended);
-            } else if (position == 4) {
-                holder.image.setImageResource(R.drawable.ic_suggest_article);
-            } else if (position == 5) {
-                holder.image.setImageResource(R.drawable.ic_about_us);
-            } else if (position == 6) {
-                holder.image.setImageResource(R.drawable.ic_contact);
-            } else if (position == 7) {
-                holder.image.setImageResource(R.drawable.ic_rate_us);
-            } else if (position == 8) {
-                holder.image.setImageResource(R.drawable.ic_rate_us);
-            } else if (position == 9) {
-                holder.image.setImageResource(R.drawable.ic_terms_of_usage);
-            } else if (position == 10) {
-                holder.image.setImageResource(R.drawable.ic_privacy);
-            } else {
-                holder.image.setImageResource(R.drawable.ic_comment);
-            }
-
-            holder.text.setText(planetList.get(position).toString());
-        }
-
-        @Override
-        public int getItemCount() {
-            return planetList.size();
-        }
-
-        public class ViewHolder extends RecyclerView.ViewHolder {
-
-            protected ImageView image;
-            protected TextView text;
-
-            public ViewHolder(View itemView) {
-                super(itemView);
-                image = (ImageView) itemView.findViewById(R.id.imageView);
-                text = (TextView) itemView.findViewById(R.id.textView);
-            }
-        }
-    }
 }

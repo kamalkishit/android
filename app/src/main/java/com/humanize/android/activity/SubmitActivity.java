@@ -31,6 +31,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.humanize.android.JsonParser;
 import com.humanize.android.R;
 import com.humanize.android.SpinnerItem;
@@ -38,6 +39,8 @@ import com.humanize.android.common.Constants;
 import com.humanize.android.common.StringConstants;
 import com.humanize.android.content.data.Content;
 import com.humanize.android.content.data.Contents;
+import com.humanize.android.helper.ActivityLauncher;
+import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
 import com.squareup.okhttp.Callback;
@@ -91,31 +94,21 @@ public class SubmitActivity extends AppCompatActivity {
         categoriesSpinner.setAdapter(adapter);
 
         categoriesSpinner.setOnItemSelectedListener(new SpinnerCategoriesHandler());
-        //subCategoriesSpinner.setOnItemSelectedListener(new SpinnnerSubCategoriesHandler());
-
-        //ArrayAdapter<CharSequence> categoriesAdapter = ArrayAdapter.createFromResource(this, R.array.categories, R.layout.spinner_item);
-
-        //ArrayAdapter<CharSequence> subcategoriesAdapter = ArrayAdapter.createFromResource(this, R.array.subCategories, R.layout.spinner_item);
-
-        //categoriesAdapter.setDropDownViewResource(R.layout.spinner_categories);
-        //categoriesSpinner.setAdapter(categoriesAdapter);
-
-        //subcategoriesAdapter.setDropDownViewResource(R.layout.spinner_categories);
-        //subCategoriesSpinner.setAdapter(subcategoriesAdapter);
-        //categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
 
     private void configureListeners() {
         contentURL.addTextChangedListener(new TextWatcher() {
             // after every change has been made to this editText, we would like to check validity
             public void afterTextChanged(Editable s) {
+
                 if (contentURL.getError() != null) {
                     contentURL.setError(null);
                 }
             }
 
-            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-            public void onTextChanged(CharSequence s, int start, int before, int count){}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
         });
 
         /*categoriesSpinner.setOnClickListener(new View.OnClickListener() {
@@ -130,7 +123,6 @@ public class SubmitActivity extends AppCompatActivity {
         contentURL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                categoriesSpinner.setEnabled(true);
             }
         });
 
@@ -138,6 +130,10 @@ public class SubmitActivity extends AppCompatActivity {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                if (contentURL == null || !isValidUrl(contentURL.getText().toString())) {
+                    Snackbar.make(relativeLayout, StringConstants.URL_VALIDATION_ERROR_STR, Snackbar.LENGTH_LONG).show();
+                }
+
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                 return false;
@@ -182,7 +178,7 @@ public class SubmitActivity extends AppCompatActivity {
     private void submit(final View view) {
         if (validate()) {
             content.setUrl(contentURL.getText().toString());
-            content.setCategory("Humanity");
+
             try {
                 HttpUtil.getInstance().submit(Config.CONTENT_CREATE_URL, new JsonParser().toJson(content), new CreateContentCallback());
             } catch (Exception exception) {
@@ -248,18 +244,14 @@ public class SubmitActivity extends AppCompatActivity {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-            if (contentURL != null && contentURL.getText().length() > 0) {
-                if (isValidUrl(contentURL.getText().toString())) {
-                    categoriesSpinner.setSelection(position);
-                    content.setUrl(contentURL.getText().toString());
-                    content.setCategory(parent.getItemAtPosition(position).toString());
-                } else {
-                    categoriesSpinner.setSelection(0);
-                    Snackbar.make(view, "Please insert a proper URL", Snackbar.LENGTH_SHORT).show();
-                }
+            if (contentURL != null && isValidUrl(contentURL.getText().toString())) {
+                categoriesSpinner.setSelection(position);
+                content.setUrl(contentURL.getText().toString());
+                SpinnerItem spinnerItem= (SpinnerItem)parent.getItemAtPosition(position);
+                System.out.println(spinnerItem.getText());
+                content.setCategory(spinnerItem.getText());
             } else {
                 categoriesSpinner.setSelection(0);
-                Snackbar.make(view, "URL is empty", Snackbar.LENGTH_SHORT).show();
             }
         }
 
@@ -282,7 +274,7 @@ public class SubmitActivity extends AppCompatActivity {
                     submitButton.setEnabled(true);
                 } else {
                     //subCategoriesSpinner.setSelection(0);
-                    Snackbar.make(view, "Please select category first", Snackbar.LENGTH_SHORT).show();
+                    //Snackbar.make(view, "Please select category first", Snackbar.LENGTH_SHORT).show();
                 }
             } else {
                 Snackbar.make(view, "Please select URL and category first", Snackbar.LENGTH_SHORT).show();
@@ -329,11 +321,13 @@ public class SubmitActivity extends AppCompatActivity {
                             if (contents != null && contents.getContents().size() >= Constants.DEFAULT_CONTENTS_SIZE) {
                                 CardActivity.contents = contents;
                             } else if (contents != null) {
-                                CardActivity.contents.getContents().addAll(0, contents.getContents());
+                                String json = SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS);
+                                Contents origContents = new JsonParser().fromJson(json, Contents.class);
+                                origContents.getContents().addAll(0, contents.getContents());
+                                CardActivity.contents = origContents;
                             }
 
-                            Intent intent = new Intent(getApplicationContext(), CardActivity.class);
-                            startActivity(intent);
+                            new ActivityLauncher().startCardActivity(relativeLayout);
                         } catch (Exception exception) {
                             Log.e(TAG, exception.toString());
                         }

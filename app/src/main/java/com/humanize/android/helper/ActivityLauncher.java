@@ -70,6 +70,7 @@ public class ActivityLauncher {
     public void startCardActivity(View view) {
         if (CardActivity.contents != null) {
             Intent intent = new Intent(ApplicationState.getAppContext(), CardActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             ApplicationState.getAppContext().startActivity(intent);
         } else {

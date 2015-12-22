@@ -96,7 +96,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         updateRecommendationButton(viewHolder);
         updateBookmarkButton(viewHolder);
 
-        Picasso.with(ApplicationState.getAppContext()).load(Config.IMAGES_URL + content.getImageURL()).placeholder(R.drawable.background)
+        Picasso.with(ApplicationState.getAppContext()).load(Config.IMAGES_URL + "?imageName=" + content.getImageURL()).placeholder(R.drawable.background)
                 .fit().into(viewHolder.contentImage);
             /*Picasso.with(ApplicationState.getAppContext()).load("http://www.storypick.com/wp-content/uploads/2015/11/awesome-dad-cover.jpg")
                     .placeholder(R.drawable.background).resize(Config.IMAGE_WIDTH, Config.IMAGE_HEIGHT)

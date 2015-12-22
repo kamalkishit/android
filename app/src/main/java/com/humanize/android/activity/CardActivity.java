@@ -17,7 +17,6 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.humanize.android.ContentFragmentDrawerListener;
 import com.humanize.android.ContentRecyclerViewAdapter;
 import com.humanize.android.ContentService;
 import com.humanize.android.FragmentDrawer;
@@ -47,6 +46,8 @@ public class CardActivity extends AppCompatActivity {
     @Bind(R.id.recyclerView) RecyclerView recyclerView;
     @Bind(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
+    @Bind(R.id.drawerLayout) DrawerLayout drawerLayout;
+
     private ContentService contentService;
     private UserService userService;
     private FragmentDrawer fragmentDrawer;
@@ -67,6 +68,8 @@ public class CardActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        drawerLayout.closeDrawer(Gravity.LEFT);
+
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
             return;
@@ -112,8 +115,7 @@ public class CardActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         fragmentDrawer = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragmentNavigationDrawer);
-        fragmentDrawer.setUp(R.id.fragmentNavigationDrawer, (DrawerLayout) findViewById(R.id.drawerLayout), toolbar);
-        fragmentDrawer.setDrawerListener(new ContentFragmentDrawerListener());
+        fragmentDrawer.setUp(R.id.fragmentNavigationDrawer, drawerLayout, toolbar);
     }
 
     private void configureListeners() {
