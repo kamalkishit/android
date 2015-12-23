@@ -52,7 +52,7 @@
                 android:background="@null"
                 android:hint="Enter Email Address"
                 android:inputType="textEmailAddress"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="16sp"
                 android:textColor="@color/colorAccent"
                 android:textColorHint="@color/colorAccent" />
         </LinearLayout>
@@ -73,8 +73,8 @@
                 android:layout_marginTop="@dimen/smallMargin"
                 android:background="@null"
                 android:hint="Enter Password"
+                android:textSize="16sp"
                 android:inputType="textPassword"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/colorAccent"
                 android:textColorHint="@color/colorAccent" />
         </LinearLayout>

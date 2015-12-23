@@ -2,6 +2,7 @@ package com.humanize.android.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -10,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.MotionEvent;
@@ -39,16 +41,12 @@ import butterknife.ButterKnife;
 public class ResetPasswordActivity extends AppCompatActivity {
 
     private static final String TAG = ResetPasswordActivity.class.getSimpleName();
-    @Bind(R.id.coordinatorLayout)
-    CoordinatorLayout coordinatorLayout;
-    @Bind(R.id.emailId)
-    EditText emailId;
-    @Bind(R.id.tempPassword)
-    EditText tempPassword;
-    @Bind(R.id.newPassword)
-    EditText newPassword;
-    @Bind(R.id.submitButton)
-    Button submitButton;
+    @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
+    @Bind(R.id.emailId) EditText emailId;
+    @Bind(R.id.tempPassword) EditText tempPassword;
+    @Bind(R.id.newPassword) EditText newPassword;
+    @Bind(R.id.submitButton) Button submitButton;
+
     ActivityLauncher activityLauncher;
     String emailIdStr;
     String tempPasswordStr;
@@ -67,6 +65,10 @@ public class ResetPasswordActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        tempPassword.setTypeface(Typeface.DEFAULT);
+        tempPassword.setTransformationMethod(new PasswordTransformationMethod());
+        newPassword.setTypeface(Typeface.DEFAULT);
+        newPassword.setTransformationMethod(new PasswordTransformationMethod());
         activityLauncher = new ActivityLauncher();
     }
 

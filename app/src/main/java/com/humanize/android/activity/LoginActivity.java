@@ -2,6 +2,7 @@ package com.humanize.android.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -83,6 +85,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        password.setTypeface(Typeface.DEFAULT);
+        password.setTransformationMethod(new PasswordTransformationMethod());
         progressDialog = new ProgressDialog(this);
         activityLauncher = new ActivityLauncher();
         doubleBackToExitPressedOnce = false;

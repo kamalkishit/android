@@ -111,7 +111,18 @@
             android:name=".activity.SignupActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme" />
+            android:theme="@style/MaterialDesignTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="www.humannize.com"
+                    android:scheme="http" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.ForgotPasswordActivity"
             android:noHistory="true"
@@ -152,16 +163,7 @@
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSER" />
-
-                <data
-                    android:host="www.flickr.com"
-                    android:scheme="http" />
-            </intent-filter>
         </activity>
     </application>
 

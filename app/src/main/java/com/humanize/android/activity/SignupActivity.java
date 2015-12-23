@@ -2,6 +2,8 @@ package com.humanize.android.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -11,9 +13,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -59,6 +63,16 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        Uri uri = getIntent().getData();
+        String path = uri.getPath();
+        emailId.setText(uri.getQueryParameter("emailId"));
+        invitationCode.setText(uri.getQueryParameter("invitationCode"));
+        password.setTypeface(Typeface.DEFAULT);
+        password.setTransformationMethod(new PasswordTransformationMethod());
+        password.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+
         progressDialog = new ProgressDialog(this);
         invitationCodeLink.setText(Html.fromHtml(StringConstants.INVITATION_CODE_STR));
     }
