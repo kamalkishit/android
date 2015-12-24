@@ -62,14 +62,14 @@ public class ApplicationState extends Application{
                 CardActivity.contents = jsonParser.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS), Contents.class);
             }
 
-            if (SharedPreferencesService.getInstance().getString(Config.JSON_BOOKMARKS) != null) {
-                Contents bookmarks = jsonParser.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_BOOKMARKS), Contents.class);
+            if (SharedPreferencesService.getInstance().getString(Config.JSON_BOOKMARKED_CONTENTS) != null) {
+                Contents bookmarks = jsonParser.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_BOOKMARKED_CONTENTS), Contents.class);
                 BookmarkService bookmarkService = BookmarkService.getInstance();
                 bookmarkService.setBookmarks(bookmarks);
             }
 
-            if (SharedPreferencesService.getInstance().getString(Config.JSON_LIKES) != null) {
-                Contents likes = jsonParser.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_LIKES), Contents.class);
+            if (SharedPreferencesService.getInstance().getString(Config.JSON_RECOMMENDED_CONTENTS) != null) {
+                Contents likes = jsonParser.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_RECOMMENDED_CONTENTS), Contents.class);
                 LikeService likeService = LikeService.getInstance();
                 likeService.setLikes(likes);
             }

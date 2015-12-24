@@ -86,10 +86,18 @@ public class SubmitActivity extends AppCompatActivity {
 
         ArrayList<SpinnerItem> list = new ArrayList<>();
         list.add(new SpinnerItem("Select Category", R.drawable.ic_privacy));
-        list.add(new SpinnerItem("Science & Tech", R.drawable.ic_about_us));
-        list.add(new SpinnerItem("Law & Justice", R.drawable.ic_comment));
-        list.add(new SpinnerItem("Governance", R.drawable.ic_bookmark));
-        list.add(new SpinnerItem("Achievers", R.drawable.ic_suggest_article));
+        list.add(new SpinnerItem("Achievers", R.drawable.ic_achivers));
+        list.add(new SpinnerItem("Beautiful", R.drawable.ic_beautiful));
+        list.add(new SpinnerItem("Education", R.drawable.ic_education));
+        list.add(new SpinnerItem("Empowerment", R.drawable.ic_empowerment));
+        list.add(new SpinnerItem("Environment", R.drawable.ic_environment));
+        list.add(new SpinnerItem("Governance", R.drawable.ic_governance));
+        list.add(new SpinnerItem("Health", R.drawable.ic_achivers));
+        list.add(new SpinnerItem("Humanity", R.drawable.ic_humanity));
+        list.add(new SpinnerItem("Law & Justice", R.drawable.ic_law_justice));
+        list.add(new SpinnerItem("Real Heroes", R.drawable.ic_real_heros));
+        list.add(new SpinnerItem("Science & Tech", R.drawable.ic_science_tech_fill));
+        list.add(new SpinnerItem("Sports", R.drawable.ic_sports));
         SpinnerAdapter adapter = new SpinnerAdapter(this, R.layout.spinner_item, R.id.textView, list);
         categoriesSpinner.setAdapter(adapter);
 

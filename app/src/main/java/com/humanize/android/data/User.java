@@ -28,11 +28,11 @@ public class User {
 
     private List<String> categories;
 
-    private Set<String> likes;
+    private List<String> recommended;
 
-    private Set<String> bookmarks;
+    private List<String> bookmarked;
 
-    private Set<String> contentsCreated;
+    private List<String> created;
 
     private boolean isConfigured;
 
@@ -45,9 +45,9 @@ public class User {
     public User() {
         this.typeOfArticles = new ArrayList<>();
         this.categories = new ArrayList<>();
-        this.likes = new LinkedHashSet<>();
-        this.bookmarks = new LinkedHashSet<>();
-        this.contentsCreated = new LinkedHashSet<>();
+        this.recommended = new ArrayList<>();
+        this.bookmarked = new ArrayList<>();
+        this.created = new ArrayList<>();
     }
 
     public String getId() {
@@ -114,28 +114,28 @@ public class User {
         this.categories = categories;
     }
 
-    public Set<String> getLikes() {
-        return likes;
+    public List<String> getRecommended() {
+        return recommended;
     }
 
-    public void setLikes(Set<String> likes) {
-        this.likes = likes;
+    public void setRecommended(List<String> recommended) {
+        this.recommended = recommended;
     }
 
-    public Set<String> getBookmarks() {
-        return bookmarks;
+    public List<String> getBookmarked() {
+        return bookmarked;
     }
 
-    public void setBookmarks(Set<String> bookmarks) {
-        this.bookmarks = bookmarks;
+    public void setBookmarked(List<String> bookmarked) {
+        this.bookmarked = bookmarked;
     }
 
-    public Set<String> getContentsCreated() {
-        return contentsCreated;
+    public List<String> getCreated() {
+        return created;
     }
 
-    public void setContentsCreated(Set<String> contentsCreated) {
-        this.contentsCreated = contentsCreated;
+    public void setCreated(List<String> created) {
+        this.created = created;
     }
 
     public boolean getIsConfigured() {

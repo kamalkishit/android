@@ -72,12 +72,12 @@ public class FragmentDrawer extends Fragment {
         TextView textViewProfile = (TextView) profile.findViewById(R.id.textView);
         textViewProfile.setText("My Profile");
         ImageView imageViewProfile = (ImageView) profile.findViewById(R.id.imageView);
-        imageViewProfile.setImageResource(R.drawable.ic_person_black_24dp);
+        imageViewProfile.setImageResource(R.drawable.ic_profile);
 
         TextView textViewPreferences = (TextView) preferences.findViewById(R.id.textView);
         textViewPreferences.setText("Preferences");
         ImageView imageViewPreferences = (ImageView) preferences.findViewById(R.id.imageView);
-        imageViewPreferences.setImageResource(R.drawable.ic_settings_black_24dp);
+        imageViewPreferences.setImageResource(R.drawable.ic_settings);
 
         TextView textViewBookmarkedArticles = (TextView) bookmarkedArticles.findViewById(R.id.textView);
         textViewBookmarkedArticles.setText("Bookmarked Articles");
@@ -87,7 +87,7 @@ public class FragmentDrawer extends Fragment {
         TextView textViewRecommendedArticles = (TextView) recommendedArticles.findViewById(R.id.textView);
         textViewRecommendedArticles.setText("Recommended Articles");
         ImageView imageViewRecommendedArticle = (ImageView) recommendedArticles.findViewById(R.id.imageView);
-        imageViewRecommendedArticle.setImageResource(R.drawable.ic_recomended);
+        imageViewRecommendedArticle.setImageResource(R.drawable.ic_recomend_fill);
 
         TextView textViewRecommendAnArticle = (TextView) recommendAnArticle.findViewById(R.id.textView);
         textViewRecommendAnArticle.setText("Recommend An Article");
@@ -122,7 +122,7 @@ public class FragmentDrawer extends Fragment {
         TextView textViewLogout = (TextView) logout.findViewById(R.id.textView);
         textViewLogout.setText("Logout");
         ImageView imageViewLogout = (ImageView) logout.findViewById(R.id.imageView);
-        imageViewLogout.setImageResource(R.drawable.ic_bookmark);
+        imageViewLogout.setImageResource(R.drawable.ic_logout);
     }
 
     private void configureListeners() {
@@ -143,9 +143,7 @@ public class FragmentDrawer extends Fragment {
         bookmarkedArticles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ApplicationState.getAppContext(), BookmarksActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                ApplicationState.getAppContext().startActivity(intent);
+                activityLauncher.startBookmarksActivity(view);
                 drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });
@@ -154,10 +152,7 @@ public class FragmentDrawer extends Fragment {
         recommendedArticles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RecommendationsActivity.LikesAdapter.contents = LikeService.getInstance().getLikes().getContents();
-                Intent intent = new Intent(ApplicationState.getAppContext(), RecommendationsActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                ApplicationState.getAppContext().startActivity(intent);
+                activityLauncher.startRecommendationsActivity(view);
                 drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });

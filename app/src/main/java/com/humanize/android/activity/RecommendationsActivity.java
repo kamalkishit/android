@@ -2,6 +2,9 @@ package com.humanize.android.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,13 +17,23 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.humanize.android.ContentRecyclerViewAdapter;
+import com.humanize.android.JsonParser;
 import com.humanize.android.R;
+import com.humanize.android.UserService;
 import com.humanize.android.common.StringConstants;
 import com.humanize.android.content.data.Content;
+import com.humanize.android.content.data.Contents;
+import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
+import com.humanize.android.util.HttpUtil;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,9 +42,13 @@ import butterknife.ButterKnife;
 
 public class RecommendationsActivity extends AppCompatActivity {
 
-    @Bind(R.id.toolbarText) TextView toolbarText;
+    public static Contents contents = null;
+
     @Bind(R.id.recyclerView) RecyclerView recyclerView;
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.toolbarText) TextView toolbarText;
+
+    private ContentRecyclerViewAdapter contentRecyclerViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,28 +58,39 @@ public class RecommendationsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         initialize();
+        configureListeners();
     }
 
     private void initialize() {
-        toolbar.setCollapsible(true);
-
         toolbarText.setText(StringConstants.RECOMMENDED);
 
+        toolbar.setCollapsible(true);
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        LikesAdapter paperAdapter = new LikesAdapter();
-        recyclerView.setAdapter(paperAdapter);
-
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        try {
+            if (SharedPreferencesService.getInstance().getString(Config.JSON_RECOMMENDED_CONTENTS) != null) {
+                RecommendationsActivity.contents = new JsonParser().fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_RECOMMENDED_CONTENTS), Contents.class);
+                contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(contents.getContents());
+                recyclerView.setAdapter(contentRecyclerViewAdapter);
+            } else {
+                HttpUtil.getInstance().getRecommendedContents(Config.BOOKMARK_FIND_URL, new UserService().getBookmarkIds(), new RecommendationsCallback());
+            }
+        } catch (Exception exception) {
+
+        }
+    }
+
+    private void configureListeners() {
+
     }
 
     @Override
@@ -89,62 +117,51 @@ public class RecommendationsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static class LikesAdapter extends RecyclerView.Adapter<LikesAdapter.ViewHolder> {
-        public static List<Content> contents = new ArrayList<>();
-        public static int currentItem = 0;
+    private void recommendSuccess(String response) {
+        try {
+            Contents contents = new JsonParser().fromJson(response, Contents.class);
+            SharedPreferencesService.getInstance().putString(Config.JSON_RECOMMENDED_CONTENTS, response);
+            RecommendationsActivity.contents = contents;
 
-        public LikesAdapter() {
+            contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(contents.getContents());
+            recyclerView.setAdapter(contentRecyclerViewAdapter);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
 
+    private class RecommendationsCallback implements Callback {
+
+        @Override
+        public void onFailure(Request request, IOException exception) {
+            exception.printStackTrace();
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Snackbar snackbar = Snackbar.make(recyclerView, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            });
         }
 
         @Override
-        public int getItemCount() {
-            return contents.size();
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolder viewHolder, int index) {
-            Content content = contents.get(index);
-            viewHolder.contentTitle.setText(content.getTitle());
-            viewHolder.contentDescription.setText(content.getDescription());
-            viewHolder.contentSource.setText(content.getSource());
-            viewHolder.contentImage.setImageResource(R.drawable.background);
-            viewHolder.contentImage.getLayoutParams().width = Config.IMAGE_WIDTH;
-            viewHolder.contentImage.getLayoutParams().height = Config.IMAGE_HEIGHT;
-            Picasso.with(ApplicationState.getAppContext()).load(Config.IMAGES_URL + content.getImageURL())
-                    .placeholder(R.drawable.background)
-                    .resize(Config.IMAGE_WIDTH, Config.IMAGE_HEIGHT).into(viewHolder.contentImage);
-        }
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int index) {
-            View cardView = LayoutInflater.
-                    from(viewGroup.getContext()).
-                    inflate(R.layout.content_card, viewGroup, false);
-
-            return new LikesAdapter.ViewHolder(cardView);
-        }
-
-        public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-            protected TextView contentTitle;
-            protected TextView contentDescription;
-            protected ImageView contentImage;
-            protected TextView contentSource;
-
-            public ViewHolder(View view) {
-                super(view);
-                contentTitle =  (TextView) view.findViewById(R.id.contentTitle);
-                contentDescription = (TextView)  view.findViewById(R.id.contentDescription);
-                contentImage = (ImageView) view.findViewById(R.id.contentImage);
-                //contentSource = (TextView) view.findViewById(R.id.contentSource);
-                view.setOnClickListener(this);
-            }
-
-            public void onClick(View view) {
-                currentItem = getAdapterPosition();
-                Intent intent = new Intent(ApplicationState.getAppContext(), WebBrowserActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                ApplicationState.getAppContext().startActivity(intent);
+        public void onResponse(final Response response) throws IOException {
+            if (!response.isSuccessful()) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Snackbar snackbar = Snackbar.make(recyclerView, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+                });
+            } else {
+                final String responseStr = response.body().string().toString();
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        recommendSuccess(responseStr);
+                    }
+                });
             }
         }
     }

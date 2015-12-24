@@ -7,6 +7,8 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import com.google.gson.Gson;
+import com.humanize.android.JsonParser;
+import com.humanize.android.UserService;
 import com.humanize.android.activity.AboutUsActivity;
 import com.humanize.android.activity.AppLauncherActivity;
 import com.humanize.android.activity.BookmarksActivity;
@@ -20,6 +22,7 @@ import com.humanize.android.activity.RecommendationsActivity;
 import com.humanize.android.activity.ResetPasswordActivity;
 import com.humanize.android.activity.UsageActivity;
 import com.humanize.android.common.StringConstants;
+import com.humanize.android.content.data.Content;
 import com.humanize.android.content.data.Contents;
 import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.ApplicationState;
@@ -68,14 +71,22 @@ public class ActivityLauncher {
     }
 
     public void startCardActivity(View view) {
-        if (CardActivity.contents != null) {
-            Intent intent = new Intent(ApplicationState.getAppContext(), CardActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            ApplicationState.getAppContext().startActivity(intent);
-        } else {
-            getContents(view);
-        }
+        Intent intent = new Intent(ApplicationState.getAppContext(), CardActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ApplicationState.getAppContext().startActivity(intent);
+    }
+
+    public void startBookmarksActivity(View view) {
+        Intent intent = new Intent(ApplicationState.getAppContext(), BookmarksActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ApplicationState.getAppContext().startActivity(intent);
+    }
+
+    public void startRecommendationsActivity(View view) {
+        Intent intent = new Intent(ApplicationState.getAppContext(), RecommendationsActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ApplicationState.getAppContext().startActivity(intent);
     }
 
     public void startRecommendAnArticleActivity() {
@@ -92,12 +103,6 @@ public class ActivityLauncher {
 
     public void startRecommendedActivity() {
         Intent intent = new Intent(ApplicationState.getAppContext(), RecommendationsActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        ApplicationState.getAppContext().startActivity(intent);
-    }
-
-    public void startBookmarksActivity() {
-        Intent intent = new Intent(ApplicationState.getAppContext(), BookmarksActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ApplicationState.getAppContext().startActivity(intent);
     }
@@ -126,16 +131,133 @@ public class ActivityLauncher {
         httpUtil.getContents(new ContentCallback(view));
     }
 
+    private void getBookmarkedContents(View view) {
+        UserService userService = new UserService();
+        HttpUtil.getInstance().getBookmarkedContents(Config.BOOKMARK_FIND_URL, new UserService().getBookmarkIds(), new BookmarkCallback(view));
+    }
+
+    private void getRecommendedContents(View view) {
+        UserService userService = new UserService();
+        HttpUtil.getInstance().getBookmarkedContents(Config.BOOKMARK_FIND_URL, new UserService().getBookmarkIds(), new RecommendationsCallback(view));
+    }
+
+    private void recommendSuccess(View view, String response) {
+        try {
+            Contents contents = new JsonParser().fromJson(response, Contents.class);
+            SharedPreferencesService.getInstance().putString(Config.JSON_RECOMMENDED_CONTENTS, response);
+            RecommendationsActivity.contents = contents;
+
+            startRecommendationsActivity(view);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    private void bookmarkSuccess(View view, String response) {
+        try {
+            Contents contents = new JsonParser().fromJson(response, Contents.class);
+            SharedPreferencesService.getInstance().putString(Config.JSON_BOOKMARKED_CONTENTS, response);
+            BookmarksActivity.contents = contents;
+
+            startBookmarksActivity(view);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
     private void success(View view, String response) {
         System.out.println(response);
         try {
-            Contents contents = new Gson().fromJson(response, Contents.class);
+            Contents contents = new JsonParser().fromJson(response, Contents.class);
             SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, response);
             CardActivity.contents = contents;
 
             startCardActivity(view);
         } catch (Exception exception) {
             exception.printStackTrace();
+        }
+    }
+
+    private class RecommendationsCallback implements Callback {
+
+        private View view;
+
+        public RecommendationsCallback(View view) {
+            this.view = view;
+        }
+
+        @Override
+        public void onFailure(Request request, IOException exception) {
+            exception.printStackTrace();
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Snackbar snackbar = Snackbar.make(view, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            });
+        }
+
+        @Override
+        public void onResponse(final Response response) throws IOException {
+            if (!response.isSuccessful()) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Snackbar snackbar = Snackbar.make(view, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+                });
+            } else {
+                final String responseStr = response.body().string().toString();
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        recommendSuccess(view, responseStr);
+                    }
+                });
+            }
+        }
+    }
+
+    private class BookmarkCallback implements Callback {
+
+        private View view;
+        public BookmarkCallback(View view) {
+            this.view = view;
+        }
+
+        @Override
+        public void onFailure(Request request, IOException exception) {
+            exception.printStackTrace();
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Snackbar snackbar = Snackbar.make(view, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            });
+        }
+
+        @Override
+        public void onResponse(final Response response) throws IOException {
+            if (!response.isSuccessful()) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Snackbar snackbar = Snackbar.make(view, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+                });
+            } else {
+                final String responseStr = response.body().string().toString();
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        bookmarkSuccess(view, responseStr);
+                    }
+                });
+            }
         }
     }
 

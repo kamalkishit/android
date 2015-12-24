@@ -83,16 +83,12 @@ public class AppLauncherActivity extends AppCompatActivity {
     }
 
     private void startCardActivity() {
-        if (CardActivity.contents != null) {
             new Handler().postDelayed(new Runnable() {
                 public void run() {
                     activityLauncher.startCardActivity(relativeLayout);
                     finish();
                 }
             }, Constants.SPLASH_SCREEN_DELAY_TIME);
-        } else {
-            getContents();
-        }
     }
 
     private void getUserdata() {
@@ -146,8 +142,8 @@ public class AppLauncherActivity extends AppCompatActivity {
             System.out.println("destroying");
             SharedPreferencesService.getInstance().putString(Config.USER_DATA_JSON, new JsonParser().toJson(ApplicationState.getUser()));
             //SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, new JsonParser().toJson(CardActivity.contents));
-            SharedPreferencesService.getInstance().putString(Config.JSON_LIKES, new JsonParser().toJson(LikeService.getInstance().getLikes()));
-            SharedPreferencesService.getInstance().putString(Config.JSON_BOOKMARKS, new JsonParser().toJson(BookmarkService.getInstance().getBookmarks()));
+            SharedPreferencesService.getInstance().putString(Config.JSON_RECOMMENDED_CONTENTS, new JsonParser().toJson(LikeService.getInstance().getLikes()));
+            SharedPreferencesService.getInstance().putString(Config.JSON_BOOKMARKED_CONTENTS, new JsonParser().toJson(BookmarkService.getInstance().getBookmarks()));
         } catch (Exception exception) {
 
         }

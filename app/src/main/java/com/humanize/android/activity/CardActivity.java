@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.humanize.android.ContentRecyclerViewAdapter;
 import com.humanize.android.ContentService;
@@ -106,9 +107,6 @@ public class CardActivity extends AppCompatActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(contents.getContents());
-        recyclerView.setAdapter(contentRecyclerViewAdapter);
-
         toolbar.setCollapsible(true);
 
         setSupportActionBar(toolbar);
@@ -116,6 +114,18 @@ public class CardActivity extends AppCompatActivity {
 
         fragmentDrawer = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragmentNavigationDrawer);
         fragmentDrawer.setUp(R.id.fragmentNavigationDrawer, drawerLayout, toolbar);
+
+        try {
+            if (SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS) != null) {
+                CardActivity.contents = new JsonParser().fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS), Contents.class);
+                contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(contents.getContents());
+                recyclerView.setAdapter(contentRecyclerViewAdapter);
+            } else {
+                HttpUtil.getInstance().getBookmarkedContents(Config.BOOKMARK_FIND_URL, new UserService().getBookmarkIds(), new ContentCallback());
+            }
+        } catch (Exception exception) {
+
+        }
     }
 
     private void configureListeners() {
@@ -205,6 +215,55 @@ public class CardActivity extends AppCompatActivity {
         }
 
         public abstract void onLoadMore(int current_page);
+    }
+
+    private void success(View view, String response) {
+        System.out.println(response);
+        try {
+            Contents contents = new JsonParser().fromJson(response, Contents.class);
+            SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, response);
+            CardActivity.contents = contents;
+            contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(contents.getContents());
+            recyclerView.setAdapter(contentRecyclerViewAdapter);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    private class ContentCallback implements Callback {
+
+        @Override
+        public void onFailure(Request request, IOException exception) {
+            exception.printStackTrace();
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Snackbar snackbar = Snackbar.make(recyclerView, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            });
+        }
+
+        @Override
+        public void onResponse(final Response response) throws IOException {
+            if (!response.isSuccessful()) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Snackbar snackbar = Snackbar.make(recyclerView, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+                });
+            } else {
+                final String responseStr = response.body().string().toString();
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        success(recyclerView, responseStr);
+                    }
+                });
+            }
+        }
     }
 
     private class MoreContentCallback implements Callback {

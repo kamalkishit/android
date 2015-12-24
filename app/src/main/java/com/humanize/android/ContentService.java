@@ -18,96 +18,45 @@ import java.util.Map;
  */
 public class ContentService {
 
-    private static ContentService contentService = null;
     private static String TAG = ContentService.class.getSimpleName();
-    private Map<String, Content> contentMap;
 
     public ContentService() {
-        this.contentMap = new HashMap<>();
     }
 
-    public static ContentService getInstance() {
-        if (contentService == null) {
-            contentService = new ContentService();
-        }
-
-        return contentService;
+    public void incrRecommendedCount(Content content) {
+        content.setRecommendedCount(content.getRecommendedCount() + 1);
+        incrRecommendedCount(content.getId());
     }
 
-    public void incrRecommendationCount(String contentId) {
+    public void decrRecommendedCount(Content content) {
+        content.setRecommendedCount(content.getRecommendedCount() - 1);
+        decrRecommendedCount(content.getId());
+    }
+
+    public void incrSharedCount(Content content) {
+        content.setSharedCount(content.getSharedCount() + 1);
+        incrSharedCount(content.getId());
+    }
+
+    public void incrViewedCount(Content content) {
+        content.setViewedCount(content.getViewedCount() + 1);
+        incrViewedCount(content.getId());
+    }
+
+    private void incrRecommendedCount(String contentId) {
         HttpUtil.getInstance().updateRecommendationCount(Config.UPDATE_RECOMMENDATION_COUNT, contentId, true, new UpdateRecommendationCountCallback());
     }
 
-    public void decrRecommendationCount(String contentId) {
+    private void decrRecommendedCount(String contentId) {
         HttpUtil.getInstance().updateRecommendationCount(Config.UPDATE_RECOMMENDATION_COUNT, contentId, false, new UpdateRecommendationCountCallback());
     }
 
-    public void incrViewCount(String contentId) {
+    private void incrViewedCount(String contentId) {
         HttpUtil.getInstance().incrViewCount(Config.INCR_VIEW_COUNT, contentId, new IncrViewCountCallback());
     }
 
     public void incrSharedCount(String contentId) {
         HttpUtil.getInstance().incrViewCount(Config.INCR_SHARED_COUNT, contentId, new IncrSharedCountCallback());
-    }
-
-    public void createContent(Content content) {
-
-    }
-
-    public Map<String, Content> getContentMap() {
-        return contentMap;
-    }
-
-    public void setContentMap(Map<String, Content> contentMap) {
-        this.contentMap = contentMap;
-    }
-
-    public void incrementLikeCount(String id) {
-        Content content = contentMap.get(id);
-        if (content != null) {
-            content.setRecommendedCount(content.getRecommendedCount() + 1);
-        } else {
-            content = new Content();
-            content.setId(id);
-            content.setRecommendedCount(1);
-            contentMap.put(id, content);
-        }
-    }
-
-    public void decrementLikeCount(String id) {
-        Content content = contentMap.get(id);
-        if (content != null) {
-            content.setRecommendedCount(content.getRecommendedCount() - 1);
-        } else {
-            content = new Content();
-            content.setId(id);
-            content.setRecommendedCount(-1);
-            contentMap.put(id, content);
-        }
-    }
-
-    public void incrementShareCount(String id) {
-        Content content = contentMap.get(id);
-        if (content != null) {
-            content.setSharedCount(content.getSharedCount() + 1);
-        } else {
-            content = new Content();
-            content.setId(id);
-            content.setSharedCount(1);
-            contentMap.put(id, content);
-        }
-    }
-
-    public void incrementViewCount(String id) {
-        Content content = contentMap.get(id);
-        if (content != null) {
-            content.setViewedCount(content.getViewedCount() + 1);
-        } else {
-            content = new Content();
-            content.setId(id);
-            content.setViewedCount(1);
-            contentMap.put(id, content);
-        }
     }
 
     private class UpdateRecommendationCountCallback implements Callback {

@@ -12,17 +12,18 @@
         android:id="@+id/imageView"
         android:layout_width="44dp"
         android:layout_height="44dp"
-        android:layout_gravity="center_vertical"
-        android:padding="10dp" />
+        android:paddingBottom="@dimen/smallMargin"
+        android:paddingLeft="@dimen/mediumMargin"
+        android:src="@drawable/recomended" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp"
+        android:paddingBottom="@dimen/smallMargin"
+        android:paddingLeft="@dimen/mediumMargin"
+        android:paddingTop="@dimen/smallMargin"
+        android:text="text"
         android:textColor="@color/colorAccent"
-        android:textSize="@dimen/mediumSizeFont" />
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 </LinearLayout>

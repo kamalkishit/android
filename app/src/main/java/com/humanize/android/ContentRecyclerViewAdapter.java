@@ -37,11 +37,14 @@ import java.util.Set;
  */
 public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecyclerViewAdapter.ContentViewHolder> {
 
-    private static String TAG = ContentRecyclerViewAdapter.class.getSimpleName();
     private List<Content> contents = null;
+    private UserService userService;
+
+    private static String TAG = ContentRecyclerViewAdapter.class.getSimpleName();
 
     public ContentRecyclerViewAdapter(List<Content> contents) {
         this.contents = contents;
+        userService = new UserService();
     }
 
     public List<Content> getContents() {
@@ -96,38 +99,29 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         updateRecommendationButton(viewHolder);
         updateBookmarkButton(viewHolder);
 
-        Picasso.with(ApplicationState.getAppContext()).load(Config.IMAGES_URL + "?imageName=" + content.getImageURL()).placeholder(R.drawable.background)
+        Picasso.with(ApplicationState.getAppContext()).load(content.getOriginalImageURL()).placeholder(R.drawable.background)
                 .fit().into(viewHolder.contentImage);
-            /*Picasso.with(ApplicationState.getAppContext()).load("http://www.storypick.com/wp-content/uploads/2015/11/awesome-dad-cover.jpg")
-                    .placeholder(R.drawable.background).resize(Config.IMAGE_WIDTH, Config.IMAGE_HEIGHT)
-                    .into(viewHolder.imageView);*/
     }
 
     private void updateRecommendationButton(ContentViewHolder viewHolder) {
-        if (ApplicationState.getUser().getLikes().contains(viewHolder.contentId)) {
-            Drawable drawableTop = ApplicationState.getAppContext().getResources().getDrawable(R.drawable.recomended_selected);
-            //viewHolder.recommendButton.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop, null, null);
+        if (userService.isBookmarked(viewHolder.contentId)) {
+            viewHolder.recommendButton.setImageResource(R.drawable.ic_recomend_fill);
         } else {
-            Drawable drawableTop = ApplicationState.getAppContext().getResources().getDrawable(R.drawable.recomended);
-            //viewHolder.recommendButton.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop, null, null);
+            viewHolder.recommendButton.setImageResource(R.drawable.ic_recomend_fill);
         }
     }
 
     private void updateBookmarkButton(ContentViewHolder viewHolder) {
-        if (ApplicationState.getUser().getBookmarks().contains(viewHolder.contentId)) {
-            Drawable drawableTop = ApplicationState.getAppContext().getResources().getDrawable(R.drawable.bookmark_selected);
-            //viewHolder.bookmarkButton.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop, null, null);
+        if (userService.isBookmarked(viewHolder.contentId)) {
+            viewHolder.bookmarkButton.setImageResource(R.drawable.ic_bookmark_filled_green);
         } else {
-            Drawable drawableTop = ApplicationState.getAppContext().getResources().getDrawable(R.drawable.bookmark);
-            //viewHolder.bookmarkButton.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop, null, null);
+            viewHolder.bookmarkButton.setImageResource(R.drawable.ic_bookmark_filled);
         }
     }
 
     @Override
     public ContentViewHolder onCreateViewHolder(ViewGroup viewGroup, int index) {
-        View cardView = LayoutInflater.
-                from(viewGroup.getContext()).
-                inflate(R.layout.content_card, viewGroup, false);
+        View cardView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.content_card, viewGroup, false);
 
         return new ContentRecyclerViewAdapter.ContentViewHolder(cardView);
     }
@@ -155,8 +149,8 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         public ContentViewHolder(View view) {
             super(view);
             this.shareableContentView = view;
-            userService = new UserService(ApplicationState.getUser());
-            contentService = ContentService.getInstance();
+            userService = new UserService();
+            contentService = new ContentService();
             contentCategory = (TextView) view.findViewById(R.id.contentCategory);
             contentSource = (TextView) view.findViewById(R.id.contentSource);
             contentTitle = (TextView) view.findViewById(R.id.contentTitle);
@@ -231,63 +225,29 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         }
 
         private void recommend() {
-            if (ApplicationState.getUser().getLikes().contains(contentId)) {
-                Set<String> likes = ApplicationState.getUser().getLikes();
-                likes.remove(contentId);
-                ApplicationState.getUser().setLikes(likes);
-                userService.unrecommendContent(contentId);
-                contentService.decrRecommendationCount(contentId);
-                content.setRecommendedCount(content.getRecommendedCount() - 1);
-            } else {
-                Set<String> likes = ApplicationState.getUser().getLikes();
-                likes.add(contentId);
-                ApplicationState.getUser().setLikes(likes);
-                userService.recommendContent(contentId);
-                contentService.incrRecommendationCount(contentId);
-                content.setRecommendedCount(content.getRecommendedCount() + 1);
-            }
-
+            userService.recommend(content);
             updateRecommendationButton();
             updateRecommendedCount();
         }
 
         private void bookmark() {
-            if (ApplicationState.getUser().getBookmarks().contains(contentId)) {
-                Set<String> bookmarks = ApplicationState.getUser().getBookmarks();
-                bookmarks.remove(contentId);
-                ApplicationState.getUser().setBookmarks(bookmarks);
-                userService.unbookmarkContent(contentId);
-            } else {
-                Set<String> bookmarks = ApplicationState.getUser().getBookmarks();
-                bookmarks.add(contentId);
-                ApplicationState.getUser().setBookmarks(bookmarks);
-                userService.bookmarkContent(contentId);
-            }
-
+            userService.bookmark(content);
             updateBookmarkButton();
         }
 
         private void updateRecommendationButton() {
-            if (ApplicationState.getUser().getLikes().contains(contentId)) {
-                Drawable drawableTop = ApplicationState.getAppContext().getResources().getDrawable(R.drawable.recomended_selected);
-                //recommendButton.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop, null, null);
-                //recommendButton.setText(StringConstants.RECOMMENDED);
+            if (userService.isRecommended(contentId)) {
+                recommendButton.setImageResource(R.drawable.ic_recomend);
             } else {
-                Drawable drawableTop = ApplicationState.getAppContext().getResources().getDrawable(R.drawable.recomended);
-                //recommendButton.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop, null, null);
-                //recommendButton.setText(StringConstants.RECOMMEND);
+                recommendButton.setImageResource(R.drawable.ic_recomend_fill);
             }
         }
 
         private void updateBookmarkButton() {
-            if (ApplicationState.getUser().getBookmarks().contains(contentId)) {
-                Drawable drawableTop = ApplicationState.getAppContext().getResources().getDrawable(R.drawable.bookmark_selected);
-                //bookmarkButton.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop, null, null);
-                //bookmarkButton.setText(StringConstants.BOOKMARKED);
+            if (userService.isBookmarked(contentId)) {
+                bookmarkButton.setImageResource(R.drawable.ic_bookmark_filled_green);
             } else {
-                Drawable drawableTop = ApplicationState.getAppContext().getResources().getDrawable(R.drawable.bookmark);
-                //bookmarkButton.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop, null, null);
-                //bookmarkButton.setText(StringConstants.BOOKMARK);
+                bookmarkButton.setImageResource(R.drawable.ic_bookmark_filled);
             }
         }
 
@@ -316,8 +276,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         }
 
         public void onClick(View view) {
-            contentService.incrementViewCount(content.getId());
-            contentService.incrViewCount(content.getId());
+            contentService.incrViewedCount(content);
             content.setViewedCount(content.getViewedCount() + 1);
             updateViewedCount();
             updateContent(content);

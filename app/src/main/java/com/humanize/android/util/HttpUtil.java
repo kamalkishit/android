@@ -14,6 +14,7 @@ import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -88,6 +89,26 @@ public class HttpUtil {
 
     public void recommendArticle(String url, String contentUrl, Callback callback) {
         url += "?contentUrl=" + contentUrl;
+        get(url, callback);
+    }
+
+    public void getBookmarkedContents(String url, List<String> boomkarkIds, Callback callback) {
+        url += "?bookmarkIds=";
+
+        for (String bookmarkId: boomkarkIds) {
+            url += bookmarkId + ",";
+        }
+
+        get(url, callback);
+    }
+
+    public void getRecommendedContents(String url, List<String> recommendationsIds, Callback callback) {
+        url += "?recommendationsIds=";
+
+        for (String bookmarkId: recommendationsIds) {
+            url += bookmarkId + ",";
+        }
+
         get(url, callback);
     }
 

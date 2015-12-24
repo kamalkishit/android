@@ -113,7 +113,7 @@
                     android:elevation="@dimen/cardElevation"
                     android:text="Beautiful"
                     android:textColor="@color/colorSecondary"
-                    android:drawableTop="@drawable/beautiful_green"
+                    android:drawableTop="@drawable/ic_achivers"
                     android:textAllCaps="false"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_weight="1.0" />

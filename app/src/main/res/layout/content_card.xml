@@ -105,46 +105,46 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:background="@drawable/ic_views" />
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_views_filled" />
 
             <TextView
                 android:id="@+id/viewsCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
-                android:text="0" />
+                android:text="1234" />
 
             <ImageView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:background="@drawable/ic_recomended" />
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_recomend_fill" />
 
             <TextView
                 android:id="@+id/recommendationsCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
-                android:text="0" />
+                android:text="5678" />
 
             <ImageView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:background="@drawable/ic_share" />
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_share_3_filled" />
 
             <TextView
                 android:id="@+id/sharedCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
-                android:text="0" />
+                android:text="91011" />
 
         </LinearLayout>
         
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_below="@id/counts"
             android:foreground="?android:attr/selectableItemBackground"
             android:orientation="horizontal">
@@ -152,35 +152,35 @@
             <ImageButton
                 android:id="@+id/recommendButton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1.0"
                 android:background="@drawable/border_button_grey"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:paddingBottom="@dimen/smallMargin"
-                android:paddingTop="@dimen/smallMargin"
-                android:src="@drawable/recomended" />
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
+                android:src="@drawable/ic_recomend_fill" />
 
             <ImageButton
                 android:id="@+id/bookmarkButton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1.0"
                 android:background="@drawable/border_button_grey"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:paddingBottom="@dimen/smallMargin"
-                android:paddingTop="@dimen/smallMargin"
-                android:src="@drawable/bookmark" />
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
+                android:src="@drawable/ic_bookmark_filled" />
 
             <ImageButton
                 android:id="@+id/shareButton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1.0"
                 android:background="@drawable/border_button_grey"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:paddingBottom="@dimen/smallMargin"
-                android:paddingTop="@dimen/smallMargin"
-                android:src="@drawable/share" />
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
+                android:src="@drawable/ic_share_3_filled" />
         </LinearLayout>
     </RelativeLayout>
 </android.support.v7.widget.CardView>

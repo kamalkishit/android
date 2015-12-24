@@ -32,20 +32,11 @@ public class Contents {
     }
 
     public void addContent(Content content) {
-        this.contents.add(0, content);
-        System.out.println("added");
+        contents.add(0, content);
     }
 
     public void removeContent(Content content) {
-        ListIterator<Content> iterator = contents.listIterator();
-
-        while(iterator.hasNext()) {
-            if (iterator.next().equals(content)) {
-                System.out.println("removed");
-                iterator.remove();
-                return;
-            }
-        }
+        contents.remove(content);
     }
 }
 
