@@ -32,11 +32,13 @@ import butterknife.ButterKnife;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
-    private static final String TAG = ForgotPasswordActivity.class.getSimpleName();
     @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
     @Bind(R.id.emailId) EditText emailId;
     @Bind(R.id.submitButton) Button submitButton;
+
     private ActivityLauncher activityLauncher;
+
+    private static final String TAG = ForgotPasswordActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -115,15 +115,25 @@ public class RecommendationsActivity extends AppCompatActivity {
     }
 
     private void getRecommendations() {
-        HttpUtil.getInstance().getRecommendedContents(null, userService.getRecommendationsIds(), new RecommendationsCallback());
+        if (userService.getRecommendationsIds().size() > 0) {
+            HttpUtil.getInstance().getRecommendedContents(Config.RECOMMENDATIONS_FIND_URL, userService.getRecommendationsIds(), new RecommendationsCallback());
+        } else {
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     private void getNewRecommendations() {
-        HttpUtil.getInstance().refreshRecommendations(new NewRecommendationsCallback());
+        if (userService.getNewRecommendationsIds(contentRecyclerViewAdapter.getContents().get(0).getId()).size() > 0) {
+            HttpUtil.getInstance().getBookmarkedContents(Config.RECOMMENDATIONS_FIND_URL, userService.getNewRecommendationsIds(contentRecyclerViewAdapter.getContents().get(0).getId()), new NewRecommendationsCallback());
+        } else {
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
-    private void getMoreRecommendations(String startDate) {
-        HttpUtil.getInstance().getMoreContents(startDate, new MoreRecommendationsCallback());
+    private void getMoreRecommendations() {
+        if (userService.getMoreRecommendationsIds(contentRecyclerViewAdapter.getContents().get(contentRecyclerViewAdapter.getContents().size() - 1).getId()).size() > 0) {
+            HttpUtil.getInstance().getBookmarkedContents(Config.RECOMMENDATIONS_FIND_URL, userService.getMoreRecommendationsIds(contentRecyclerViewAdapter.getContents().get(contentRecyclerViewAdapter.getContents().size() - 1).getId()), new MoreRecommendationsCallback());
+        }
     }
 
     @Override

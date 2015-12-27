@@ -66,6 +66,7 @@ public class BookmarksActivity extends AppCompatActivity {
         toolbar.setCollapsible(true);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
 
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -84,7 +85,8 @@ public class BookmarksActivity extends AppCompatActivity {
                 contentRecyclerViewAdapter.setContents(BookmarksActivity.contents.getContents());
                 contentRecyclerViewAdapter.notifyDataSetChanged();
             } else {
-                HttpUtil.getInstance().getBookmarkedContents(Config.BOOKMARK_FIND_URL, new UserService().getBookmarkIds(), new BookmarkCallback());
+                getBookmarks();
+
             }
         } catch (Exception exception) {
 
@@ -129,11 +131,27 @@ public class BookmarksActivity extends AppCompatActivity {
     }
 
     private void getBookmarks() {
-        HttpUtil.getInstance().getRecommendedContents(null, userService.getRecommendationsIds(), new BookmarkCallback());
+        if (userService.getBookmarkIds() != null && userService.getBookmarkIds().size() > 0) {
+            HttpUtil.getInstance().getBookmarkedContents(Config.BOOKMARK_FIND_URL, userService.getBookmarkIds(), new BookmarkCallback());
+        } else {
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     private void getNewBookmarks() {
-        HttpUtil.getInstance().refreshRecommendations(new BookmarkCallback());
+        if (userService.getNewBookmarkIds(contentRecyclerViewAdapter.getContents().get(0).getId()) != null
+                && userService.getNewBookmarkIds(contentRecyclerViewAdapter.getContents().get(0).getId()).size() > 0) {
+            HttpUtil.getInstance().getBookmarkedContents(Config.BOOKMARK_FIND_URL, userService.getNewBookmarkIds(contentRecyclerViewAdapter.getContents().get(0).getId()), new NewBookmarkCallback());
+        } else {
+            swipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
+    private void getMoreBookmarks() {
+        if (userService.getMoreBookmarkIds(contentRecyclerViewAdapter.getContents().get(contentRecyclerViewAdapter.getContents().size() -1).getId()) != null
+                && userService.getMoreBookmarkIds(contentRecyclerViewAdapter.getContents().get(contentRecyclerViewAdapter.getContents().size() -1).getId()).size() > 0) {
+            HttpUtil.getInstance().getBookmarkedContents(Config.BOOKMARK_FIND_URL, userService.getMoreBookmarkIds(contentRecyclerViewAdapter.getContents().get(contentRecyclerViewAdapter.getContents().size()-1).getId()), new MoreBookmarkCallback());
+        }
     }
 
     private void bookmarkSuccess(View view, String response) {

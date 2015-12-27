@@ -154,11 +154,18 @@ public class AppLauncherActivity extends AppCompatActivity {
     }
 
     private void updateUserData() {
-        String userdataJson = new Gson().toJson(ApplicationState.getUser());
+        try {
+            String userdataJson = new JsonParser().toJson(ApplicationState.getUser());
 
-        if (userdataJson != null) {
-            HttpUtil.getInstance().updateUser(Config.USER_UPDATE_URL, userdataJson, new UserUpdationCallback());
+            if (userdataJson != null) {
+                HttpUtil.getInstance().updateUser(Config.USER_UPDATE_URL, userdataJson, new UserUpdationCallback());
+            }
+        } catch (Exception exception) {
+
         }
+
+
+
     }
 
     private void updateContentsData() {

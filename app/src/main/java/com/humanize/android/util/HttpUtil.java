@@ -48,6 +48,9 @@ public class HttpUtil {
         get(url, callback);
     }
 
+    public void resetPassword(String url, String json, Callback callback) {
+        post(url, json, callback);
+    }
     public void recommendContentForUser(String url, String userId, String contentId, boolean flag, Callback callback) {
         url += "?userId=" + userId + "&contentId=" + contentId + "&flag=" + flag;
         get(url, callback);
@@ -78,8 +81,6 @@ public class HttpUtil {
         String url = Config.PAPER_FIND_URL;
         get(url, httpResponseCallback);
     }
-
-
 
     public void submit(String url, String json, Callback callback) {
         System.out.println(url);
@@ -126,8 +127,6 @@ public class HttpUtil {
         }
         get(url, callback);
     }
-
-    public void refreshRecommendations(Callback callback){}
 
     public void refreshContents(String createdDate, Callback callback) {
         String url = Config.CONTENT_FIND_URL;

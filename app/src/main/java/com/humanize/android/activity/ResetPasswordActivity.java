@@ -3,6 +3,7 @@ package com.humanize.android.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -23,6 +24,7 @@ import android.widget.EditText;
 import com.humanize.android.JsonParser;
 import com.humanize.android.R;
 import com.humanize.android.common.StringConstants;
+import com.humanize.android.data.ResetPasswordUser;
 import com.humanize.android.data.User;
 import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.service.SharedPreferencesService;
@@ -65,6 +67,11 @@ public class ResetPasswordActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        progressDialog = new ProgressDialog(this);
+        Uri uri = getIntent().getData();
+        String path = uri.getPath();
+        emailId.setText(uri.getQueryParameter("emailId"));
+        tempPassword.setText(uri.getQueryParameter("tempPassword"));
         tempPassword.setTypeface(Typeface.DEFAULT);
         tempPassword.setTransformationMethod(new PasswordTransformationMethod());
         newPassword.setTypeface(Typeface.DEFAULT);
@@ -143,8 +150,13 @@ public class ResetPasswordActivity extends AppCompatActivity {
             progressDialog.setMessage(StringConstants.RESETTING_PASSWORD);
             progressDialog.show();
 
+            ResetPasswordUser resetPasswordUser = new ResetPasswordUser();
+            resetPasswordUser.setEmailId(emailIdStr);
+            resetPasswordUser.setTempPassword(tempPasswordStr);
+            resetPasswordUser.setNewPassword(newPasswordStr);
+
             try {
-                HttpUtil.getInstance().resetPassword(Config.USER_RESET_PASSWORD_URL, emailIdStr, tempPasswordStr, newPasswordStr, new ResetPasswordCallback());
+                HttpUtil.getInstance().resetPassword(Config.USER_RESET_PASSWORD_URL, new JsonParser().toJson(resetPasswordUser), new ResetPasswordCallback());
             } catch (Exception exception) {
                 Log.e(TAG, exception.toString());
             }
@@ -163,7 +175,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
             return false;
         }
 
-        if (tempPasswordStr.isEmpty() || tempPasswordStr.length() < Config.PASSWORD_MIN_LENGTH || tempPassword.length() > Config.PASSWORD_MAX_LENGTH) {
+        if (tempPasswordStr.isEmpty()) {
             tempPassword.setError(StringConstants.PASSWORD_VALIDATION_ERROR_STR);
             Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.PASSWORD_VALIDATION_ERROR_STR, Snackbar.LENGTH_SHORT);
             snackbar.show();

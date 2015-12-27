@@ -25,7 +25,9 @@ import android.widget.TextView;
 import com.humanize.android.JsonParser;
 import com.humanize.android.R;
 import com.humanize.android.common.StringConstants;
+import com.humanize.android.data.SignupUser;
 import com.humanize.android.data.User;
+import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
@@ -48,7 +50,9 @@ public class SignupActivity extends AppCompatActivity {
     @Bind(R.id.submitButton) Button submitButton;
     @Bind(R.id.invitationCodeLink) TextView invitationCodeLink;
 
+    ActivityLauncher activityLauncher;
     private ProgressDialog progressDialog;
+
     private static final String TAG = SignupActivity.class.getSimpleName();
 
     @Override
@@ -63,6 +67,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        activityLauncher = new ActivityLauncher();
         Uri uri = getIntent().getData();
         String path = uri.getPath();
         emailId.setText(uri.getQueryParameter("emailId"));
@@ -166,13 +171,13 @@ public class SignupActivity extends AppCompatActivity {
             progressDialog.setMessage(StringConstants.REGISTERING);
             progressDialog.show();
 
-            User user = new User();
-            user.setEmailId(emailId.getText().toString());
-            user.setPassword(password.getText().toString());
-            user.setInvitationCode(invitationCode.getText().toString());
+            SignupUser signupUser = new SignupUser();
+            signupUser.setEmailId(emailId.getText().toString());
+            signupUser.setPassword(password.getText().toString());
+            signupUser.setInvitationCode(invitationCode.getText().toString());
 
             try {
-                HttpUtil.getInstance().signup(Config.USER_SIGNUP_URL, new JsonParser().toJson(user), new SignupCallback());
+                HttpUtil.getInstance().signup(Config.USER_SIGNUP_URL, new JsonParser().toJson(signupUser), new SignupCallback());
             } catch (Exception exception) {
                 Log.e(TAG, exception.toString());
             }
@@ -188,10 +193,8 @@ public class SignupActivity extends AppCompatActivity {
                 SharedPreferencesService.getInstance().putBoolean(Config.IS_LOGGED_IN, true);
                 SharedPreferencesService.getInstance().putString(Config.JSON_USER_DATA, response);
 
-                Intent intent = new Intent(getApplicationContext(), SelectCategoriesActivity.class);
-                startActivity(intent);
+                activityLauncher.startSelectCategoriesActivity();
             } else {
-                Log.e(TAG, "user is null");
             }
         } catch (Exception exception) {
             Log.e(TAG, exception.toString());
@@ -208,9 +211,7 @@ public class SignupActivity extends AppCompatActivity {
                 public void run() {
                     progressDialog.dismiss();
                     submitButton.setEnabled(true);
-                    Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_SHORT);
-                    snackbar.show();
-                    //Toast.makeText(getApplicationContext(), StringConstants.NETWORK_CONNECTION_ERROR_STR, Toast.LENGTH_LONG).show();
+                    Snackbar.make(coordinatorLayout, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_SHORT).show();
                 }
             });
         }
@@ -223,8 +224,7 @@ public class SignupActivity extends AppCompatActivity {
                     public void run() {
                         progressDialog.dismiss();
                         submitButton.setEnabled(true);
-                        Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.FAILURE_STR, Snackbar.LENGTH_SHORT);
-                        snackbar.show();
+                        Snackbar.make(coordinatorLayout, StringConstants.FAILURE_STR, Snackbar.LENGTH_SHORT).show();
                     }
                 });
             } else {

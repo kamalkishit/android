@@ -14,12 +14,15 @@ import com.humanize.android.activity.AppLauncherActivity;
 import com.humanize.android.activity.BookmarksActivity;
 import com.humanize.android.activity.CardActivity;
 import com.humanize.android.activity.ContactUsActivity;
+import com.humanize.android.activity.ForgotPasswordActivity;
 import com.humanize.android.activity.LoginActivity;
 import com.humanize.android.activity.PaperActivity;
 import com.humanize.android.activity.PrivacyActivity;
 import com.humanize.android.activity.RecommendArticleActivity;
 import com.humanize.android.activity.RecommendationsActivity;
 import com.humanize.android.activity.ResetPasswordActivity;
+import com.humanize.android.activity.SelectCategoriesActivity;
+import com.humanize.android.activity.SignupActivity;
 import com.humanize.android.activity.UsageActivity;
 import com.humanize.android.common.StringConstants;
 import com.humanize.android.content.data.Content;
@@ -41,6 +44,24 @@ public class ActivityLauncher {
 
     public void startAboutUsActivity() {
         Intent intent = new Intent(ApplicationState.getAppContext(), AboutUsActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ApplicationState.getAppContext().startActivity(intent);
+    }
+
+    public void startForgotPasswordActivity() {
+        Intent intent = new Intent(ApplicationState.getAppContext(), ForgotPasswordActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ApplicationState.getAppContext().startActivity(intent);
+    }
+
+    public void startSignupActivity() {
+        Intent intent = new Intent(ApplicationState.getAppContext(), SignupActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ApplicationState.getAppContext().startActivity(intent);
+    }
+
+    public void startSelectCategoriesActivity() {
+        Intent intent = new Intent(ApplicationState.getAppContext(), SelectCategoriesActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ApplicationState.getAppContext().startActivity(intent);
     }

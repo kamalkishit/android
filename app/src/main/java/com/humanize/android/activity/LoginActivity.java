@@ -25,6 +25,7 @@ import com.humanize.android.JsonParser;
 import com.humanize.android.R;
 import com.humanize.android.common.Constants;
 import com.humanize.android.common.StringConstants;
+import com.humanize.android.data.LoginUser;
 import com.humanize.android.data.User;
 import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.service.SharedPreferencesService;
@@ -42,16 +43,18 @@ import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String TAG = LoginActivity.class.getSimpleName();
     @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
     @Bind(R.id.emailId) EditText emailId;
     @Bind(R.id.password) EditText password;
     @Bind(R.id.submitButton) Button submitButton;
     @Bind(R.id.forgotPasswordLink) TextView forgotPasswordLink;
     @Bind(R.id.registerLink) TextView registerLink;
+
     private ProgressDialog progressDialog;
     private boolean doubleBackToExitPressedOnce;
     private ActivityLauncher activityLauncher;
+
+    private static final String TAG = LoginActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,16 +133,14 @@ public class LoginActivity extends AppCompatActivity {
         forgotPasswordLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ForgotPasswordActivity.class);
-                startActivity(intent);
+                activityLauncher.startForgotPasswordActivity();
             }
         });
 
         registerLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
-                startActivity(intent);
+                activityLauncher.startSignupActivity();
             }
         });
     }
@@ -152,11 +153,15 @@ public class LoginActivity extends AppCompatActivity {
             progressDialog.setMessage(StringConstants.AUTHENTICATING);
             progressDialog.show();
 
-            User user = new User();
-            user.setEmailId(emailId.getText().toString());
-            user.setPassword(password.getText().toString());
+            LoginUser loginUser = new LoginUser();
+            loginUser.setEmailId(emailId.getText().toString());
+            loginUser.setPassword(password.getText().toString());
 
-            HttpUtil.getInstance().login(Config.USER_LOGIN_URL, emailId.getText().toString(), password.getText().toString(), new LoginCallback());
+            try {
+                HttpUtil.getInstance().login(Config.USER_LOGIN_URL, new JsonParser().toJson(loginUser), new LoginCallback());
+            } catch (Exception exception) {
+
+            }
         }
     }
 
@@ -189,14 +194,13 @@ public class LoginActivity extends AppCompatActivity {
                 ApplicationState.setUser(user);
                 SharedPreferencesService.getInstance().putBoolean(Config.IS_LOGGED_IN, true);
                 SharedPreferencesService.getInstance().putString(Config.JSON_USER_DATA, response);
+
                 if (user.getIsConfigured()) {
                     activityLauncher.startCardActivity(coordinatorLayout);
                 } else {
-                    Intent intent = new Intent(getApplicationContext(), SelectCategoriesActivity.class);
-                    startActivity(intent);
+                    activityLauncher.startSelectCategoriesActivity();
                 }
             } else {
-                Log.e(TAG, "user is null");
             }
         } catch (Exception exception) {
             Log.e(TAG, exception.toString());
@@ -212,8 +216,7 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     progressDialog.dismiss();
-                    Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG);
-                    snackbar.show();
+                    Snackbar.make(coordinatorLayout, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG).show();
                     submitButton.setEnabled(true);
                 }
             });
@@ -226,8 +229,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         progressDialog.dismiss();
-                        Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.LOGIN_FAILURE_STR, Snackbar.LENGTH_LONG);
-                        snackbar.show();
+                        Snackbar.make(coordinatorLayout, StringConstants.LOGIN_FAILURE_STR, Snackbar.LENGTH_LONG).show();
                         submitButton.setEnabled(true);
                     }
                 });

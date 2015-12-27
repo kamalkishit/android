@@ -92,6 +92,10 @@ public class UserService {
         return null;
     }
 
+    public int getBookmarkIdsSize() {
+        return user.getBookmarked().size();
+    }
+
     public List<String> getRecommendationsIds() {
         if (user.getRecommended().size() > 0) {
             if (user.getRecommended().size() >= Constants.DEFAULT_CONTENTS_SIZE) {
