@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +19,7 @@ import com.humanize.android.ContentRecyclerViewAdapter;
 import com.humanize.android.JsonParser;
 import com.humanize.android.R;
 import com.humanize.android.UserService;
+import com.humanize.android.common.Constants;
 import com.humanize.android.common.StringConstants;
 import com.humanize.android.content.data.Contents;
 import com.humanize.android.service.SharedPreferencesService;
@@ -36,10 +39,14 @@ public class BookmarksActivity extends AppCompatActivity {
     public static Contents contents = null;
 
     @Bind(R.id.recyclerView) RecyclerView recyclerView;
+    @Bind(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbarText) TextView toolbarText;
 
+    UserService userService;
     private ContentRecyclerViewAdapter contentRecyclerViewAdapter;
+
+    private static String TAG = BookmarksActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +60,7 @@ public class BookmarksActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        userService = new UserService();
         toolbarText.setText(StringConstants.BOOKMARKED);
 
         toolbar.setCollapsible(true);
@@ -67,11 +75,14 @@ public class BookmarksActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(null);
+        recyclerView.setAdapter(contentRecyclerViewAdapter);
+
         try {
             if (SharedPreferencesService.getInstance().getString(Config.JSON_BOOKMARKED_CONTENTS) != null) {
                 BookmarksActivity.contents = new JsonParser().fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_BOOKMARKED_CONTENTS), Contents.class);
-                contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(contents.getContents());
-                recyclerView.setAdapter(contentRecyclerViewAdapter);
+                contentRecyclerViewAdapter.setContents(BookmarksActivity.contents.getContents());
+                contentRecyclerViewAdapter.notifyDataSetChanged();
             } else {
                 HttpUtil.getInstance().getBookmarkedContents(Config.BOOKMARK_FIND_URL, new UserService().getBookmarkIds(), new BookmarkCallback());
             }
@@ -81,7 +92,16 @@ public class BookmarksActivity extends AppCompatActivity {
     }
 
     private void configureListeners() {
-
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (contentRecyclerViewAdapter.getContents() != null && contentRecyclerViewAdapter.getContents().size() > 0) {
+                    getNewBookmarks();
+                } else {
+                    getBookmarks();
+                }
+            }
+        });
     }
 
     @Override
@@ -108,13 +128,21 @@ public class BookmarksActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void getBookmarks() {
+        HttpUtil.getInstance().getRecommendedContents(null, userService.getRecommendationsIds(), new BookmarkCallback());
+    }
+
+    private void getNewBookmarks() {
+        HttpUtil.getInstance().refreshRecommendations(new BookmarkCallback());
+    }
+
     private void bookmarkSuccess(View view, String response) {
         try {
             Contents contents = new JsonParser().fromJson(response, Contents.class);
             SharedPreferencesService.getInstance().putString(Config.JSON_BOOKMARKED_CONTENTS, response);
             BookmarksActivity.contents = contents;
-            contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(contents.getContents());
-            recyclerView.setAdapter(contentRecyclerViewAdapter);
+            contentRecyclerViewAdapter.setContents(BookmarksActivity.contents.getContents());
+            contentRecyclerViewAdapter.notifyDataSetChanged();
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -128,8 +156,7 @@ public class BookmarksActivity extends AppCompatActivity {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    Snackbar snackbar = Snackbar.make(recyclerView, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG);
-                    snackbar.show();
+                    Snackbar.make(recyclerView, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG).show();
                 }
             });
         }
@@ -140,8 +167,7 @@ public class BookmarksActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        Snackbar snackbar = Snackbar.make(recyclerView, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG);
-                        snackbar.show();
+                        Snackbar.make(recyclerView, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG).show();
                     }
                 });
             } else {
@@ -150,6 +176,112 @@ public class BookmarksActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         bookmarkSuccess(recyclerView, responseStr);
+                    }
+                });
+            }
+        }
+    }
+
+    private class NewBookmarkCallback implements Callback {
+
+        @Override
+        public void onFailure(Request request, IOException exception) {
+            exception.printStackTrace();
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            });
+        }
+
+        @Override
+        public void onResponse(final Response response) throws IOException {
+            if (!response.isSuccessful()) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                });
+            } else {
+                final String responseStr = response.body().string().toString();
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Contents contents = new JsonParser().fromJson(responseStr, Contents.class);
+
+                            if (contents != null && contents.getContents().size() >= Constants.DEFAULT_CONTENTS_SIZE) {
+                                contentRecyclerViewAdapter.setContents(contents.getContents());
+                            } else if (contents != null) {
+                                contentRecyclerViewAdapter.getContents().addAll(0, contents.getContents());
+                            }
+
+                            contentRecyclerViewAdapter.notifyDataSetChanged();
+
+                            try {
+                                SharedPreferencesService.getInstance().putString(Config.JSON_BOOKMARKED_CONTENTS, new JsonParser().toJson(new Contents(contentRecyclerViewAdapter.getContents())));
+                            } catch (Exception exception) {
+                                Log.e(TAG, exception.toString());
+                            }
+                        } catch (Exception exception) {
+                            Log.e(TAG, exception.toString());
+                        } finally {
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    private class MoreBookmarkCallback implements Callback {
+
+        @Override
+        public void onFailure(Request request, IOException exception) {
+            exception.printStackTrace();
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                }
+            });
+        }
+
+        @Override
+        public void onResponse(final Response response) throws IOException {
+            if (!response.isSuccessful()) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                    }
+                });
+            } else {
+                final String responseStr = response.body().string().toString();
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Contents contents = new JsonParser().fromJson(responseStr, Contents.class);
+
+                            if (contents != null && contents.getContents().size() >= Constants.DEFAULT_CONTENTS_SIZE) {
+                                contentRecyclerViewAdapter.setContents(contents.getContents());
+                            } else if (contents != null) {
+                                contentRecyclerViewAdapter.getContents().addAll(0, contents.getContents());
+                            }
+
+                            contentRecyclerViewAdapter.notifyDataSetChanged();
+
+                            try {
+                                SharedPreferencesService.getInstance().putString(Config.JSON_BOOKMARKED_CONTENTS, new JsonParser().toJson(new Contents(contentRecyclerViewAdapter.getContents())));
+                            } catch (Exception exception) {
+                                Log.e(TAG, exception.toString());
+                            }
+                        } catch (Exception exception) {
+                            Log.e(TAG, exception.toString());
+                        } finally {
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
                     }
                 });
             }

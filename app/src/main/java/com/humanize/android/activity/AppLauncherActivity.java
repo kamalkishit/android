@@ -140,7 +140,7 @@ public class AppLauncherActivity extends AppCompatActivity {
         try {
             System.out.println("##########################");
             System.out.println("destroying");
-            SharedPreferencesService.getInstance().putString(Config.USER_DATA_JSON, new JsonParser().toJson(ApplicationState.getUser()));
+            SharedPreferencesService.getInstance().putString(Config.JSON_USER_DATA, new JsonParser().toJson(ApplicationState.getUser()));
             //SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, new JsonParser().toJson(CardActivity.contents));
             SharedPreferencesService.getInstance().putString(Config.JSON_RECOMMENDED_CONTENTS, new JsonParser().toJson(LikeService.getInstance().getLikes()));
             SharedPreferencesService.getInstance().putString(Config.JSON_BOOKMARKED_CONTENTS, new JsonParser().toJson(BookmarkService.getInstance().getBookmarks()));

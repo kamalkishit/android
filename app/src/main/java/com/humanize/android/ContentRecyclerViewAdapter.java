@@ -105,9 +105,9 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
 
     private void updateRecommendationButton(ContentViewHolder viewHolder) {
         if (userService.isBookmarked(viewHolder.contentId)) {
-            viewHolder.recommendButton.setImageResource(R.drawable.ic_recomend_fill);
+            viewHolder.recommendButton.setImageResource(R.drawable.ic_recomend);
         } else {
-            viewHolder.recommendButton.setImageResource(R.drawable.ic_recomend_fill);
+            viewHolder.recommendButton.setImageResource(R.drawable.ic_recomend);
         }
     }
 
@@ -239,7 +239,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             if (userService.isRecommended(contentId)) {
                 recommendButton.setImageResource(R.drawable.ic_recomend);
             } else {
-                recommendButton.setImageResource(R.drawable.ic_recomend_fill);
+                recommendButton.setImageResource(R.drawable.ic_recomend);
             }
         }
 

@@ -87,7 +87,7 @@ public class FragmentDrawer extends Fragment {
         TextView textViewRecommendedArticles = (TextView) recommendedArticles.findViewById(R.id.textView);
         textViewRecommendedArticles.setText("Recommended Articles");
         ImageView imageViewRecommendedArticle = (ImageView) recommendedArticles.findViewById(R.id.imageView);
-        imageViewRecommendedArticle.setImageResource(R.drawable.ic_recomend_fill);
+        imageViewRecommendedArticle.setImageResource(R.drawable.ic_recomend);
 
         TextView textViewRecommendAnArticle = (TextView) recommendAnArticle.findViewById(R.id.textView);
         textViewRecommendAnArticle.setText("Recommend An Article");
@@ -207,11 +207,19 @@ public class FragmentDrawer extends Fragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferencesService.getInstance().putBoolean(Config.IS_LOGGED_IN, false);
+                logoutUser();
                 activityLauncher.startLoginActivityWithClearStack();
                 drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });
+    }
+
+    private void logoutUser() {
+        SharedPreferencesService.getInstance().delete(Config.IS_LOGGED_IN);
+        SharedPreferencesService.getInstance().delete(Config.JSON_USER_DATA);
+        SharedPreferencesService.getInstance().delete(Config.JSON_CONTENTS);
+        SharedPreferencesService.getInstance().delete(Config.JSON_BOOKMARKED_CONTENTS);
+        SharedPreferencesService.getInstance().delete(Config.JSON_RECOMMENDED_CONTENTS);
     }
 
     @Override

@@ -92,9 +92,29 @@ public class UserService {
         return null;
     }
 
+    public List<String> getRecommendationsIds() {
+        if (user.getRecommended().size() > 0) {
+            if (user.getRecommended().size() >= Constants.DEFAULT_CONTENTS_SIZE) {
+                return user.getRecommended().subList(0, Constants.DEFAULT_CONTENTS_SIZE);
+            } else {
+                return user.getRecommended();
+            }
+        }
+
+        return null;
+    }
+
     public List<String> getMoreBookmarkIds(String bookmarkId) {
         if (user.getBookmarked().size() > 0 && user.getBookmarked().contains(bookmarkId)) {
             return user.getBookmarked().subList(user.getBookmarked().indexOf(bookmarkId) + 1, user.getBookmarked().indexOf(bookmarkId) + 1 + Constants.DEFAULT_CONTENTS_SIZE);
+        }
+
+        return null;
+    }
+
+    public List<String> getMoreRecommendationsIds(String recommendationsId) {
+        if (user.getRecommended().size() > 0 && user.getRecommended().contains(recommendationsId)) {
+            return user.getRecommended().subList(user.getRecommended().indexOf(recommendationsId) + 1, user.getRecommended().indexOf(recommendationsId) + 1 + Constants.DEFAULT_CONTENTS_SIZE);
         }
 
         return null;
@@ -108,6 +128,20 @@ public class UserService {
                 return user.getBookmarked().subList(0, Constants.DEFAULT_CONTENTS_SIZE);
             } else {
                 return user.getBookmarked().subList(0, index);
+            }
+        }
+
+        return null;
+    }
+
+    public List<String> getNewRecommendationsIds(String recommendationsId) {
+        if (user.getRecommended().size() > 0 && user.getRecommended().contains(recommendationsId)) {
+            int index = user.getRecommended().indexOf(recommendationsId);
+
+            if (index >= Constants.DEFAULT_CONTENTS_SIZE) {
+                return user.getRecommended().subList(0, Constants.DEFAULT_CONTENTS_SIZE);
+            } else {
+                return user.getRecommended().subList(0, index);
             }
         }
 

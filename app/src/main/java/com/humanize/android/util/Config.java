@@ -13,8 +13,8 @@ public class Config {
     public final static String JSON_CONTENTS = "jsonContents";
     public final static String JSON_BOOKMARKED_CONTENTS = "jsonBookmarks";
     public final static String JSON_RECOMMENDED_CONTENTS = "jsonLikes";
+    public final static String JSON_USER_DATA = "jsonUserData";
     public final static String JSON_PAPER = "jsonPaper";
-    public final static String USER_DATA_JSON = "user_data_json";
 
     public final static String CONTENT_URL = "contentURL";
 
@@ -23,7 +23,7 @@ public class Config {
     // URLS
     //public final static String SERVER_URL = "http://10.0.2.2:8080";
     //public final static String SERVER_URL = "http://188.166.213.251:8080/server-0.1.0";
-    public final static String SERVER_URL = "http://192.168.1.2:8080";
+    public final static String SERVER_URL = "http://192.168.1.14:8080";
 
     public final static String USER_SIGNUP_URL = SERVER_URL + "/users/signup";
     public final static String USER_LOGIN_URL = SERVER_URL + "/users/login";

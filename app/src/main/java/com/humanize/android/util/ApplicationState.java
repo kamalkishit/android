@@ -54,8 +54,8 @@ public class ApplicationState extends Application{
         JsonParser jsonParser = new JsonParser();
 
         try {
-            if (SharedPreferencesService.getInstance().getString(Config.USER_DATA_JSON) != null) {
-                ApplicationState.user = jsonParser.fromJson(SharedPreferencesService.getInstance().getString(Config.USER_DATA_JSON), User.class);
+            if (SharedPreferencesService.getInstance().getString(Config.JSON_USER_DATA) != null) {
+                ApplicationState.user = jsonParser.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_USER_DATA), User.class);
             }
 
             if (SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS) != null) {

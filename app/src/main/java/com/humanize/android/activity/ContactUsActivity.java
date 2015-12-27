@@ -18,8 +18,6 @@ import butterknife.ButterKnife;
 public class ContactUsActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.name) EditText name;
-    @Bind(R.id.emailId) EditText emailId;
     @Bind(R.id.subject) EditText subject;
     @Bind(R.id.body) EditText body;
 

@@ -42,7 +42,7 @@ import butterknife.ButterKnife;
 public class CardActivity extends AppCompatActivity {
 
     public static Contents contents = null;
-    private static String TAG = CardActivity.class.getSimpleName();
+
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.recyclerView) RecyclerView recyclerView;
     @Bind(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
@@ -55,6 +55,8 @@ public class CardActivity extends AppCompatActivity {
     private ContentRecyclerViewAdapter contentRecyclerViewAdapter;
     private LinearLayoutManager linearLayoutManager;
     private boolean doubleBackToExitPressedOnce;
+
+    private static String TAG = CardActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,14 +96,6 @@ public class CardActivity extends AppCompatActivity {
         userService = new UserService();
         doubleBackToExitPressedOnce = false;
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (contentRecyclerViewAdapter.getContents().size() > 0) {
-                    getNewContent(Long.toString(contentRecyclerViewAdapter.getContents().get(0).getCreatedDate()));
-                }
-            }
-        });
 
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -115,13 +109,16 @@ public class CardActivity extends AppCompatActivity {
         fragmentDrawer = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragmentNavigationDrawer);
         fragmentDrawer.setUp(R.id.fragmentNavigationDrawer, drawerLayout, toolbar);
 
+        contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(null);
+        recyclerView.setAdapter(contentRecyclerViewAdapter);
+
         try {
             if (SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS) != null) {
                 CardActivity.contents = new JsonParser().fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS), Contents.class);
-                contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(contents.getContents());
-                recyclerView.setAdapter(contentRecyclerViewAdapter);
+                contentRecyclerViewAdapter.setContents(CardActivity.contents.getContents());
+                contentRecyclerViewAdapter.notifyDataSetChanged();
             } else {
-                HttpUtil.getInstance().getBookmarkedContents(Config.BOOKMARK_FIND_URL, new UserService().getBookmarkIds(), new ContentCallback());
+                getContent();
             }
         } catch (Exception exception) {
 
@@ -129,6 +126,17 @@ public class CardActivity extends AppCompatActivity {
     }
 
     private void configureListeners() {
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (contentRecyclerViewAdapter.getContents() != null && contentRecyclerViewAdapter.getContents().size() > 0) {
+                    getNewContent(Long.toString(contentRecyclerViewAdapter.getContents().get(0).getCreatedDate()));
+                } else {
+                    getContent();
+                }
+            }
+        });
+
         recyclerView.setOnScrollListener(new EndlessRecyclerViewOnScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int current_page) {
@@ -169,12 +177,16 @@ public class CardActivity extends AppCompatActivity {
         drawerLayout.openDrawer(Gravity.LEFT);
     }
 
-    private void getMoreContent(String startDate) {
-        HttpUtil.getInstance().getMoreContents(startDate, new MoreContentCallback());
+    private void getContent() {
+        HttpUtil.getInstance().getContents(new ContentCallback());
     }
 
     private void getNewContent(String endDate) {
         HttpUtil.getInstance().refreshContents(endDate, new NewContentCallback());
+    }
+
+    private void getMoreContent(String startDate) {
+        HttpUtil.getInstance().getMoreContents(startDate, new MoreContentCallback());
     }
 
     public abstract class EndlessRecyclerViewOnScrollListener extends RecyclerView.OnScrollListener {
@@ -223,8 +235,8 @@ public class CardActivity extends AppCompatActivity {
             Contents contents = new JsonParser().fromJson(response, Contents.class);
             SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, response);
             CardActivity.contents = contents;
-            contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(contents.getContents());
-            recyclerView.setAdapter(contentRecyclerViewAdapter);
+            contentRecyclerViewAdapter.setContents(CardActivity.contents.getContents());
+            contentRecyclerViewAdapter.notifyDataSetChanged();
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -238,6 +250,7 @@ public class CardActivity extends AppCompatActivity {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
+                    swipeRefreshLayout.setRefreshing(false);
                     Snackbar snackbar = Snackbar.make(recyclerView, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
@@ -250,6 +263,7 @@ public class CardActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
                         Snackbar snackbar = Snackbar.make(recyclerView, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG);
                         snackbar.show();
                     }
@@ -259,6 +273,7 @@ public class CardActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
                         success(recyclerView, responseStr);
                     }
                 });

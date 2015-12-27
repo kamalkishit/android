@@ -152,13 +152,13 @@
             <ImageButton
                 android:id="@+id/recommendButton"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1.0"
                 android:background="@drawable/border_button_grey"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:paddingBottom="4dp"
                 android:paddingTop="4dp"
-                android:src="@drawable/ic_recomend_fill" />
+                android:src="@drawable/ic_recomend" />
 
             <ImageButton
                 android:id="@+id/bookmarkButton"

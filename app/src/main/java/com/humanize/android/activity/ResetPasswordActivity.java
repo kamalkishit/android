@@ -187,7 +187,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
             if (user != null) {
                 ApplicationState.setUser(user);
                 SharedPreferencesService.getInstance().putBoolean(Config.IS_LOGGED_IN, true);
-                SharedPreferencesService.getInstance().putString(Config.USER_DATA_JSON, response);
+                SharedPreferencesService.getInstance().putString(Config.JSON_USER_DATA, response);
                 if (!user.getIsConfigured()) {
                     activityLauncher.startCardActivity(coordinatorLayout);
                 } else {

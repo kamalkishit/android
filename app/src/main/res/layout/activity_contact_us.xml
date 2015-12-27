@@ -29,61 +29,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
             android:layout_marginLeft="36dp"
             android:layout_marginRight="36dp"
             android:background="@drawable/border_button_green"
             android:layout_below="@id/appbarLayout"
-            android:id="@+id/linearLayoutName" >
-
-            <EditText
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/smallMargin"
-                android:layout_marginTop="@dimen/smallMargin"
-                android:layout_marginBottom="@dimen/smallMargin"
-                android:textColor="@color/colorPrimary"
-                android:background="@null"
-                android:hint="Name"
-                android:textColorHint="@color/colorPrimary"
-                android:inputType="textUri"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="36dp"
-            android:layout_marginRight="36dp"
-            android:background="@drawable/border_button_green"
-            android:layout_below="@id/linearLayoutName"
-            android:id="@+id/linearLayoutEmail" >
-
-            <EditText
-                android:id="@+id/emailId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/smallMargin"
-                android:layout_marginTop="@dimen/smallMargin"
-                android:layout_marginBottom="@dimen/smallMargin"
-                android:textColor="@color/colorPrimary"
-                android:background="@null"
-                android:hint="Enter EmailId"
-                android:textColorHint="@color/colorPrimary"
-                android:inputType="textUri"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="36dp"
-            android:layout_marginRight="36dp"
-            android:background="@drawable/border_button_green"
-            android:layout_below="@id/linearLayoutEmail"
             android:id="@+id/linearLayoutSubject" >
 
             <EditText
@@ -121,7 +71,7 @@
                 android:textColor="@color/colorPrimary"
                 android:background="@null"
                 android:hint="Feedback"
-                android:minLines="2"
+                android:minLines="5"
                 android:inputType="textMultiLine"
                 android:textColorHint="@color/colorPrimary"
                 android:textAppearance="?android:attr/textAppearanceSmall" />

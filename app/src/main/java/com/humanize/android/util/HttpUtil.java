@@ -127,6 +127,8 @@ public class HttpUtil {
         get(url, callback);
     }
 
+    public void refreshRecommendations(Callback callback){}
+
     public void refreshContents(String createdDate, Callback callback) {
         String url = Config.CONTENT_FIND_URL;
 

@@ -2,6 +2,7 @@ package com.humanize.android.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,6 +35,7 @@ import butterknife.ButterKnife;
 public class PaperActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbarText) TextView toolbarText;
+    @Bind(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.recyclerView) RecyclerView recyclerView;
     @Bind(R.id.toolbar) Toolbar toolbar;
 
@@ -45,6 +47,7 @@ public class PaperActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         initialize();
+        configureListeners();
     }
 
     private void initialize() {
@@ -52,6 +55,7 @@ public class PaperActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
 
         PaperAdapter paperAdapter = new PaperAdapter();
         recyclerView.setAdapter(paperAdapter);
@@ -61,6 +65,15 @@ public class PaperActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         toolbarText.setText(StringConstants.PAPER);
+    }
+
+    private void configureListeners() {
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     @Override
