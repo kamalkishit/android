@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorLightGrey"
+    android:fitsSystemWindows="true" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite">
+
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar">
+            </include>
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/editCategoriesCard"
+            android:background="@color/colorWhite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/appbarLayout"
+            android:layout_marginLeft="@dimen/mediumMargin"
+            android:layout_marginRight="@dimen/mediumMargin"
+            android:layout_marginTop="36dp"
+            android:clickable="true"
+            android:elevation="6dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            card_view:cardCornerRadius="0dp">
+
+            <RelativeLayout
+                android:id="@+id/editCategories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/smallMargin"
+                android:layout_below="@id/appbarLayout">
+
+                    <ImageView
+                        android:id="@+id/categoriesImageView"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="@dimen/smallMargin"
+                        android:paddingBottom="@dimen/smallMargin"
+                        android:paddingLeft="@dimen/mediumMargin"
+                        android:src="@drawable/ic_sports_green" />
+
+                    <TextView
+                        android:id="@+id/categoriesTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/categoriesImageView"
+                        android:paddingBottom="@dimen/smallMargin"
+                        android:paddingLeft="@dimen/mediumMargin"
+                        android:paddingTop="@dimen/smallMargin"
+                        android:text="text"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    <ImageView
+                        android:id="@+id/categoriesMore"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/mediumMargin"
+                        android:paddingBottom="@dimen/smallMargin"
+                        android:paddingLeft="@dimen/mediumMargin"
+                        android:src="@drawable/ic_sports_green" />
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/editPaperTimeCardCard"
+            android:background="@color/colorWhite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editCategoriesCard"
+            android:layout_marginLeft="@dimen/mediumMargin"
+            android:layout_marginRight="@dimen/mediumMargin"
+            android:layout_marginTop="24dp"
+            android:clickable="true"
+            android:elevation="6dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            card_view:cardCornerRadius="0dp">
+
+            <RelativeLayout
+                android:id="@+id/editPaperTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/smallMargin"
+                >
+
+                <ImageView
+                    android:id="@+id/paperTimeImageView"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="@dimen/smallMargin"
+                    android:paddingBottom="@dimen/smallMargin"
+                    android:paddingLeft="@dimen/mediumMargin"
+                    android:src="@drawable/ic_sports_green" />
+
+                <TextView
+                    android:id="@+id/paperTimeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/paperTimeImageView"
+                    android:paddingBottom="@dimen/smallMargin"
+                    android:paddingLeft="@dimen/mediumMargin"
+                    android:paddingTop="@dimen/smallMargin"
+                    android:text="text"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <ImageView
+                    android:id="@+id/paperTimeMore"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/mediumMargin"
+                    android:paddingBottom="@dimen/smallMargin"
+                    android:paddingLeft="@dimen/mediumMargin"
+                    android:src="@drawable/ic_sports_green" />
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <!--<android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/editPaperTimeCard"
+            android:background="@color/colorWhite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editCategoriesCard"
+            android:layout_marginLeft="@dimen/mediumMargin"
+            android:layout_marginRight="@dimen/mediumMargin"
+            android:layout_marginTop="36dp"
+            android:clickable="true"
+            android:elevation="6dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            card_view:cardCornerRadius="0dp">
+
+            <RelativeLayout
+                android:id="@+id/editPaperTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/smallMargin"
+                android:padding="@dimen/mediumMargin">
+
+                <ImageView
+                    android:id="@+id/paperTimeImageView"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="@dimen/mediumMargin"
+                    android:paddingBottom="@dimen/smallMargin"
+                    android:paddingLeft="@dimen/mediumMargin"
+                    android:src="@drawable/recomended" />
+
+                <TextView
+                    android:id="@+id/paperTimeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/paperTimeImageView"
+                    android:paddingBottom="@dimen/smallMargin"
+                    android:paddingLeft="@dimen/mediumMargin"
+                    android:paddingTop="@dimen/smallMargin"
+                    android:text="text"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <ImageView
+                    android:id="@+id/more"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/mediumMargin"
+                    android:paddingBottom="@dimen/smallMargin"
+                    android:paddingLeft="@dimen/mediumMargin"
+                    android:src="@drawable/recomended" />
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>-->
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

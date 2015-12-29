@@ -116,4 +116,6 @@
     <string name="title_activity_privacy">PrivacyActivity</string>
     <string name="title_activity_contact_us">ContactUsActivity</string>
     <string name="title_activity_reset_password">ResetPasswordActivity</string>
+    <string name="title_activity_edit_categories">EditCategoriesActivity</string>
+    <string name="title_activity_settings">SettingsActivity</string>
 </resources>

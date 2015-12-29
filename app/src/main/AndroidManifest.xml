@@ -83,8 +83,7 @@
             android:name=".activity.SelectCategoriesActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme" >
-        </activity>
+            android:theme="@style/MaterialDesignTheme" />
         <activity
             android:name=".activity.PaperReminderActivity"
             android:noHistory="true"
@@ -113,6 +112,16 @@
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="www.humannize.com"
+                    android:scheme="http" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activity.ForgotPasswordActivity"
@@ -154,18 +163,17 @@
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="www.humannize.com"
-                    android:scheme="http" />
-            </intent-filter>
-
-
+        </activity>
+        <activity
+            android:name=".activity.EditCategoriesActivity"
+            android:label="@string/title_activity_edit_categories"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/MaterialDesignTheme">
         </activity>
     </application>
 

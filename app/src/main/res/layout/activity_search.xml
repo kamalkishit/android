@@ -33,8 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorBlack"
-            android:inputType="text"
-            android:drawableLeft="@drawable/ic_search_black_24dp" />
+            android:inputType="text" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.v7.widget.AppCompatButton

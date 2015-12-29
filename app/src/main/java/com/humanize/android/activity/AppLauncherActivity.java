@@ -39,9 +39,11 @@ import butterknife.ButterKnife;
 
 public class AppLauncherActivity extends AppCompatActivity {
 
-    private static final String TAG = AppLauncherActivity.class.getSimpleName();
     @Bind(R.id.relativeLayout) RelativeLayout relativeLayout;
+
     ActivityLauncher activityLauncher;
+
+    private static final String TAG = AppLauncherActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,15 +63,6 @@ public class AppLauncherActivity extends AppCompatActivity {
         activityLauncher = new ActivityLauncher();
     }
 
-    private void startLoginActivity() {
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                activityLauncher.startLoginActivity();
-                finish();
-            }
-        }, Constants.SPLASH_SCREEN_DELAY_TIME);
-    }
-
     private void startNextActivity() {
         boolean isLoggedIn = SharedPreferencesService.getInstance().getBoolean(Config.IS_LOGGED_IN);
 
@@ -80,6 +73,15 @@ public class AppLauncherActivity extends AppCompatActivity {
         } else {
             startLoginActivity();
         }
+    }
+
+    private void startLoginActivity() {
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                activityLauncher.startLoginActivity();
+                finish();
+            }
+        }, Constants.SPLASH_SCREEN_DELAY_TIME);
     }
 
     private void startCardActivity() {
@@ -94,28 +96,6 @@ public class AppLauncherActivity extends AppCompatActivity {
     private void getUserdata() {
         HttpUtil httpUtil = HttpUtil.getInstance();
         httpUtil.getUserdata(Config.USER_DATA_URL, new UserDataCallback());
-    }
-
-    private void getContents() {
-        HttpUtil httpUtil = HttpUtil.getInstance();
-        httpUtil.getContents(new ContentCallback());
-    }
-
-    private void success(String response) {
-        System.out.println(response);
-        try {
-            Contents contents = new Gson().fromJson(response, Contents.class);
-            SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, response);
-            CardActivity.contents = contents;
-
-            activityLauncher.startCardActivity(relativeLayout);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void failure(String response) {
-        System.out.println(response);
     }
 
     private void createAlarm() {
@@ -138,8 +118,6 @@ public class AppLauncherActivity extends AppCompatActivity {
 
     public void onDestroy() {
         try {
-            System.out.println("##########################");
-            System.out.println("destroying");
             SharedPreferencesService.getInstance().putString(Config.JSON_USER_DATA, new JsonParser().toJson(ApplicationState.getUser()));
             //SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, new JsonParser().toJson(CardActivity.contents));
             SharedPreferencesService.getInstance().putString(Config.JSON_RECOMMENDED_CONTENTS, new JsonParser().toJson(LikeService.getInstance().getLikes()));
@@ -148,63 +126,7 @@ public class AppLauncherActivity extends AppCompatActivity {
 
         }
 
-        //updateUserData();
-        updateContentsData();
         super.onDestroy();
-    }
-
-    private void updateUserData() {
-        try {
-            String userdataJson = new JsonParser().toJson(ApplicationState.getUser());
-
-            if (userdataJson != null) {
-                HttpUtil.getInstance().updateUser(Config.USER_UPDATE_URL, userdataJson, new UserUpdationCallback());
-            }
-        } catch (Exception exception) {
-
-        }
-
-
-
-    }
-
-    private void updateContentsData() {
-
-    }
-
-    private class ContentCallback implements Callback {
-        @Override
-        public void onFailure(Request request, IOException e) {
-            e.printStackTrace();
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    Snackbar snackbar = Snackbar.make(relativeLayout, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                }
-            });
-        }
-
-        @Override
-        public void onResponse(final Response response) throws IOException {
-            if (!response.isSuccessful()) {
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Snackbar snackbar = Snackbar.make(relativeLayout, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG);
-                        snackbar.show();
-                    }
-                });
-            } else {
-                final String responseStr = response.body().string().toString();
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                            success(responseStr);
-                    }
-                });
-            }
-        }
     }
 
     private class UserDataCallback implements Callback {
@@ -214,8 +136,7 @@ public class AppLauncherActivity extends AppCompatActivity {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    Snackbar snackbar = Snackbar.make(relativeLayout, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG);
-                    snackbar.show();
+                    Snackbar.make(relativeLayout, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG).show();
                 }
             });
         }
@@ -226,8 +147,7 @@ public class AppLauncherActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        Snackbar snackbar = Snackbar.make(relativeLayout, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG);
-                        snackbar.show();
+                        Snackbar.make(relativeLayout, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG).show();
                     }
                 });
             } else {
@@ -238,45 +158,9 @@ public class AppLauncherActivity extends AppCompatActivity {
                         try {
                             ApplicationState.setUser(new JsonParser().fromJson(responseStr, User.class));
                             startCardActivity();
-                            success(responseStr);
                         } catch (Exception exception) {
                             exception.printStackTrace();
                         }
-                    }
-                });
-            }
-        }
-    }
-
-    private class UserUpdationCallback implements Callback {
-        @Override
-        public void onFailure(Request request, IOException e) {
-            e.printStackTrace();
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    Snackbar snackbar = Snackbar.make(relativeLayout, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                }
-            });
-        }
-
-        @Override
-        public void onResponse(final Response response) throws IOException {
-            if (!response.isSuccessful()) {
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Snackbar snackbar = Snackbar.make(relativeLayout, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG);
-                        snackbar.show();
-                    }
-                });
-            } else {
-                final String responseStr = response.body().string().toString();
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        success(responseStr);
                     }
                 });
             }

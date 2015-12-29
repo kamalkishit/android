@@ -22,6 +22,7 @@ import com.humanize.android.activity.RecommendArticleActivity;
 import com.humanize.android.activity.RecommendationsActivity;
 import com.humanize.android.activity.ResetPasswordActivity;
 import com.humanize.android.activity.SelectCategoriesActivity;
+import com.humanize.android.activity.SettingsActivity;
 import com.humanize.android.activity.SignupActivity;
 import com.humanize.android.activity.UsageActivity;
 import com.humanize.android.common.StringConstants;
@@ -112,6 +113,12 @@ public class ActivityLauncher {
 
     public void startRecommendAnArticleActivity() {
         Intent intent = new Intent(ApplicationState.getAppContext(), RecommendArticleActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ApplicationState.getAppContext().startActivity(intent);
+    }
+
+    public void startSettingsActivity() {
+        Intent intent = new Intent(ApplicationState.getAppContext(), SettingsActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ApplicationState.getAppContext().startActivity(intent);
     }

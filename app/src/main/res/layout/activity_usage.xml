@@ -31,7 +31,7 @@
             android:layout_marginRight="@dimen/mediumMargin"
             android:layout_marginTop="@dimen/mediumMargin"
             android:layout_below="@id/appbarLayout"
-            android:textColor="@color/colorSecondary"
+            android:textColor="@color/colorAccent"
             android:gravity="left"
             android:text="Terms of Usage"
             android:textAppearance="?android:attr/textAppearanceMedium" />

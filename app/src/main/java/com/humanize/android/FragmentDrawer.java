@@ -35,8 +35,6 @@ import butterknife.ButterKnife;
 
 public class FragmentDrawer extends Fragment {
 
-    private static String TAG = FragmentDrawer.class.getSimpleName();
-    private static String[] titles = null;
     @Bind(R.id.profile) LinearLayout profile;
     @Bind(R.id.preferences) LinearLayout preferences;
     @Bind(R.id.bookmarkedArticles) LinearLayout bookmarkedArticles;
@@ -56,6 +54,8 @@ public class FragmentDrawer extends Fragment {
     private View containerView;
     private ActivityLauncher activityLauncher;
 
+    private static String TAG = FragmentDrawer.class.getSimpleName();
+
     public FragmentDrawer() {
 
     }
@@ -63,66 +63,64 @@ public class FragmentDrawer extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        titles = getActivity().getResources().getStringArray(R.array.navDrawerLabels);
     }
 
     private void initialize() {
         activityLauncher = new ActivityLauncher();
         TextView textViewProfile = (TextView) profile.findViewById(R.id.textView);
-        textViewProfile.setText("My Profile");
+        textViewProfile.setText("Profile");
         ImageView imageViewProfile = (ImageView) profile.findViewById(R.id.imageView);
-        imageViewProfile.setImageResource(R.drawable.ic_profile);
+        imageViewProfile.setImageResource(R.drawable.ic_profile_black);
 
         TextView textViewPreferences = (TextView) preferences.findViewById(R.id.textView);
-        textViewPreferences.setText("Preferences");
+        textViewPreferences.setText("Settings");
         ImageView imageViewPreferences = (ImageView) preferences.findViewById(R.id.imageView);
-        imageViewPreferences.setImageResource(R.drawable.ic_settings);
+        imageViewPreferences.setImageResource(R.drawable.ic_settings_black);
 
         TextView textViewBookmarkedArticles = (TextView) bookmarkedArticles.findViewById(R.id.textView);
         textViewBookmarkedArticles.setText("Bookmarked Articles");
         ImageView imageViewBookmarkedArticles = (ImageView) bookmarkedArticles.findViewById(R.id.imageView);
-        imageViewBookmarkedArticles.setImageResource(R.drawable.ic_bookmark);
+        imageViewBookmarkedArticles.setImageResource(R.drawable.ic_bookmark_black);
 
         TextView textViewRecommendedArticles = (TextView) recommendedArticles.findViewById(R.id.textView);
         textViewRecommendedArticles.setText("Recommended Articles");
         ImageView imageViewRecommendedArticle = (ImageView) recommendedArticles.findViewById(R.id.imageView);
-        imageViewRecommendedArticle.setImageResource(R.drawable.ic_recomend);
+        imageViewRecommendedArticle.setImageResource(R.drawable.ic_recomend_black);
 
         TextView textViewRecommendAnArticle = (TextView) recommendAnArticle.findViewById(R.id.textView);
-        textViewRecommendAnArticle.setText("Recommend An Article");
+        textViewRecommendAnArticle.setText("Suggest an Article");
         ImageView imageViewRecommendAnArticle = (ImageView) recommendAnArticle.findViewById(R.id.imageView);
-        imageViewRecommendAnArticle.setImageResource(R.drawable.ic_suggest_article);
+        imageViewRecommendAnArticle.setImageResource(R.drawable.ic_suggest_article_black);
 
         TextView textViewContactUs = (TextView) contactUs.findViewById(R.id.textView);
         textViewContactUs.setText("Contact Us");
         ImageView imageViewContactUs = (ImageView) contactUs.findViewById(R.id.imageView);
-        imageViewContactUs.setImageResource(R.drawable.ic_contact);
+        imageViewContactUs.setImageResource(R.drawable.ic_contact_us_black);
 
         TextView textViewAboutUs = (TextView) aboutUs.findViewById(R.id.textView);
         textViewAboutUs.setText("About Us");
         ImageView imageViewAboutUs = (ImageView) aboutUs.findViewById(R.id.imageView);
-        imageViewAboutUs.setImageResource(R.drawable.ic_about_us);
+        imageViewAboutUs.setImageResource(R.drawable.ic_about_us_black);
 
         TextView textViewRateUs = (TextView) rateUs.findViewById(R.id.textView);
         textViewRateUs.setText("Rate Us");
         ImageView imageViewRateUs = (ImageView) rateUs.findViewById(R.id.imageView);
-        imageViewRateUs.setImageResource(R.drawable.ic_rate_us);
+        imageViewRateUs.setImageResource(R.drawable.ic_rate_us_black);
 
         TextView textViewTermsOfUsage = (TextView) termsOfUsage.findViewById(R.id.textView);
         textViewTermsOfUsage.setText("Terms of Usage");
         ImageView imageViewTermsOfUsage = (ImageView) termsOfUsage.findViewById(R.id.imageView);
-        imageViewTermsOfUsage.setImageResource(R.drawable.ic_terms_of_usage);
+        imageViewTermsOfUsage.setImageResource(R.drawable.ic_terms_of_usage_black);
 
         TextView textViewPrivacyPolicy = (TextView) privacyPolicy.findViewById(R.id.textView);
         textViewPrivacyPolicy.setText("Privacy Policy");
         ImageView imageViewPrivacyPolicy = (ImageView) privacyPolicy.findViewById(R.id.imageView);
-        imageViewPrivacyPolicy.setImageResource(R.drawable.ic_privacy);
+        imageViewPrivacyPolicy.setImageResource(R.drawable.ic_privacy_black);
 
         TextView textViewLogout = (TextView) logout.findViewById(R.id.textView);
         textViewLogout.setText("Logout");
         ImageView imageViewLogout = (ImageView) logout.findViewById(R.id.imageView);
-        imageViewLogout.setImageResource(R.drawable.ic_logout);
+        imageViewLogout.setImageResource(R.drawable.ic_logout_black);
     }
 
     private void configureListeners() {
@@ -136,6 +134,8 @@ public class FragmentDrawer extends Fragment {
         preferences.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //activityLauncher.startSettingsActivity();
+                activityLauncher.startSelectCategoriesActivity();
                 drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });

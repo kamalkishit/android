@@ -1,11 +1,9 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.contentws.cws.Activity.SubmitActivity" >
+    android:orientation="vertical" >
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbarLayout"
@@ -18,23 +16,6 @@
             layout="@layout/toolbar">
         </include>
     </android.support.design.widget.AppBarLayout>
-
-    <!--<android.support.design.widget.TextInputLayout
-        android:id="@+id/textInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/mediumMargin"
-        android:layout_marginRight="@dimen/mediumMargin"
-        android:layout_marginTop="@dimen/smallMargin"
-        android:layout_below="@id/appbarLayout">
-
-        <EditText
-            android:id="@+id/contentUrl"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorBlack"
-            android:hint="Paste a URL" />
-    </android.support.design.widget.TextInputLayout> -->
 
     <LinearLayout
         android:id="@+id/linearLayoutEmail"
@@ -71,21 +52,8 @@
         android:layout_marginLeft="36dp"
         android:layout_marginRight="36dp"
         android:layout_marginTop="16dp"
-        android:backgroundTint="@color/colorSecondary"
+        android:backgroundTint="@color/colorAccent"
         android:dropDownSelector="@drawable/spinner_ripple" />
-
-    <!--<Spinner
-        android:id="@+id/subCategoriesSpinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="36dp"
-        android:layout_marginRight="36dp"
-        android:layout_marginTop="@dimen/mediumMargin"
-        android:layout_marginBottom="@dimen/mediumMargin"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/categoriesSpinner"
-        android:backgroundTint="@color/colorSecondary"
-        style="@style/Base.Widget.AppCompat.Spinner.Underlined" />-->
 
     <CheckBox android:id="@+id/isVerified"
         android:layout_width="wrap_content"
@@ -93,12 +61,12 @@
         android:layout_below="@id/categoriesSpinner"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/mediumMargin"
-        android:buttonTint="@color/colorSecondary"
+        android:buttonTint="@color/colorAccent"
         android:onClick="onCheckboxClicked"
         android:scaleX=".8"
         android:scaleY=".8"
         android:text="have you verified the article"
-        android:textColor="@color/colorSecondary" />
+        android:textColor="@color/colorAccent" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/submitButton"
@@ -114,6 +82,6 @@
         android:text="SUBMIT"
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/colorWhite"
         android:textStyle="normal" />
 </RelativeLayout>

@@ -19,6 +19,8 @@ import android.widget.TextView;
 import com.humanize.android.activity.WebBrowserActivity;
 import com.humanize.android.common.Constants;
 import com.humanize.android.content.data.Content;
+import com.humanize.android.content.data.Contents;
+import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
@@ -104,10 +106,10 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
     }
 
     private void updateRecommendationButton(ContentViewHolder viewHolder) {
-        if (userService.isBookmarked(viewHolder.contentId)) {
-            viewHolder.recommendButton.setImageResource(R.drawable.ic_recomend);
+        if (userService.isRecommended(viewHolder.contentId)) {
+            viewHolder.recommendButton.setImageResource(R.drawable.ic_recomend_filled_green);
         } else {
-            viewHolder.recommendButton.setImageResource(R.drawable.ic_recomend);
+            viewHolder.recommendButton.setImageResource(R.drawable.ic_recomend_filled_grey);
         }
     }
 
@@ -115,7 +117,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         if (userService.isBookmarked(viewHolder.contentId)) {
             viewHolder.bookmarkButton.setImageResource(R.drawable.ic_bookmark_filled_green);
         } else {
-            viewHolder.bookmarkButton.setImageResource(R.drawable.ic_bookmark_filled);
+            viewHolder.bookmarkButton.setImageResource(R.drawable.ic_bookmark_filled_grey);
         }
     }
 
@@ -228,18 +230,56 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             userService.recommend(content);
             updateRecommendationButton();
             updateRecommendedCount();
+            updateRecommendedJson(content);
+            ContentRecyclerViewAdapter.this.notifyDataSetChanged();
         }
 
         private void bookmark() {
             userService.bookmark(content);
             updateBookmarkButton();
+            updateBookmarksJson(content);
+            ContentRecyclerViewAdapter.this.notifyDataSetChanged();
+        }
+
+        private void updateBookmarksJson(Content content) {
+            if (userService.isBookmarked(content.getId())) {
+                updateJson(Config.JSON_BOOKMARKED_CONTENTS, content, true);
+            } else {
+                updateJson(Config.JSON_BOOKMARKED_CONTENTS, content, false);
+            }
+        }
+
+        private void updateRecommendedJson(Content content) {
+            if (userService.isRecommended(content.getId())) {
+                updateJson(Config.JSON_RECOMMENDED_CONTENTS, content, true);
+            } else {
+                updateJson(Config.JSON_RECOMMENDED_CONTENTS, content, false);
+            }
+        }
+
+        private void updateJson(String jsonKey, Content content, boolean add) {
+            try {
+                String json = SharedPreferencesService.getInstance().getString(jsonKey);
+                Contents contents = new JsonParser().fromJson(json, Contents.class);
+
+                if (add) {
+                    contents.addContent(content);
+                } else {
+                    contents.removeContent(content);
+                }
+
+                json = new JsonParser().toJson(contents);
+                SharedPreferencesService.getInstance().putString(jsonKey, json);
+            } catch (Exception exception) {
+
+            }
         }
 
         private void updateRecommendationButton() {
             if (userService.isRecommended(contentId)) {
-                recommendButton.setImageResource(R.drawable.ic_recomend);
+                recommendButton.setImageResource(R.drawable.ic_recomend_filled_green);
             } else {
-                recommendButton.setImageResource(R.drawable.ic_recomend);
+                recommendButton.setImageResource(R.drawable.ic_recomend_filled_grey);
             }
         }
 
@@ -247,7 +287,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             if (userService.isBookmarked(contentId)) {
                 bookmarkButton.setImageResource(R.drawable.ic_bookmark_filled_green);
             } else {
-                bookmarkButton.setImageResource(R.drawable.ic_bookmark_filled);
+                bookmarkButton.setImageResource(R.drawable.ic_bookmark_filled_grey);
             }
         }
 
@@ -277,7 +317,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
 
         public void onClick(View view) {
             contentService.incrViewedCount(content);
-            content.setViewedCount(content.getViewedCount() + 1);
+            //content.setViewedCount(content.getViewedCount() + 1);
             updateViewedCount();
             updateContent(content);
             Intent intent = new Intent(ApplicationState.getAppContext(), WebBrowserActivity.class);

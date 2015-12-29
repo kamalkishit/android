@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.humanize.android.HttpResponseCallback;
 import com.humanize.android.R;
 import com.humanize.android.common.StringConstants;
 import com.humanize.android.content.data.Content;
@@ -91,9 +90,7 @@ public class PaperActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.actionRefresh) {
-            refresh();
-        } else if (id == android.R.id.home) {
+        if (id == android.R.id.home) {
             super.onBackPressed();
         }
 
@@ -101,24 +98,6 @@ public class PaperActivity extends AppCompatActivity {
     }
 
     private void refresh() {
-        HttpUtil httpUtil = HttpUtil.getInstance();
-        httpUtil.getPaper(new HttpResponseCallback() {
-            @Override
-            public void onSuccess(String response) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    ArrayList<Content> contents = new ArrayList<>();
-                    PaperActivity.PaperAdapter.contents = contents;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(String errorMsg) {
-
-            }
-        });
     }
 
     public static class PaperAdapter extends RecyclerView.Adapter<PaperAdapter.ViewHolder> {

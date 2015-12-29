@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -20,6 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.view.Gravity;
@@ -31,6 +33,7 @@ import com.humanize.android.R;
 import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.User;
 import com.humanize.android.helper.ActivityLauncher;
+import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
@@ -58,7 +61,9 @@ public class SelectCategoriesActivity extends AppCompatActivity {
     private int selectedCategoriesCount;
 
     @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
-    private Toolbar toolbar;
+    @Bind(R.id.selectAllCheckbox) CheckBox selectAllCheckbox;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+
     private Category achievers;
     private Category beautiful;
     private Category education;
@@ -88,14 +93,12 @@ public class SelectCategoriesActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-        selectedCategoriesCount = 0;
         categories = new HashSet<>();
+        selectedCategoriesCount = 0;
         activityLauncher = new ActivityLauncher();
 
         submitButton = (Button)findViewById(R.id.nextButton);
-        submitButton.setEnabled(false);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setCollapsible(true);
         setSupportActionBar(toolbar);
 
@@ -143,349 +146,230 @@ public class SelectCategoriesActivity extends AppCompatActivity {
     private void configureListeners() {
         submitButton.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
-                List<String> categoriesList = new ArrayList<>();
-                categoriesList.addAll(categories);
-                ApplicationState.getUser().setCategories(categoriesList);
-                ApplicationState.getUser().setIsConfigured(true);
+                if (selectedCategoriesCount < 3) {
+                    Snackbar.make(view, "Select minimum 3 categories", Snackbar.LENGTH_LONG).show();
+                } else {
+                    List<String> categoriesList = new ArrayList<>();
+                    categoriesList.addAll(categories);
+                    ApplicationState.getUser().setCategories(categoriesList);
+                    ApplicationState.getUser().setIsConfigured(true);
 
-                try {
-                    String userdataJson = new JsonParser().toJson(ApplicationState.getUser());
-                    System.out.println(Config.USER_UPDATE_URL);
-                    System.out.println(userdataJson);
+                    try {
+                        String userdataJson = new JsonParser().toJson(ApplicationState.getUser());
+                        System.out.println(Config.USER_UPDATE_URL);
+                        System.out.println(userdataJson);
 
-                    if (userdataJson != null) {
-                        HttpUtil.getInstance().updateUser(Config.USER_UPDATE_URL, userdataJson, new UserUpdationCallback(coordinatorLayout));
+                        if (userdataJson != null) {
+                            HttpUtil.getInstance().updateUser(Config.USER_UPDATE_URL, userdataJson, new UserUpdationCallback(coordinatorLayout));
+                        }
+                    } catch (Exception exception) {
+
                     }
-                } catch (Exception exception) {
+                }
+            }
+        });
 
+        selectAllCheckbox.setOnClickListener(new android.view.View.OnClickListener() {
+            public void onClick(View view) {
+                if (selectAllCheckbox.isChecked()) {
+                    selectAllCategories();
+                } else {
+                    unselectAllCategories();
                 }
             }
         });
 
         achievers.button.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
-                handleButtonSelection(achievers);
                 if (achievers.isSelected) {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.achivers_white);
-                    achievers.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
+                    unselectCategory(achievers, R.drawable.ic_achivers_black);
                 } else {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.achivers_green);
-                    achievers.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
+                    selectCategory(achievers, R.drawable.ic_achievers_filled_green);
                 }
             }
         });
 
         beautiful.button.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
-                handleButtonSelection(beautiful);
                 if (beautiful.isSelected) {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.beautiful_white);
-                    beautiful.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
+                    unselectCategory(beautiful, R.drawable.ic_beautiful_black);
                 } else {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.beautiful_green);
-                    beautiful.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
+                    selectCategory(beautiful, R.drawable.ic_beautiful_filled_green);
                 }
             }
         });
 
         education.button.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
-                handleButtonSelection(education);
-
                 if (education.isSelected) {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.education_white);
-                    education.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
+                    selectCategory(education, R.drawable.ic_education_black);
                 } else {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.education_green);
-                    education.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
+                    selectCategory(education, R.drawable.ic_education_filled_green);
                 }
             }
         });
 
         empowerment.button.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
-                handleButtonSelection(empowerment);
+                //handleButtonSelection(empowerment);
 
                 if (empowerment.isSelected) {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.empowerment_white);
-                    empowerment.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
+                    unselectCategory(empowerment, R.drawable.ic_empowerment_black);
                 } else {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.empowerment_green);
-                    empowerment.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
+                    selectCategory(empowerment, R.drawable.ic_empowerment_filled_green);
                 }
             }
         });
 
         environment.button.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
-                handleButtonSelection(environment);
+                //handleButtonSelection(environment);
 
                 if (environment.isSelected) {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.environment_white);
-                    environment.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
+                    unselectCategory(environment, R.drawable.ic_environment_black);
                 } else {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.environment_green);
-                    environment.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
+                    selectCategory(environment, R.drawable.ic_environment_filled_green);
                 }
             }
         });
 
         governance.button.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
-                handleButtonSelection(governance);
+                //handleButtonSelection(governance);
 
                 if (governance.isSelected) {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.governence_white);
-                    governance.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
+                    unselectCategory(governance, R.drawable.ic_governance_black);
                 } else {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.governence_green);
-                    governance.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
+                    selectCategory(governance, R.drawable.ic_governance_filled_green);
                 }
             }
         });
 
         health.button.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
-                handleButtonSelection(health);
+                //handleButtonSelection(health);
 
                 if (health.isSelected) {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.health_white);
-                    health.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
+                    unselectCategory(health, R.drawable.ic_health_black);
                 } else {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.health_green);
-                    health.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
+                    selectCategory(health, R.drawable.ic_health_filled_green);
                 }
             }
         });
 
         humanity.button.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
-                handleButtonSelection(humanity);
+                //handleButtonSelection(humanity);
 
                 if (humanity.isSelected) {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.humanity_white);
-                    humanity.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
+                    unselectCategory(humanity, R.drawable.ic_humanity_black);
                 } else {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.humanity_green);
-                    humanity.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
+                    selectCategory(humanity, R.drawable.ic_humanity_filled_green);
                 }
             }
         });
 
         lawAndJustice.button.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
-                handleButtonSelection(lawAndJustice);
+                //handleButtonSelection(lawAndJustice);
 
                 if (lawAndJustice.isSelected) {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.law_white);
-                    lawAndJustice.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
+                    unselectCategory(lawAndJustice, R.drawable.ic_law_justice_black);
                 } else {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.law_green);
-                    lawAndJustice.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
+                    selectCategory(lawAndJustice, R.drawable.ic_law_justice_filled_green);
                 }
             }
         });
 
         realHeroes.button.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
-                handleButtonSelection(realHeroes);
+                //handleButtonSelection(realHeroes);
 
                 if (realHeroes.isSelected) {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.hero_white);
-                    realHeroes.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
+                    unselectCategory(realHeroes, R.drawable.ic_real_heroes_black);
                 } else {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.hero_green);
-                    realHeroes.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
+                    selectCategory(realHeroes, R.drawable.ic_real_heros_filled_green);
                 }
             }
         });
 
         scienceAndTech.button.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
-                handleButtonSelection(scienceAndTech);
+                //handleButtonSelection(scienceAndTech);
 
                 if (scienceAndTech.isSelected) {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.science_white);
-                    scienceAndTech.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
+                    unselectCategory(scienceAndTech, R.drawable.ic_science_tech_black);
                 } else {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.science_green);
-                    scienceAndTech.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
+                    selectCategory(scienceAndTech, R.drawable.ic_science_tech_filled_green);
                 }
             }
         });
 
         sports.button.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
-                handleButtonSelection(sports);
+                //handleButtonSelection(sports);
 
                 if (sports.isSelected) {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.sports_white);
-                    sports.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
+                    unselectCategory(sports, R.drawable.ic_sports_black);
                 } else {
-                    Drawable drawableTop = getResources().getDrawable(R.drawable.sports_green);
-                    sports.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
+                    selectCategory(sports, R.drawable.ic_sports_filled_green);
                 }
             }
         });
     }
 
+    private void selectCategory(Category category, int drawableResourceId) {
+        category.isSelected = true;
+        Drawable drawableTop = getResources().getDrawable(drawableResourceId);
+        category.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop, null, null);
+        category.button.setTextColor(getResources().getColor(R.color.colorAccent));
+        category.button.setTypeface(null, Typeface.BOLD);
+        categories.add(category.button.getText().toString());
+        selectedCategoriesCount++;
+    }
+
+    private void unselectCategory(Category category, int drawableResourceId) {
+        category.isSelected = false;
+        Drawable drawableTop = getResources().getDrawable(drawableResourceId);
+        category.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop, null, null);
+        category.button.setTextColor(getResources().getColor(R.color.colorBlack));
+        category.button.setTypeface(null, Typeface.NORMAL);
+        categories.remove(category.button.getText().toString());
+        selectedCategoriesCount--;
+    }
+
     private void selectAllCategories() {
-        achievers.isSelected = true;
-        Drawable drawableTop = getResources().getDrawable(R.drawable.achivers_green);
-        achievers.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
-        achievers.button.setTextColor(getResources().getColor(R.color.colorWhite));
-        achievers.button.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
-        categories.add(achievers.button.getText().toString());
-
-        beautiful.isSelected = true;
-        drawableTop = getResources().getDrawable(R.drawable.beautiful_green);
-        beautiful.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
-        beautiful.button.setTextColor(getResources().getColor(R.color.colorWhite));
-        beautiful.button.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
-        categories.add(beautiful.button.getText().toString());
-
-        education.isSelected = true;
-        drawableTop = getResources().getDrawable(R.drawable.education_green);
-        education.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
-        education.button.setTextColor(getResources().getColor(R.color.colorWhite));
-        education.button.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
-        categories.add(education.button.getText().toString());
-
-        empowerment.isSelected = true;
-        drawableTop = getResources().getDrawable(R.drawable.empowerment_green);
-        empowerment.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
-        empowerment.button.setTextColor(getResources().getColor(R.color.colorWhite));
-        empowerment.button.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
-        categories.add(empowerment.button.getText().toString());
-
-        environment.isSelected = true;
-        drawableTop = getResources().getDrawable(R.drawable.environment_green);
-        environment.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
-        environment.button.setTextColor(getResources().getColor(R.color.colorWhite));
-        environment.button.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
-        categories.add(environment.button.getText().toString());
-
-        governance.isSelected = true;
-        drawableTop = getResources().getDrawable(R.drawable.governence_green);
-        governance.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
-        governance.button.setTextColor(getResources().getColor(R.color.colorWhite));
-        governance.button.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
-        categories.add(governance.button.getText().toString());
-
-        health.isSelected = true;
-        drawableTop = getResources().getDrawable(R.drawable.health_green);
-        health.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
-        health.button.setTextColor(getResources().getColor(R.color.colorWhite));
-        health.button.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
-        categories.add(health.button.getText().toString());
-
-        humanity.isSelected = true;
-        drawableTop = getResources().getDrawable(R.drawable.humanity_green);
-        humanity.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
-        humanity.button.setTextColor(getResources().getColor(R.color.colorWhite));
-        humanity.button.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
-        categories.add(humanity.button.getText().toString());
-
-        lawAndJustice.isSelected = true;
-        drawableTop = getResources().getDrawable(R.drawable.law_green);
-        lawAndJustice.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
-        lawAndJustice.button.setTextColor(getResources().getColor(R.color.colorWhite));
-        lawAndJustice.button.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
-        categories.add(lawAndJustice.button.getText().toString());
-
-        realHeroes.isSelected = true;
-        drawableTop = getResources().getDrawable(R.drawable.hero_green);
-        realHeroes.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
-        realHeroes.button.setTextColor(getResources().getColor(R.color.colorWhite));
-        realHeroes.button.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
-        categories.add(realHeroes.button.getText().toString());
-
-        scienceAndTech.isSelected = true;
-        drawableTop = getResources().getDrawable(R.drawable.science_green);
-        scienceAndTech.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
-        scienceAndTech.button.setTextColor(getResources().getColor(R.color.colorWhite));
-        scienceAndTech.button.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
-        categories.add(scienceAndTech.button.getText().toString());
-
-        sports.isSelected = true;
-        drawableTop = getResources().getDrawable(R.drawable.sports_green);
-        sports.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop , null, null);
-        sports.button.setTextColor(getResources().getColor(R.color.colorWhite));
-        sports.button.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
-        categories.add(sports.button.getText().toString());
+        selectCategory(achievers, R.drawable.ic_achievers_filled_green);
+        selectCategory(beautiful, R.drawable.ic_beautiful_filled_green);
+        selectCategory(education, R.drawable.ic_education_filled_green);
+        selectCategory(empowerment, R.drawable.ic_empowerment_filled_green);
+        selectCategory(environment, R.drawable.ic_environment_filled_green);
+        selectCategory(governance, R.drawable.ic_governance_filled_green);
+        selectCategory(health, R.drawable.ic_health_filled_green);
+        selectCategory(humanity, R.drawable.ic_humanity_filled_green);
+        selectCategory(lawAndJustice, R.drawable.ic_law_justice_filled_green);
+        selectCategory(realHeroes, R.drawable.ic_real_heros_filled_green);
+        selectCategory(scienceAndTech, R.drawable.ic_science_tech_filled_green);
+        selectCategory(sports, R.drawable.ic_sports_filled_green);
 
         selectedCategoriesCount = 12;
-
-        submitButton.setEnabled(true);
     }
 
-    private void handleButtonSelection(Category category) {
-        if (!category.isSelected) {
-            selectedCategoriesCount = selectedCategoriesCount + 1;
-            if (selectedCategoriesCount >= 3) {
-                submitButton.setEnabled(true);
-            }
+    private void unselectAllCategories() {
+        unselectCategory(achievers, R.drawable.ic_achivers_black);
+        unselectCategory(beautiful, R.drawable.ic_beautiful_black);
+        unselectCategory(education, R.drawable.ic_education_black);
+        unselectCategory(empowerment, R.drawable.ic_empowerment_black);
+        unselectCategory(environment, R.drawable.ic_environment_black);
+        unselectCategory(governance, R.drawable.ic_governance_black);
+        unselectCategory(health, R.drawable.ic_health_black);
+        unselectCategory(humanity, R.drawable.ic_humanity_black);
+        unselectCategory(lawAndJustice, R.drawable.ic_law_justice_black);
+        unselectCategory(realHeroes, R.drawable.ic_real_heroes_black);
+        unselectCategory(scienceAndTech, R.drawable.ic_science_tech_black);
+        unselectCategory(sports, R.drawable.ic_sports_black);
 
-            category.button.setTextColor(getResources().getColor(R.color.colorWhite));
-            category.button.setBackgroundColor(getResources().getColor(R.color.colorSecondary));
-
-            categories.add(category.button.getText().toString());
-            category.isSelected = true;
-        } else {
-            selectedCategoriesCount = selectedCategoriesCount - 1;
-            if (selectedCategoriesCount < 3) {
-                submitButton.setEnabled(false);
-            }
-
-            category.button.setTextColor(getResources().getColor(R.color.colorSecondary));
-            //category.button.setBackgroundColor(getResources().getColor(R.color.colorWhite));
-            category.button.setBackground(getResources().getDrawable(R.drawable.border_button_selector));
-            categories.remove(category.button.getText().toString());
-            category.isSelected = false;
-        }
-    }
-
-    private void startPaperTimeSelectorActivity() {
-
-        Point p = new Point();
-        p.x = 100;
-        p.y = 100;
-        //showPopup(this, p);
-        categories.toArray();
-        //ApplicationState.getUser().setCategories((ArrayList<String>)(categories.toArray()));
-        Intent intent = new Intent(getApplicationContext(), PaperReminderActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-    }
-
-    private void showPopup(final Activity context, Point p) {
-        int popupWidth = 800;
-        int popupHeight = 1400;
-
-        // Inflate the popup_layout.xml
-        RelativeLayout viewGroup = (RelativeLayout) context.findViewById(R.id.paperTimeSelection);
-        LayoutInflater layoutInflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = layoutInflater.inflate(R.layout.paper_time_selection, viewGroup);
-
-        // Creating the PopupWindow
-        final PopupWindow popup = new PopupWindow(context);
-        popup.setContentView(layout);
-        popup.setWidth(popupWidth);
-        popup.setHeight(popupHeight);
-        popup.setFocusable(true);
-
-        // Some offset to align the popup a bit to the right, and a bit down, relative to button's position.
-        int OFFSET_X = 30;
-        int OFFSET_Y = 30;
-
-        // Clear the default translucent background
-        popup.setBackgroundDrawable(new BitmapDrawable());
-
-        // Displaying the popup at the specified location, + offsets.
-        popup.showAtLocation(layout, Gravity.NO_GRAVITY, p.x + OFFSET_X, p.y + OFFSET_Y);
-
-        // Getting a reference to Close button, and close the popup when clicked.
+        selectedCategoriesCount = 0;
     }
 
     class Category {
@@ -534,8 +418,9 @@ public class SelectCategoriesActivity extends AppCompatActivity {
                         try {
                             User user = new JsonParser().fromJson(responseStr, User.class);
                             ApplicationState.setUser(user);
-                            startPaperTimeSelectorActivity();
-                            //activityLauncher.startCardActivity(view);
+                            //startPaperTimeSelectorActivity();
+                            SharedPreferencesService.getInstance().delete(Config.JSON_CONTENTS);
+                            activityLauncher.startCardActivity(view);
                         } catch (Exception exception) {
 
                         }

@@ -57,16 +57,19 @@ import butterknife.ButterKnife;
 
 public class SubmitActivity extends AppCompatActivity {
 
-    private static String TAG = SubmitActivity.class.getSimpleName();
+
     @Bind(R.id.relativeLayout) RelativeLayout relativeLayout;
     @Bind(R.id.contentUrl)  EditText contentURL;
     @Bind(R.id.submitButton) Button submitButton;
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.toolbarText) TextView toolbarText;
     @Bind(R.id.categoriesSpinner) Spinner categoriesSpinner;
     //@Bind(R.id.subCategoriesSpinner) Spinner subCategoriesSpinner;
-    @Bind(R.id.isVerified)
-    CheckBox isVerified;
+    @Bind(R.id.isVerified) CheckBox isVerified;
+
     private Content content;
+
+    private static String TAG = SubmitActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,23 +84,25 @@ public class SubmitActivity extends AppCompatActivity {
 
     private void initialize() {
         content = new Content();
+
+        toolbarText.setText(StringConstants.SUBMIT_URL_ARTICLE);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ArrayList<SpinnerItem> list = new ArrayList<>();
-        list.add(new SpinnerItem("Select Category", R.drawable.ic_privacy));
-        list.add(new SpinnerItem("Achievers", R.drawable.ic_achivers));
-        list.add(new SpinnerItem("Beautiful", R.drawable.ic_beautiful));
-        list.add(new SpinnerItem("Education", R.drawable.ic_education));
-        list.add(new SpinnerItem("Empowerment", R.drawable.ic_empowerment));
-        list.add(new SpinnerItem("Environment", R.drawable.ic_environment));
-        list.add(new SpinnerItem("Governance", R.drawable.ic_governance));
-        list.add(new SpinnerItem("Health", R.drawable.ic_achivers));
-        list.add(new SpinnerItem("Humanity", R.drawable.ic_humanity));
-        list.add(new SpinnerItem("Law & Justice", R.drawable.ic_law_justice));
-        list.add(new SpinnerItem("Real Heroes", R.drawable.ic_real_heros));
-        list.add(new SpinnerItem("Science & Tech", R.drawable.ic_science_tech_fill));
-        list.add(new SpinnerItem("Sports", R.drawable.ic_sports));
+        list.add(new SpinnerItem("Select Category", R.drawable.ic_privacy_black));
+        list.add(new SpinnerItem(StringConstants.ACHIEVERS, R.drawable.ic_achievers_green));
+        list.add(new SpinnerItem(StringConstants.BEAUTIFUL, R.drawable.ic_beautiful_green));
+        list.add(new SpinnerItem(StringConstants.EDUCATION, R.drawable.ic_education_green));
+        list.add(new SpinnerItem(StringConstants.EMPOWERMENT, R.drawable.ic_empowerment_green));
+        list.add(new SpinnerItem(StringConstants.ENVIRONMENT, R.drawable.ic_environment_green));
+        list.add(new SpinnerItem(StringConstants.GOVERNANCE, R.drawable.ic_governance_green));
+        list.add(new SpinnerItem(StringConstants.HEALTH, R.drawable.ic_health_green));
+        list.add(new SpinnerItem(StringConstants.HUMANITY, R.drawable.ic_humanity_green));
+        list.add(new SpinnerItem(StringConstants.LAW_AND_JUSTICE, R.drawable.ic_law_justice_green));
+        list.add(new SpinnerItem(StringConstants.REAL_HEROES, R.drawable.ic_real_heros_green));
+        list.add(new SpinnerItem(StringConstants.SCIENCE_AND_TECH, R.drawable.ic_science_tech_green));
+        list.add(new SpinnerItem(StringConstants.SPORTS, R.drawable.ic_sports_green));
         SpinnerAdapter adapter = new SpinnerAdapter(this, R.layout.spinner_item, R.id.textView, list);
         categoriesSpinner.setAdapter(adapter);
 
@@ -118,15 +123,6 @@ public class SubmitActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
         });
-
-        /*categoriesSpinner.setOnClickListener(new View.OnClickListener() {
-                                                 @Override
-                                                 public void onClick(View view) {
-                                                     InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                                                     inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-                                                 }
-                                             }
-        );*/
 
         contentURL.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,12 +159,7 @@ public class SubmitActivity extends AppCompatActivity {
             public void onClick(View view) {
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-                String contentURLStr = contentURL.getText().toString();
-                if (contentURLStr.isEmpty()) {
-                    Snackbar.make(view, StringConstants.URL_VALIDATION_ERROR_STR, Snackbar.LENGTH_LONG).show();
-                } else {
-                    submit(view);
-                }
+                submit(view);
             }
         });
     }
@@ -239,9 +230,7 @@ public class SubmitActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.actionRefresh) {
-            //refresh();
-        } else if (id == android.R.id.home) {
+        if (id == android.R.id.home) {
             super.onBackPressed();
         }
 

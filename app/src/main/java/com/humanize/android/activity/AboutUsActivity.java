@@ -8,8 +8,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.humanize.android.R;
+import com.humanize.android.common.StringConstants;
+
+import org.w3c.dom.Text;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -17,6 +21,8 @@ import butterknife.ButterKnife;
 public class AboutUsActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.aboutUsHeading) TextView aboutUsHeading;
+    @Bind(R.id.aboutUsText) TextView aboutUsText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +37,9 @@ public class AboutUsActivity extends AppCompatActivity {
     private void initialize() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        aboutUsHeading.setText(StringConstants.ABOUT_US);
+        aboutUsText.setText(StringConstants.ABOUT_US_TEXT);
     }
 
     @Override

@@ -9,8 +9,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.humanize.android.R;
+import com.humanize.android.common.StringConstants;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -18,6 +20,7 @@ import butterknife.ButterKnife;
 public class ContactUsActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.toolbarText) TextView toolbarText;
     @Bind(R.id.subject) EditText subject;
     @Bind(R.id.body) EditText body;
 
@@ -32,6 +35,7 @@ public class ContactUsActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        toolbarText.setText(StringConstants.CONTACT_US);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

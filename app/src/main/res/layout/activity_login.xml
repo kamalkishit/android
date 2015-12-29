@@ -52,8 +52,8 @@
                 android:hint="Enter Email Address"
                 android:inputType="textEmailAddress"
                 android:textSize="16sp"
-                android:textColor="@color/colorBlack"
-                android:textColorHint="@color/colorBlack" />
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent" />
         </LinearLayout>
 
         <LinearLayout
@@ -74,8 +74,8 @@
                 android:hint="Enter Password"
                 android:textSize="16sp"
                 android:inputType="textPassword"
-                android:textColor="@color/colorBlack"
-                android:textColorHint="@color/colorBlack" />
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent" />
         </LinearLayout>
 
         <TextView

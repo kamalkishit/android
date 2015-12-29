@@ -6,14 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.gson.Gson;
-import com.humanize.android.HttpResponseCallback;
 import com.humanize.android.R;
-import com.humanize.android.content.data.Contents;
-import com.humanize.android.util.ApplicationState;
-import com.humanize.android.util.Config;
-import com.humanize.android.util.HttpUtil;
-import com.humanize.android.service.SharedPreferencesService;
 
 public class PaperLauncherActivity extends AppCompatActivity {
 
@@ -21,28 +14,6 @@ public class PaperLauncherActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_paper_launcher);
-
-        HttpUtil httpUtil = HttpUtil.getInstance();
-        httpUtil.getPaper(new HttpResponseCallback() {
-            @Override
-            public void onSuccess(String response) {
-                try {
-                    Contents contents = new Gson().fromJson(response, Contents.class);
-                    PaperActivity.PaperAdapter.contents = contents.getContents();
-                    SharedPreferencesService.getInstance().putString(Config.JSON_PAPER, response);
-                    Intent intent = new Intent(ApplicationState.getAppContext(), PaperActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    ApplicationState.getAppContext().startActivity(intent);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(String errorMsg) {
-
-            }
-        });
     }
 
     @Override

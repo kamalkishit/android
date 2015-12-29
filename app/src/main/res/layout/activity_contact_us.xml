@@ -88,7 +88,7 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:background="@drawable/button_selector"
             android:clickable="true"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/colorWhite"
             android:text="SUBMIT"
             android:textStyle="normal"
             android:textAppearance="?android:attr/textAppearanceMedium"

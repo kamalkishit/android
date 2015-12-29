@@ -39,12 +39,10 @@ public class UserService {
             user.getRecommended().remove(content.getId());
             unrecommendContent(content.getId());
             contentService.decrRecommendedCount(content);
-            updateRecommendedJson(content, false);
         } else {
             user.getRecommended().add(0, content.getId());
             recommendContent(content.getId());
             contentService.incrRecommendedCount(content);
-            updateRecommendedJson(content, true);
         }
     }
 
@@ -62,11 +60,9 @@ public class UserService {
         if (user.getBookmarked().contains(content.getId())) {
             user.getBookmarked().remove(content.getId());
             unbookmarkContent(content.getId());
-            updateBookmarksJson(content, false);
         } else {
             user.getBookmarked().add(0, content.getId());
             bookmarkContent(content.getId());
-            updateBookmarksJson(content, true);
         }
     }
 
@@ -174,32 +170,6 @@ public class UserService {
 
     private void unbookmarkContent(String contentId) {
         HttpUtil.getInstance().bookmarkContentForUser(Config.USER_CONTENT_BOOKMARK_URL, user.getId(), contentId, false, new BookmarkContentCallback());
-    }
-
-    private void updateBookmarksJson(Content content, boolean add) {
-        updateJson(Config.JSON_BOOKMARKED_CONTENTS, content, add);
-    }
-
-    private void updateRecommendedJson(Content content, boolean add) {
-        updateJson(Config.JSON_RECOMMENDED_CONTENTS, content, add);
-    }
-
-    private void updateJson(String jsonKey, Content content, boolean add) {
-        try {
-            String json = SharedPreferencesService.getInstance().getString(jsonKey);
-            Contents contents = new JsonParser().fromJson(json, Contents.class);
-
-            if (add) {
-                contents.addContent(content);
-            } else {
-                contents.removeContent(content);
-            }
-
-            json = new JsonParser().toJson(contents);
-            SharedPreferencesService.getInstance().putString(jsonKey, json);
-        } catch (Exception exception) {
-
-        }
     }
 
     private class RecommendContentCallback implements Callback {

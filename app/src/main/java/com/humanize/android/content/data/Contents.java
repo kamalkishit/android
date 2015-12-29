@@ -27,7 +27,7 @@ public class Contents {
         return contents;
     }
 
-    public void setContents(ArrayList<Content> contents) {
+    public void setContents(List<Content> contents) {
         this.contents = contents;
     }
 
@@ -36,7 +36,11 @@ public class Contents {
     }
 
     public void removeContent(Content content) {
-        contents.remove(content);
+        for (Content tempContent: contents) {
+            if (tempContent.getId().equals(content.getId())) {
+                contents.remove(tempContent);
+            }
+        }
     }
 }
 

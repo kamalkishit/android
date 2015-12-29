@@ -43,7 +43,7 @@ public class BookmarksActivity extends AppCompatActivity {
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbarText) TextView toolbarText;
 
-    UserService userService;
+    private UserService userService;
     private ContentRecyclerViewAdapter contentRecyclerViewAdapter;
 
     private static String TAG = BookmarksActivity.class.getSimpleName();
@@ -121,9 +121,7 @@ public class BookmarksActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.actionRefresh) {
-            //refresh();
-        } else if (id == android.R.id.home) {
+        if (id == android.R.id.home) {
             super.onBackPressed();
         }
 
@@ -175,6 +173,7 @@ public class BookmarksActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     Snackbar.make(recyclerView, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG).show();
+                    swipeRefreshLayout.setRefreshing(false);
                 }
             });
         }
@@ -186,6 +185,7 @@ public class BookmarksActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Snackbar.make(recyclerView, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG).show();
+                        swipeRefreshLayout.setRefreshing(false);
                     }
                 });
             } else {
@@ -194,6 +194,7 @@ public class BookmarksActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         bookmarkSuccess(recyclerView, responseStr);
+                        swipeRefreshLayout.setRefreshing(false);
                     }
                 });
             }
@@ -238,11 +239,7 @@ public class BookmarksActivity extends AppCompatActivity {
 
                             contentRecyclerViewAdapter.notifyDataSetChanged();
 
-                            try {
-                                SharedPreferencesService.getInstance().putString(Config.JSON_BOOKMARKED_CONTENTS, new JsonParser().toJson(new Contents(contentRecyclerViewAdapter.getContents())));
-                            } catch (Exception exception) {
-                                Log.e(TAG, exception.toString());
-                            }
+                            SharedPreferencesService.getInstance().putString(Config.JSON_BOOKMARKED_CONTENTS, new JsonParser().toJson(new Contents(contentRecyclerViewAdapter.getContents())));
                         } catch (Exception exception) {
                             Log.e(TAG, exception.toString());
                         } finally {
@@ -290,11 +287,8 @@ public class BookmarksActivity extends AppCompatActivity {
 
                             contentRecyclerViewAdapter.notifyDataSetChanged();
 
-                            try {
-                                SharedPreferencesService.getInstance().putString(Config.JSON_BOOKMARKED_CONTENTS, new JsonParser().toJson(new Contents(contentRecyclerViewAdapter.getContents())));
-                            } catch (Exception exception) {
-                                Log.e(TAG, exception.toString());
-                            }
+                            SharedPreferencesService.getInstance().putString(Config.JSON_BOOKMARKED_CONTENTS, new JsonParser().toJson(new Contents(contentRecyclerViewAdapter.getContents())));
+
                         } catch (Exception exception) {
                             Log.e(TAG, exception.toString());
                         } finally {

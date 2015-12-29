@@ -25,7 +25,7 @@
     <dimen name="mediumSizeFont">16sp</dimen>
     <dimen name="largeSizeFont">24sp</dimen>
 
-    <dimen name="navDrawerWidth">300dp</dimen>
+    <dimen name="navDrawerWidth">280dp</dimen>
     <dimen name="imageButtonWidth">40dp</dimen>
     <dimen name="imageButtonHeight">40dp</dimen>
     <dimen name="fabMargin">16dp</dimen>

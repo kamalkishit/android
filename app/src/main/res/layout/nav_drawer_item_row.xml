@@ -13,7 +13,7 @@
         android:layout_height="44dp"
         android:paddingBottom="@dimen/smallMargin"
         android:paddingLeft="@dimen/mediumMargin"
-        android:src="@drawable/recomended" />
+        android:src="@drawable/ic_sports_green" />
 
     <TextView
         android:id="@+id/textView"
@@ -23,5 +23,6 @@
         android:paddingLeft="@dimen/mediumMargin"
         android:paddingTop="@dimen/smallMargin"
         android:text="text"
+        android:textColor="@color/colorBlack"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 </LinearLayout>

@@ -69,14 +69,18 @@ public class SignupActivity extends AppCompatActivity {
     private void initialize() {
         activityLauncher = new ActivityLauncher();
         Uri uri = getIntent().getData();
-        String path = uri.getPath();
-        emailId.setText(uri.getQueryParameter("emailId"));
-        invitationCode.setText(uri.getQueryParameter("invitationCode"));
+        if (uri != null) {
+            String path = uri.getPath();
+            emailId.setText(uri.getQueryParameter("emailId"));
+            invitationCode.setText(uri.getQueryParameter("invitationCode"));
+            password.requestFocus();
+        }
+
         password.setTypeface(Typeface.DEFAULT);
         password.setTransformationMethod(new PasswordTransformationMethod());
-        password.requestFocus();
+
         InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+        //imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
         progressDialog = new ProgressDialog(this);
         invitationCodeLink.setText(Html.fromHtml(StringConstants.INVITATION_CODE_STR));

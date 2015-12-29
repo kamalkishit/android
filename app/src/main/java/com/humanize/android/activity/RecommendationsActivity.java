@@ -94,7 +94,7 @@ public class RecommendationsActivity extends AppCompatActivity {
                 contentRecyclerViewAdapter.setContents(RecommendationsActivity.contents.getContents());
                 contentRecyclerViewAdapter.notifyDataSetChanged();
             } else {
-                HttpUtil.getInstance().getRecommendedContents(Config.BOOKMARK_FIND_URL, new UserService().getBookmarkIds(), new RecommendationsCallback());
+                getRecommendations();
             }
         } catch (Exception exception) {
 
@@ -115,7 +115,7 @@ public class RecommendationsActivity extends AppCompatActivity {
     }
 
     private void getRecommendations() {
-        if (userService.getRecommendationsIds().size() > 0) {
+        if (userService.getRecommendationsIds() != null && userService.getRecommendationsIds().size() > 0) {
             HttpUtil.getInstance().getRecommendedContents(Config.RECOMMENDATIONS_FIND_URL, userService.getRecommendationsIds(), new RecommendationsCallback());
         } else {
             swipeRefreshLayout.setRefreshing(false);
@@ -123,7 +123,8 @@ public class RecommendationsActivity extends AppCompatActivity {
     }
 
     private void getNewRecommendations() {
-        if (userService.getNewRecommendationsIds(contentRecyclerViewAdapter.getContents().get(0).getId()).size() > 0) {
+        if (userService.getNewRecommendationsIds(contentRecyclerViewAdapter.getContents().get(0).getId()) != null
+            && userService.getNewRecommendationsIds(contentRecyclerViewAdapter.getContents().get(0).getId()).size() > 0) {
             HttpUtil.getInstance().getBookmarkedContents(Config.RECOMMENDATIONS_FIND_URL, userService.getNewRecommendationsIds(contentRecyclerViewAdapter.getContents().get(0).getId()), new NewRecommendationsCallback());
         } else {
             swipeRefreshLayout.setRefreshing(false);
@@ -131,7 +132,8 @@ public class RecommendationsActivity extends AppCompatActivity {
     }
 
     private void getMoreRecommendations() {
-        if (userService.getMoreRecommendationsIds(contentRecyclerViewAdapter.getContents().get(contentRecyclerViewAdapter.getContents().size() - 1).getId()).size() > 0) {
+        if (userService.getMoreRecommendationsIds(contentRecyclerViewAdapter.getContents().get(contentRecyclerViewAdapter.getContents().size() -1).getId()) != null
+            && userService.getMoreRecommendationsIds(contentRecyclerViewAdapter.getContents().get(contentRecyclerViewAdapter.getContents().size() - 1).getId()).size() > 0) {
             HttpUtil.getInstance().getBookmarkedContents(Config.RECOMMENDATIONS_FIND_URL, userService.getMoreRecommendationsIds(contentRecyclerViewAdapter.getContents().get(contentRecyclerViewAdapter.getContents().size() - 1).getId()), new MoreRecommendationsCallback());
         }
     }
@@ -151,9 +153,7 @@ public class RecommendationsActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.actionRefresh) {
-            //refresh();
-        } else if (id == android.R.id.home) {
+        if (id == android.R.id.home) {
             super.onBackPressed();
         }
 
@@ -288,8 +288,8 @@ public class RecommendationsActivity extends AppCompatActivity {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    Snackbar snackbar = Snackbar.make(recyclerView, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG);
-                    snackbar.show();
+                    Snackbar.make(recyclerView, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG).show();
+                    swipeRefreshLayout.setRefreshing(false);
                 }
             });
         }
@@ -300,8 +300,8 @@ public class RecommendationsActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        Snackbar snackbar = Snackbar.make(recyclerView, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG);
-                        snackbar.show();
+                        Snackbar.make(recyclerView, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG).show();
+                        swipeRefreshLayout.setRefreshing(false);
                     }
                 });
             } else {
@@ -310,6 +310,7 @@ public class RecommendationsActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         recommendSuccess(responseStr);
+                        swipeRefreshLayout.setRefreshing(false);
                     }
                 });
             }

@@ -30,5 +30,5 @@ public class Constants {
     public static int LARGE_MARGIN = 24;
     public static int EXTRA_LARGE_MARGIN = 32;
 
-    public static int SPLASH_SCREEN_DELAY_TIME = 2000;
+    public static int SPLASH_SCREEN_DELAY_TIME = 1000;
 }

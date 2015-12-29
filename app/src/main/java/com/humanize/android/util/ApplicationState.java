@@ -96,25 +96,6 @@ public class ApplicationState extends Application{
     }
 
     private void getPaper() {
-        HttpUtil httpUtil = HttpUtil.getInstance();
-        httpUtil.getPaper(new HttpResponseCallback() {
-            @Override
-            public void onSuccess(String response) {
-                try {
-                    SharedPreferencesService.getInstance().putString(Config.JSON_PAPER, response);
-                    Contents paper = new Gson().fromJson(response, Contents.class);
-                    PaperService paperService = PaperService.getInstance();
-                    paperService.setPaper(paper);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(String errorMsg) {
-                System.out.println("failure");
-            }
-        });
     }
 
     public static void setUser(User user) {

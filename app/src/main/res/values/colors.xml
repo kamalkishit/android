@@ -15,7 +15,7 @@
     <color name="colorPrimaryDark">#168065</color>
     <color name="colorPrimary">#008e70</color>
     <!--<color name="colorSecondary">#4DB6AC</color>-->
-    <color name="colorSecondary">#00BFA5</color>
+    <!--<color name="colorSecondary">#00BFA5</color>-->
     <color name="colorAccent">#00BFA5</color>
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="windowBackground">#FFFFFF</color>
