@@ -2,7 +2,7 @@
 // Jad home page: http://www.geocities.com/kpdus/jad.html
 // Decompiler options: braces fieldsfirst space lnc 
 
-package com.humanize.android.utils;
+package com.humanize.android.util;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;

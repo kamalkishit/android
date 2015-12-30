@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.humanize.android.utils.HttpUtil;
+import com.humanize.android.util.HttpUtil;
 
 public class PaperNotifier extends Activity {
 

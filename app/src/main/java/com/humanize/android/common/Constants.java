@@ -1,4 +1,4 @@
-package com.humanize.android.utils;
+package com.humanize.android.common;
 
 /**
  * Created by kamal on 11/23/15.

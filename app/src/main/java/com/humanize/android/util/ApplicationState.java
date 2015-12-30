@@ -1,4 +1,4 @@
-package com.humanize.android.utils;
+package com.humanize.android.util;
 
 import android.app.Application;
 import android.content.Context;
@@ -9,6 +9,7 @@ import com.crashlytics.android.ndk.CrashlyticsNdk;
 
 import com.humanize.android.JsonParser;
 import com.humanize.android.activity.CardActivity;
+import com.humanize.android.common.Constants;
 import com.humanize.android.data.Contents;
 import com.humanize.android.data.User;
 import com.humanize.android.service.SharedPreferencesService;

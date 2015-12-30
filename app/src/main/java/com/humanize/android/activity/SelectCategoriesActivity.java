@@ -1,7 +1,15 @@
 package com.humanize.android.activity;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -9,28 +17,40 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.view.Gravity;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.humanize.android.JsonParser;
 import com.humanize.android.R;
-import com.humanize.android.utils.StringConstants;
+import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.User;
 import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.service.SharedPreferencesService;
-import com.humanize.android.utils.ApplicationState;
-import com.humanize.android.utils.Config;
-import com.humanize.android.utils.HttpUtil;
+import com.humanize.android.util.ApplicationState;
+import com.humanize.android.util.Config;
+import com.humanize.android.util.HttpUtil;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,12 +60,14 @@ import butterknife.ButterKnife;
 
 public class SelectCategoriesActivity extends AppCompatActivity {
 
-    private Set<String> categories;
-    private int selectedCategoriesCount;
-
     @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
     @Bind(R.id.selectAllCheckbox) CheckBox selectAllCheckbox;
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.toolbarText) TextView toolbarText;
+    @Bind(R.id.submitButton) Button submitButton;
+
+    private Set<String> categories;
+    private int selectedCategoriesCount;
 
     private Category achievers;
     private Category beautiful;
@@ -59,7 +81,6 @@ public class SelectCategoriesActivity extends AppCompatActivity {
     private Category realHeroes;
     private Category scienceAndTech;
     private Category sports;
-    private Button submitButton;
 
     private ActivityLauncher activityLauncher;
 
@@ -80,10 +101,22 @@ public class SelectCategoriesActivity extends AppCompatActivity {
         selectedCategoriesCount = 0;
         activityLauncher = new ActivityLauncher();
 
-        submitButton = (Button)findViewById(R.id.nextButton);
-
         toolbar.setCollapsible(true);
         setSupportActionBar(toolbar);
+
+        User user = ApplicationState.getUser();
+
+        if (ApplicationState.getUser() != null && ApplicationState.getUser().getIsConfigured()) {
+            toolbarText.setText("UPDATE CATEGORIES");
+            submitButton.setText("UPDATE");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        } else {
+            toolbarText.setText("SELECT CATEGORIES");
+            submitButton.setText("SAVE");
+
+        }
+
+        toolbarText.setGravity(Gravity.CENTER);
 
         categories = new HashSet<>();
 
@@ -123,7 +156,7 @@ public class SelectCategoriesActivity extends AppCompatActivity {
         sports = new Category();
         sports.button = (Button)findViewById(R.id.sports);
 
-        //selectAllCategories();
+        updateView();
     }
 
     private void configureListeners() {
@@ -299,6 +332,84 @@ public class SelectCategoriesActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        if (ApplicationState.getUser() != null && ApplicationState.getUser().getIsConfigured()) {
+            getMenuInflater().inflate(R.menu.menu_contact_us, menu);
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            super.onBackPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void updateView() {
+        if (ApplicationState.getUser() != null && ApplicationState.getUser().getCategories() != null) {
+            User user = ApplicationState.getUser();
+
+            if (user.getCategories().contains("Achievers")) {
+                selectCategory(achievers, R.drawable.ic_achievers_filled_green);
+            }
+
+            if (user.getCategories().contains("Beautiful")) {
+                selectCategory(beautiful, R.drawable.ic_beautiful_filled_green);
+            }
+
+            if (user.getCategories().contains("Education")) {
+                selectCategory(education, R.drawable.ic_education_filled_green);
+            }
+
+            if (user.getCategories().contains("Empowerment")) {
+                selectCategory(empowerment, R.drawable.ic_empowerment_filled_green);
+            }
+
+            if (user.getCategories().contains("Environment")) {
+                selectCategory(environment, R.drawable.ic_environment_filled_green);
+            }
+
+            if (user.getCategories().contains("Governance")) {
+                selectCategory(governance, R.drawable.ic_governance_filled_green);
+            }
+
+            if (user.getCategories().contains("Health")) {
+                selectCategory(health, R.drawable.ic_health_filled_green);
+            }
+
+            if (user.getCategories().contains("Humanity")) {
+                selectCategory(humanity, R.drawable.ic_humanity_filled_green);
+            }
+
+            if (user.getCategories().contains("Real Heroes")) {
+                selectCategory(realHeroes, R.drawable.ic_real_heros_filled_green);
+            }
+
+            if (user.getCategories().contains("Law and Justice")) {
+                selectCategory(lawAndJustice, R.drawable.ic_law_justice_filled_green);
+            }
+
+            if (user.getCategories().contains("Science and Tech")) {
+                selectCategory(scienceAndTech, R.drawable.ic_science_tech_filled_green);
+            }
+
+            if (user.getCategories().contains("Sports")) {
+                selectCategory(sports, R.drawable.ic_sports_filled_green);
+            }
+        }
     }
 
     private void selectCategory(Category category, int drawableResourceId) {

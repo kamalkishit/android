@@ -4,13 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.humanize.android.R;
-import com.humanize.android.utils.Config;
+import com.humanize.android.util.ApplicationState;
+import com.humanize.android.util.Config;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

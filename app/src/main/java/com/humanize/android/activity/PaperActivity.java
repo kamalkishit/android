@@ -16,10 +16,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.humanize.android.R;
-import com.humanize.android.utils.StringConstants;
+import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.Content;
-import com.humanize.android.utils.ApplicationState;
-import com.humanize.android.utils.Config;
+import com.humanize.android.util.ApplicationState;
+import com.humanize.android.util.Config;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

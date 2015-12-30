@@ -2,8 +2,8 @@ package com.humanize.android.service;
 
 import android.content.SharedPreferences;
 
-import com.humanize.android.utils.ApplicationState;
-import com.humanize.android.utils.Config;
+import com.humanize.android.util.ApplicationState;
+import com.humanize.android.util.Config;
 
 /**
  * Created by Kamal on 7/20/15.

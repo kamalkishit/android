@@ -11,9 +11,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.humanize.android.R;
-import com.humanize.android.utils.Constants;
-import com.humanize.android.utils.StringConstants;
-import com.humanize.android.utils.AlarmHelper;
+import com.humanize.android.common.Constants;
+import com.humanize.android.common.StringConstants;
+import com.humanize.android.util.AlarmHelper;
+import com.humanize.android.util.ApplicationState;
 
 import java.sql.Time;
 

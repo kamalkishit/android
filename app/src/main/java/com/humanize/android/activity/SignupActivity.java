@@ -24,14 +24,14 @@ import android.widget.TextView;
 
 import com.humanize.android.JsonParser;
 import com.humanize.android.R;
-import com.humanize.android.utils.StringConstants;
+import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.SignupUser;
 import com.humanize.android.data.User;
 import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.service.SharedPreferencesService;
-import com.humanize.android.utils.ApplicationState;
-import com.humanize.android.utils.Config;
-import com.humanize.android.utils.HttpUtil;
+import com.humanize.android.util.ApplicationState;
+import com.humanize.android.util.Config;
+import com.humanize.android.util.HttpUtil;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
