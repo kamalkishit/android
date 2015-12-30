@@ -67,6 +67,7 @@ public class SubmitActivity extends AppCompatActivity {
     @Bind(R.id.isVerified) CheckBox isVerified;
 
     private Content content;
+    private SpinnerAdapter spinnerAdapter;
 
     private static String TAG = SubmitActivity.class.getSimpleName();
 
@@ -84,12 +85,11 @@ public class SubmitActivity extends AppCompatActivity {
     private void initialize() {
         content = new Content();
 
-        toolbarText.setText(StringConstants.SUBMIT_URL_ARTICLE);
+        toolbarText.setText(StringConstants.SUBMIT_ARTICLE);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ArrayList<SpinnerItem> list = new ArrayList<>();
-        list.add(new SpinnerItem("Select Category", R.drawable.ic_privacy_black));
         list.add(new SpinnerItem(StringConstants.ACHIEVERS, R.drawable.ic_achievers_green));
         list.add(new SpinnerItem(StringConstants.BEAUTIFUL, R.drawable.ic_beautiful_green));
         list.add(new SpinnerItem(StringConstants.EDUCATION, R.drawable.ic_education_green));
@@ -102,8 +102,11 @@ public class SubmitActivity extends AppCompatActivity {
         list.add(new SpinnerItem(StringConstants.REAL_HEROES, R.drawable.ic_real_heros_green));
         list.add(new SpinnerItem(StringConstants.SCIENCE_AND_TECH, R.drawable.ic_science_tech_green));
         list.add(new SpinnerItem(StringConstants.SPORTS, R.drawable.ic_sports_green));
-        SpinnerAdapter adapter = new SpinnerAdapter(this, R.layout.spinner_item, R.id.textView, list);
-        categoriesSpinner.setAdapter(adapter);
+        list.add(new SpinnerItem("Select Category", 0));
+
+        spinnerAdapter = new SpinnerAdapter(this, R.layout.spinner_item, R.id.textView, list);
+        categoriesSpinner.setAdapter(spinnerAdapter);
+        categoriesSpinner.setSelection(spinnerAdapter.getCount());
 
         categoriesSpinner.setOnItemSelectedListener(new SpinnerCategoriesHandler());
     }
@@ -158,7 +161,7 @@ public class SubmitActivity extends AppCompatActivity {
             public void onClick(View view) {
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-                submit(view);
+                //submit(view);
             }
         });
     }
@@ -247,7 +250,7 @@ public class SubmitActivity extends AppCompatActivity {
                 System.out.println(spinnerItem.getText());
                 content.setCategory(spinnerItem.getText());
             } else {
-                categoriesSpinner.setSelection(0);
+                categoriesSpinner.setSelection(spinnerAdapter.getCount());
             }
         }
 
@@ -358,6 +361,13 @@ public class SubmitActivity extends AppCompatActivity {
 
         public View getDropDownView(int position, View convertView, ViewGroup parent) {
             return getView(position, convertView, parent);
+        }
+
+        @Override
+        public int getCount() {
+            // don't display last item. It is used as hint.
+            int count = super.getCount();
+            return count > 0 ? count - 1 : count;
         }
     }
 }

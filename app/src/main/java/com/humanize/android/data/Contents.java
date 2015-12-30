@@ -31,6 +31,12 @@ public class Contents {
     }
 
     public void addContent(Content content) {
+        for (Content tempContent: contents) {
+            if (tempContent.getId().equals(content.getId())) {
+                return;
+            }
+        }
+
         contents.add(0, content);
     }
 

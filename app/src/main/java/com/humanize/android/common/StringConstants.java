@@ -17,17 +17,21 @@ public class StringConstants {
     public static String CONTENT_LOADING_EXCEPTION = "unable to load articles";
     public static String LOGIN_FAILURE_STR = "Invalid Username or Password";
 
-    public static String BOOKMARKED = "Bookmarked Articles";
-    public static String RECOMMENDED = "Recommended Articles";
-    public static String SUBMIT_URL_ARTICLE = "Submit an Article";
+    public static String BOOKMARKED_ARTICLES = "Bookmarked Articles";
+    public static String RECOMMENDED_ARTICLES = "Recommended Articles";
+    public static String SUBMIT_ARTICLE = "Submit an Article";
     public static String CONTACT_US = "Contact Us";
     public static String ABOUT_US = "About Us";
     public static String ABOUT_US_TEXT = "Lorum ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
     public static String SETTINGS = "Settings";
+    public static String PRIVACY_POLICY = "Privacy Policy";
+    public static String TERMS_OF_USAGE = "Terms of Usage";
+    public static String RATE_US = "Rate Us";
+
     public static String RECOMMEND = "Recommend";
     public static String BOOKMARK = "Bookmark";
     public static String PAPER = "Paper";
-    public static String RECOMMEND_ARTICLE = "Recommend an Article";
+    public static String SUGGEST_ARTICLE = "Suggest an Article";
     public static String SELECT_CATEGORY = "Select a Category";
     public static String REGISTERING = "Registering...";
     public static String AUTHENTICATING = "Authenticating...";

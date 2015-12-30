@@ -40,6 +40,7 @@ public class RecommendArticleActivity extends AppCompatActivity {
 
     @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.toolbarText) TextView toolbarText;
     @Bind(R.id.contentUrl) EditText contentURL;
     @Bind(R.id.submitButton) Button submitButton;
 
@@ -57,11 +58,8 @@ public class RecommendArticleActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setCollapsible(true);
-
-        TextView textView = (TextView) findViewById(R.id.toolbarText);
-        textView.setText(StringConstants.RECOMMEND_ARTICLE);
+        toolbarText.setText(StringConstants.SUGGEST_ARTICLE);
 
         setSupportActionBar(toolbar);
 
@@ -139,9 +137,7 @@ public class RecommendArticleActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.actionSettings) {
-            //refresh();
-        } else if (id == android.R.id.home) {
+        if (id == android.R.id.home) {
             super.onBackPressed();
         }
 

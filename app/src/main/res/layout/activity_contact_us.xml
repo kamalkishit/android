@@ -71,7 +71,7 @@
                 android:textColor="@color/colorPrimary"
                 android:background="@null"
                 android:hint="Feedback"
-                android:minLines="5"
+                android:minLines="6"
                 android:inputType="textMultiLine"
                 android:textColorHint="@color/colorPrimary"
                 android:textAppearance="?android:attr/textAppearanceSmall" />

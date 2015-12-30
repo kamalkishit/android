@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="26dp"
             android:background="@drawable/button_selector"
-            android:text="Send Invitation Code"
+            android:text="SUBMIT"
             android:textAllCaps="false"
             android:textColor="@color/colorWhite"
             android:transitionName="loginTransition" />

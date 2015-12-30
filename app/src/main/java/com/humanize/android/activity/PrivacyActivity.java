@@ -8,8 +8,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.humanize.android.R;
+import com.humanize.android.common.StringConstants;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -17,6 +19,7 @@ import butterknife.ButterKnife;
 public class PrivacyActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.toolbarText) TextView toolbarText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,7 @@ public class PrivacyActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        toolbarText.setText(StringConstants.PRIVACY_POLICY);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

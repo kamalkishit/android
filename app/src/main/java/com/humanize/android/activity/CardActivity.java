@@ -251,8 +251,7 @@ public class CardActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     swipeRefreshLayout.setRefreshing(false);
-                    Snackbar snackbar = Snackbar.make(recyclerView, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG);
-                    snackbar.show();
+                    Snackbar.make(recyclerView, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG).show();
                 }
             });
         }

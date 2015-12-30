@@ -21,6 +21,7 @@ import butterknife.ButterKnife;
 public class AboutUsActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.toolbarText) TextView toolbarText;
     @Bind(R.id.aboutUsHeading) TextView aboutUsHeading;
     @Bind(R.id.aboutUsText) TextView aboutUsText;
 
@@ -35,6 +36,7 @@ public class AboutUsActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        toolbarText.setText(StringConstants.ABOUT_US);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

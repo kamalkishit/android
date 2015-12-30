@@ -60,7 +60,7 @@ public class RecommendationsActivity extends AppCompatActivity {
 
     private void initialize() {
         userService = new UserService();
-        toolbarText.setText(StringConstants.RECOMMENDED);
+        toolbarText.setText(StringConstants.RECOMMENDED_ARTICLES);
 
         toolbar.setCollapsible(true);
         setSupportActionBar(toolbar);

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import com.humanize.android.activity.WebBrowserActivity;
 import com.humanize.android.common.Constants;
+import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.Content;
 import com.humanize.android.data.Contents;
 import com.humanize.android.service.SharedPreferencesService;
@@ -205,14 +207,14 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             recommendButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    recommend();
+                    recommend(view);
                 }
             });
 
             bookmarkButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    bookmark();
+                    bookmark(view);
                 }
             });
 
@@ -224,18 +226,32 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             });
         }
 
-        private void recommend() {
+        private void recommend(View view) {
             userService.recommend(content);
             updateRecommendationButton();
             updateRecommendedCount();
             updateRecommendedJson(content);
+
+            if (userService.isRecommended(content.getId())) {
+                Snackbar.make(view, "Recommended", 1000).show();
+            } else {
+                Snackbar.make(view, "Recommendation removed", Snackbar.LENGTH_SHORT).show();
+            }
+
             ContentRecyclerViewAdapter.this.notifyDataSetChanged();
         }
 
-        private void bookmark() {
+        private void bookmark(View view) {
             userService.bookmark(content);
             updateBookmarkButton();
             updateBookmarksJson(content);
+
+            if (userService.isBookmarked(content.getId())) {
+                Snackbar.make(view, "Bookmarked", Snackbar.LENGTH_SHORT).setDuration(1000).show();
+            } else {
+                Snackbar.make(view, "Bookmark removed", Snackbar.LENGTH_SHORT).show();
+            }
+
             ContentRecyclerViewAdapter.this.notifyDataSetChanged();
         }
 

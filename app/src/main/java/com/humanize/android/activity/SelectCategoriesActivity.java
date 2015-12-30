@@ -113,10 +113,8 @@ public class SelectCategoriesActivity extends AppCompatActivity {
         } else {
             toolbarText.setText("SELECT CATEGORIES");
             submitButton.setText("SAVE");
-
+            toolbarText.setGravity(Gravity.CENTER);
         }
-
-        toolbarText.setGravity(Gravity.CENTER);
 
         categories = new HashSet<>();
 

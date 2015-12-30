@@ -61,7 +61,7 @@ public class BookmarksActivity extends AppCompatActivity {
 
     private void initialize() {
         userService = new UserService();
-        toolbarText.setText(StringConstants.BOOKMARKED);
+        toolbarText.setText(StringConstants.BOOKMARKED_ARTICLES);
 
         toolbar.setCollapsible(true);
         setSupportActionBar(toolbar);
