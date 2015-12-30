@@ -1,34 +1,22 @@
 package com.humanize.android;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.humanize.android.activity.BookmarksActivity;
-import com.humanize.android.activity.RecommendationsActivity;
 import com.humanize.android.helper.ActivityLauncher;
-import com.humanize.android.service.LikeService;
 import com.humanize.android.service.SharedPreferencesService;
-import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -47,8 +35,6 @@ public class FragmentDrawer extends Fragment {
     @Bind(R.id.privacyPolicy) LinearLayout privacyPolicy;
     @Bind(R.id.logout) LinearLayout logout;
 
-    private RecyclerView.Adapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private DrawerLayout drawerLayout;
     private View containerView;
@@ -67,6 +53,8 @@ public class FragmentDrawer extends Fragment {
 
     private void initialize() {
         activityLauncher = new ActivityLauncher();
+
+        // TBD: to use butterknife and a single method for initializing all side nav bar items
         TextView textViewProfile = (TextView) profile.findViewById(R.id.textView);
         textViewProfile.setText("Profile");
         ImageView imageViewProfile = (ImageView) profile.findViewById(R.id.imageView);
@@ -223,10 +211,10 @@ public class FragmentDrawer extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflating view layout
         View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+
         ButterKnife.bind(this, layout);
         initialize();
         configureListeners();
@@ -237,6 +225,7 @@ public class FragmentDrawer extends Fragment {
     public void setUp(int fragmentId, DrawerLayout drawerLayout, final Toolbar toolbar) {
         containerView = getActivity().findViewById(fragmentId);
         this.drawerLayout = drawerLayout;
+
         actionBarDrawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerOpened(View drawerView) {
@@ -266,9 +255,4 @@ public class FragmentDrawer extends Fragment {
         });
 
     }
-
-    public interface FragmentDrawerListener {
-        void onDrawerItemSelected(View view, int position);
-    }
-
 }

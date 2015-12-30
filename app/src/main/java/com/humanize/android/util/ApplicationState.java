@@ -6,17 +6,12 @@ import android.util.DisplayMetrics;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.ndk.CrashlyticsNdk;
-import com.google.gson.Gson;
 
-import com.humanize.android.HttpResponseCallback;
 import com.humanize.android.JsonParser;
 import com.humanize.android.activity.CardActivity;
 import com.humanize.android.common.Constants;
 import com.humanize.android.content.data.Contents;
 import com.humanize.android.data.User;
-import com.humanize.android.service.BookmarkService;
-import com.humanize.android.service.LikeService;
-import com.humanize.android.service.PaperService;
 import com.humanize.android.service.SharedPreferencesService;
 
 import com.squareup.picasso.OkHttpDownloader;
@@ -29,14 +24,26 @@ import io.fabric.sdk.android.Fabric;
  */
 public class ApplicationState extends Application{
 
-    public static Context context = null;
-    public static User user = null;
+    private static Context context = null;
+    private static User user = null;
 
     public void onCreate(){
         super.onCreate();
         Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
 
         initialize();
+    }
+
+    public static void setUser(User user) {
+        ApplicationState.user = user;
+    }
+
+    public static User getUser() {
+        return ApplicationState.user;
+    }
+
+    public static Context getAppContext() {
+        return ApplicationState.context;
     }
 
     private void initialize() {
@@ -64,26 +71,14 @@ public class ApplicationState extends Application{
 
             if (SharedPreferencesService.getInstance().getString(Config.JSON_BOOKMARKED_CONTENTS) != null) {
                 Contents bookmarks = jsonParser.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_BOOKMARKED_CONTENTS), Contents.class);
-                BookmarkService bookmarkService = BookmarkService.getInstance();
-                bookmarkService.setBookmarks(bookmarks);
             }
 
             if (SharedPreferencesService.getInstance().getString(Config.JSON_RECOMMENDED_CONTENTS) != null) {
                 Contents likes = jsonParser.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_RECOMMENDED_CONTENTS), Contents.class);
-                LikeService likeService = LikeService.getInstance();
-                likeService.setLikes(likes);
             }
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-
-        /*if (SharedPreferencesStorage.getInstance().getString(Config.JSON_PAPER) != null) {
-            Contents paper = new Gson().fromJson(SharedPreferencesStorage.getInstance().getString(Config.JSON_PAPER), Contents.class);
-            PaperService paperService = PaperService.getInstance();
-            paperService.setPaper(paper);
-        } else {
-            getPaper();
-        }*/
 
         // for disk caching in picasso
         // http://stackoverflow.com/questions/23978828/how-do-i-use-disk-caching-in-picasso
@@ -93,20 +88,5 @@ public class ApplicationState extends Application{
         //picasso.setIndicatorsEnabled(true);
         //picasso.setLoggingEnabled(true);
         Picasso.setSingletonInstance(picasso);
-    }
-
-    private void getPaper() {
-    }
-
-    public static void setUser(User user) {
-        ApplicationState.user = user;
-    }
-
-    public static User getUser() {
-        return ApplicationState.user;
-    }
-
-    public static Context getAppContext() {
-        return ApplicationState.context;
     }
 }

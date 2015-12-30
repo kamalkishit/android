@@ -1,18 +1,12 @@
 package com.humanize.android.util;
 
-import android.os.Handler;
-import android.os.Looper;
-
-import com.humanize.android.HttpResponseCallback;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -207,18 +201,5 @@ public class HttpUtil {
         Request request = new Request.Builder().url(url).post(requestBody).build();
 
         client.newCall(request).enqueue(callback);
-    }
-
-    private RequestBody getParams(Map<String, String> params) {
-        FormEncodingBuilder formEncodingBuilder = new FormEncodingBuilder();
-
-        for (Map.Entry<String, String> entry : params.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
-
-            formEncodingBuilder = formEncodingBuilder.add(key, value);
-        }
-
-        return formEncodingBuilder.build();
     }
 }

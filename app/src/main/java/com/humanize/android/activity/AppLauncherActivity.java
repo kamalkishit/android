@@ -12,17 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.google.gson.Gson;
 import com.humanize.android.AlarmReceiver;
 import com.humanize.android.JsonParser;
 import com.humanize.android.R;
 import com.humanize.android.common.Constants;
 import com.humanize.android.common.StringConstants;
-import com.humanize.android.content.data.Contents;
 import com.humanize.android.data.User;
 import com.humanize.android.helper.ActivityLauncher;
-import com.humanize.android.service.BookmarkService;
-import com.humanize.android.service.LikeService;
 import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
@@ -119,9 +115,6 @@ public class AppLauncherActivity extends AppCompatActivity {
     public void onDestroy() {
         try {
             SharedPreferencesService.getInstance().putString(Config.JSON_USER_DATA, new JsonParser().toJson(ApplicationState.getUser()));
-            //SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, new JsonParser().toJson(CardActivity.contents));
-            SharedPreferencesService.getInstance().putString(Config.JSON_RECOMMENDED_CONTENTS, new JsonParser().toJson(LikeService.getInstance().getLikes()));
-            SharedPreferencesService.getInstance().putString(Config.JSON_BOOKMARKED_CONTENTS, new JsonParser().toJson(BookmarkService.getInstance().getBookmarks()));
         } catch (Exception exception) {
 
         }

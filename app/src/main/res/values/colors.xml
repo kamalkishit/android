@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- http://www.w3schools.com/tags/ref_colorpicker.asp -->
-
-    <!--<color name="colorPrimary">#008e70</color>
-    <color name="colorPrimaryDark">#00796B</color>
-    <color name="textColorPrimary">#FFFFFF</color>
-    <color name="windowBackground">#FFFFFF</color>
-    <color name="navigationBarColor">#000000</color>
-    <color name="colorAccent">#00BFA5</color>
-
-    <color name="temp">#198e70</color>-->
-
-
     <color name="colorPrimaryDark">#168065</color>
     <color name="colorPrimary">#008e70</color>
-    <!--<color name="colorSecondary">#4DB6AC</color>-->
-    <!--<color name="colorSecondary">#00BFA5</color>-->
     <color name="colorAccent">#00BFA5</color>
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="windowBackground">#FFFFFF</color>

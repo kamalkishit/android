@@ -4,11 +4,7 @@ import android.util.Log;
 
 import com.humanize.android.common.Constants;
 import com.humanize.android.content.data.Content;
-import com.humanize.android.content.data.Contents;
 import com.humanize.android.data.User;
-import com.humanize.android.service.BookmarkService;
-import com.humanize.android.service.LikeService;
-import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
@@ -88,10 +84,6 @@ public class UserService {
         return null;
     }
 
-    public int getBookmarkIdsSize() {
-        return user.getBookmarked().size();
-    }
-
     public List<String> getRecommendationsIds() {
         if (user.getRecommended().size() > 0) {
             if (user.getRecommended().size() >= Constants.DEFAULT_CONTENTS_SIZE) {
@@ -106,7 +98,11 @@ public class UserService {
 
     public List<String> getMoreBookmarkIds(String bookmarkId) {
         if (user.getBookmarked().size() > 0 && user.getBookmarked().contains(bookmarkId)) {
-            return user.getBookmarked().subList(user.getBookmarked().indexOf(bookmarkId) + 1, user.getBookmarked().indexOf(bookmarkId) + 1 + Constants.DEFAULT_CONTENTS_SIZE);
+            if (user.getBookmarked().indexOf(bookmarkId) + 1 + Constants.DEFAULT_CONTENTS_SIZE > user.getBookmarked().size()) {
+                return user.getBookmarked().subList(user.getBookmarked().indexOf(bookmarkId) + 1, user.getBookmarked().indexOf(bookmarkId) + 1 + Constants.DEFAULT_CONTENTS_SIZE);
+            } else {
+                return user.getBookmarked().subList(user.getBookmarked().indexOf(bookmarkId) + 1, user.getBookmarked().size() - 1);
+            }
         }
 
         return null;
@@ -114,7 +110,11 @@ public class UserService {
 
     public List<String> getMoreRecommendationsIds(String recommendationsId) {
         if (user.getRecommended().size() > 0 && user.getRecommended().contains(recommendationsId)) {
-            return user.getRecommended().subList(user.getRecommended().indexOf(recommendationsId) + 1, user.getRecommended().indexOf(recommendationsId) + 1 + Constants.DEFAULT_CONTENTS_SIZE);
+            if (user.getRecommended().indexOf(recommendationsId) + 1 + Constants.DEFAULT_CONTENTS_SIZE > user.getRecommended().size()) {
+                return user.getRecommended().subList(user.getRecommended().indexOf(recommendationsId) + 1, user.getRecommended().indexOf(recommendationsId) + 1 + Constants.DEFAULT_CONTENTS_SIZE);
+            } else {
+                return user.getRecommended().subList(user.getRecommended().indexOf(recommendationsId) + 1, user.getRecommended().size() - 1);
+            }
         }
 
         return null;
