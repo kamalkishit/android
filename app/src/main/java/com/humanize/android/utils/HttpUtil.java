@@ -1,7 +1,6 @@
-package com.humanize.android.util;
+package com.humanize.android.utils;
 
 import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -9,7 +8,6 @@ import com.squareup.okhttp.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 

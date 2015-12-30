@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -16,7 +15,7 @@ import android.widget.TextView;
 
 import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.service.SharedPreferencesService;
-import com.humanize.android.util.Config;
+import com.humanize.android.utils.Config;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

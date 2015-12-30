@@ -2,7 +2,6 @@ package com.humanize.android;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,13 +16,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.humanize.android.activity.WebBrowserActivity;
-import com.humanize.android.common.Constants;
-import com.humanize.android.content.data.Content;
-import com.humanize.android.content.data.Contents;
+import com.humanize.android.utils.Constants;
+import com.humanize.android.data.Content;
+import com.humanize.android.data.Contents;
 import com.humanize.android.service.SharedPreferencesService;
-import com.humanize.android.util.ApplicationState;
-import com.humanize.android.util.Config;
-import com.humanize.android.util.HttpUtil;
+import com.humanize.android.utils.ApplicationState;
+import com.humanize.android.utils.Config;
+import com.humanize.android.utils.HttpUtil;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -32,7 +31,6 @@ import com.squareup.picasso.Picasso;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by kamal on 12/22/15.

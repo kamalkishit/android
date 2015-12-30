@@ -9,7 +9,7 @@
     <uses-feature android:name="android.hardware.camera" />
 
     <application
-        android:name=".util.ApplicationState"
+        android:name=".utils.ApplicationState"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Humanize">

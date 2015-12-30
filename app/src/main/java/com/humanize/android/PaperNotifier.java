@@ -1,19 +1,11 @@
 package com.humanize.android;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.humanize.android.activity.PaperActivity;
-import com.humanize.android.content.data.Content;
-import com.humanize.android.util.ApplicationState;
-import com.humanize.android.util.HttpUtil;
-
-import org.json.JSONObject;
-
-import java.util.ArrayList;
+import com.humanize.android.utils.HttpUtil;
 
 public class PaperNotifier extends Activity {
 

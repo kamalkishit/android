@@ -1,6 +1,5 @@
 package com.humanize.android.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -11,34 +10,25 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.humanize.android.ContentRecyclerViewAdapter;
 import com.humanize.android.JsonParser;
 import com.humanize.android.R;
 import com.humanize.android.UserService;
-import com.humanize.android.common.Constants;
-import com.humanize.android.common.StringConstants;
-import com.humanize.android.content.data.Content;
-import com.humanize.android.content.data.Contents;
+import com.humanize.android.utils.Constants;
+import com.humanize.android.utils.StringConstants;
+import com.humanize.android.data.Contents;
 import com.humanize.android.service.SharedPreferencesService;
-import com.humanize.android.util.ApplicationState;
-import com.humanize.android.util.Config;
-import com.humanize.android.util.HttpUtil;
+import com.humanize.android.utils.Config;
+import com.humanize.android.utils.HttpUtil;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
-import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

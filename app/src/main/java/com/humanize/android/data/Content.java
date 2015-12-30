@@ -1,4 +1,4 @@
-package com.humanize.android.content.data;
+package com.humanize.android.data;
 
 import java.util.ArrayList;
 
