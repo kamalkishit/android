@@ -1,29 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/spinnerItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorWhite"
-    android:foreground="?attr/selectableItemBackground"
     android:orientation="horizontal"
     android:paddingRight="@dimen/largeMargin">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
-        android:paddingBottom="@dimen/smallMargin"
-        android:paddingLeft="@dimen/mediumMargin"
-        android:src="@drawable/ic_sports_green" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/smallMargin"
-        android:paddingLeft="@dimen/mediumMargin"
-        android:paddingTop="@dimen/smallMargin"
-        android:text="text"
-        android:textColor="@color/colorAccent"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:background="?attr/selectableItemBackground"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:paddingBottom="4dp"
+            android:paddingLeft="@dimen/mediumMargin"
+            android:src="@drawable/ic_sports_green" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:paddingLeft="@dimen/mediumMargin"
+            android:paddingTop="8dp"
+            android:text="text"
+            android:textColor="@color/colorAccent"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+    </LinearLayout>
 </LinearLayout>
