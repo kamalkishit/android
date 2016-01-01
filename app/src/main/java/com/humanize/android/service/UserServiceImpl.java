@@ -1,4 +1,4 @@
-package com.humanize.android;
+package com.humanize.android.service;
 
 import android.util.Log;
 
@@ -16,28 +16,28 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Created by Kamal on 9/13/15.
+ * Created by kamal on 1/1/16.
  */
-public class UserService {
+public class UserServiceImpl implements UserService {
 
     private User user;
     private ContentService contentService;
 
-    private static String TAG = UserService.class.getSimpleName();
+    private static String TAG = UserServiceImpl.class.getSimpleName();
 
-    public UserService() {
+    public UserServiceImpl() {
         user = ApplicationState.getUser();
-        contentService = new ContentService();
+        contentService = new ContentServiceImpl();
     }
 
     public void recommend(Content content) {
         if (user.getRecommended().contains(content.getId())) {
             user.getRecommended().remove(content.getId());
-            unrecommendContent(content.getId());
+            unrecommendContent(content);
             contentService.decrRecommendedCount(content);
         } else {
             user.getRecommended().add(0, content.getId());
-            recommendContent(content.getId());
+            recommendContent(content);
             contentService.incrRecommendedCount(content);
         }
     }
@@ -45,30 +45,36 @@ public class UserService {
     public void recommend(String contentId) {
         if (user.getRecommended().contains(contentId)) {
             user.getRecommended().remove(contentId);
-            unrecommendContent(contentId);
         } else {
             user.getRecommended().add(0, contentId);
-            recommendContent(contentId);
+        }
+    }
+
+    private void undoRecommend(Content content) {
+        if (user.getRecommended().contains(content.getId())) {
+            user.getRecommended().remove(content.getId());
+            content.setRecommendedCount(content.getRecommendedCount() - 1);
+        } else {
+            user.getRecommended().add(0, content.getId());
+            content.setRecommendedCount(content.getRecommendedCount() + 1);
         }
     }
 
     public void bookmark(Content content) {
         if (user.getBookmarked().contains(content.getId())) {
             user.getBookmarked().remove(content.getId());
-            unbookmarkContent(content.getId());
+            unbookmarkContent(content);
         } else {
             user.getBookmarked().add(0, content.getId());
-            bookmarkContent(content.getId());
+            bookmarkContent(content);
         }
     }
 
     public void bookmark(String contentId) {
         if (user.getBookmarked().contains(contentId)) {
             user.getBookmarked().remove(contentId);
-            unbookmarkContent(contentId);
         } else {
             user.getBookmarked().add(0, contentId);
-            bookmarkContent(contentId);
         }
     }
 
@@ -156,32 +162,39 @@ public class UserService {
         return user.getRecommended().contains(contentId);
     }
 
-    private void recommendContent(String contentId) {
-        HttpUtil.getInstance().recommendContentForUser(Config.USER_CONTENT_RECOMMEND_URL, user.getId(), contentId, true, new RecommendContentCallback());
+    private void recommendContent(Content content) {
+        HttpUtil.getInstance().recommendContentForUser(Config.USER_CONTENT_RECOMMEND_URL, user.getId(), content.getId(), true, new RecommendContentCallback(content));
     }
 
-    private void unrecommendContent(String contentId) {
-        HttpUtil.getInstance().recommendContentForUser(Config.USER_CONTENT_RECOMMEND_URL, user.getId(), contentId, false, new RecommendContentCallback());
+    private void unrecommendContent(Content content) {
+        HttpUtil.getInstance().recommendContentForUser(Config.USER_CONTENT_RECOMMEND_URL, user.getId(), content.getId(), false, new RecommendContentCallback(content));
     }
 
-    private void bookmarkContent(String contentId) {
-        HttpUtil.getInstance().bookmarkContentForUser(Config.USER_CONTENT_BOOKMARK_URL, user.getId(), contentId, true, new BookmarkContentCallback());
+    private void bookmarkContent(Content content) {
+        HttpUtil.getInstance().bookmarkContentForUser(Config.USER_CONTENT_BOOKMARK_URL, user.getId(), content.getId(), true, new BookmarkContentCallback(content));
     }
 
-    private void unbookmarkContent(String contentId) {
-        HttpUtil.getInstance().bookmarkContentForUser(Config.USER_CONTENT_BOOKMARK_URL, user.getId(), contentId, false, new BookmarkContentCallback());
+    private void unbookmarkContent(Content content) {
+        HttpUtil.getInstance().bookmarkContentForUser(Config.USER_CONTENT_BOOKMARK_URL, user.getId(), content.getId(), false, new BookmarkContentCallback(content));
     }
 
     private class RecommendContentCallback implements Callback {
 
+        private Content content;
+
+        public RecommendContentCallback(Content content) {
+            this.content = content;
+        }
         @Override
         public void onFailure(Request request, IOException exception) {
+            undoRecommend(content);
             Log.e(TAG, exception.toString());
         }
 
         @Override
         public void onResponse(final Response response) throws IOException {
             if (!response.isSuccessful()) {
+                undoRecommend(content);
             } else {
             }
         }
@@ -189,16 +202,25 @@ public class UserService {
 
     private class BookmarkContentCallback implements Callback {
 
+        private Content content;
+
+        public BookmarkContentCallback(Content content) {
+            this.content = content;
+        }
+
         @Override
         public void onFailure(Request request, IOException exception) {
+            bookmark(content.getId());
             Log.e(TAG, exception.toString());
         }
 
         @Override
         public void onResponse(final Response response) throws IOException {
             if (!response.isSuccessful()) {
+                bookmark(content.getId());
             } else {
             }
         }
     }
 }
+

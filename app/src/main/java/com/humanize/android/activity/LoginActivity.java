@@ -28,6 +28,7 @@ import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.LoginUser;
 import com.humanize.android.data.User;
 import com.humanize.android.helper.ActivityLauncher;
+import com.humanize.android.service.JsonParserImpl;
 import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
@@ -51,8 +52,10 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.registerLink) TextView registerLink;
 
     private ProgressDialog progressDialog;
-    private boolean doubleBackToExitPressedOnce;
     private ActivityLauncher activityLauncher;
+    private JsonParser jsonParser;
+    private boolean doubleBackToExitPressedOnce;
+
 
     private static final String TAG = LoginActivity.class.getSimpleName();
 
@@ -88,10 +91,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-        password.setTypeface(Typeface.DEFAULT);
-        password.setTransformationMethod(new PasswordTransformationMethod());
         progressDialog = new ProgressDialog(this);
         activityLauncher = new ActivityLauncher();
+        jsonParser = new JsonParserImpl();
+
+        password.setTypeface(Typeface.DEFAULT);
+        password.setTransformationMethod(new PasswordTransformationMethod());
         doubleBackToExitPressedOnce = false;
         forgotPasswordLink.setText(Html.fromHtml(StringConstants.FORGOT_PASSWORD_STR));
         registerLink.setText(Html.fromHtml(StringConstants.REGISTER_STR));
@@ -158,7 +163,7 @@ public class LoginActivity extends AppCompatActivity {
             loginUser.setPassword(password.getText().toString());
 
             try {
-                HttpUtil.getInstance().login(Config.USER_LOGIN_URL, new JsonParser().toJson(loginUser), new LoginCallback());
+                HttpUtil.getInstance().login(Config.USER_LOGIN_URL, jsonParser.toJson(loginUser), new LoginCallback());
             } catch (Exception exception) {
 
             }
@@ -188,7 +193,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginSuccess(String response) {
         try {
-            User user = new JsonParser().fromJson(response, User.class);
+            User user = jsonParser.fromJson(response, User.class);
 
             if (user != null) {
                 ApplicationState.setUser(user);

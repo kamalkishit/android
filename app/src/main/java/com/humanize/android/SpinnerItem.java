@@ -5,8 +5,8 @@ package com.humanize.android;
  */
 public class SpinnerItem {
 
-    String text;
-    Integer imageId;
+    private String text;
+    private Integer imageId;
 
     public SpinnerItem(String text, Integer imageId) {
         this.text = text;

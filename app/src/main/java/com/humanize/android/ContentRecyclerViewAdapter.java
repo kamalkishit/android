@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,10 +17,14 @@ import android.widget.TextView;
 
 import com.humanize.android.activity.WebBrowserActivity;
 import com.humanize.android.common.Constants;
-import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.Content;
 import com.humanize.android.data.Contents;
+import com.humanize.android.service.ContentService;
+import com.humanize.android.service.ContentServiceImpl;
+import com.humanize.android.service.JsonParserImpl;
 import com.humanize.android.service.SharedPreferencesService;
+import com.humanize.android.service.UserService;
+import com.humanize.android.service.UserServiceImpl;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
@@ -46,7 +49,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
 
     public ContentRecyclerViewAdapter(List<Content> contents) {
         this.contents = contents;
-        userService = new UserService();
+        userService = new UserServiceImpl();
     }
 
     public List<Content> getContents() {
@@ -102,6 +105,8 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         updateBookmarkButton(viewHolder);
 
         Picasso.with(ApplicationState.getAppContext()).load(content.getOriginalImageURL()).placeholder(R.drawable.background)
+        //System.out.println(Config.IMAGES_URL + "?imageName=" + content.getImageURL());
+        //Picasso.with(ApplicationState.getAppContext()).load(Config.IMAGES_URL + content.getImageURL())
                 .fit().into(viewHolder.contentImage);
     }
 
@@ -151,8 +156,8 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         public ContentViewHolder(View view) {
             super(view);
             this.shareableContentView = view;
-            userService = new UserService();
-            contentService = new ContentService();
+            userService = new UserServiceImpl();
+            contentService = new ContentServiceImpl();
             contentCategory = (TextView) view.findViewById(R.id.contentCategory);
             contentSource = (TextView) view.findViewById(R.id.contentSource);
             contentTitle = (TextView) view.findViewById(R.id.contentTitle);
@@ -232,11 +237,11 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             updateRecommendedCount();
             updateRecommendedJson(content);
 
-            if (userService.isRecommended(content.getId())) {
+            /*if (userService.isRecommended(content.getId())) {
                 Snackbar.make(view, "Recommended", 1000).show();
             } else {
                 Snackbar.make(view, "Recommendation removed", Snackbar.LENGTH_SHORT).show();
-            }
+            }*/
 
             ContentRecyclerViewAdapter.this.notifyDataSetChanged();
         }
@@ -246,11 +251,11 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             updateBookmarkButton();
             updateBookmarksJson(content);
 
-            if (userService.isBookmarked(content.getId())) {
+            /*if (userService.isBookmarked(content.getId())) {
                 Snackbar.make(view, "Bookmarked", Snackbar.LENGTH_SHORT).setDuration(1000).show();
             } else {
                 Snackbar.make(view, "Bookmark removed", Snackbar.LENGTH_SHORT).show();
-            }
+            }*/
 
             ContentRecyclerViewAdapter.this.notifyDataSetChanged();
         }
@@ -274,7 +279,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         private void updateJson(String jsonKey, Content content, boolean add) {
             try {
                 String json = SharedPreferencesService.getInstance().getString(jsonKey);
-                Contents contents = new JsonParser().fromJson(json, Contents.class);
+                Contents contents = new JsonParserImpl().fromJson(json, Contents.class);
 
                 if (add) {
                     contents.addContent(content);
@@ -282,7 +287,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
                     contents.removeContent(content);
                 }
 
-                json = new JsonParser().toJson(contents);
+                json = new JsonParserImpl().toJson(contents);
                 SharedPreferencesService.getInstance().putString(jsonKey, json);
             } catch (Exception exception) {
 
@@ -306,9 +311,11 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         }
 
         private void share() {
-            contentService.incrSharedCount(content.getId());
+            contentService.incrSharedCount(content);
             shareableContentView.setDrawingCacheEnabled(true);
-            Bitmap bitmap = Bitmap.createBitmap(shareableContentView.getDrawingCache());
+            contentImage.setDrawingCacheEnabled(true);
+            //Bitmap bitmap = Bitmap.createBitmap(shareableContentView.getDrawingCache());
+            Bitmap bitmap = Bitmap.createBitmap(contentImage.getDrawingCache());
             shareableContentView.setDrawingCacheEnabled(false);
 
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -317,7 +324,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             Uri imageUri = Uri.parse(path);
 
             content.setSharedCount(content.getSharedCount() + 1);
-            updateSharedCount();
+            //updateSharedCount();
             updateContent(content);
 
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
@@ -325,7 +332,8 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
             shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
-            shareIntent.putExtra(Intent.EXTRA_TEXT, contents.get(getAdapterPosition()).getUrl());
+            shareIntent.putExtra(Intent.EXTRA_TEXT, content.getTitle());
+            //shareIntent.putExtra(Intent.EXTRA_TEXT, contents.get(getAdapterPosition()).getUrl());
             ApplicationState.getAppContext().startActivity(shareIntent);
         }
 
@@ -343,7 +351,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
 
         private void updateContent(Content content) {
             try {
-                HttpUtil.getInstance().updateUser(Config.USER_UPDATE_URL, new JsonParser().toJson(content), new UpdateContentCallback());
+                HttpUtil.getInstance().updateUser(Config.USER_UPDATE_URL, new JsonParserImpl().toJson(content), new UpdateContentCallback());
             } catch (Exception exception) {
                 exception.printStackTrace();
             }

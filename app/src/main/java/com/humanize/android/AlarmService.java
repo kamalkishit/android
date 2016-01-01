@@ -10,6 +10,7 @@ import android.os.IBinder;
 import com.humanize.android.activity.PaperLauncherActivity;
 
 public class AlarmService extends Service {
+
     private NotificationManager notificationManager;
 
     @Override

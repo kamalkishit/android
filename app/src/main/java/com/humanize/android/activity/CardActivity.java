@@ -19,15 +19,18 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.humanize.android.ContentRecyclerViewAdapter;
-import com.humanize.android.ContentService;
+import com.humanize.android.service.ContentService;
 import com.humanize.android.FragmentDrawer;
 import com.humanize.android.JsonParser;
 import com.humanize.android.R;
-import com.humanize.android.UserService;
+import com.humanize.android.service.JsonParserImpl;
+import com.humanize.android.service.UserService;
 import com.humanize.android.common.Constants;
 import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.Contents;
+import com.humanize.android.service.ContentServiceImpl;
 import com.humanize.android.service.SharedPreferencesService;
+import com.humanize.android.service.UserServiceImpl;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
 import com.squareup.okhttp.Callback;
@@ -51,6 +54,7 @@ public class CardActivity extends AppCompatActivity {
 
     private ContentService contentService;
     private UserService userService;
+    private JsonParser jsonParser;
     private FragmentDrawer fragmentDrawer;
     private ContentRecyclerViewAdapter contentRecyclerViewAdapter;
     private LinearLayoutManager linearLayoutManager;
@@ -92,8 +96,9 @@ public class CardActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-        contentService = new ContentService();
-        userService = new UserService();
+        contentService = new ContentServiceImpl();
+        userService = new UserServiceImpl();
+        jsonParser = new JsonParserImpl();
         doubleBackToExitPressedOnce = false;
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
 
@@ -114,7 +119,7 @@ public class CardActivity extends AppCompatActivity {
 
         try {
             if (SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS) != null) {
-                CardActivity.contents = new JsonParser().fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS), Contents.class);
+                CardActivity.contents = jsonParser.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS), Contents.class);
                 contentRecyclerViewAdapter.setContents(CardActivity.contents.getContents());
                 contentRecyclerViewAdapter.notifyDataSetChanged();
             } else {
@@ -232,7 +237,7 @@ public class CardActivity extends AppCompatActivity {
     private void success(View view, String response) {
         System.out.println(response);
         try {
-            Contents contents = new JsonParser().fromJson(response, Contents.class);
+            Contents contents = jsonParser.fromJson(response, Contents.class);
             SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, response);
             CardActivity.contents = contents;
             contentRecyclerViewAdapter.setContents(CardActivity.contents.getContents());
@@ -296,13 +301,13 @@ public class CardActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            Contents contents = new JsonParser().fromJson(responseStr, Contents.class);
+                            Contents contents = jsonParser.fromJson(responseStr, Contents.class);
 
                             if (contents != null) {
                                 contentRecyclerViewAdapter.getContents().addAll(contents.getContents());
                                 contentRecyclerViewAdapter.notifyDataSetChanged();
                                 try {
-                                    SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, new JsonParser().toJson(new Contents(contentRecyclerViewAdapter.getContents())));
+                                    SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, jsonParser.toJson(new Contents(contentRecyclerViewAdapter.getContents())));
                                 } catch (Exception exception) {
                                     Log.e(TAG, exception.toString());
                                 }
@@ -343,7 +348,7 @@ public class CardActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            Contents contents = new JsonParser().fromJson(responseStr, Contents.class);
+                            Contents contents = jsonParser.fromJson(responseStr, Contents.class);
 
                             if (contents != null && contents.getContents().size() >= Constants.DEFAULT_CONTENTS_SIZE) {
                                 contentRecyclerViewAdapter.setContents(contents.getContents());
@@ -354,7 +359,7 @@ public class CardActivity extends AppCompatActivity {
                             contentRecyclerViewAdapter.notifyDataSetChanged();
 
                             try {
-                                SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, new JsonParser().toJson(new Contents(contentRecyclerViewAdapter.getContents())));
+                                SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, jsonParser.toJson(new Contents(contentRecyclerViewAdapter.getContents())));
                             } catch (Exception exception) {
                                 Log.e(TAG, exception.toString());
                             }

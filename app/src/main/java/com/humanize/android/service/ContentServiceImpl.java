@@ -1,4 +1,4 @@
-package com.humanize.android;
+package com.humanize.android.service;
 
 import android.util.Log;
 
@@ -12,13 +12,13 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 
 /**
- * Created by Kamal on 9/15/15.
+ * Created by kamal on 1/1/16.
  */
-public class ContentService {
+public class ContentServiceImpl implements ContentService {
 
-    private static String TAG = ContentService.class.getSimpleName();
+    private static String TAG = ContentServiceImpl.class.getSimpleName();
 
-    public ContentService() {
+    public ContentServiceImpl() {
     }
 
     public void incrRecommendedCount(Content content) {
@@ -53,7 +53,7 @@ public class ContentService {
         HttpUtil.getInstance().incrViewCount(Config.INCR_VIEW_COUNT, contentId, new IncrViewCountCallback());
     }
 
-    public void incrSharedCount(String contentId) {
+    private void incrSharedCount(String contentId) {
         HttpUtil.getInstance().incrViewCount(Config.INCR_SHARED_COUNT, contentId, new IncrSharedCountCallback());
     }
 

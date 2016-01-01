@@ -28,6 +28,7 @@ import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.SignupUser;
 import com.humanize.android.data.User;
 import com.humanize.android.helper.ActivityLauncher;
+import com.humanize.android.service.JsonParserImpl;
 import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
@@ -50,7 +51,8 @@ public class SignupActivity extends AppCompatActivity {
     @Bind(R.id.submitButton) Button submitButton;
     @Bind(R.id.invitationCodeLink) TextView invitationCodeLink;
 
-    ActivityLauncher activityLauncher;
+    private ActivityLauncher activityLauncher;
+    private JsonParser jsonParser;
     private ProgressDialog progressDialog;
 
     private static final String TAG = SignupActivity.class.getSimpleName();
@@ -68,6 +70,7 @@ public class SignupActivity extends AppCompatActivity {
 
     private void initialize() {
         activityLauncher = new ActivityLauncher();
+        jsonParser = new JsonParserImpl();
         Uri uri = getIntent().getData();
         if (uri != null) {
             String path = uri.getPath();
@@ -181,7 +184,7 @@ public class SignupActivity extends AppCompatActivity {
             signupUser.setInvitationCode(invitationCode.getText().toString());
 
             try {
-                HttpUtil.getInstance().signup(Config.USER_SIGNUP_URL, new JsonParser().toJson(signupUser), new SignupCallback());
+                HttpUtil.getInstance().signup(Config.USER_SIGNUP_URL, jsonParser.toJson(signupUser), new SignupCallback());
             } catch (Exception exception) {
                 Log.e(TAG, exception.toString());
             }
@@ -190,7 +193,7 @@ public class SignupActivity extends AppCompatActivity {
 
     private void signupSuccess(String response) {
         try {
-            User user = new JsonParser().fromJson(response, User.class);
+            User user = jsonParser.fromJson(response, User.class);
 
             if (user != null) {
                 ApplicationState.setUser(user);

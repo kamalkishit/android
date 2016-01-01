@@ -39,6 +39,7 @@ import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.Content;
 import com.humanize.android.data.Contents;
 import com.humanize.android.helper.ActivityLauncher;
+import com.humanize.android.service.JsonParserImpl;
 import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
@@ -66,6 +67,7 @@ public class SubmitActivity extends AppCompatActivity {
     //@Bind(R.id.subCategoriesSpinner) Spinner subCategoriesSpinner;
     @Bind(R.id.isVerified) CheckBox isVerified;
 
+    private JsonParser jsonParser;
     private Content content;
     private SpinnerAdapter spinnerAdapter;
 
@@ -83,6 +85,7 @@ public class SubmitActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        jsonParser = new JsonParserImpl();
         content = new Content();
 
         toolbarText.setText(StringConstants.SUBMIT_ARTICLE);
@@ -181,7 +184,7 @@ public class SubmitActivity extends AppCompatActivity {
             content.setUrl(contentURL.getText().toString());
 
             try {
-                HttpUtil.getInstance().submit(Config.CONTENT_CREATE_URL, new JsonParser().toJson(content), new CreateContentCallback());
+                HttpUtil.getInstance().submit(Config.CONTENT_CREATE_URL, jsonParser.toJson(content), new CreateContentCallback());
             } catch (Exception exception) {
                 Log.e(TAG, exception.toString());
                 Snackbar.make(view, StringConstants.FAILURE_STR, Snackbar.LENGTH_SHORT).show();
@@ -315,13 +318,13 @@ public class SubmitActivity extends AppCompatActivity {
                     public void run() {
                         try {
                             Snackbar.make(relativeLayout, StringConstants.SUCCESS_STR, Snackbar.LENGTH_LONG).show();
-                            Contents contents = new JsonParser().fromJson(responseStr, Contents.class);
+                            Contents contents = jsonParser.fromJson(responseStr, Contents.class);
 
                             if (contents != null && contents.getContents().size() >= Constants.DEFAULT_CONTENTS_SIZE) {
                                 CardActivity.contents = contents;
                             } else if (contents != null) {
                                 String json = SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS);
-                                Contents origContents = new JsonParser().fromJson(json, Contents.class);
+                                Contents origContents = jsonParser.fromJson(json, Contents.class);
                                 origContents.getContents().addAll(0, contents.getContents());
                                 CardActivity.contents = origContents;
                             }

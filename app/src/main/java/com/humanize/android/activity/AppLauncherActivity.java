@@ -19,6 +19,7 @@ import com.humanize.android.common.Constants;
 import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.User;
 import com.humanize.android.helper.ActivityLauncher;
+import com.humanize.android.service.JsonParserImpl;
 import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
@@ -37,7 +38,8 @@ public class AppLauncherActivity extends AppCompatActivity {
 
     @Bind(R.id.relativeLayout) RelativeLayout relativeLayout;
 
-    ActivityLauncher activityLauncher;
+    private JsonParser jsonParser;
+    private ActivityLauncher activityLauncher;
 
     private static final String TAG = AppLauncherActivity.class.getSimpleName();
 
@@ -55,18 +57,21 @@ public class AppLauncherActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        jsonParser = new JsonParserImpl();
         activityLauncher = new ActivityLauncher();
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
 
     private void startNextActivity() {
         boolean isLoggedIn = SharedPreferencesService.getInstance().getBoolean(Config.IS_LOGGED_IN);
 
-        if (isLoggedIn && ApplicationState.getUser() != null) {
+        if (isLoggedIn && ApplicationState.getUser() != null && ApplicationState.getUser().getIsConfigured()) {
             startCardActivity();
-        } else if (isLoggedIn){
+        } else if (isLoggedIn && ApplicationState.getUser() != null && !ApplicationState.getUser().getIsConfigured()) {
+            startSelectCategoriesActivity();
+        }else if (isLoggedIn && ApplicationState.getUser() == null){
             getUserdata();
-        } else {
+        } else if (!isLoggedIn){
             startLoginActivity();
         }
     }
@@ -75,6 +80,15 @@ public class AppLauncherActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             public void run() {
                 activityLauncher.startLoginActivity();
+                finish();
+            }
+        }, Constants.SPLASH_SCREEN_DELAY_TIME);
+    }
+
+    private void startSelectCategoriesActivity() {
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                activityLauncher.startSelectCategoriesActivity();
                 finish();
             }
         }, Constants.SPLASH_SCREEN_DELAY_TIME);
@@ -114,7 +128,7 @@ public class AppLauncherActivity extends AppCompatActivity {
 
     public void onDestroy() {
         try {
-            SharedPreferencesService.getInstance().putString(Config.JSON_USER_DATA, new JsonParser().toJson(ApplicationState.getUser()));
+            SharedPreferencesService.getInstance().putString(Config.JSON_USER_DATA, jsonParser.toJson(ApplicationState.getUser()));
         } catch (Exception exception) {
 
         }
@@ -149,7 +163,7 @@ public class AppLauncherActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            ApplicationState.setUser(new JsonParser().fromJson(responseStr, User.class));
+                            ApplicationState.setUser(jsonParser.fromJson(responseStr, User.class));
                             startCardActivity();
                         } catch (Exception exception) {
                             exception.printStackTrace();

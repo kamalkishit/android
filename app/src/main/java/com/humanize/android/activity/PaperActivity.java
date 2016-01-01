@@ -30,10 +30,10 @@ import butterknife.ButterKnife;
 
 public class PaperActivity extends AppCompatActivity {
 
+    @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbarText) TextView toolbarText;
     @Bind(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.recyclerView) RecyclerView recyclerView;
-    @Bind(R.id.toolbar) Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

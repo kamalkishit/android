@@ -92,7 +92,7 @@ public class HttpUtil {
     }
 
     public void getRecommendedContents(String url, List<String> recommendationsIds, Callback callback) {
-        url += "?recommendationsIds=";
+        url += "?recommendationIds=";
 
         for (String bookmarkId: recommendationsIds) {
             url += bookmarkId + ",";

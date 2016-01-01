@@ -12,6 +12,7 @@ import com.humanize.android.activity.CardActivity;
 import com.humanize.android.common.Constants;
 import com.humanize.android.data.Contents;
 import com.humanize.android.data.User;
+import com.humanize.android.service.JsonParserImpl;
 import com.humanize.android.service.SharedPreferencesService;
 
 import com.squareup.picasso.OkHttpDownloader;
@@ -58,7 +59,7 @@ public class ApplicationState extends Application{
         Config.IMAGE_WIDTH = imageWidth;
         Config.IMAGE_HEIGHT = imageHeight;
 
-        JsonParser jsonParser = new JsonParser();
+        JsonParser jsonParser = new JsonParserImpl();
 
         try {
             if (SharedPreferencesService.getInstance().getString(Config.JSON_USER_DATA) != null) {

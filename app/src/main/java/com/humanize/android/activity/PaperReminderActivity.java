@@ -27,8 +27,7 @@ import butterknife.ButterKnife;
 public class PaperReminderActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.toolbarText)
-    TextView toolbarText;
+    @Bind(R.id.toolbarText) TextView toolbarText;
     @Bind(R.id.doneButton) Button doneButton;
     @Bind(R.id.timePicker) TimePicker timePicker;
 

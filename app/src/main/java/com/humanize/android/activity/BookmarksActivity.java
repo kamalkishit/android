@@ -18,11 +18,13 @@ import android.widget.TextView;
 import com.humanize.android.ContentRecyclerViewAdapter;
 import com.humanize.android.JsonParser;
 import com.humanize.android.R;
-import com.humanize.android.UserService;
+import com.humanize.android.service.JsonParserImpl;
+import com.humanize.android.service.UserService;
 import com.humanize.android.common.Constants;
 import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.Contents;
 import com.humanize.android.service.SharedPreferencesService;
+import com.humanize.android.service.UserServiceImpl;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
 import com.squareup.okhttp.Callback;
@@ -44,6 +46,7 @@ public class BookmarksActivity extends AppCompatActivity {
     @Bind(R.id.toolbarText) TextView toolbarText;
 
     private UserService userService;
+    private JsonParser jsonParser;
     private ContentRecyclerViewAdapter contentRecyclerViewAdapter;
 
     private static String TAG = BookmarksActivity.class.getSimpleName();
@@ -60,7 +63,8 @@ public class BookmarksActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-        userService = new UserService();
+        userService = new UserServiceImpl();
+        jsonParser = new JsonParserImpl();
         toolbarText.setText(StringConstants.BOOKMARKED_ARTICLES);
 
         toolbar.setCollapsible(true);
@@ -81,7 +85,7 @@ public class BookmarksActivity extends AppCompatActivity {
 
         try {
             if (SharedPreferencesService.getInstance().getString(Config.JSON_BOOKMARKED_CONTENTS) != null) {
-                BookmarksActivity.contents = new JsonParser().fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_BOOKMARKED_CONTENTS), Contents.class);
+                BookmarksActivity.contents = jsonParser.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_BOOKMARKED_CONTENTS), Contents.class);
                 contentRecyclerViewAdapter.setContents(BookmarksActivity.contents.getContents());
                 contentRecyclerViewAdapter.notifyDataSetChanged();
             } else {
@@ -154,7 +158,7 @@ public class BookmarksActivity extends AppCompatActivity {
 
     private void bookmarkSuccess(View view, String response) {
         try {
-            Contents contents = new JsonParser().fromJson(response, Contents.class);
+            Contents contents = jsonParser.fromJson(response, Contents.class);
             SharedPreferencesService.getInstance().putString(Config.JSON_BOOKMARKED_CONTENTS, response);
             BookmarksActivity.contents = contents;
             contentRecyclerViewAdapter.setContents(BookmarksActivity.contents.getContents());
@@ -229,7 +233,7 @@ public class BookmarksActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            Contents contents = new JsonParser().fromJson(responseStr, Contents.class);
+                            Contents contents = jsonParser.fromJson(responseStr, Contents.class);
 
                             if (contents != null && contents.getContents().size() >= Constants.DEFAULT_CONTENTS_SIZE) {
                                 contentRecyclerViewAdapter.setContents(contents.getContents());
@@ -239,7 +243,7 @@ public class BookmarksActivity extends AppCompatActivity {
 
                             contentRecyclerViewAdapter.notifyDataSetChanged();
 
-                            SharedPreferencesService.getInstance().putString(Config.JSON_BOOKMARKED_CONTENTS, new JsonParser().toJson(new Contents(contentRecyclerViewAdapter.getContents())));
+                            SharedPreferencesService.getInstance().putString(Config.JSON_BOOKMARKED_CONTENTS, jsonParser.toJson(new Contents(contentRecyclerViewAdapter.getContents())));
                         } catch (Exception exception) {
                             Log.e(TAG, exception.toString());
                         } finally {
@@ -277,7 +281,7 @@ public class BookmarksActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            Contents contents = new JsonParser().fromJson(responseStr, Contents.class);
+                            Contents contents = jsonParser.fromJson(responseStr, Contents.class);
 
                             if (contents != null && contents.getContents().size() >= Constants.DEFAULT_CONTENTS_SIZE) {
                                 contentRecyclerViewAdapter.setContents(contents.getContents());
@@ -287,7 +291,7 @@ public class BookmarksActivity extends AppCompatActivity {
 
                             contentRecyclerViewAdapter.notifyDataSetChanged();
 
-                            SharedPreferencesService.getInstance().putString(Config.JSON_BOOKMARKED_CONTENTS, new JsonParser().toJson(new Contents(contentRecyclerViewAdapter.getContents())));
+                            SharedPreferencesService.getInstance().putString(Config.JSON_BOOKMARKED_CONTENTS, jsonParser.toJson(new Contents(contentRecyclerViewAdapter.getContents())));
 
                         } catch (Exception exception) {
                             Log.e(TAG, exception.toString());

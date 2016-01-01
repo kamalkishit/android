@@ -8,10 +8,12 @@ import android.view.MenuItem;
 
 import com.humanize.android.R;
 
+import butterknife.Bind;
+
 
 public class SearchActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
+    @Bind(R.id.toolbar) Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -27,6 +27,7 @@ import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.ResetPasswordUser;
 import com.humanize.android.data.User;
 import com.humanize.android.helper.ActivityLauncher;
+import com.humanize.android.service.JsonParserImpl;
 import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
@@ -42,18 +43,20 @@ import butterknife.ButterKnife;
 
 public class ResetPasswordActivity extends AppCompatActivity {
 
-    private static final String TAG = ResetPasswordActivity.class.getSimpleName();
     @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
     @Bind(R.id.emailId) EditText emailId;
     @Bind(R.id.tempPassword) EditText tempPassword;
     @Bind(R.id.newPassword) EditText newPassword;
     @Bind(R.id.submitButton) Button submitButton;
 
-    ActivityLauncher activityLauncher;
-    String emailIdStr;
-    String tempPasswordStr;
-    String newPasswordStr;
+    private ActivityLauncher activityLauncher;
+    private JsonParser jsonParser;
+    private String emailIdStr;
+    private String tempPasswordStr;
+    private String newPasswordStr;
     private ProgressDialog progressDialog;
+
+    private static final String TAG = ResetPasswordActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
     private void initialize() {
         progressDialog = new ProgressDialog(this);
+        jsonParser = new JsonParserImpl();
         Uri uri = getIntent().getData();
         String path = uri.getPath();
         emailId.setText(uri.getQueryParameter("emailId"));
@@ -156,7 +160,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
             resetPasswordUser.setNewPassword(newPasswordStr);
 
             try {
-                HttpUtil.getInstance().resetPassword(Config.USER_RESET_PASSWORD_URL, new JsonParser().toJson(resetPasswordUser), new ResetPasswordCallback());
+                HttpUtil.getInstance().resetPassword(Config.USER_RESET_PASSWORD_URL, jsonParser.toJson(resetPasswordUser), new ResetPasswordCallback());
             } catch (Exception exception) {
                 Log.e(TAG, exception.toString());
             }
@@ -194,7 +198,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
     private void resetPasswordSuccess(String response) {
         try {
-            User user = new JsonParser().fromJson(response, User.class);
+            User user = jsonParser.fromJson(response, User.class);
 
             if (user != null) {
                 ApplicationState.setUser(user);

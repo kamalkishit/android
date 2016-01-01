@@ -36,6 +36,7 @@ import com.humanize.android.R;
 import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.User;
 import com.humanize.android.helper.ActivityLauncher;
+import com.humanize.android.service.JsonParserImpl;
 import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
@@ -58,7 +59,7 @@ import butterknife.ButterKnife;
 // Referenced classes of package com.humanize.android.activity:
 //            PaperReminderActivity
 
-public class SelectCategoriesActivity extends AppCompatActivity {
+public class  SelectCategoriesActivity extends AppCompatActivity {
 
     @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
     @Bind(R.id.selectAllCheckbox) CheckBox selectAllCheckbox;
@@ -66,6 +67,8 @@ public class SelectCategoriesActivity extends AppCompatActivity {
     @Bind(R.id.toolbarText) TextView toolbarText;
     @Bind(R.id.submitButton) Button submitButton;
 
+    private ActivityLauncher activityLauncher;
+    private JsonParser jsonParser;
     private Set<String> categories;
     private int selectedCategoriesCount;
 
@@ -82,8 +85,6 @@ public class SelectCategoriesActivity extends AppCompatActivity {
     private Category scienceAndTech;
     private Category sports;
 
-    private ActivityLauncher activityLauncher;
-
     private static final String TAG = SelectCategoriesActivity.class.getSimpleName();
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,9 +98,10 @@ public class SelectCategoriesActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        activityLauncher = new ActivityLauncher();
+        jsonParser = new JsonParserImpl();
         categories = new HashSet<>();
         selectedCategoriesCount = 0;
-        activityLauncher = new ActivityLauncher();
 
         toolbar.setCollapsible(true);
         setSupportActionBar(toolbar);
@@ -169,7 +171,7 @@ public class SelectCategoriesActivity extends AppCompatActivity {
                     ApplicationState.getUser().setIsConfigured(true);
 
                     try {
-                        String userdataJson = new JsonParser().toJson(ApplicationState.getUser());
+                        String userdataJson = jsonParser.toJson(ApplicationState.getUser());
                         System.out.println(Config.USER_UPDATE_URL);
                         System.out.println(userdataJson);
 
@@ -508,7 +510,7 @@ public class SelectCategoriesActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            User user = new JsonParser().fromJson(responseStr, User.class);
+                            User user = jsonParser.fromJson(responseStr, User.class);
                             ApplicationState.setUser(user);
                             //startPaperTimeSelectorActivity();
                             SharedPreferencesService.getInstance().delete(Config.JSON_CONTENTS);
