@@ -118,4 +118,5 @@
     <string name="title_activity_reset_password">ResetPasswordActivity</string>
     <string name="title_activity_edit_categories">EditCategoriesActivity</string>
     <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_single_category_content">SingleCategoryContent</string>
 </resources>

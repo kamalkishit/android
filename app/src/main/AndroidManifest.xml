@@ -13,7 +13,6 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Humanize">
-
         <activity
             android:name=".activity.AppLauncherActivity"
             android:label="Humanize"
@@ -36,42 +35,35 @@
             android:label="HUMANIZE"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
-
         <activity
             android:name=".activity.WebBrowserActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
-
         <activity
             android:name=".activity.PaperLauncherActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
-
         <activity
             android:name=".activity.PaperActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
-
         <activity
             android:name=".activity.SubmitActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
-
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
         <activity
             android:name=".activity.CameraActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
-
         <activity
             android:name=".activity.SearchActivity"
             android:noHistory="true"
@@ -84,40 +76,33 @@
 
         <activity
             android:name=".activity.RecommendationsActivity"
-            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
-
         <activity
             android:name=".activity.BookmarksActivity"
-            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
-
         <activity
             android:name=".activity.SelectCategoriesActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
-
         <activity
             android:name=".activity.PaperReminderActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
-
         <activity
             android:name=".activity.LoginActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme"
             android:windowSoftInputMode="stateVisible|adjustResize" />
-
         <activity
             android:name=".activity.SignupActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme" >
+            android:theme="@style/MaterialDesignTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -129,68 +114,61 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.ForgotPasswordActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
-
         <activity
             android:name=".activity.InvitationCodeActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
-
         <activity
             android:name=".activity.RecommendArticleActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
-
         <activity
             android:name=".activity.AboutUsActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
-
         <activity
             android:name=".activity.UsageActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
-
         <activity
             android:name=".activity.PrivacyActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
-
         <activity
             android:name=".activity.ContactUsActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
-
         <activity
             android:name=".activity.ResetPasswordActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme">
-        </activity>
-
+            android:theme="@style/MaterialDesignTheme"></activity>
         <activity
             android:name=".activity.EditCategoriesActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
-
         <activity
             android:name=".activity.SettingsActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme">
-        </activity>
+            android:theme="@style/MaterialDesignTheme"></activity>
+
+        <activity
+            android:name=".activity.SingleCategoryContent"
+            android:screenOrientation="portrait"
+            android:theme="@style/MaterialDesignTheme"></activity>
 
         <service
             android:name=".AlarmService"

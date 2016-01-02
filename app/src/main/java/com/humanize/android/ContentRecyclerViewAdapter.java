@@ -19,6 +19,7 @@ import com.humanize.android.activity.WebBrowserActivity;
 import com.humanize.android.common.Constants;
 import com.humanize.android.data.Content;
 import com.humanize.android.data.Contents;
+import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.service.ContentService;
 import com.humanize.android.service.ContentServiceImpl;
 import com.humanize.android.service.JsonParserImpl;
@@ -209,6 +210,13 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         }
 
         private void configureListeners() {
+            contentCategory.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    loadByCategory(contentCategory.getText().toString());
+                }
+            });
+
             recommendButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -229,6 +237,10 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
                     share();
                 }
             });
+        }
+
+        private void loadByCategory(String category) {
+            new ActivityLauncher().startSingleCategoryContentActivity(category);
         }
 
         private void recommend(View view) {

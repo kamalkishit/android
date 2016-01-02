@@ -3,6 +3,7 @@ package com.humanize.android.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,8 +11,10 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.humanize.android.R;
+import com.humanize.android.common.StringConstants;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
 
@@ -20,7 +23,9 @@ import butterknife.ButterKnife;
 
 public class WebBrowserActivity extends AppCompatActivity {
 
-    @Bind(R.id.progressBar) ProgressBar progressBar;
+    //@Bind(R.id.progressBar) ProgressBar progressBar;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.toolbarText) TextView toolbarText;
     @Bind(R.id.webView) WebView webView;
 
     @Override
@@ -35,7 +40,12 @@ public class WebBrowserActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-        progressBar.setProgress(0);
+        //progressBar.setProgress(0);
+
+        toolbar.setCollapsible(true);
+        toolbarText.setText("");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
         webView.setWebChromeClient(new MyWebChromeClient());
@@ -46,6 +56,25 @@ public class WebBrowserActivity extends AppCompatActivity {
 
     private void configureListeners() {
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_web_browser, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+
+        return super.onOptionsItemSelected(item);
     }
 
     private class MyWebChromeClient extends WebChromeClient {
@@ -69,6 +98,6 @@ public class WebBrowserActivity extends AppCompatActivity {
     }
 
     public void setValue(int progress) {
-        this.progressBar.setProgress(progress);
+        //this.progressBar.setProgress(progress);
     }
 }

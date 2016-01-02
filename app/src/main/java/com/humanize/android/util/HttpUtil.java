@@ -116,6 +116,33 @@ public class HttpUtil {
         get(url, callback);
     }
 
+    public void getContents(String category, Callback callback) {
+        String url = Config.CONTENT_FIND_URL + "?categories=" + category;
+
+        get(url, callback);
+    }
+
+    public void refreshContents(String createdDate, String category, Callback callback) {
+        String url = Config.CONTENT_FIND_URL + "?categories=" + category;
+
+        if (createdDate != null) {
+            url += "&createdDate=" + createdDate + "&refresh=" + true;
+        }
+
+        System.out.println(url);
+        get(url, callback);
+    }
+
+    public void getMoreContents(String createdDate, String category, Callback callback) {
+        String url = Config.CONTENT_FIND_URL + "?categories=" + category;
+
+        if (createdDate != null) {
+            url += "&createdDate=" + createdDate;
+        }
+
+        get(url, callback);
+    }
+
     public void refreshContents(String createdDate, Callback callback) {
         String url = Config.CONTENT_FIND_URL;
 
