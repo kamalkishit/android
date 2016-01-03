@@ -2,6 +2,9 @@ package com.humanize.android.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,13 +18,26 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.humanize.android.ContentRecyclerViewAdapter;
+import com.humanize.android.JsonParser;
 import com.humanize.android.R;
 import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.Content;
+import com.humanize.android.data.Contents;
+import com.humanize.android.helper.ActivityLauncher;
+import com.humanize.android.service.SharedPreferencesService;
+import com.humanize.android.service.UserService;
+import com.humanize.android.service.UserServiceImpl;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
+import com.humanize.android.util.HttpUtil;
+import com.humanize.android.util.JsonParserImpl;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,10 +46,18 @@ import butterknife.ButterKnife;
 
 public class PaperActivity extends AppCompatActivity {
 
+    public static Contents contents = null;
+
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbarText) TextView toolbarText;
     @Bind(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.recyclerView) RecyclerView recyclerView;
+
+    private UserService userService;
+    private JsonParser jsonParser;
+    private ContentRecyclerViewAdapter contentRecyclerViewAdapter;
+
+    private static String TAG = PaperActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,20 +71,24 @@ public class PaperActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-        recyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
-
-        PaperAdapter paperAdapter = new PaperAdapter();
-        recyclerView.setAdapter(paperAdapter);
+        userService = new UserServiceImpl();
+        jsonParser = new JsonParserImpl();
+        toolbarText.setText(StringConstants.PAPER);
 
         toolbar.setCollapsible(true);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
 
-        toolbarText.setText(StringConstants.PAPER);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(null);
+        recyclerView.setAdapter(contentRecyclerViewAdapter);
+
+        getPaper();
     }
 
     private void configureListeners() {
@@ -88,70 +116,63 @@ public class PaperActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
-            super.onBackPressed();
+            new ActivityLauncher().startCardActivity();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void refresh() {
+    private void getPaper()  {
+        HttpUtil.getInstance().getContents(new ContentCallback());
     }
 
-    public static class PaperAdapter extends RecyclerView.Adapter<PaperAdapter.ViewHolder> {
-        public static List<Content> contents = new ArrayList<>();
-        public static int currentItem = 0;
+    private void success(View view, String response) {
+        System.out.println(response);
+        try {
+            Contents contents = jsonParser.fromJson(response, Contents.class);
+            SharedPreferencesService.getInstance().putString(Config.JSON_PAPER, response);
+            PaperActivity.contents = contents;
+            contentRecyclerViewAdapter.setContents(PaperActivity.contents.getContents());
+            contentRecyclerViewAdapter.notifyDataSetChanged();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
 
-        public PaperAdapter() {
+    private class ContentCallback implements Callback {
 
+        @Override
+        public void onFailure(Request request, IOException exception) {
+            exception.printStackTrace();
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeRefreshLayout.setRefreshing(false);
+                    Snackbar.make(recyclerView, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG).show();
+                }
+            });
         }
 
         @Override
-        public int getItemCount() {
-            return contents.size();
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolder viewHolder, int index) {
-            Content content = contents.get(index);
-            viewHolder.title.setText(content.getTitle());
-            viewHolder.description.setText(content.getDescription());
-            viewHolder.source.setText(content.getSource());
-            viewHolder.imageView.getLayoutParams().width = Config.IMAGE_WIDTH;
-            viewHolder.imageView.getLayoutParams().height = Config.IMAGE_HEIGHT;
-            Picasso.with(ApplicationState.getAppContext()).load(Config.IMAGES_URL + content.getImageURL())
-                    .placeholder(R.drawable.background)
-                    .resize(Config.IMAGE_WIDTH, Config.IMAGE_HEIGHT).into(viewHolder.imageView);
-        }
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int index) {
-            View cardView = LayoutInflater.
-                    from(viewGroup.getContext()).
-                    inflate(R.layout.content_card, viewGroup, false);
-
-            return new PaperAdapter.ViewHolder(cardView);
-        }
-
-        public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-            protected TextView title;
-            protected TextView description;
-            protected ImageView imageView;
-            protected TextView source;
-
-            public ViewHolder(View view) {
-                super(view);
-                title =  (TextView) view.findViewById(R.id.contentTitle);
-                description = (TextView)  view.findViewById(R.id.contentDescription);
-                imageView = (ImageView) view.findViewById(R.id.contentImage);
-                //source = (TextView) view.findViewById(R.id.contentSource);
-                view.setOnClickListener(this);
-            }
-
-            public void onClick(View view) {
-                currentItem = getAdapterPosition();
-                Intent intent = new Intent(ApplicationState.getAppContext(), WebBrowserActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                ApplicationState.getAppContext().startActivity(intent);
+        public void onResponse(final Response response) throws IOException {
+            if (!response.isSuccessful()) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                        Snackbar snackbar = Snackbar.make(recyclerView, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+                });
+            } else {
+                final String responseStr = response.body().string().toString();
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                        success(recyclerView, responseStr);
+                    }
+                });
             }
         }
     }

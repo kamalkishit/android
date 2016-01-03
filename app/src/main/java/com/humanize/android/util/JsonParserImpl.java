@@ -1,4 +1,4 @@
-package com.humanize.android.service;
+package com.humanize.android.util;
 
 import com.google.gson.Gson;
 import com.humanize.android.JsonParser;

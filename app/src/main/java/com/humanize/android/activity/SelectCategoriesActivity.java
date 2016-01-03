@@ -1,15 +1,7 @@
 package com.humanize.android.activity;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,26 +9,20 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.view.Gravity;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.humanize.android.JsonParser;
 import com.humanize.android.R;
 import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.User;
 import com.humanize.android.helper.ActivityLauncher;
-import com.humanize.android.service.JsonParserImpl;
+import com.humanize.android.util.JsonParserImpl;
 import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
@@ -46,12 +32,10 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -514,7 +498,7 @@ public class  SelectCategoriesActivity extends AppCompatActivity {
                             ApplicationState.setUser(user);
                             //startPaperTimeSelectorActivity();
                             SharedPreferencesService.getInstance().delete(Config.JSON_CONTENTS);
-                            activityLauncher.startCardActivity(view);
+                            activityLauncher.startCardActivity();
                         } catch (Exception exception) {
 
                         }

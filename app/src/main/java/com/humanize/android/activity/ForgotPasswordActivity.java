@@ -1,5 +1,6 @@
 package com.humanize.android.activity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -36,6 +37,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     @Bind(R.id.emailId) EditText emailId;
     @Bind(R.id.submitButton) Button submitButton;
 
+    private ProgressDialog progressDialog;
     private ActivityLauncher activityLauncher;
 
     private static final String TAG = ForgotPasswordActivity.class.getSimpleName();
@@ -52,6 +54,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        progressDialog = new ProgressDialog(this);
         activityLauncher = new ActivityLauncher();
     }
 
@@ -87,6 +90,10 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     private void forgotPassword() {
         if (validate()) {
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage("Sending mail...");
+            progressDialog.show();
+
             try {
                 HttpUtil.getInstance().forgotPassword(Config.USER_FORGOT_PASSWORD_URL, emailId.getText().toString(), new ForgotPasswordCallback());
             } catch (Exception exception) {
@@ -108,10 +115,6 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         return true;
     }
 
-    private void forgotPasswordSuccess() {
-        activityLauncher.startResetPasswordActivity();
-    }
-
     private class ForgotPasswordCallback implements Callback {
 
         @Override
@@ -120,6 +123,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
+                    progressDialog.dismiss();
                     submitButton.setEnabled(true);
                     Snackbar.make(coordinatorLayout, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_SHORT).show();
                 }
@@ -132,6 +136,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
+                        progressDialog.dismiss();
                         submitButton.setEnabled(true);
                         Snackbar.make(coordinatorLayout, StringConstants.FAILURE_STR, Snackbar.LENGTH_SHORT).show();
                     }
@@ -141,8 +146,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
+                        progressDialog.dismiss();
                         submitButton.setEnabled(true);
-                        forgotPasswordSuccess();
+                        Snackbar.make(coordinatorLayout, "Check your mail to reset password", Snackbar.LENGTH_INDEFINITE).show();
                     }
                 });
             }

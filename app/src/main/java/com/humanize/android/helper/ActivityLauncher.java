@@ -24,16 +24,7 @@ import com.humanize.android.activity.SettingsActivity;
 import com.humanize.android.activity.SignupActivity;
 import com.humanize.android.activity.SingleCategoryContent;
 import com.humanize.android.activity.UsageActivity;
-import com.humanize.android.common.StringConstants;
-import com.humanize.android.data.Contents;
-import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.ApplicationState;
-import com.humanize.android.util.Config;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-
-import java.io.IOException;
 
 /**
  * Created by kamal on 12/9/15.
@@ -89,20 +80,20 @@ public class ActivityLauncher {
         ApplicationState.getAppContext().startActivity(intent);
     }
 
-    public void startCardActivity(View view) {
+    public void startCardActivity() {
         Intent intent = new Intent(ApplicationState.getAppContext(), CardActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ApplicationState.getAppContext().startActivity(intent);
     }
 
-    public void startBookmarksActivity(View view) {
+    public void startBookmarksActivity() {
         Intent intent = new Intent(ApplicationState.getAppContext(), BookmarksActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ApplicationState.getAppContext().startActivity(intent);
     }
 
-    public void startRecommendationsActivity(View view) {
+    public void startRecommendationsActivity() {
         Intent intent = new Intent(ApplicationState.getAppContext(), RecommendationsActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ApplicationState.getAppContext().startActivity(intent);

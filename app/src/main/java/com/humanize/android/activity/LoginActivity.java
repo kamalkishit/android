@@ -1,7 +1,6 @@
 package com.humanize.android.activity;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,7 +27,7 @@ import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.LoginUser;
 import com.humanize.android.data.User;
 import com.humanize.android.helper.ActivityLauncher;
-import com.humanize.android.service.JsonParserImpl;
+import com.humanize.android.util.JsonParserImpl;
 import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
@@ -201,7 +200,7 @@ public class LoginActivity extends AppCompatActivity {
                 SharedPreferencesService.getInstance().putString(Config.JSON_USER_DATA, response);
 
                 if (user.getIsConfigured()) {
-                    activityLauncher.startCardActivity(coordinatorLayout);
+                    activityLauncher.startCardActivity();
                 } else {
                     activityLauncher.startSelectCategoriesActivity();
                 }

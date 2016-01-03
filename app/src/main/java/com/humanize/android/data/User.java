@@ -30,6 +30,8 @@ public class User {
 
     private List<String> created;
 
+    private PaperTime paperTime;
+
     private boolean isConfigured;
 
     private long paperConfigurationDate;
@@ -44,6 +46,7 @@ public class User {
         this.recommended = new ArrayList<>();
         this.bookmarked = new ArrayList<>();
         this.created = new ArrayList<>();
+        this.paperTime = new PaperTime(8, 0);
     }
 
     public String getId() {
@@ -116,6 +119,14 @@ public class User {
 
     public void setCreated(List<String> created) {
         this.created = created;
+    }
+
+    public PaperTime getPaperTime() {
+        return paperTime;
+    }
+
+    public void setPaperTime(PaperTime paperTime) {
+        this.paperTime = paperTime;
     }
 
     public boolean getIsConfigured() {

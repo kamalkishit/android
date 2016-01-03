@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:background="@color/colorWhite">
 
-            <EditText
+            <TextView
                 android:id="@+id/emailId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -51,28 +51,6 @@
                 android:background="@null"
                 android:hint="Enter Email Address"
                 android:inputType="textEmailAddress"
-                android:textSize="16sp"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayoutInvitationCode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:background="@color/colorWhite">
-
-            <EditText
-                android:id="@+id/invitationCode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/smallMargin"
-                android:layout_marginLeft="@dimen/smallMargin"
-                android:layout_marginTop="@dimen/smallMargin"
-                android:background="@null"
-                android:hint="Enter Invitation Code"
-                android:inputType="text"
                 android:textSize="16sp"
                 android:textColor="@color/colorAccent"
                 android:textColorHint="@color/colorAccent" />

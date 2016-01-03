@@ -50,8 +50,7 @@ public class StringConstants {
     public static String REAL_HEROES = "Real Heroes";
     public static String SCIENCE_AND_TECH = "Science and Tech";
     public static String SPORTS = "Sports";
-
-
+    
     public static String NETWORK_CONNECTION_ERROR_STR = "Network connection error";
     public static String FAILURE_STR = "Failure";
     public static String SUCCESS_STR = "Success";

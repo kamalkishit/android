@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.humanize.android.ContentRecyclerViewAdapter;
 import com.humanize.android.JsonParser;
 import com.humanize.android.R;
-import com.humanize.android.service.JsonParserImpl;
+import com.humanize.android.util.JsonParserImpl;
 import com.humanize.android.service.UserService;
 import com.humanize.android.common.Constants;
 import com.humanize.android.common.StringConstants;

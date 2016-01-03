@@ -12,7 +12,6 @@ import com.humanize.android.activity.CardActivity;
 import com.humanize.android.common.Constants;
 import com.humanize.android.data.Contents;
 import com.humanize.android.data.User;
-import com.humanize.android.service.JsonParserImpl;
 import com.humanize.android.service.SharedPreferencesService;
 
 import com.squareup.picasso.OkHttpDownloader;

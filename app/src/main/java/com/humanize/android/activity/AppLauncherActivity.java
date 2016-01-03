@@ -19,7 +19,7 @@ import com.humanize.android.common.Constants;
 import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.User;
 import com.humanize.android.helper.ActivityLauncher;
-import com.humanize.android.service.JsonParserImpl;
+import com.humanize.android.util.JsonParserImpl;
 import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
@@ -65,13 +65,11 @@ public class AppLauncherActivity extends AppCompatActivity {
     private void startNextActivity() {
         boolean isLoggedIn = SharedPreferencesService.getInstance().getBoolean(Config.IS_LOGGED_IN);
 
-        if (isLoggedIn && ApplicationState.getUser() != null && ApplicationState.getUser().getIsConfigured()) {
+        if (isLoggedIn && ApplicationState.getUser() != null) {
             startCardActivity();
-        } else if (isLoggedIn && ApplicationState.getUser() != null && !ApplicationState.getUser().getIsConfigured()) {
-            startSelectCategoriesActivity();
-        }else if (isLoggedIn && ApplicationState.getUser() == null){
+        } else if (isLoggedIn) {
             getUserdata();
-        } else if (!isLoggedIn){
+        } else {
             startLoginActivity();
         }
     }
@@ -97,7 +95,7 @@ public class AppLauncherActivity extends AppCompatActivity {
     private void startCardActivity() {
             new Handler().postDelayed(new Runnable() {
                 public void run() {
-                    activityLauncher.startCardActivity(relativeLayout);
+                    activityLauncher.startCardActivity();
                     finish();
                 }
             }, Constants.SPLASH_SCREEN_DELAY_TIME);
@@ -109,21 +107,17 @@ public class AppLauncherActivity extends AppCompatActivity {
     }
 
     private void createAlarm() {
-        AlarmManager alarmMgr;
-        PendingIntent alarmIntent;
-
-        alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlarmReceiver.class);
-        alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 2);
-        calendar.set(Calendar.MINUTE, 9);
+        calendar.set(Calendar.HOUR_OF_DAY, ApplicationState.getUser().getPaperTime().getHour());
+        calendar.set(Calendar.MINUTE, ApplicationState.getUser().getPaperTime().getMinute());
 
-        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                1000 * 60 * 2, alarmIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                1000 * 60 * 60 *24, alarmIntent);
     }
 
     public void onDestroy() {

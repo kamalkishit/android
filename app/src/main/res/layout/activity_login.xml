@@ -75,7 +75,8 @@
                 android:textSize="16sp"
                 android:inputType="textPassword"
                 android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent" />
+                android:textColorHint="@color/colorAccent"
+                android:imeOptions="actionDone" />
         </LinearLayout>
 
         <TextView

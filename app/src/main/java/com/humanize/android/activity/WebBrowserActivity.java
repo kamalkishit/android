@@ -43,7 +43,7 @@ public class WebBrowserActivity extends AppCompatActivity {
         //progressBar.setProgress(0);
 
         toolbar.setCollapsible(true);
-        toolbarText.setText("");
+        toolbarText.setText(getIntent().getStringExtra("Title"));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -73,6 +73,9 @@ public class WebBrowserActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+        if (id == android.R.id.home) {
+            super.onBackPressed();
+        }
 
         return super.onOptionsItemSelected(item);
     }

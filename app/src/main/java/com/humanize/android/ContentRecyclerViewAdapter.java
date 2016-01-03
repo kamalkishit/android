@@ -22,7 +22,7 @@ import com.humanize.android.data.Contents;
 import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.service.ContentService;
 import com.humanize.android.service.ContentServiceImpl;
-import com.humanize.android.service.JsonParserImpl;
+import com.humanize.android.util.JsonParserImpl;
 import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.service.UserService;
 import com.humanize.android.service.UserServiceImpl;
@@ -357,6 +357,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             Intent intent = new Intent(ApplicationState.getAppContext(), WebBrowserActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(Config.CONTENT_URL, content.getUrl());
+            intent.putExtra("Title", content.getSource());
             //View line = findViewById(R.id.line);
             ApplicationState.getAppContext().startActivity(intent);
         }

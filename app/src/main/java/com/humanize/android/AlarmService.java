@@ -6,8 +6,11 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.support.v7.app.NotificationCompat;
 
+import com.humanize.android.activity.PaperActivity;
 import com.humanize.android.activity.PaperLauncherActivity;
+import com.humanize.android.util.ApplicationState;
 
 public class AlarmService extends Service {
 
@@ -31,7 +34,7 @@ public class AlarmService extends Service {
         super.onStart(intent, startId);
 
         notificationManager = (NotificationManager) this.getApplicationContext().getSystemService(this.getApplicationContext().NOTIFICATION_SERVICE);
-        Intent intent1 = new Intent(this.getApplicationContext(), PaperLauncherActivity.class);
+        Intent intent1 = new Intent(this.getApplicationContext(), PaperActivity.class);
         //intent1.putExtra(Config.IS_CONTENT_NAVIGATOR, false);
 
         Notification notification = new Notification(R.mipmap.ic_launcher, "This is a test message!", System.currentTimeMillis());
@@ -41,7 +44,13 @@ public class AlarmService extends Service {
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
         //notification.setLatestEventInfo(this.getApplicationContext(), "PAPER", "Your paper is ready!", pendingNotificationIntent);
 
-        notificationManager.notify(0, notification);
+        android.support.v4.app.NotificationCompat.Builder builder = new NotificationCompat.Builder(ApplicationState.getAppContext())
+                .setContentIntent(pendingNotificationIntent)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("PAPER")
+                .setContentText("Paper is ready");
+
+        notificationManager.notify(0, builder.build());
     }
 
     @Override

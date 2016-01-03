@@ -39,7 +39,7 @@ import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.Content;
 import com.humanize.android.data.Contents;
 import com.humanize.android.helper.ActivityLauncher;
-import com.humanize.android.service.JsonParserImpl;
+import com.humanize.android.util.JsonParserImpl;
 import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
@@ -329,7 +329,7 @@ public class SubmitActivity extends AppCompatActivity {
                                 CardActivity.contents = origContents;
                             }
 
-                            new ActivityLauncher().startCardActivity(relativeLayout);
+                            new ActivityLauncher().startCardActivity();
                         } catch (Exception exception) {
                             Log.e(TAG, exception.toString());
                         }

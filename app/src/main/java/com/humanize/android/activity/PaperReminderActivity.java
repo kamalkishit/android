@@ -1,6 +1,8 @@
-
 package com.humanize.android.activity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,9 +12,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.humanize.android.AlarmReceiver;
 import com.humanize.android.R;
 import com.humanize.android.common.Constants;
 import com.humanize.android.common.StringConstants;
+import com.humanize.android.data.PaperTime;
 import com.humanize.android.util.AlarmHelper;
 import com.humanize.android.util.ApplicationState;
 
@@ -21,9 +25,9 @@ import java.sql.Time;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-// Referenced classes of package com.humanize.android.activity:
-//            AppLauncherActivity
-
+/**
+ * Created by kamal on 1/3/16.
+ */
 public class PaperReminderActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
@@ -53,8 +57,14 @@ public class PaperReminderActivity extends AppCompatActivity {
         doneButton.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
                 Time time = new Time(timePicker.getCurrentHour().intValue(), timePicker.getCurrentMinute().intValue(), 0);
-                (new AlarmHelper()).createAlarm(time);
-                //ApplicationState.getUser().setPaperTime(new Time(time.getHours(), time.getMinutes(), time.getSeconds()));
+                //(new AlarmHelper()).createAlarm(time);
+                ApplicationState.getUser().setPaperTime(new PaperTime(timePicker.getCurrentHour().intValue(), timePicker.getCurrentMinute().intValue()));
+
+                AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+                Intent intent = new Intent(PaperReminderActivity.this, AlarmReceiver.class);
+                PendingIntent alarmIntent = PendingIntent.getBroadcast(PaperReminderActivity.this, 0, intent, 0);
+                alarmManager.cancel(alarmIntent);
+
                 navigatetoMainActivity();
             }
         });
@@ -65,5 +75,4 @@ public class PaperReminderActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
-
 }

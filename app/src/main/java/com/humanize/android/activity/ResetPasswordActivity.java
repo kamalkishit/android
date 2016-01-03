@@ -14,7 +14,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -27,7 +26,7 @@ import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.ResetPasswordUser;
 import com.humanize.android.data.User;
 import com.humanize.android.helper.ActivityLauncher;
-import com.humanize.android.service.JsonParserImpl;
+import com.humanize.android.util.JsonParserImpl;
 import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
@@ -44,8 +43,6 @@ import butterknife.ButterKnife;
 public class ResetPasswordActivity extends AppCompatActivity {
 
     @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
-    @Bind(R.id.emailId) EditText emailId;
-    @Bind(R.id.tempPassword) EditText tempPassword;
     @Bind(R.id.newPassword) EditText newPassword;
     @Bind(R.id.submitButton) Button submitButton;
 
@@ -73,47 +70,16 @@ public class ResetPasswordActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         jsonParser = new JsonParserImpl();
         Uri uri = getIntent().getData();
-        String path = uri.getPath();
-        emailId.setText(uri.getQueryParameter("emailId"));
-        tempPassword.setText(uri.getQueryParameter("tempPassword"));
-        tempPassword.setTypeface(Typeface.DEFAULT);
-        tempPassword.setTransformationMethod(new PasswordTransformationMethod());
+        if (uri != null) {
+            String path = uri.getPath();
+        }
+
         newPassword.setTypeface(Typeface.DEFAULT);
         newPassword.setTransformationMethod(new PasswordTransformationMethod());
         activityLauncher = new ActivityLauncher();
     }
 
     private void configureListeners() {
-        emailId.addTextChangedListener(new TextWatcher() {
-            // after every change has been made to this editText, we would like to check validity
-            public void afterTextChanged(Editable s) {
-                if (emailId.getError() != null) {
-                    emailId.setError(null);
-                }
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-        });
-
-        tempPassword.addTextChangedListener(new TextWatcher() {
-            // after every change has been made to this editText, we would like to check validity
-            public void afterTextChanged(Editable s) {
-                if (tempPassword.getError() != null) {
-                    tempPassword.setError(null);
-                }
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-        });
-
         newPassword.addTextChangedListener(new TextWatcher() {
             // after every change has been made to this editText, we would like to check validity
             public void afterTextChanged(Editable s) {
@@ -168,23 +134,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
     }
 
     private boolean validate() {
-        emailIdStr = emailId.getText().toString();
-        tempPasswordStr = tempPassword.getText().toString();
         newPasswordStr = newPassword.getText().toString();
-
-        if (emailIdStr.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(emailIdStr).matches()) {
-            emailId.setError(StringConstants.EMAIL_VALIDATION_ERROR_STR);
-            Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.EMAIL_VALIDATION_ERROR_STR, Snackbar.LENGTH_SHORT);
-            snackbar.show();
-            return false;
-        }
-
-        if (tempPasswordStr.isEmpty()) {
-            tempPassword.setError(StringConstants.PASSWORD_VALIDATION_ERROR_STR);
-            Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.PASSWORD_VALIDATION_ERROR_STR, Snackbar.LENGTH_SHORT);
-            snackbar.show();
-            return false;
-        }
 
         if (newPasswordStr.isEmpty() || newPasswordStr.length() < Config.PASSWORD_MIN_LENGTH || newPassword.length() > Config.PASSWORD_MAX_LENGTH) {
             newPassword.setError(StringConstants.PASSWORD_VALIDATION_ERROR_STR);
@@ -205,7 +155,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 SharedPreferencesService.getInstance().putBoolean(Config.IS_LOGGED_IN, true);
                 SharedPreferencesService.getInstance().putString(Config.JSON_USER_DATA, response);
                 if (!user.getIsConfigured()) {
-                    activityLauncher.startCardActivity(coordinatorLayout);
+                    activityLauncher.startCardActivity();
                 } else {
                     Intent intent = new Intent(getApplicationContext(), SelectCategoriesActivity.class);
                     startActivity(intent);

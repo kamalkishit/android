@@ -131,7 +131,7 @@ public class FragmentDrawer extends Fragment {
         bookmarkedArticles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activityLauncher.startBookmarksActivity(view);
+                activityLauncher.startBookmarksActivity();
                 drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });
@@ -140,7 +140,7 @@ public class FragmentDrawer extends Fragment {
         recommendedArticles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activityLauncher.startRecommendationsActivity(view);
+                activityLauncher.startRecommendationsActivity();
                 drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });

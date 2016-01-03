@@ -8,8 +8,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent service1 = new Intent(context, AlarmService.class);
+        Intent alartmIntent = new Intent(context, AlarmService.class);
         System.out.println("alarm received successfully");
-        context.startService(service1);
+        context.startService(alartmIntent);
     }
 }
