@@ -22,8 +22,8 @@ public class Config {
 
     // URLS
     //public final static String SERVER_URL = "http://10.0.2.2:8080";
-    public final static String SERVER_URL = "http://188.166.181.147:8080/server-0.1.0";
-    //public final static String SERVER_URL = "http://192.168.1.3:8080";
+    //public final static String SERVER_URL = "http://188.166.181.147:8080/server-0.1.0";
+    public final static String SERVER_URL = "http://192.168.1.2:8080";
 
     public final static String USER_SIGNUP_URL = SERVER_URL + "/users/signup";
     public final static String USER_LOGIN_URL = SERVER_URL + "/users/login";

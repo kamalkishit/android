@@ -24,6 +24,7 @@ import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
+import com.humanize.android.util.UrlShortner;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -57,6 +58,8 @@ public class AppLauncherActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        UrlShortner urlShortner = new UrlShortner();
+        urlShortner.getShortUrl("http://google.com");
         jsonParser = new JsonParserImpl();
         activityLauncher = new ActivityLauncher();
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
@@ -117,7 +120,7 @@ public class AppLauncherActivity extends AppCompatActivity {
         calendar.set(Calendar.MINUTE, ApplicationState.getUser().getPaperTime().getMinute());
 
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                1000 * 60 * 60 *24, alarmIntent);
+                1000 * 60 * 2, alarmIntent);
     }
 
     public void onDestroy() {

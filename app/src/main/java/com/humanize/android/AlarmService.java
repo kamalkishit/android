@@ -37,7 +37,7 @@ public class AlarmService extends Service {
         Intent intent1 = new Intent(this.getApplicationContext(), PaperActivity.class);
         //intent1.putExtra(Config.IS_CONTENT_NAVIGATOR, false);
 
-        Notification notification = new Notification(R.mipmap.ic_launcher, "This is a test message!", System.currentTimeMillis());
+        Notification notification = new Notification(R.drawable.ic_humanize, "This is a test message!", System.currentTimeMillis());
         intent1.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent pendingNotificationIntent = PendingIntent.getActivity(this.getApplicationContext(), 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -46,9 +46,9 @@ public class AlarmService extends Service {
 
         android.support.v4.app.NotificationCompat.Builder builder = new NotificationCompat.Builder(ApplicationState.getAppContext())
                 .setContentIntent(pendingNotificationIntent)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("PAPER")
-                .setContentText("Paper is ready");
+                .setSmallIcon(R.drawable.ic_humanize)
+                .setContentTitle("HUMANIZE")
+                .setContentText("Your Paper is ready");
 
         notificationManager.notify(0, builder.build());
     }

@@ -83,7 +83,8 @@ public class ApplicationState extends Application{
         // for disk caching in picasso
         // http://stackoverflow.com/questions/23978828/how-do-i-use-disk-caching-in-picasso
         Picasso.Builder builder = new Picasso.Builder(this);
-        builder.downloader(new OkHttpDownloader(this,Integer.MAX_VALUE));
+        //builder.downloader(new OkHttpDownloader(this,Integer.MAX_VALUE));
+        builder.downloader(new PicassoDownloader());
         Picasso picasso = builder.build();
         //picasso.setIndicatorsEnabled(true);
         //picasso.setLoggingEnabled(true);

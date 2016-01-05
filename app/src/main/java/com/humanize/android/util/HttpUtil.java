@@ -7,6 +7,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,15 @@ public class HttpUtil {
         }
 
         return httpUtil;
+    }
+
+    public void getShortUrl(String url, String json, Callback callback) {
+        System.out.println(url);
+        post(url, json, callback);
+    }
+
+    public void getImage(String url, Callback callback) {
+        get(url, callback);
     }
 
     public void forgotPassword(String url, String emailId, Callback callback) {
