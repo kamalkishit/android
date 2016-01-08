@@ -1,5 +1,8 @@
 package com.humanize.android.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,6 +11,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,18 +23,17 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.humanize.android.ContentRecyclerViewAdapter;
+import com.humanize.android.fragment.LoginFragment;
 import com.humanize.android.service.ContentService;
 import com.humanize.android.FragmentDrawer;
 import com.humanize.android.JsonParser;
 import com.humanize.android.R;
+import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.JsonParserImpl;
-import com.humanize.android.service.UserService;
 import com.humanize.android.common.Constants;
 import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.Contents;
-import com.humanize.android.service.ContentServiceImpl;
 import com.humanize.android.service.SharedPreferencesService;
-import com.humanize.android.service.UserServiceImpl;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
 import com.squareup.okhttp.Callback;
@@ -52,8 +55,6 @@ public class CardActivity extends AppCompatActivity {
     @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
     @Bind(R.id.drawerLayout) DrawerLayout drawerLayout;
 
-    private ContentService contentService;
-    private UserService userService;
     private JsonParser jsonParser;
     private FragmentDrawer fragmentDrawer;
     private ContentRecyclerViewAdapter contentRecyclerViewAdapter;
@@ -83,8 +84,7 @@ public class CardActivity extends AppCompatActivity {
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.DOUBLE_BACK_EXIT_STR, Snackbar.LENGTH_SHORT);
-        snackbar.show();
+        Snackbar.make(coordinatorLayout, StringConstants.DOUBLE_BACK_EXIT_STR, Snackbar.LENGTH_SHORT).show();
 
         new Handler().postDelayed(new Runnable() {
 
@@ -96,8 +96,6 @@ public class CardActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-        contentService = new ContentServiceImpl();
-        userService = new UserServiceImpl();
         jsonParser = new JsonParserImpl();
         doubleBackToExitPressedOnce = false;
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
@@ -113,8 +111,9 @@ public class CardActivity extends AppCompatActivity {
 
         fragmentDrawer = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragmentNavigationDrawer);
         fragmentDrawer.setUp(R.id.fragmentNavigationDrawer, drawerLayout, toolbar);
+        fragmentDrawer.setActivity(this);
 
-        contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(null);
+        contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(this, null);
         recyclerView.setAdapter(contentRecyclerViewAdapter);
 
         try {
@@ -268,8 +267,7 @@ public class CardActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
-                        Snackbar snackbar = Snackbar.make(recyclerView, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG);
-                        snackbar.show();
+                        Snackbar.make(recyclerView, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG).show();
                     }
                 });
             } else {

@@ -22,8 +22,6 @@ import com.humanize.android.common.Constants;
 import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.Contents;
 import com.humanize.android.util.JsonParserImpl;
-import com.humanize.android.service.UserService;
-import com.humanize.android.service.UserServiceImpl;
 import com.humanize.android.util.HttpUtil;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
@@ -46,7 +44,6 @@ public class SingleCategoryContent extends AppCompatActivity {
     @Bind(R.id.toolbarText)
     TextView toolbarText;
 
-    private UserService userService;
     private JsonParser jsonParser;
     private ContentRecyclerViewAdapter contentRecyclerViewAdapter;
     private LinearLayoutManager linearLayoutManager;
@@ -65,7 +62,6 @@ public class SingleCategoryContent extends AppCompatActivity {
     }
 
     private void initialize() {
-        userService = new UserServiceImpl();
         jsonParser = new JsonParserImpl();
         toolbarText.setText(getIntent().getStringExtra("Category"));
 
@@ -82,7 +78,7 @@ public class SingleCategoryContent extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(null);
+        contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(this, null);
         recyclerView.setAdapter(contentRecyclerViewAdapter);
 
         getContent();
@@ -217,8 +213,7 @@ public class SingleCategoryContent extends AppCompatActivity {
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
-                        Snackbar snackbar = Snackbar.make(recyclerView, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG);
-                        snackbar.show();
+                        Snackbar.make(recyclerView, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG).show();
                     }
                 });
             } else {

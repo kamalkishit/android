@@ -17,18 +17,28 @@
             android:background="@color/colorPrimary">
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentBottom="true"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_alignParentLeft="true"
+                android:layout_marginTop="60dp"
                 android:layout_marginBottom="20dp"
-                android:layout_marginLeft="25dp"
-                android:src="@drawable/ic_privacy_black" />
+                android:layout_marginLeft="4dp"
+                android:src="@drawable/ic_profile_black" />
 
+            <TextView
+                android:id="@+id/emailId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:text="Guest User"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/colorWhite"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp" />
         </RelativeLayout>
 
         <include
-            android:id="@+id/profile"
+            android:id="@+id/login"
             layout="@layout/nav_drawer_item_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -70,11 +80,11 @@
             android:layout_marginTop="8dp" />
 
         <include
-            android:id="@+id/contactUs"
+            android:id="@+id/inviteFriend"
             layout="@layout/nav_drawer_item_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp" />
+            android:layout_marginTop="8dp" />
 
         <View
             android:layout_width="match_parent"
@@ -82,11 +92,13 @@
             android:background="@color/colorGrey"></View>
 
         <include
-            android:id="@+id/aboutUs"
+            android:id="@+id/contactUs"
             layout="@layout/nav_drawer_item_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="4dp" />
+
+
 
         <include
             android:id="@+id/rateUs"
@@ -94,6 +106,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp" />
+
+        <!--<include
+            android:id="@+id/aboutUs"
+            layout="@layout/nav_drawer_item_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" />
 
         <include
             android:id="@+id/termsOfUsage"
@@ -107,7 +126,7 @@
             layout="@layout/nav_drawer_item_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp" />
+            android:layout_marginTop="4dp" /> -->
 
         <View
             android:layout_width="match_parent"

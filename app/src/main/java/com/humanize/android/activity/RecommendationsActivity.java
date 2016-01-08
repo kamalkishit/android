@@ -79,7 +79,7 @@ public class RecommendationsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(null);
+        contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(this, null);
         recyclerView.setAdapter(contentRecyclerViewAdapter);
 
         try {
@@ -160,7 +160,7 @@ public class RecommendationsActivity extends AppCompatActivity {
             SharedPreferencesService.getInstance().putString(Config.JSON_RECOMMENDED_CONTENTS, response);
             RecommendationsActivity.contents = contents;
 
-            contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(contents.getContents());
+            contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(this, contents.getContents());
             recyclerView.setAdapter(contentRecyclerViewAdapter);
             contentRecyclerViewAdapter.notifyDataSetChanged();
         } catch (Exception exception) {

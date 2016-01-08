@@ -24,32 +24,216 @@
             </include>
         </android.support.design.widget.AppBarLayout>
 
-        <!--<android.support.design.widget.AppBarLayout
-            android:id="@+id/appbarLayout"
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhite">
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/widthlarge"
+            android:layout_marginRight="@dimen/widthlarge">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="?attr/actionBarSize"
-                android:background="@color/colorPrimary"
-                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:layout_scrollFlags="scroll|enterAlways" >
+                android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/toolbarText"
+                <Button
+                    android:id="@+id/achievers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="SELECT CATEGORIES"
-                    android:gravity="center"
-                    android:textColor="@color/colorWhite"
-                    android:textAppearance="?android:attr/textAppearanceMedium"/>
-            </android.support.v7.widget.Toolbar>
-        </android.support.design.widget.AppBarLayout>-->
+                    android:background="@drawable/border_button_selector"
+                    android:layout_marginRight="@dimen/widthMedium"
+                    android:paddingBottom="4dp"
+                    android:text="Achievers"
+                    android:textColor="@color/colorBlack"
+                    android:drawableLeft="@drawable/ic_achivers_black"
+                    android:textAllCaps="false"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_weight="1.0" />
+
+                <Button
+                    android:id="@+id/beautiful"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="4dp"
+                    android:background="@drawable/border_button_selector"
+                    android:layout_marginRight="@dimen/widthMedium"
+                    android:text="Beautiful"
+                    android:textColor="@color/colorBlack"
+                    android:drawableLeft="@drawable/ic_beautiful_black"
+                    android:textAllCaps="false"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_weight="1.0" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/education"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_button_selector"
+                    android:paddingBottom="4dp"
+                    android:text="Education"
+                    android:textColor="@color/colorBlack"
+                    android:drawableLeft="@drawable/ic_education_black"
+                    android:textAllCaps="false"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_weight="1.0" />
+
+                <Button
+                    android:id="@+id/empowerment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_button_green"
+                    android:layout_marginRight="@dimen/widthMedium"
+                    android:paddingBottom="4dp"
+                    android:text="Empowerment"
+                    android:textColor="@color/colorBlack"
+                    android:drawableLeft="@drawable/ic_empowerment_black"
+                    android:textAllCaps="false"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_weight="1.0" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/environment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_button_green"
+                    android:layout_marginRight="@dimen/widthMedium"
+                    android:paddingBottom="4dp"
+                    android:text="Environment"
+                    android:textColor="@color/colorBlack"
+                    android:drawableLeft="@drawable/ic_environment_black"
+                    android:textAllCaps="false"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_weight="1.0" />
+
+                <Button
+                    android:id="@+id/governance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_button_green"
+                    android:paddingBottom="4dp"
+                    android:text="Governance"
+                    android:textColor="@color/colorBlack"
+                    android:drawableLeft="@drawable/ic_governance_black"
+                    android:textAllCaps="false"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_weight="1.0" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/health"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_button_green"
+                    android:layout_marginRight="@dimen/widthMedium"
+                    android:paddingBottom="4dp"
+                    android:text="Health"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:textColor="@color/colorBlack"
+                    android:drawableLeft="@drawable/ic_health_black"
+                    android:textAllCaps="false"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_weight="1.0" />
+
+                <Button
+                    android:id="@+id/humanity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_button_green"
+                    android:layout_marginRight="@dimen/widthMedium"
+                    android:paddingBottom="4dp"
+                    android:text="Humanity"
+                    android:textColor="@color/colorBlack"
+                    android:drawableLeft="@drawable/ic_health_black"
+                    android:textAllCaps="false"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_weight="1.0" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/lawAndJustice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_button_green"
+                    android:paddingBottom="4dp"
+                    android:text="Law and Justice"
+                    android:textColor="@color/colorBlack"
+                    android:drawableLeft="@drawable/ic_law_justice_black"
+                    android:textAllCaps="false"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_weight="1.0" />
+
+                <Button
+                    android:id="@+id/realHeroes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_button_green"
+                    android:layout_marginRight="@dimen/widthMedium"
+                    android:paddingBottom="4dp"
+                    android:text="Real Heroes"
+                    android:textColor="@color/colorBlack"
+                    android:drawableLeft="@drawable/ic_real_heroes_black"
+                    android:textAllCaps="false"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_weight="1.0" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/scienceAndTech"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_button_green"
+                    android:layout_marginRight="@dimen/widthMedium"
+                    android:paddingBottom="4dp"
+                    android:text="Science and Tech"
+                    android:textColor="@color/colorBlack"
+                    android:drawableLeft="@drawable/ic_science_tech_black"
+                    android:textAllCaps="false"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_weight="1.0" />
+
+                <Button
+                    android:id="@+id/sports"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_button_green"
+                    android:paddingBottom="4dp"
+                    android:text="Sports"
+                    android:textColor="@color/colorBlack"
+                    android:drawableLeft="@drawable/ic_sports_black"
+                    android:textAllCaps="false"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_weight="1.0" />
+            </LinearLayout>
+        </LinearLayout> -->
 
         <LinearLayout
             android:orientation="vertical"

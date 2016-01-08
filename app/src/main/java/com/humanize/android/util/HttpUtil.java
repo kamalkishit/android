@@ -1,5 +1,6 @@
 package com.humanize.android.util;
 
+import com.humanize.android.service.SharedPreferencesService;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.MediaType;
@@ -91,6 +92,12 @@ public class HttpUtil {
         get(url, callback);
     }
 
+    public void inviteFriend(String url, String emailId, String invitedBy, Callback callback) {
+        url += "?emailId=" + emailId;
+        url += "&invitedBy=" + invitedBy;
+        get(url, callback);
+    }
+
     public void getBookmarkedContents(String url, List<String> boomkarkIds, Callback callback) {
         url += "?bookmarkIds=";
 
@@ -113,16 +120,6 @@ public class HttpUtil {
 
     public void getContents(Callback callback) {
         String url = Config.CONTENT_FIND_URL;
-
-        ArrayList<String> categories = new ArrayList<>(ApplicationState.getUser().getCategories());
-
-        if (categories != null) {
-            url = url + "?categories=";
-
-            for (String category: categories) {
-                url += category + ",";
-            }
-        }
         get(url, callback);
     }
 
@@ -156,18 +153,9 @@ public class HttpUtil {
     public void refreshContents(String createdDate, Callback callback) {
         String url = Config.CONTENT_FIND_URL;
 
-        ArrayList<String> categories = new ArrayList<>(ApplicationState.getUser().getCategories());
-
-        if (categories != null) {
-            url = url + "?categories=";
-
-            for (String category: categories) {
-                url += category + ",";
-            }
-        }
 
         if (createdDate != null) {
-            url += "&createdDate=" + createdDate + "&refresh=" + true;
+            url += "?createdDate=" + createdDate + "&refresh=" + true;
         }
 
         System.out.println(url);
@@ -184,17 +172,8 @@ public class HttpUtil {
     public void getMoreContents(String createdDate, Callback callback) {
         String url = Config.CONTENT_FIND_URL;
 
-        ArrayList<String> categories = new ArrayList<>(ApplicationState.getUser().getCategories());
-
-        if (categories != null) {
-            url = url + "?categories=";
-
-            for (String category: categories) {
-                url += category + ",";
-            }
-        }
         if (createdDate != null) {
-            url += "&createdDate=" + createdDate;
+            url += "?createdDate=" + createdDate;
         }
 
         get(url, callback);
@@ -226,7 +205,12 @@ public class HttpUtil {
         System.out.println(url);
         OkHttpClient okHttpClient = new OkHttpClient();
         okHttpClient.setReadTimeout(Config.READ_TIMEOUT, TimeUnit.MILLISECONDS);
-        Request request = new Request.Builder().url(url).build();
+        Request request;
+        if (SharedPreferencesService.getInstance().getString(Config.TOKEN) != null) {
+            request = new Request.Builder().url(url).addHeader(Config.TOKEN, SharedPreferencesService.getInstance().getString(Config.TOKEN)).build();
+        } else {
+            request = new Request.Builder().url(url).addHeader(Config.TOKEN, "").build();
+        }
 
         okHttpClient.newCall(request).enqueue(callback);
     }

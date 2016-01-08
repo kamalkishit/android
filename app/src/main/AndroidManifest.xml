@@ -8,7 +8,6 @@
 
     <uses-feature android:name="android.hardware.camera" />
 
-
     <application
         android:name=".util.ApplicationState"
         android:allowBackup="true"
@@ -30,10 +29,9 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
         <meta-data
             android:name="com.google.android.urlshortener.API_KEY"
-            android:value="AIzaSyCIs43UuRuXjHb8-SeWOD559rjSoXNgO3Y"/>
+            android:value="AIzaSyCIs43UuRuXjHb8-SeWOD559rjSoXNgO3Y" />
 
         <activity
             android:name=".activity.CardActivity"
@@ -63,8 +61,7 @@
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@style/AppTheme" >
-        </activity>
+            android:theme="@style/AppTheme"></activity>
         <activity
             android:name=".activity.CameraActivity"
             android:noHistory="true"
@@ -112,6 +109,7 @@
 
                 <data
                     android:host="www.humannize.com"
+                    android:pathPrefix="/signup"
                     android:scheme="http" />
             </intent-filter>
         </activity>
@@ -154,7 +152,19 @@
             android:name=".activity.ResetPasswordActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme" />
+            android:theme="@style/MaterialDesignTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="www.humannize.com"
+                    android:pathPrefix="/reset"
+                    android:scheme="http" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.EditCategoriesActivity"
             android:noHistory="true"
@@ -179,9 +189,12 @@
         <activity
             android:name=".activity.FacebookLoginActivity"
             android:label="@string/title_activity_facebook_login"
-            android:theme="@style/AppTheme">
-
-    </activity>
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".activity.InviteFriendActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/MaterialDesignTheme"></activity>
     </application>
 
 </manifest>

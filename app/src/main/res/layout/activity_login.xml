@@ -100,6 +100,17 @@
             android:textColor="@color/colorWhite" />
 
         <TextView
+            android:id="@+id/skipLoginLink"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/smallMargin"
+            android:layout_marginTop="@dimen/largeMargin"
+            android:gravity="center"
+            android:text="SKIP LOGIN"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/colorWhite" />
+
+        <!--<TextView
             android:id="@+id/registerLink"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -108,7 +119,7 @@
             android:gravity="center"
             android:text="Dont have an account? Please register"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite" /> -->
     </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

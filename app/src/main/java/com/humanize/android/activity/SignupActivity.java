@@ -50,7 +50,7 @@ public class SignupActivity extends AppCompatActivity {
     @Bind(R.id.emailId) TextView emailId;
     @Bind(R.id.password) EditText password;
     @Bind(R.id.submitButton) Button submitButton;
-    @Bind(R.id.invitationCodeLink) TextView invitationCodeLink;
+    //@Bind(R.id.invitationCodeLink) TextView invitationCodeLink;
 
     private ActivityLauncher activityLauncher;
     private JsonParser jsonParser;
@@ -86,7 +86,7 @@ public class SignupActivity extends AppCompatActivity {
         //imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
         progressDialog = new ProgressDialog(this);
-        invitationCodeLink.setText(Html.fromHtml(StringConstants.INVITATION_CODE_STR));
+        //invitationCodeLink.setText(Html.fromHtml(StringConstants.INVITATION_CODE_STR));
     }
 
     private void configureListeners() {
@@ -121,13 +121,13 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        invitationCodeLink.setOnClickListener(new View.OnClickListener() {
+        /*invitationCodeLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), InvitationCodeActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
     }
 
     private boolean validate() {
@@ -136,15 +136,13 @@ public class SignupActivity extends AppCompatActivity {
 
         if (emailStr.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(emailStr).matches()) {
             emailId.setError(StringConstants.EMAIL_VALIDATION_ERROR_STR);
-            Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.EMAIL_VALIDATION_ERROR_STR, Snackbar.LENGTH_SHORT);
-            snackbar.show();
+            Snackbar.make(coordinatorLayout, StringConstants.EMAIL_VALIDATION_ERROR_STR, Snackbar.LENGTH_SHORT).show();
             return false;
         }
 
         if (passwordStr.isEmpty() || passwordStr.length() < Config.PASSWORD_MIN_LENGTH || password.length() > Config.PASSWORD_MAX_LENGTH) {
-            password.setError(StringConstants.PASSWORD_VALIDATION_ERROR_STR);
-            Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.PASSWORD_VALIDATION_ERROR_STR, Snackbar.LENGTH_SHORT);
-            snackbar.show();
+            password.setError(StringConstants.INVALID_PASSWORD_LENGTH);
+            Snackbar.make(coordinatorLayout, StringConstants.INVALID_PASSWORD_LENGTH, Snackbar.LENGTH_SHORT).show();
             return false;
         }
 
@@ -158,15 +156,21 @@ public class SignupActivity extends AppCompatActivity {
             progressDialog.setMessage(StringConstants.REGISTERING);
             progressDialog.show();
 
-            SignupUser signupUser = new SignupUser();
-            signupUser.setEmailId(emailId.getText().toString());
-            signupUser.setPassword(password.getText().toString());
+            if (getIntent().getData() != null) {
+                SignupUser signupUser = new SignupUser();
+                signupUser.setEmailId(emailId.getText().toString());
+                signupUser.setInvitationCode(getIntent().getData().getQueryParameter("invitationCode"));
+                signupUser.setPassword(password.getText().toString());
 
-            try {
-                HttpUtil.getInstance().signup(Config.USER_SIGNUP_URL, jsonParser.toJson(signupUser), new SignupCallback());
-            } catch (Exception exception) {
-                Log.e(TAG, exception.toString());
+                try {
+                    HttpUtil.getInstance().signup(Config.USER_SIGNUP_URL, jsonParser.toJson(signupUser), new SignupCallback());
+                } catch (Exception exception) {
+                    Log.e(TAG, exception.toString());
+                }
+            } else {
+                // TBD:
             }
+
         }
     }
 

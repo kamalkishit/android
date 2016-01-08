@@ -40,9 +40,6 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-// Referenced classes of package com.humanize.android.activity:
-//            PaperReminderActivity
-
 public class  SelectCategoriesActivity extends AppCompatActivity {
 
     @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
@@ -90,17 +87,9 @@ public class  SelectCategoriesActivity extends AppCompatActivity {
         toolbar.setCollapsible(true);
         setSupportActionBar(toolbar);
 
-        User user = ApplicationState.getUser();
-
-        if (ApplicationState.getUser() != null && ApplicationState.getUser().getIsConfigured()) {
-            toolbarText.setText("UPDATE CATEGORIES");
-            submitButton.setText("UPDATE");
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        } else {
-            toolbarText.setText("SELECT CATEGORIES");
-            submitButton.setText("SAVE");
-            toolbarText.setGravity(Gravity.CENTER);
-        }
+        toolbarText.setText("Update Categories");
+        submitButton.setText("UPDATE");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         categories = new HashSet<>();
 
@@ -152,7 +141,6 @@ public class  SelectCategoriesActivity extends AppCompatActivity {
                     List<String> categoriesList = new ArrayList<>();
                     categoriesList.addAll(categories);
                     ApplicationState.getUser().setCategories(categoriesList);
-                    ApplicationState.getUser().setIsConfigured(true);
 
                     try {
                         String userdataJson = jsonParser.toJson(ApplicationState.getUser());
@@ -320,11 +308,6 @@ public class  SelectCategoriesActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        if (ApplicationState.getUser() != null && ApplicationState.getUser().getIsConfigured()) {
-            getMenuInflater().inflate(R.menu.menu_contact_us, menu);
-        }
-
         return true;
     }
 

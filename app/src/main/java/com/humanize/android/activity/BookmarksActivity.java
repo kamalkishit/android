@@ -80,7 +80,7 @@ public class BookmarksActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(null);
+        contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(this, null);
         recyclerView.setAdapter(contentRecyclerViewAdapter);
 
         try {

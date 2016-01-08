@@ -85,7 +85,7 @@ public class PaperActivity extends AppCompatActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(null);
+        contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(this, null);
         recyclerView.setAdapter(contentRecyclerViewAdapter);
 
         getPaper();
@@ -160,8 +160,7 @@ public class PaperActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
-                        Snackbar snackbar = Snackbar.make(recyclerView, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG);
-                        snackbar.show();
+                        Snackbar.make(recyclerView, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG).show();
                     }
                 });
             } else {

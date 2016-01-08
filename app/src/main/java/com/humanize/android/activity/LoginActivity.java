@@ -36,6 +36,8 @@ import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 
 import butterknife.Bind;
@@ -48,7 +50,8 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.password) EditText password;
     @Bind(R.id.submitButton) Button submitButton;
     @Bind(R.id.forgotPasswordLink) TextView forgotPasswordLink;
-    @Bind(R.id.registerLink) TextView registerLink;
+    @Bind(R.id.skipLoginLink) TextView skipLoginLink;
+    //@Bind(R.id.registerLink) TextView registerLink;
 
     private ProgressDialog progressDialog;
     private ActivityLauncher activityLauncher;
@@ -69,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
         configureListeners();
     }
 
-    @Override
+    /*@Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
@@ -77,8 +80,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.DOUBLE_BACK_EXIT_STR, Snackbar.LENGTH_SHORT);
-        snackbar.show();
+        Snackbar.make(coordinatorLayout, StringConstants.DOUBLE_BACK_EXIT_STR, Snackbar.LENGTH_SHORT).show();
 
         new Handler().postDelayed(new Runnable() {
 
@@ -87,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                 doubleBackToExitPressedOnce = false;
             }
         }, Constants.DOUBLE_EXIT_DELAY_TIME);
-    }
+    }*/
 
     private void initialize() {
         progressDialog = new ProgressDialog(this);
@@ -98,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
         password.setTransformationMethod(new PasswordTransformationMethod());
         doubleBackToExitPressedOnce = false;
         forgotPasswordLink.setText(Html.fromHtml(StringConstants.FORGOT_PASSWORD_STR));
-        registerLink.setText(Html.fromHtml(StringConstants.REGISTER_STR));
+        //registerLink.setText(Html.fromHtml(StringConstants.REGISTER_STR));
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
@@ -111,8 +113,11 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
 
-            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-            public void onTextChanged(CharSequence s, int start, int before, int count){}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
         });
 
         password.addTextChangedListener(new TextWatcher() {
@@ -123,8 +128,11 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
 
-            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
-            public void onTextChanged(CharSequence s, int start, int before, int count){}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
         });
 
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -141,12 +149,19 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        registerLink.setOnClickListener(new View.OnClickListener() {
+        skipLoginLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activityLauncher.startCardActivity();
+            }
+        });
+
+        /*registerLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 activityLauncher.startSignupActivity();
             }
-        });
+        });*/
     }
 
     private void login() {
@@ -175,40 +190,27 @@ public class LoginActivity extends AppCompatActivity {
 
         if (emailStr.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(emailStr).matches()) {
             emailId.setError(StringConstants.EMAIL_VALIDATION_ERROR_STR);
-            Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.EMAIL_VALIDATION_ERROR_STR, Snackbar.LENGTH_SHORT);
-            snackbar.show();
+            Snackbar.make(coordinatorLayout, StringConstants.EMAIL_VALIDATION_ERROR_STR, Snackbar.LENGTH_SHORT).show();
             return false;
         }
 
         if (passwordStr.isEmpty() || passwordStr.length() < Config.PASSWORD_MIN_LENGTH || password.length() > Config.PASSWORD_MAX_LENGTH) {
-            password.setError(StringConstants.PASSWORD_VALIDATION_ERROR_STR);
-            Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.PASSWORD_VALIDATION_ERROR_STR, Snackbar.LENGTH_SHORT);
-            snackbar.show();
+            password.setError(StringConstants.INVALID_PASSWORD_LENGTH);
+            Snackbar.make(coordinatorLayout, StringConstants.INVALID_PASSWORD_LENGTH, Snackbar.LENGTH_SHORT).show();
             return false;
         }
 
         return true;
     }
 
+    private void getUserdata() {
+        HttpUtil httpUtil = HttpUtil.getInstance();
+        httpUtil.getUserdata(Config.USER_DATA_URL, new UserDataCallback());
+    }
+
     private void loginSuccess(String response) {
-        try {
-            User user = jsonParser.fromJson(response, User.class);
-
-            if (user != null) {
-                ApplicationState.setUser(user);
-                SharedPreferencesService.getInstance().putBoolean(Config.IS_LOGGED_IN, true);
-                SharedPreferencesService.getInstance().putString(Config.JSON_USER_DATA, response);
-
-                if (user.getIsConfigured()) {
-                    activityLauncher.startCardActivity();
-                } else {
-                    activityLauncher.startSelectCategoriesActivity();
-                }
-            } else {
-            }
-        } catch (Exception exception) {
-            Log.e(TAG, exception.toString());
-        }
+        SharedPreferencesService.getInstance().putString(Config.TOKEN, response);
+        getUserdata();
     }
 
     private class LoginCallback implements Callback {
@@ -244,6 +246,46 @@ public class LoginActivity extends AppCompatActivity {
                     public void run() {
                         progressDialog.dismiss();
                         loginSuccess(responseStr);
+                    }
+                });
+            }
+        }
+    }
+
+    private class UserDataCallback implements Callback {
+        @Override
+        public void onFailure(Request request, IOException e) {
+            e.printStackTrace();
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Snackbar.make(coordinatorLayout, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG).show();
+                }
+            });
+        }
+
+        @Override
+        public void onResponse(final Response response) throws IOException {
+            if (!response.isSuccessful()) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Snackbar.make(coordinatorLayout, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG).show();
+                    }
+                });
+            } else {
+                final String responseStr = response.body().string().toString();
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            SharedPreferencesService.getInstance().putBoolean(Config.IS_LOGGED_IN, true);
+                            SharedPreferencesService.getInstance().putString(Config.JSON_USER_DATA, responseStr);
+                            ApplicationState.setUser(jsonParser.fromJson(responseStr, User.class));
+                            activityLauncher.startCardActivity();
+                        } catch (Exception exception) {
+                            exception.printStackTrace();
+                        }
                     }
                 });
             }

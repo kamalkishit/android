@@ -13,6 +13,7 @@ import com.humanize.android.activity.BookmarksActivity;
 import com.humanize.android.activity.CardActivity;
 import com.humanize.android.activity.ContactUsActivity;
 import com.humanize.android.activity.ForgotPasswordActivity;
+import com.humanize.android.activity.InviteFriendActivity;
 import com.humanize.android.activity.LoginActivity;
 import com.humanize.android.activity.PaperActivity;
 import com.humanize.android.activity.PrivacyActivity;
@@ -101,6 +102,12 @@ public class ActivityLauncher {
 
     public void startRecommendAnArticleActivity() {
         Intent intent = new Intent(ApplicationState.getAppContext(), RecommendArticleActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ApplicationState.getAppContext().startActivity(intent);
+    }
+
+    public void startInviteFriendActivity() {
+        Intent intent = new Intent(ApplicationState.getAppContext(), InviteFriendActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ApplicationState.getAppContext().startActivity(intent);
     }

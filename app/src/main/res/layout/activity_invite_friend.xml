@@ -34,7 +34,7 @@
             android:id="@+id/linearLayout" >
 
             <EditText
-                android:id="@+id/contentUrl"
+                android:id="@+id/emailId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/smallMargin"
@@ -42,9 +42,9 @@
                 android:layout_marginBottom="@dimen/smallMargin"
                 android:textColor="@color/colorPrimary"
                 android:background="@null"
-                android:hint="Enter URL"
+                android:hint="Enter Email"
                 android:textColorHint="@color/colorPrimary"
-                android:inputType="textUri"
+                android:inputType="textEmailAddress"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
         </LinearLayout>
 
@@ -60,7 +60,7 @@
             android:background="@drawable/button_selector"
             android:clickable="true"
             android:textColor="@color/colorWhite"
-            android:text="SUBMIT"
+            android:text="INVITE"
             android:textStyle="normal"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textAlignment="center"/>

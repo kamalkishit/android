@@ -1,5 +1,6 @@
 package com.humanize.android;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -19,6 +20,7 @@ import com.humanize.android.activity.WebBrowserActivity;
 import com.humanize.android.common.Constants;
 import com.humanize.android.data.Content;
 import com.humanize.android.data.Contents;
+import com.humanize.android.fragment.LoginFragment;
 import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.service.ContentService;
 import com.humanize.android.service.ContentServiceImpl;
@@ -45,10 +47,12 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
 
     private List<Content> contents = null;
     private UserService userService;
+    private Activity activity;
 
     private static String TAG = ContentRecyclerViewAdapter.class.getSimpleName();
 
-    public ContentRecyclerViewAdapter(List<Content> contents) {
+    public ContentRecyclerViewAdapter(Activity activity, List<Content> contents) {
+        this.activity = activity;
         this.contents = contents;
         userService = new UserServiceImpl();
     }
@@ -102,15 +106,20 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         viewHolder.contentImage.getLayoutParams().width = Config.IMAGE_WIDTH;
         viewHolder.contentImage.getLayoutParams().height = Config.IMAGE_HEIGHT;
 
-        updateRecommendationButton(viewHolder);
-        updateBookmarkButton(viewHolder);
+        if (SharedPreferencesService.getInstance().getBoolean(Config.IS_LOGGED_IN)) {
+            updateDefaultView(viewHolder);
+        }
 
-        Picasso.with(ApplicationState.getAppContext()).load(content.getOriginalImageURL()).placeholder(R.drawable.background)
-        //System.out.println(Config.IMAGES_URL + "?imageName=" + content.getImageURL());
-        //Picasso.with(ApplicationState.getAppContext()).load(Config.IMAGES_URL + content.getImageURL())
+        //Picasso.with(ApplicationState.getAppContext()).load(content.getOriginalImageURL()).placeholder(R.drawable.background)
+        //System.out.println(Config.IMAGES_URL + content.getImageURL());
+        Picasso.with(ApplicationState.getAppContext()).load(Config.IMAGES_URL + content.getImageURL()).placeholder(R.drawable.background)
                 .fit().into(viewHolder.contentImage);
     }
 
+    private void updateDefaultView(ContentViewHolder viewHolder) {
+        updateRecommendationButton(viewHolder);
+        updateBookmarkButton(viewHolder);
+    }
     private void updateRecommendationButton(ContentViewHolder viewHolder) {
         if (userService.isRecommended(viewHolder.contentId)) {
             viewHolder.recommendButton.setImageResource(R.drawable.ic_recomend_filled_green);
@@ -175,7 +184,9 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
 
             configureListeners();
 
-            updateDefaultView();
+            if (SharedPreferencesService.getInstance().getBoolean(Config.IS_LOGGED_IN)) {
+                updateDefaultView();
+            }
 
             view.setOnClickListener(this);
         }
@@ -220,14 +231,22 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             recommendButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    recommend(view);
+                    if (isLoggedIn()) {
+                        recommend(view);
+                    } else {
+                        loginPrompt();
+                    }
                 }
             });
 
             bookmarkButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    bookmark(view);
+                    if (isLoggedIn()) {
+                        bookmark(view);
+                    } else {
+                        loginPrompt();
+                    }
                 }
             });
 
@@ -237,6 +256,15 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
                     share();
                 }
             });
+        }
+
+        private boolean isLoggedIn() {
+           return SharedPreferencesService.getInstance().getBoolean(Config.IS_LOGGED_IN);
+        }
+
+        private void loginPrompt() {
+            LoginFragment loginFragment = new LoginFragment();
+            loginFragment.show(activity.getFragmentManager(), "");
         }
 
         private void loadByCategory(String category) {
@@ -344,7 +372,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
             shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
-            shareIntent.putExtra(Intent.EXTRA_TEXT, content.getTitle());
+            shareIntent.putExtra(Intent.EXTRA_TEXT, content.getTitle() + "\n" + " -via HUMANIZE");
             //shareIntent.putExtra(Intent.EXTRA_TEXT, contents.get(getAdapterPosition()).getUrl());
             ApplicationState.getAppContext().startActivity(shareIntent);
         }

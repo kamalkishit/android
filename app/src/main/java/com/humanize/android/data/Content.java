@@ -10,7 +10,7 @@ public class Content {
 
     private String id;
 
-    private long contentId;
+    private String contentId;
 
     private String url;
 
@@ -60,11 +60,11 @@ public class Content {
         this.id = id;
     }
 
-    public long getContentId() {
+    public String getContentId() {
         return contentId;
     }
 
-    public void setContentId(long contentId) {
+    public void setContentId(String contentId) {
         this.contentId = contentId;
     }
 

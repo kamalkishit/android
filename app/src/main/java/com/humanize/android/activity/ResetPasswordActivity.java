@@ -48,8 +48,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
     private ActivityLauncher activityLauncher;
     private JsonParser jsonParser;
-    private String emailIdStr;
-    private String tempPasswordStr;
     private String newPasswordStr;
     private ProgressDialog progressDialog;
 
@@ -120,15 +118,19 @@ public class ResetPasswordActivity extends AppCompatActivity {
             progressDialog.setMessage(StringConstants.RESETTING_PASSWORD);
             progressDialog.show();
 
-            ResetPasswordUser resetPasswordUser = new ResetPasswordUser();
-            resetPasswordUser.setEmailId(emailIdStr);
-            resetPasswordUser.setTempPassword(tempPasswordStr);
-            resetPasswordUser.setNewPassword(newPasswordStr);
+            if (getIntent().getData() != null) {
+                ResetPasswordUser resetPasswordUser = new ResetPasswordUser();
+                resetPasswordUser.setEmailId(getIntent().getData().getQueryParameter("emailId"));
+                resetPasswordUser.setTempPassword(getIntent().getData().getQueryParameter("tempPassword"));
+                resetPasswordUser.setNewPassword(newPasswordStr);
 
-            try {
-                HttpUtil.getInstance().resetPassword(Config.USER_RESET_PASSWORD_URL, jsonParser.toJson(resetPasswordUser), new ResetPasswordCallback());
-            } catch (Exception exception) {
-                Log.e(TAG, exception.toString());
+                try {
+                    HttpUtil.getInstance().resetPassword(Config.USER_RESET_PASSWORD_URL, jsonParser.toJson(resetPasswordUser), new ResetPasswordCallback());
+                } catch (Exception exception) {
+                    Log.e(TAG, exception.toString());
+                }
+            } else {
+                // TBD:
             }
         }
     }
@@ -137,9 +139,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
         newPasswordStr = newPassword.getText().toString();
 
         if (newPasswordStr.isEmpty() || newPasswordStr.length() < Config.PASSWORD_MIN_LENGTH || newPassword.length() > Config.PASSWORD_MAX_LENGTH) {
-            newPassword.setError(StringConstants.PASSWORD_VALIDATION_ERROR_STR);
-            Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.PASSWORD_VALIDATION_ERROR_STR, Snackbar.LENGTH_SHORT);
-            snackbar.show();
+            newPassword.setError(StringConstants.INVALID_PASSWORD_LENGTH);
+            Snackbar.make(coordinatorLayout, StringConstants.INVALID_PASSWORD_LENGTH, Snackbar.LENGTH_SHORT).show();
             return false;
         }
 
@@ -154,12 +155,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 ApplicationState.setUser(user);
                 SharedPreferencesService.getInstance().putBoolean(Config.IS_LOGGED_IN, true);
                 SharedPreferencesService.getInstance().putString(Config.JSON_USER_DATA, response);
-                if (!user.getIsConfigured()) {
-                    activityLauncher.startCardActivity();
-                } else {
-                    Intent intent = new Intent(getApplicationContext(), SelectCategoriesActivity.class);
-                    startActivity(intent);
-                }
+
+                activityLauncher.startCardActivity();
             } else {
                 Log.e(TAG, "user is null");
             }

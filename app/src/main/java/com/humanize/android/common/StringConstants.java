@@ -7,11 +7,12 @@ public class StringConstants {
 
     public static String DOUBLE_BACK_EXIT_STR = "Please click BACK again to exit";
     public static String FORGOT_PASSWORD_STR = "<u>Forgot Password?</u>";
+    public static String SKIP_LOGIN = "SKIP";
     public static String REGISTER_STR = "Don't have an account? <u>Please Register</u>";
     public static String INVITATION_CODE_STR = "Don't have an invitation code? <u>Get it now</u>";
 
     public static String EMAIL_VALIDATION_ERROR_STR = "Email is Null or Invalid";
-    public static String PASSWORD_VALIDATION_ERROR_STR = "Password length must be between 8 to 16 characters";
+    public static String INVALID_PASSWORD_LENGTH = "Password length must be between 8 to 16 characters";
     public static String INVITATION_CODE_VALIDATION_ERROR_STR = "Invitation code is NULL or Invalid";
     public static String URL_VALIDATION_ERROR_STR = "URL is Null or Invalid";
     public static String CONTENT_LOADING_EXCEPTION = "unable to load articles";
@@ -32,6 +33,7 @@ public class StringConstants {
     public static String BOOKMARK = "Bookmark";
     public static String PAPER = "Paper";
     public static String SUGGEST_ARTICLE = "Suggest an Article";
+    public static String INVITE_FRIEND = "Invite a Friend";
     public static String SELECT_CATEGORY = "Select a Category";
     public static String REGISTERING = "Registering...";
     public static String AUTHENTICATING = "Authenticating...";

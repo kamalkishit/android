@@ -103,8 +103,7 @@ public class RecommendArticleActivity extends AppCompatActivity {
     private boolean validate() {
         if (contentURL == null || contentURL.getText().toString().isEmpty() || !isValidUrl(contentURL.getText().toString())) {
             contentURL.setError(StringConstants.URL_VALIDATION_ERROR_STR);
-            Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.URL_VALIDATION_ERROR_STR, Snackbar.LENGTH_SHORT);
-            snackbar.show();
+            Snackbar.make(coordinatorLayout, StringConstants.URL_VALIDATION_ERROR_STR, Snackbar.LENGTH_SHORT).show();
             return false;
         }
 
@@ -113,12 +112,7 @@ public class RecommendArticleActivity extends AppCompatActivity {
 
     private void submit() {
         if (validate()) {
-            try {
                 HttpUtil.getInstance().recommendArticle(Config.RECOMMEND_ARTICLE_URL, contentURL.getText().toString(), new RecommendArticleCallback());
-            } catch (Exception exception) {
-                //Log.e(TAG, exception.toString());
-                Snackbar.make(coordinatorLayout, StringConstants.FAILURE_STR, Snackbar.LENGTH_SHORT).show();
-            }
         }
     }
 

@@ -82,8 +82,7 @@ public class InvitationCodeActivity extends AppCompatActivity {
 
         if (emailStr.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(emailStr).matches()) {
             emailId.setError(StringConstants.EMAIL_VALIDATION_ERROR_STR);
-            Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.EMAIL_VALIDATION_ERROR_STR, Snackbar.LENGTH_SHORT);
-            snackbar.show();
+            Snackbar.make(coordinatorLayout, StringConstants.EMAIL_VALIDATION_ERROR_STR, Snackbar.LENGTH_SHORT).show();
             return false;
         }
 
@@ -99,8 +98,7 @@ public class InvitationCodeActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     submitButton.setEnabled(true);
-                    Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_SHORT);
-                    snackbar.show();
+                    Snackbar.make(coordinatorLayout, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_SHORT).show();
                 }
             });
         }
@@ -112,8 +110,7 @@ public class InvitationCodeActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         submitButton.setEnabled(true);
-                        Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.FAILURE_STR, Snackbar.LENGTH_SHORT);
-                        snackbar.show();
+                        Snackbar.make(coordinatorLayout, StringConstants.FAILURE_STR, Snackbar.LENGTH_SHORT).show();
                     }
                 });
             } else {
@@ -122,8 +119,7 @@ public class InvitationCodeActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         submitButton.setEnabled(true);
-                        Snackbar snackbar = Snackbar.make(coordinatorLayout, StringConstants.SUCCESS_STR, Snackbar.LENGTH_SHORT);
-                        snackbar.show();
+                        Snackbar.make(coordinatorLayout, StringConstants.SUCCESS_STR, Snackbar.LENGTH_SHORT).show();
                     }
                 });
             }

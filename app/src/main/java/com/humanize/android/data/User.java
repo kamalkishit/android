@@ -14,7 +14,7 @@ public class User {
 
     private String id;
 
-    private long userId;
+    private String userId;
 
     private String emailId;
 
@@ -57,11 +57,11 @@ public class User {
         this.id = id;
     }
 
-    public long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
