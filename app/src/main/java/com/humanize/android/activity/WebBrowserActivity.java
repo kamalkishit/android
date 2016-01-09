@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -23,7 +24,7 @@ import butterknife.ButterKnife;
 
 public class WebBrowserActivity extends AppCompatActivity {
 
-    //@Bind(R.id.progressBar) ProgressBar progressBar;
+    @Bind(R.id.progressBar) ProgressBar progressBar;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbarText) TextView toolbarText;
     @Bind(R.id.webView) WebView webView;
@@ -40,7 +41,7 @@ public class WebBrowserActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-        //progressBar.setProgress(0);
+        progressBar.setProgress(0);
 
         toolbar.setCollapsible(true);
         toolbarText.setText(getIntent().getStringExtra("Title"));
@@ -101,6 +102,10 @@ public class WebBrowserActivity extends AppCompatActivity {
     }
 
     public void setValue(int progress) {
-        //this.progressBar.setProgress(progress);
+        System.out.println(progress);
+        this.progressBar.setProgress(progress);
+        if (progress == 100) {
+            this.progressBar.setVisibility(View.GONE);
+        }
     }
 }

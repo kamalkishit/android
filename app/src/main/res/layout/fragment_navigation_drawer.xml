@@ -23,7 +23,7 @@
                 android:layout_marginTop="60dp"
                 android:layout_marginBottom="20dp"
                 android:layout_marginLeft="4dp"
-                android:src="@drawable/ic_profile_black" />
+                android:src="@drawable/ic_profile_white" />
 
             <TextView
                 android:id="@+id/emailId"

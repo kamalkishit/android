@@ -170,9 +170,9 @@ public class  SelectCategoriesActivity extends AppCompatActivity {
         achievers.button.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
                 if (achievers.isSelected) {
-                    unselectCategory(achievers, R.drawable.ic_achivers_black);
+                    unselectCategory(achievers, R.drawable.ic_achievers_green);
                 } else {
-                    selectCategory(achievers, R.drawable.ic_achievers_filled_green);
+                    selectCategory(achievers, R.drawable.ic_achievers_white);
                 }
             }
         });
@@ -180,9 +180,9 @@ public class  SelectCategoriesActivity extends AppCompatActivity {
         beautiful.button.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
                 if (beautiful.isSelected) {
-                    unselectCategory(beautiful, R.drawable.ic_beautiful_black);
+                    unselectCategory(beautiful, R.drawable.ic_beautiful_green);
                 } else {
-                    selectCategory(beautiful, R.drawable.ic_beautiful_filled_green);
+                    selectCategory(beautiful, R.drawable.ic_beautiful_white);
                 }
             }
         });
@@ -190,117 +190,99 @@ public class  SelectCategoriesActivity extends AppCompatActivity {
         education.button.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
                 if (education.isSelected) {
-                    selectCategory(education, R.drawable.ic_education_black);
+                    unselectCategory(education, R.drawable.ic_education_green);
                 } else {
-                    selectCategory(education, R.drawable.ic_education_filled_green);
+                    selectCategory(education, R.drawable.ic_education_white);
                 }
             }
         });
 
         empowerment.button.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
-                //handleButtonSelection(empowerment);
-
                 if (empowerment.isSelected) {
-                    unselectCategory(empowerment, R.drawable.ic_empowerment_black);
+                    unselectCategory(empowerment, R.drawable.ic_empowerment_green);
                 } else {
-                    selectCategory(empowerment, R.drawable.ic_empowerment_filled_green);
+                    selectCategory(empowerment, R.drawable.ic_empowerment_white);
                 }
             }
         });
 
         environment.button.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
-                //handleButtonSelection(environment);
-
                 if (environment.isSelected) {
-                    unselectCategory(environment, R.drawable.ic_environment_black);
+                    unselectCategory(environment, R.drawable.ic_environment_green);
                 } else {
-                    selectCategory(environment, R.drawable.ic_environment_filled_green);
+                    selectCategory(environment, R.drawable.ic_environment_white);
                 }
             }
         });
 
         governance.button.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
-                //handleButtonSelection(governance);
-
                 if (governance.isSelected) {
-                    unselectCategory(governance, R.drawable.ic_governance_black);
+                    unselectCategory(governance, R.drawable.ic_governance_green);
                 } else {
-                    selectCategory(governance, R.drawable.ic_governance_filled_green);
+                    selectCategory(governance, R.drawable.ic_governance_white);
                 }
             }
         });
 
         health.button.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
-                //handleButtonSelection(health);
-
                 if (health.isSelected) {
-                    unselectCategory(health, R.drawable.ic_health_black);
+                    unselectCategory(health, R.drawable.ic_health_green);
                 } else {
-                    selectCategory(health, R.drawable.ic_health_filled_green);
+                    selectCategory(health, R.drawable.ic_health_white);
                 }
             }
         });
 
         humanity.button.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
-                //handleButtonSelection(humanity);
-
                 if (humanity.isSelected) {
-                    unselectCategory(humanity, R.drawable.ic_humanity_black);
+                    unselectCategory(humanity, R.drawable.ic_humanity_green);
                 } else {
-                    selectCategory(humanity, R.drawable.ic_humanity_filled_green);
+                    selectCategory(humanity, R.drawable.ic_humanity_white);
                 }
             }
         });
 
         lawAndJustice.button.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
-                //handleButtonSelection(lawAndJustice);
-
                 if (lawAndJustice.isSelected) {
-                    unselectCategory(lawAndJustice, R.drawable.ic_law_justice_black);
+                    unselectCategory(lawAndJustice, R.drawable.ic_law_justice_green);
                 } else {
-                    selectCategory(lawAndJustice, R.drawable.ic_law_justice_filled_green);
+                    selectCategory(lawAndJustice, R.drawable.ic_law_justice_white);
                 }
             }
         });
 
         realHeroes.button.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
-                //handleButtonSelection(realHeroes);
-
                 if (realHeroes.isSelected) {
-                    unselectCategory(realHeroes, R.drawable.ic_real_heroes_black);
+                    unselectCategory(realHeroes, R.drawable.ic_real_heros_green);
                 } else {
-                    selectCategory(realHeroes, R.drawable.ic_real_heros_filled_green);
+                    selectCategory(realHeroes, R.drawable.ic_real_heros_white);
                 }
             }
         });
 
         scienceAndTech.button.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
-                //handleButtonSelection(scienceAndTech);
-
                 if (scienceAndTech.isSelected) {
-                    unselectCategory(scienceAndTech, R.drawable.ic_science_tech_black);
+                    unselectCategory(scienceAndTech, R.drawable.ic_science_tech_green);
                 } else {
-                    selectCategory(scienceAndTech, R.drawable.ic_science_tech_filled_green);
+                    selectCategory(scienceAndTech, R.drawable.ic_science_tech_white);
                 }
             }
         });
 
         sports.button.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
-                //handleButtonSelection(sports);
-
                 if (sports.isSelected) {
-                    unselectCategory(sports, R.drawable.ic_sports_black);
+                    unselectCategory(sports, R.drawable.ic_sports_green);
                 } else {
-                    selectCategory(sports, R.drawable.ic_sports_filled_green);
+                    selectCategory(sports, R.drawable.ic_sports_white);
                 }
             }
         });
@@ -330,51 +312,51 @@ public class  SelectCategoriesActivity extends AppCompatActivity {
             User user = ApplicationState.getUser();
 
             if (user.getCategories().contains("Achievers")) {
-                selectCategory(achievers, R.drawable.ic_achievers_filled_green);
+                selectCategory(achievers, R.drawable.ic_achievers_white);
             }
 
             if (user.getCategories().contains("Beautiful")) {
-                selectCategory(beautiful, R.drawable.ic_beautiful_filled_green);
+                selectCategory(beautiful, R.drawable.ic_beautiful_white);
             }
 
             if (user.getCategories().contains("Education")) {
-                selectCategory(education, R.drawable.ic_education_filled_green);
+                selectCategory(education, R.drawable.ic_education_white);
             }
 
             if (user.getCategories().contains("Empowerment")) {
-                selectCategory(empowerment, R.drawable.ic_empowerment_filled_green);
+                selectCategory(empowerment, R.drawable.ic_empowerment_white);
             }
 
             if (user.getCategories().contains("Environment")) {
-                selectCategory(environment, R.drawable.ic_environment_filled_green);
+                selectCategory(environment, R.drawable.ic_environment_white);
             }
 
             if (user.getCategories().contains("Governance")) {
-                selectCategory(governance, R.drawable.ic_governance_filled_green);
+                selectCategory(governance, R.drawable.ic_governance_white);
             }
 
             if (user.getCategories().contains("Health")) {
-                selectCategory(health, R.drawable.ic_health_filled_green);
+                selectCategory(health, R.drawable.ic_health_white);
             }
 
             if (user.getCategories().contains("Humanity")) {
-                selectCategory(humanity, R.drawable.ic_humanity_filled_green);
+                selectCategory(humanity, R.drawable.ic_humanity_white);
             }
 
             if (user.getCategories().contains("Real Heroes")) {
-                selectCategory(realHeroes, R.drawable.ic_real_heros_filled_green);
+                selectCategory(realHeroes, R.drawable.ic_real_heros_white);
             }
 
             if (user.getCategories().contains("Law and Justice")) {
-                selectCategory(lawAndJustice, R.drawable.ic_law_justice_filled_green);
+                selectCategory(lawAndJustice, R.drawable.ic_law_justice_white);
             }
 
             if (user.getCategories().contains("Science and Tech")) {
-                selectCategory(scienceAndTech, R.drawable.ic_science_tech_filled_green);
+                selectCategory(scienceAndTech, R.drawable.ic_science_tech_white);
             }
 
             if (user.getCategories().contains("Sports")) {
-                selectCategory(sports, R.drawable.ic_sports_filled_green);
+                selectCategory(sports, R.drawable.ic_sports_white);
             }
         }
     }
@@ -382,9 +364,10 @@ public class  SelectCategoriesActivity extends AppCompatActivity {
     private void selectCategory(Category category, int drawableResourceId) {
         category.isSelected = true;
         Drawable drawableTop = getResources().getDrawable(drawableResourceId);
+        category.button.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         category.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop, null, null);
-        category.button.setTextColor(getResources().getColor(R.color.colorAccent));
-        category.button.setTypeface(null, Typeface.BOLD);
+        category.button.setTextColor(getResources().getColor(R.color.colorWhite));
+        //category.button.setTypeface(null, Typeface.BOLD);
         categories.add(category.button.getText().toString());
         selectedCategoriesCount++;
     }
@@ -392,43 +375,44 @@ public class  SelectCategoriesActivity extends AppCompatActivity {
     private void unselectCategory(Category category, int drawableResourceId) {
         category.isSelected = false;
         Drawable drawableTop = getResources().getDrawable(drawableResourceId);
+        category.button.setBackgroundResource(R.drawable.border_button_selector);
         category.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop, null, null);
-        category.button.setTextColor(getResources().getColor(R.color.colorBlack));
+        category.button.setTextColor(getResources().getColor(R.color.colorAccent));
         category.button.setTypeface(null, Typeface.NORMAL);
         categories.remove(category.button.getText().toString());
         selectedCategoriesCount--;
     }
 
     private void selectAllCategories() {
-        selectCategory(achievers, R.drawable.ic_achievers_filled_green);
-        selectCategory(beautiful, R.drawable.ic_beautiful_filled_green);
-        selectCategory(education, R.drawable.ic_education_filled_green);
-        selectCategory(empowerment, R.drawable.ic_empowerment_filled_green);
-        selectCategory(environment, R.drawable.ic_environment_filled_green);
-        selectCategory(governance, R.drawable.ic_governance_filled_green);
-        selectCategory(health, R.drawable.ic_health_filled_green);
-        selectCategory(humanity, R.drawable.ic_humanity_filled_green);
-        selectCategory(lawAndJustice, R.drawable.ic_law_justice_filled_green);
-        selectCategory(realHeroes, R.drawable.ic_real_heros_filled_green);
-        selectCategory(scienceAndTech, R.drawable.ic_science_tech_filled_green);
-        selectCategory(sports, R.drawable.ic_sports_filled_green);
+        selectCategory(achievers, R.drawable.ic_achievers_white);
+        selectCategory(beautiful, R.drawable.ic_beautiful_white);
+        selectCategory(education, R.drawable.ic_education_white);
+        selectCategory(empowerment, R.drawable.ic_empowerment_white);
+        selectCategory(environment, R.drawable.ic_environment_white);
+        selectCategory(governance, R.drawable.ic_governance_white);
+        selectCategory(health, R.drawable.ic_health_white);
+        selectCategory(humanity, R.drawable.ic_humanity_white);
+        selectCategory(lawAndJustice, R.drawable.ic_law_justice_white);
+        selectCategory(realHeroes, R.drawable.ic_real_heros_white);
+        selectCategory(scienceAndTech, R.drawable.ic_science_tech_white);
+        selectCategory(sports, R.drawable.ic_sports_white);
 
         selectedCategoriesCount = 12;
     }
 
     private void unselectAllCategories() {
-        unselectCategory(achievers, R.drawable.ic_achivers_black);
-        unselectCategory(beautiful, R.drawable.ic_beautiful_black);
-        unselectCategory(education, R.drawable.ic_education_black);
-        unselectCategory(empowerment, R.drawable.ic_empowerment_black);
-        unselectCategory(environment, R.drawable.ic_environment_black);
-        unselectCategory(governance, R.drawable.ic_governance_black);
-        unselectCategory(health, R.drawable.ic_health_black);
-        unselectCategory(humanity, R.drawable.ic_humanity_black);
-        unselectCategory(lawAndJustice, R.drawable.ic_law_justice_black);
-        unselectCategory(realHeroes, R.drawable.ic_real_heroes_black);
-        unselectCategory(scienceAndTech, R.drawable.ic_science_tech_black);
-        unselectCategory(sports, R.drawable.ic_sports_black);
+        unselectCategory(achievers, R.drawable.ic_achivers_green);
+        unselectCategory(beautiful, R.drawable.ic_beautiful_green);
+        unselectCategory(education, R.drawable.ic_education_green);
+        unselectCategory(empowerment, R.drawable.ic_empowerment_green);
+        unselectCategory(environment, R.drawable.ic_environment_green);
+        unselectCategory(governance, R.drawable.ic_governance_green);
+        unselectCategory(health, R.drawable.ic_health_green);
+        unselectCategory(humanity, R.drawable.ic_humanity_green);
+        unselectCategory(lawAndJustice, R.drawable.ic_law_justice_green);
+        unselectCategory(realHeroes, R.drawable.ic_real_heros_green);
+        unselectCategory(scienceAndTech, R.drawable.ic_science_tech_green);
+        unselectCategory(sports, R.drawable.ic_sports_green);
 
         selectedCategoriesCount = 0;
     }

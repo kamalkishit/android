@@ -14,8 +14,10 @@ import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -46,6 +48,9 @@ import butterknife.ButterKnife;
 public class LoginActivity extends AppCompatActivity {
 
     @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
+    @Bind(R.id.dummyTop) TextView dummyTop;
+    @Bind(R.id.title) TextView title;
+    @Bind(R.id.line) View line;
     @Bind(R.id.emailId) EditText emailId;
     @Bind(R.id.password) EditText password;
     @Bind(R.id.submitButton) Button submitButton;
@@ -74,21 +79,8 @@ public class LoginActivity extends AppCompatActivity {
 
     /*@Override
     public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
-        }
-
-        this.doubleBackToExitPressedOnce = true;
-        Snackbar.make(coordinatorLayout, StringConstants.DOUBLE_BACK_EXIT_STR, Snackbar.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
-            }
-        }, Constants.DOUBLE_EXIT_DELAY_TIME);
+        dummyTop.setVisibility(View.VISIBLE);
+        super.onBackPressed();
     }*/
 
     private void initialize() {
@@ -117,6 +109,22 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+        });
+
+        emailId.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                dummyTop.setVisibility(View.GONE);
+
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(ApplicationState.getAppContext().INPUT_METHOD_SERVICE);
+                if (inputMethodManager != null) {
+                    //inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                    inputMethodManager.showSoftInput(emailId, 0);
+                }
+
+                return true;
             }
         });
 

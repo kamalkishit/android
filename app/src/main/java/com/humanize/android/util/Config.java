@@ -23,8 +23,8 @@ public class Config {
 
     // URLS
     //public final static String SERVER_URL = "http://10.0.2.2:8080";
-    //public final static String SERVER_URL = "http://188.166.254.151:8080/humanize-1";
-    public final static String SERVER_URL = "http://192.168.1.2:8080";
+    public final static String SERVER_URL = "http://188.166.254.151:8080/humanize-1";
+    //public final static String SERVER_URL = "http://192.168.1.2:8080";
 
     public final static String USER_SIGNUP_URL = SERVER_URL + "/user/signup";
     public final static String USER_LOGIN_URL = SERVER_URL + "/user/login";
