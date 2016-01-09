@@ -110,9 +110,9 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             updateDefaultView(viewHolder);
         }
 
-        //Picasso.with(ApplicationState.getAppContext()).load(content.getOriginalImageURL()).placeholder(R.drawable.background)
+        Picasso.with(ApplicationState.getAppContext()).load(content.getOriginalImageURL()).placeholder(R.drawable.background)
         //System.out.println(Config.IMAGES_URL + content.getImageURL());
-        Picasso.with(ApplicationState.getAppContext()).load(Config.IMAGES_URL + content.getImageURL()).placeholder(R.drawable.background)
+        //Picasso.with(ApplicationState.getAppContext()).load(Config.IMAGES_URL + content.getImageURL()).placeholder(R.drawable.background)
                 .fit().into(viewHolder.contentImage);
     }
 

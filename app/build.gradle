@@ -29,10 +29,21 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    signingConfigs {
+        release {
+            storeFile file("/Users/kamal/DEV/Humanize/android.jks")
+            storePassword "1@Shreyash"
+            keyAlias "HumanizeKey"
+            keyPassword "1@Shreyash"
+        }
+    }
     buildTypes {
         release {
-            minifyEnabled true
+            signingConfig signingConfigs.release
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            zipAlignEnabled true
         }
     }
 }

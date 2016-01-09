@@ -166,12 +166,12 @@ public class CardActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.actionSettings) {
+        /*if (id == R.id.actionSettings) {
             return true;
         } else if (id == R.id.actionCreate) {
             Intent intent = new Intent(getApplicationContext(), SubmitActivity.class);
             startActivity(intent);
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }

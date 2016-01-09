@@ -219,7 +219,13 @@ public class HttpUtil {
         OkHttpClient client = new OkHttpClient();
         //RequestBody requestBody = getParams(params);
         RequestBody requestBody = RequestBody.create(JSON, json);
-        Request request = new Request.Builder().url(url).post(requestBody).build();
+        Request request;
+
+        if (SharedPreferencesService.getInstance().getString(Config.TOKEN) != null) {
+            request = new Request.Builder().url(url).addHeader(Config.TOKEN, SharedPreferencesService.getInstance().getString(Config.TOKEN)).post(requestBody).build();
+        } else {
+            request = new Request.Builder().url(url).addHeader(Config.TOKEN, "").post(requestBody).build();
+        }
 
         client.newCall(request).enqueue(callback);
     }

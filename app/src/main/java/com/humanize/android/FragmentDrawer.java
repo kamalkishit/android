@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 
 public class FragmentDrawer extends Fragment {
 
+    @Bind(R.id.emailId) TextView emailId;
     @Bind(R.id.login) LinearLayout login;
     @Bind(R.id.preferences) LinearLayout preferences;
     @Bind(R.id.bookmarkedArticles) LinearLayout bookmarkedArticles;
@@ -39,6 +40,7 @@ public class FragmentDrawer extends Fragment {
     @Bind(R.id.rateUs) LinearLayout rateUs;
     //@Bind(R.id.termsOfUsage) LinearLayout termsOfUsage;
     //@Bind(R.id.privacyPolicy) LinearLayout privacyPolicy;
+    @Bind(R.id.line) View line;
     @Bind(R.id.logout) LinearLayout logout;
 
     private ActionBarDrawerToggle actionBarDrawerToggle;
@@ -64,7 +66,14 @@ public class FragmentDrawer extends Fragment {
 
     private void initialize() {
         activityLauncher = new ActivityLauncher();
-        //login.setVisibility(View.GONE);
+
+        if (SharedPreferencesService.getInstance().getBoolean(Config.IS_LOGGED_IN)) {
+            login.setVisibility(View.GONE);
+            emailId.setText(ApplicationState.getUser().getEmailId());
+        } else {
+            line.setVisibility(View.GONE);
+            logout.setVisibility(View.GONE);
+        }
 
         // TBD: to use butterknife and a single method for initializing all side nav bar items
         TextView textViewLogin = (TextView) login.findViewById(R.id.textView);
@@ -73,7 +82,7 @@ public class FragmentDrawer extends Fragment {
         imageViewLogin.setImageResource(R.drawable.ic_profile_black);
 
         TextView textViewPreferences = (TextView) preferences.findViewById(R.id.textView);
-        textViewPreferences.setText("Update Categories");
+        textViewPreferences.setText("Settings");
         ImageView imageViewPreferences = (ImageView) preferences.findViewById(R.id.imageView);
         imageViewPreferences.setImageResource(R.drawable.ic_settings_black);
 
@@ -135,7 +144,7 @@ public class FragmentDrawer extends Fragment {
                 if (isLoggedIn()) {
                     drawerLayout.closeDrawer(Gravity.LEFT);
                 } else {
-                    loginPrompt();
+                    activityLauncher.startLoginActivity();
                 }
 
             }
@@ -158,8 +167,12 @@ public class FragmentDrawer extends Fragment {
         bookmarkedArticles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activityLauncher.startBookmarksActivity();
-                drawerLayout.closeDrawer(Gravity.LEFT);
+                if (isLoggedIn()) {
+                    activityLauncher.startBookmarksActivity();
+                    drawerLayout.closeDrawer(Gravity.LEFT);
+                } else {
+                    loginPrompt();
+                }
             }
         });
 
@@ -167,32 +180,48 @@ public class FragmentDrawer extends Fragment {
         recommendedArticles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activityLauncher.startRecommendationsActivity();
-                drawerLayout.closeDrawer(Gravity.LEFT);
+                if (isLoggedIn()) {
+                    activityLauncher.startRecommendationsActivity();
+                    drawerLayout.closeDrawer(Gravity.LEFT);
+                } else {
+                    loginPrompt();
+                }
             }
         });
 
         recommendAnArticle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activityLauncher.startRecommendAnArticleActivity();
-                drawerLayout.closeDrawer(Gravity.LEFT);
+                if (isLoggedIn()) {
+                    activityLauncher.startRecommendAnArticleActivity();
+                    drawerLayout.closeDrawer(Gravity.LEFT);
+                } else {
+                    loginPrompt();
+                }
             }
         });
 
         inviteFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activityLauncher.startInviteFriendActivity();
-                drawerLayout.closeDrawer(Gravity.LEFT);
+                if (isLoggedIn()) {
+                    activityLauncher.startInviteFriendActivity();
+                    drawerLayout.closeDrawer(Gravity.LEFT);
+                } else {
+                    loginPrompt();
+                }
             }
         });
 
         contactUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activityLauncher.startContactUsActivity();
-                drawerLayout.closeDrawer(Gravity.LEFT);
+                if (isLoggedIn()) {
+                    activityLauncher.startContactUsActivity();
+                    drawerLayout.closeDrawer(Gravity.LEFT);
+                } else {
+                    loginPrompt();
+                }
             }
         });
 
@@ -200,7 +229,11 @@ public class FragmentDrawer extends Fragment {
         rateUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                drawerLayout.closeDrawer(Gravity.LEFT);
+                if (isLoggedIn()) {
+                    drawerLayout.closeDrawer(Gravity.LEFT);
+                } else {
+                    loginPrompt();
+                }
             }
         });
 
@@ -231,9 +264,13 @@ public class FragmentDrawer extends Fragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                logoutUser();
-                activityLauncher.startLoginActivityWithClearStack();
-                drawerLayout.closeDrawer(Gravity.LEFT);
+                if (isLoggedIn()) {
+                    logoutUser();
+                    activityLauncher.startLoginActivityWithClearStack();
+                    drawerLayout.closeDrawer(Gravity.LEFT);
+                } else {
+                    loginPrompt();
+                }
             }
         });
     }
