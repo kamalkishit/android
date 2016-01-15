@@ -3,24 +3,12 @@ package com.humanize.android.helper;
 import android.content.Intent;
 
 import com.humanize.android.activity.AboutUsActivity;
-import com.humanize.android.activity.AppLauncherActivity;
-import com.humanize.android.activity.BookmarksActivity;
 import com.humanize.android.activity.CardActivity;
 import com.humanize.android.activity.ContactUsActivity;
-import com.humanize.android.activity.ForgotPasswordActivity;
 import com.humanize.android.activity.InviteFriendActivity;
-import com.humanize.android.activity.LoginActivity;
-import com.humanize.android.activity.PaperActivity;
-import com.humanize.android.activity.PaperReminderActivity;
-import com.humanize.android.activity.PrivacyActivity;
 import com.humanize.android.activity.SuggestArticleActivity;
-import com.humanize.android.activity.RecommendationsActivity;
-import com.humanize.android.activity.ResetPasswordActivity;
-import com.humanize.android.activity.SelectCategoriesActivity;
-import com.humanize.android.activity.SettingsActivity;
-import com.humanize.android.activity.SignupActivity;
-import com.humanize.android.activity.SingleCategoryContent;
-import com.humanize.android.activity.UsageActivity;
+import com.humanize.android.activity.UpdateCategoriesActivity;
+import com.humanize.android.activity.SingleCategoryContentActivity;
 import com.humanize.android.util.ApplicationState;
 
 /**
@@ -34,45 +22,8 @@ public class ActivityLauncher {
         ApplicationState.getAppContext().startActivity(intent);
     }
 
-    public void startForgotPasswordActivity() {
-        Intent intent = new Intent(ApplicationState.getAppContext(), ForgotPasswordActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        ApplicationState.getAppContext().startActivity(intent);
-    }
-
-    public void startSignupActivity() {
-        Intent intent = new Intent(ApplicationState.getAppContext(), SignupActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        ApplicationState.getAppContext().startActivity(intent);
-    }
-
-    public void startSelectCategoriesActivity() {
-        Intent intent = new Intent(ApplicationState.getAppContext(), SelectCategoriesActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        ApplicationState.getAppContext().startActivity(intent);
-    }
-
-    public void startUsageActivity() {
-        Intent intent = new Intent(ApplicationState.getAppContext(), UsageActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        ApplicationState.getAppContext().startActivity(intent);
-    }
-
-    public void startPrivacyActivity() {
-        Intent intent = new Intent(ApplicationState.getAppContext(), PrivacyActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        ApplicationState.getAppContext().startActivity(intent);
-    }
-
-    public void startAppLauncherActivity() {
-        Intent intent = new Intent(ApplicationState.getAppContext(), AppLauncherActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        ApplicationState.getAppContext().startActivity(intent);
-    }
-
-    public void startResetPasswordActivity() {
-        Intent intent = new Intent(ApplicationState.getAppContext(), ResetPasswordActivity.class);
+    public void startUpdateCategoriesActivity() {
+        Intent intent = new Intent(ApplicationState.getAppContext(), UpdateCategoriesActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ApplicationState.getAppContext().startActivity(intent);
     }
@@ -84,19 +35,7 @@ public class ActivityLauncher {
         ApplicationState.getAppContext().startActivity(intent);
     }
 
-    public void startBookmarksActivity() {
-        Intent intent = new Intent(ApplicationState.getAppContext(), BookmarksActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        ApplicationState.getAppContext().startActivity(intent);
-    }
-
-    public void startRecommendationsActivity() {
-        Intent intent = new Intent(ApplicationState.getAppContext(), RecommendationsActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        ApplicationState.getAppContext().startActivity(intent);
-    }
-
-    public void startRecommendAnArticleActivity() {
+    public void startSuggestArticleActivity() {
         Intent intent = new Intent(ApplicationState.getAppContext(), SuggestArticleActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ApplicationState.getAppContext().startActivity(intent);
@@ -108,47 +47,10 @@ public class ActivityLauncher {
         ApplicationState.getAppContext().startActivity(intent);
     }
 
-    public void startSettingsActivity() {
-        Intent intent = new Intent(ApplicationState.getAppContext(), SettingsActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        ApplicationState.getAppContext().startActivity(intent);
-    }
-
-    public void startPaperActivity() {
-        Intent intent = new Intent(ApplicationState.getAppContext(), PaperActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        ApplicationState.getAppContext().startActivity(intent);
-    }
-
-    public void startPaperReminderActivity() {
-        Intent intent = new Intent(ApplicationState.getAppContext(), PaperReminderActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        ApplicationState.getAppContext().startActivity(intent);
-    }
-
-    public void startRecommendedActivity() {
-        Intent intent = new Intent(ApplicationState.getAppContext(), RecommendationsActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        ApplicationState.getAppContext().startActivity(intent);
-    }
-
     public void startSingleCategoryContentActivity(String category) {
-        Intent intent = new Intent(ApplicationState.getAppContext(), SingleCategoryContent.class);
+        Intent intent = new Intent(ApplicationState.getAppContext(), SingleCategoryContentActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("Category", category);
-        ApplicationState.getAppContext().startActivity(intent);
-    }
-
-    public void startLoginActivity() {
-        Intent intent = new Intent(ApplicationState.getAppContext(), LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        ApplicationState.getAppContext().startActivity(intent);
-    }
-
-    public void startLoginActivityWithClearStack() {
-        Intent intent = new Intent(ApplicationState.getAppContext(), LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ApplicationState.getAppContext().startActivity(intent);
     }
 

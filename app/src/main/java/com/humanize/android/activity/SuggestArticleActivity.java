@@ -21,12 +21,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.humanize.android.ApiImpl;
 import com.humanize.android.R;
 import com.humanize.android.common.StringConstants;
-import com.humanize.android.fragment.SuccessFragment;
+import com.humanize.android.data.SuggestArticle;
+import com.humanize.android.fragment.SuggestArticleSuccessFragment;
 import com.humanize.android.helper.ActivityLauncher;
+import com.humanize.android.util.Api;
 import com.humanize.android.util.Config;
-import com.humanize.android.util.HttpUtil;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -47,6 +49,7 @@ public class SuggestArticleActivity extends AppCompatActivity {
     @Bind(R.id.submitButton) Button submitButton;
 
     private ProgressDialog progressDialog;
+    private Api api;
 
     private static String TAG = SuggestArticleActivity.class.getSimpleName();
 
@@ -62,6 +65,7 @@ public class SuggestArticleActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        api = new ApiImpl();
         progressDialog = new ProgressDialog(this);
         toolbar.setCollapsible(true);
         toolbarText.setText(StringConstants.SUGGEST_ARTICLE);
@@ -120,30 +124,10 @@ public class SuggestArticleActivity extends AppCompatActivity {
             progressDialog.setIndeterminate(true);
             progressDialog.setMessage(StringConstants.SUBMITTING);
             progressDialog.show();
-            HttpUtil.getInstance().recommendArticle(Config.RECOMMEND_ARTICLE_URL, contentURL.getText().toString(), new RecommendArticleCallback());
+            SuggestArticle suggestArticle = new SuggestArticle();
+            suggestArticle.setArticleUrl(contentURL.getText().toString());
+            api.suggestArticle(suggestArticle, new SuggestArticleCallback());
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_recommend_article, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == android.R.id.home) {
-            super.onBackPressed();
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public void returnToMainActivity() {
@@ -160,7 +144,7 @@ public class SuggestArticleActivity extends AppCompatActivity {
         return m.matches();
     }
 
-    private class RecommendArticleCallback implements Callback {
+    private class SuggestArticleCallback implements Callback {
 
         @Override
         public void onFailure(Call call, IOException exception) {
@@ -189,9 +173,8 @@ public class SuggestArticleActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         progressDialog.dismiss();
-                        //Snackbar.make(coordinatorLayout, StringConstants.SUCCESS_STR, Snackbar.LENGTH_LONG).show();
-                        SuccessFragment successFragment = new SuccessFragment();
-                        successFragment.show(SuggestArticleActivity.this.getFragmentManager(), "");
+                        SuggestArticleSuccessFragment suggestArticleSuccessFragment = new SuggestArticleSuccessFragment();
+                        suggestArticleSuccessFragment.show(SuggestArticleActivity.this.getFragmentManager(), "");
 
                         new Handler().postDelayed(new Runnable() {
                             @Override

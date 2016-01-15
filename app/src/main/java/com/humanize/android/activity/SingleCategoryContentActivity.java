@@ -3,36 +3,32 @@ package com.humanize.android.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.humanize.android.ApiImpl;
 import com.humanize.android.ContentRecyclerViewAdapter;
-import com.humanize.android.data.ContentSearchParams;
-import com.humanize.android.NavigationDrawerFragment;
 import com.humanize.android.JsonParser;
 import com.humanize.android.R;
-import com.humanize.android.util.Api;
-import com.humanize.android.util.ApplicationState;
-import com.humanize.android.util.GsonParserImpl;
 import com.humanize.android.common.Constants;
 import com.humanize.android.common.StringConstants;
+import com.humanize.android.data.ContentSearchParams;
 import com.humanize.android.data.Contents;
-import com.humanize.android.service.SharedPreferencesService;
-import com.humanize.android.util.Config;
+import com.humanize.android.util.Api;
+import com.humanize.android.util.GsonParserImpl;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,29 +36,29 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class CardActivity extends AppCompatActivity {
+public class SingleCategoryContentActivity extends AppCompatActivity {
 
     public static Contents contents = null;
 
+    @Bind(R.id.recyclerView)
+    RecyclerView recyclerView;
+    @Bind(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.recyclerView) RecyclerView recyclerView;
-    @Bind(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
-    @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
-    @Bind(R.id.drawerLayout) DrawerLayout drawerLayout;
+    @Bind(R.id.toolbarText)
+    TextView toolbarText;
 
     private JsonParser jsonParser;
-    private NavigationDrawerFragment navigationDrawerFragment;
+    private Api api;
     private ContentRecyclerViewAdapter contentRecyclerViewAdapter;
     private LinearLayoutManager linearLayoutManager;
-    private boolean doubleBackToExitPressedOnce;
-    private Api api;
 
-    private static String TAG = CardActivity.class.getSimpleName();
+    private static String TAG = SingleCategoryContentActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_card);
+        setContentView(R.layout.activity_single_category_content);
 
         ButterKnife.bind(this);
 
@@ -70,61 +66,28 @@ public class CardActivity extends AppCompatActivity {
         configureListeners();
     }
 
-    @Override
-    public void onBackPressed() {
-        drawerLayout.closeDrawer(Gravity.LEFT);
-
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
-        }
-
-        this.doubleBackToExitPressedOnce = true;
-        Snackbar.make(coordinatorLayout, StringConstants.DOUBLE_BACK_EXIT_STR, Snackbar.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
-            }
-        }, Constants.DOUBLE_EXIT_DELAY_TIME);
-    }
-
     private void initialize() {
         jsonParser = new GsonParserImpl();
         api = new ApiImpl();
-        doubleBackToExitPressedOnce = false;
+        toolbarText.setText(getIntent().getStringExtra("Category"));
+
+        toolbar.setCollapsible(true);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
 
+        recyclerView.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        toolbar.setCollapsible(true);
-
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        navigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentNavigationDrawer);
-        navigationDrawerFragment.getView().getLayoutParams().width = Config.NAV_DRAWER_WIDTH;
-        navigationDrawerFragment.setUp(R.id.fragmentNavigationDrawer, drawerLayout, toolbar);
-        navigationDrawerFragment.setActivity(this);
 
         contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(this, null);
         recyclerView.setAdapter(contentRecyclerViewAdapter);
 
-        try {
-            if (SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS) != null) {
-                CardActivity.contents = jsonParser.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS), Contents.class);
-                contentRecyclerViewAdapter.setContents(CardActivity.contents.getContents());
-                contentRecyclerViewAdapter.notifyDataSetChanged();
-            } else {
-                getContent();
-            }
-        } catch (Exception exception) {
-
-        }
+        getContent();
     }
 
     private void configureListeners() {
@@ -149,30 +112,44 @@ public class CardActivity extends AppCompatActivity {
         });
     }
 
-    public void openNavigationDrawer(MenuItem menuItem) {
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        drawerLayout.openDrawer(Gravity.LEFT);
-    }
-
     private void getContent() {
+        List<String> categories = new ArrayList<String>();
+        categories.add(getIntent().getStringExtra("Category"));
         ContentSearchParams contentSearchParams = new ContentSearchParams();
-        contentSearchParams.setCategories(ApplicationState.getUser().getCategories());
+        contentSearchParams.setCategories(categories);
         api.getContents(contentSearchParams, new ContentCallback());
     }
 
     private void getNewContent(long endDate) {
+        List<String> categories = new ArrayList<String>();
+        categories.add(getIntent().getStringExtra("Category"));
         ContentSearchParams contentSearchParams = new ContentSearchParams();
-        contentSearchParams.setCategories(ApplicationState.getUser().getCategories());
+        contentSearchParams.setCategories(categories);
         contentSearchParams.setCreatedDate(endDate);
         contentSearchParams.setRefresh(true);
         api.getContents(contentSearchParams, new NewContentCallback());
     }
 
     private void getMoreContent(long startDate) {
+        List<String> categories = new ArrayList<String>();
+        categories.add(getIntent().getStringExtra("Category"));
         ContentSearchParams contentSearchParams = new ContentSearchParams();
-        contentSearchParams.setCategories(ApplicationState.getUser().getCategories());
+        contentSearchParams.setCategories(categories);
         contentSearchParams.setCreatedDate(startDate);
+        contentSearchParams.setRefresh(true);
         api.getContents(contentSearchParams, new MoreContentCallback());
+    }
+
+    private void success(View view, String response) {
+        System.out.println(response);
+        try {
+            Contents contents = jsonParser.fromJson(response, Contents.class);
+            SingleCategoryContentActivity.contents = contents;
+            contentRecyclerViewAdapter.setContents(SingleCategoryContentActivity.contents.getContents());
+            contentRecyclerViewAdapter.notifyDataSetChanged();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 
     public abstract class EndlessRecyclerViewOnScrollListener extends RecyclerView.OnScrollListener {
@@ -213,19 +190,6 @@ public class CardActivity extends AppCompatActivity {
         }
 
         public abstract void onLoadMore(int current_page);
-    }
-
-    private void success(View view, String response) {
-        System.out.println(response);
-        try {
-            Contents contents = jsonParser.fromJson(response, Contents.class);
-            SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, response);
-            CardActivity.contents = contents;
-            contentRecyclerViewAdapter.setContents(CardActivity.contents.getContents());
-            contentRecyclerViewAdapter.notifyDataSetChanged();
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
     }
 
     private class ContentCallback implements Callback {
@@ -286,11 +250,6 @@ public class CardActivity extends AppCompatActivity {
                             if (contents != null) {
                                 contentRecyclerViewAdapter.getContents().addAll(contents.getContents());
                                 contentRecyclerViewAdapter.notifyDataSetChanged();
-                                try {
-                                    SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, jsonParser.toJson(new Contents(contentRecyclerViewAdapter.getContents())));
-                                } catch (Exception exception) {
-                                    Log.e(TAG, exception.toString());
-                                }
                             }
                         } catch (Exception exception) {
                             Log.e(TAG, exception.toString());
@@ -315,21 +274,15 @@ public class CardActivity extends AppCompatActivity {
 
         @Override
         public void onResponse(Call call, final Response response) throws IOException {
-            final String responseStr = response.body().string().toString();
             if (!response.isSuccessful()) {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
-                        try {
-                            //ServerException serverException = jsonParser.fromJson(responseStr, ServerException.class);
-                            //System.out.println(serverException);
-                        } catch (Exception exception) {
-                            exception.printStackTrace();
-                        }
                     }
                 });
             } else {
+                final String responseStr = response.body().string().toString();
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
@@ -343,8 +296,6 @@ public class CardActivity extends AppCompatActivity {
                             }
 
                             contentRecyclerViewAdapter.notifyDataSetChanged();
-
-                            SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, jsonParser.toJson(new Contents(contentRecyclerViewAdapter.getContents())));
                         } catch (Exception exception) {
                             Log.e(TAG, exception.toString());
                         } finally {

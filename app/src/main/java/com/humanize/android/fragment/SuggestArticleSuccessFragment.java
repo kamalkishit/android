@@ -11,14 +11,14 @@ import android.widget.LinearLayout;
 import com.humanize.android.R;
 
 /**
- * Created by kamal on 1/14/16.
+ * Created by kamal on 1/11/16.
  */
-public class InviteSuccessFragment extends DialogFragment {
+public class SuggestArticleSuccessFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        LinearLayout linearLayout = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.dialog_invite_friend_success, null);
+        LinearLayout linearLayout = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.dialog_suggest_article_success, null);
         Button submitButton = (Button) linearLayout.findViewById(R.id.submitButton);
 
         submitButton.setOnClickListener(new View.OnClickListener() {

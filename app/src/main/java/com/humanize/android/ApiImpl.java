@@ -4,10 +4,8 @@ import com.humanize.android.data.ContactUs;
 import com.humanize.android.data.ContentSearchParams;
 import com.humanize.android.data.InviteFriend;
 import com.humanize.android.data.SuggestArticle;
-import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.Api;
-import com.humanize.android.util.Config;
-import com.humanize.android.util.JsonParserImpl;
+import com.humanize.android.util.GsonParserImpl;
 
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -71,7 +69,7 @@ public class ApiImpl implements Api {
     }
 
     private String toJson(Object object) throws Exception {
-        return new JsonParserImpl().toJson(object);
+        return new GsonParserImpl().toJson(object);
     }
 
     private void post(String url, String json, Callback callback) {

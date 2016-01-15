@@ -18,6 +18,4 @@ public interface Api {
     void suggestArticle(SuggestArticle suggestArticle, Callback callback);
     void contactUs(ContactUs contactUs, Callback callback);
     void getContents(ContentSearchParams contentSearchParams, Callback callback);
-    void refreshContents(ContentSearchParams contentSearchParams, Callback callback);
-    void getMoreContents(ContentSearchParams contentSearchParams, Callback callback);
 }

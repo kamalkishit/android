@@ -37,13 +37,6 @@
         </RelativeLayout>
 
         <include
-            android:id="@+id/login"
-            layout="@layout/nav_drawer_item_row"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/smallMargin" />
-
-        <include
             android:id="@+id/preferences"
             layout="@layout/nav_drawer_item_row"
             android:layout_width="match_parent"
@@ -58,36 +51,6 @@
             android:layout_marginTop="@dimen/extraSmallMargin"
             android:layout_marginLeft="@dimen/extraLargeMargin" />
 
-        <include
-            android:id="@+id/updatePaperTime"
-            layout="@layout/nav_drawer_item_row"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/extraSmallMargin"
-            android:layout_marginLeft="@dimen/extraLargeMargin" />
-
-        <include
-            android:id="@+id/updatePaperNotification"
-            layout="@layout/paper_notification_selector"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/extraSmallMargin"
-            android:layout_marginLeft="@dimen/extraLargeMargin" />
-
-        <include
-            android:id="@+id/bookmarkedArticles"
-            layout="@layout/nav_drawer_item_row"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/extraSmallMargin" />
-
-        <include
-            android:id="@+id/recommendedArticles"
-            layout="@layout/nav_drawer_item_row"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/extraSmallMargin" />
-
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -96,7 +59,7 @@
         </View>
 
         <include
-            android:id="@+id/recommendAnArticle"
+            android:id="@+id/suggestArticle"
             layout="@layout/nav_drawer_item_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -115,6 +78,13 @@
             android:background="@color/colorGrey"></View>
 
         <include
+            android:id="@+id/aboutUs"
+            layout="@layout/nav_drawer_item_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" />
+
+        <include
             android:id="@+id/contactUs"
             layout="@layout/nav_drawer_item_row"
             android:layout_width="match_parent"
@@ -128,43 +98,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/extraSmallMargin" />
 
-        <!--<include
-            android:id="@+id/aboutUs"
-            layout="@layout/nav_drawer_item_row"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
-
-        <include
-            android:id="@+id/termsOfUsage"
-            layout="@layout/nav_drawer_item_row"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp" />
-
-        <include
-            android:id="@+id/privacyPolicy"
-            layout="@layout/nav_drawer_item_row"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp" /> -->
-
-        <View
-            android:id="@+id/line"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorGrey"></View>
-
-        <include
-            android:id="@+id/logout"
-            layout="@layout/nav_drawer_item_row"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/smallMargin" />
-
         <View
             android:layout_width="match_parent"
-            android:layout_height="150dp" />
+            android:layout_height="100dp" />
     </LinearLayout>
 
 </ScrollView>

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -24,10 +23,6 @@ import com.humanize.android.R;
 import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.InviteFriend;
 import com.humanize.android.fragment.InviteSuccessFragment;
-import com.humanize.android.helper.ActivityLauncher;
-import com.humanize.android.util.ApplicationState;
-import com.humanize.android.util.Config;
-import com.humanize.android.util.HttpUtil;
 
 import java.io.IOException;
 
@@ -139,24 +134,6 @@ public class InviteFriendActivity extends AppCompatActivity {
 
     public void returnToMainActivity() {
         super.onBackPressed();
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_recommend_article, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == android.R.id.home) {
-            super.onBackPressed();
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     private class InviteCallback implements Callback {

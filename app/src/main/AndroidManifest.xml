@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.humanize.android">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <uses-feature android:name="android.hardware.camera" />
-
     <application
         android:name=".util.ApplicationState"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Humanize">
+
         <activity
             android:name=".activity.AppLauncherActivity"
             android:label="Humanize"
@@ -25,54 +25,14 @@
             </intent-filter>
         </activity>
 
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-        <meta-data
-            android:name="com.google.android.urlshortener.API_KEY"
-            android:value="AIzaSyCIs43UuRuXjHb8-SeWOD559rjSoXNgO3Y" />
-
         <activity
             android:name=".activity.CardActivity"
             android:label="HUMANIZE"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
+
         <activity
             android:name=".activity.WebBrowserActivity"
-            android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme" />
-        <activity
-            android:name=".activity.PaperLauncherActivity"
-            android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme" />
-        <activity
-            android:name=".activity.PaperActivity"
-            android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme" />
-        <activity
-            android:name=".activity.SubmitActivity"
-            android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme" />
-        <activity
-            android:name=".activity.PaperReminderActivity"
-            android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme" />
-        <activity
-            android:name="com.facebook.FacebookActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".activity.CameraActivity"
-            android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme" />
-        <activity
-            android:name=".activity.SearchActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
@@ -82,123 +42,38 @@
             android:value="03639786c99eae8b1629cad76bcef8cb5ffa2aeb" />
 
         <activity
-            android:name=".activity.RecommendationsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme" />
-        <activity
-            android:name=".activity.BookmarksActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme" />
-        <activity
-            android:name=".activity.SelectCategoriesActivity"
+            android:name=".activity.UpdateCategoriesActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
-        <activity
-            android:name=".activity.LoginActivity"
-            android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
-        <activity
-            android:name=".activity.SignupActivity"
-            android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="www.humannize.com"
-                    android:pathPrefix="/signup"
-                    android:scheme="http" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".activity.ForgotPasswordActivity"
-            android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme" />
-        <activity
-            android:name=".activity.InvitationCodeActivity"
-            android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme" />
         <activity
             android:name=".activity.SuggestArticleActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
+
         <activity
             android:name=".activity.AboutUsActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
-        <activity
-            android:name=".activity.UsageActivity"
-            android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme" />
-        <activity
-            android:name=".activity.PrivacyActivity"
-            android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme" />
+
         <activity
             android:name=".activity.ContactUsActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
-        <activity
-            android:name=".activity.ResetPasswordActivity"
-            android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="www.humannize.com"
-                    android:pathPrefix="/reset"
-                    android:scheme="http" />
-            </intent-filter>
-        </activity>
         <activity
-            android:name=".activity.EditCategoriesActivity"
-            android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme" />
-        <activity
-            android:name=".activity.SettingsActivity"
-            android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme" />
-        <activity
-            android:name=".activity.SingleCategoryContent"
+            android:name=".activity.SingleCategoryContentActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
 
-        <service
-            android:name=".AlarmService"
-            android:enabled="true" />
-
-        <receiver android:name=".AlarmReceiver" />
-
-        <activity
-            android:name=".activity.FacebookLoginActivity"
-            android:label="@string/title_activity_facebook_login"
-            android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.InviteFriendActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
     </application>
-
 </manifest>

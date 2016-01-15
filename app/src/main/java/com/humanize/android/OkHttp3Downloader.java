@@ -15,6 +15,7 @@ import okhttp3.Request;
 import okhttp3.ResponseBody;
 
 public final class OkHttp3Downloader implements Downloader {
+
     private static final String PICASSO_CACHE = "picasso-cache";
     private static final int MIN_DISK_CACHE_SIZE = 5 * 1024 * 1024; // 5MB
     private static final int MAX_DISK_CACHE_SIZE = 50 * 1024 * 1024; // 50MB
