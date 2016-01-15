@@ -21,7 +21,6 @@
                 android:layout_height="60dp"
                 android:layout_alignParentLeft="true"
                 android:layout_marginTop="60dp"
-                android:layout_marginBottom="20dp"
                 android:layout_marginLeft="4dp"
                 android:src="@drawable/ic_profile_white" />
 
@@ -30,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:text="Guest User"
+                android:text="@string/guestUser"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/colorWhite"
                 android:layout_marginBottom="16dp"
@@ -42,28 +41,52 @@
             layout="@layout/nav_drawer_item_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="@dimen/smallMargin" />
 
         <include
             android:id="@+id/preferences"
             layout="@layout/nav_drawer_item_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp" />
+            android:layout_marginTop="@dimen/extraSmallMargin" />
+
+        <include
+            android:id="@+id/updateCategories"
+            layout="@layout/nav_drawer_item_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/extraSmallMargin"
+            android:layout_marginLeft="@dimen/extraLargeMargin" />
+
+        <include
+            android:id="@+id/updatePaperTime"
+            layout="@layout/nav_drawer_item_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/extraSmallMargin"
+            android:layout_marginLeft="@dimen/extraLargeMargin" />
+
+        <include
+            android:id="@+id/updatePaperNotification"
+            layout="@layout/paper_notification_selector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/extraSmallMargin"
+            android:layout_marginLeft="@dimen/extraLargeMargin" />
 
         <include
             android:id="@+id/bookmarkedArticles"
             layout="@layout/nav_drawer_item_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp" />
+            android:layout_marginTop="@dimen/extraSmallMargin" />
 
         <include
             android:id="@+id/recommendedArticles"
             layout="@layout/nav_drawer_item_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp" />
+            android:layout_marginTop="@dimen/extraSmallMargin" />
 
         <View
             android:layout_width="match_parent"
@@ -77,14 +100,14 @@
             layout="@layout/nav_drawer_item_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="@dimen/smallMargin" />
 
         <include
             android:id="@+id/inviteFriend"
             layout="@layout/nav_drawer_item_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="@dimen/smallMargin" />
 
         <View
             android:layout_width="match_parent"
@@ -96,16 +119,14 @@
             layout="@layout/nav_drawer_item_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp" />
-
-
+            android:layout_marginTop="@dimen/extraSmallMargin" />
 
         <include
             android:id="@+id/rateUs"
             layout="@layout/nav_drawer_item_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp" />
+            android:layout_marginTop="@dimen/extraSmallMargin" />
 
         <!--<include
             android:id="@+id/aboutUs"
@@ -139,14 +160,11 @@
             layout="@layout/nav_drawer_item_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="@dimen/smallMargin" />
 
-        <!--<android.support.v7.widget.RecyclerView
-            android:id="@+id/drawerList"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/navHeaderContainer"
-            android:layout_marginTop="15dp" />-->
+            android:layout_height="150dp" />
     </LinearLayout>
 
 </ScrollView>

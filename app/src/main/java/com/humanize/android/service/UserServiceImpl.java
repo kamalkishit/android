@@ -8,12 +8,13 @@ import com.humanize.android.data.User;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 /**
  * Created by kamal on 1/1/16.
@@ -186,13 +187,13 @@ public class UserServiceImpl implements UserService {
             this.content = content;
         }
         @Override
-        public void onFailure(Request request, IOException exception) {
+        public void onFailure(Call call, IOException exception) {
             undoRecommend(content);
             Log.e(TAG, exception.toString());
         }
 
         @Override
-        public void onResponse(final Response response) throws IOException {
+        public void onResponse(Call call, final Response response) throws IOException {
             if (!response.isSuccessful()) {
                 undoRecommend(content);
             } else {
@@ -209,13 +210,13 @@ public class UserServiceImpl implements UserService {
         }
 
         @Override
-        public void onFailure(Request request, IOException exception) {
+        public void onFailure(Call call, IOException exception) {
             bookmark(content.getId());
             Log.e(TAG, exception.toString());
         }
 
         @Override
-        public void onResponse(final Response response) throws IOException {
+        public void onResponse(Call call, final Response response) throws IOException {
             if (!response.isSuccessful()) {
                 bookmark(content.getId());
             } else {

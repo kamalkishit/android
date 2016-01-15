@@ -5,11 +5,12 @@ import android.util.Log;
 import com.humanize.android.data.Content;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 /**
  * Created by kamal on 1/1/16.
@@ -60,12 +61,12 @@ public class ContentServiceImpl implements ContentService {
     private class UpdateRecommendationCountCallback implements Callback {
 
         @Override
-        public void onFailure(Request request, IOException exception) {
+        public void onFailure(Call call, IOException exception) {
             Log.e(TAG, exception.toString());
         }
 
         @Override
-        public void onResponse(final Response response) throws IOException {
+        public void onResponse(Call call, final Response response) throws IOException {
             if (!response.isSuccessful()) {
             } else {
             }
@@ -75,12 +76,12 @@ public class ContentServiceImpl implements ContentService {
     private class IncrSharedCountCallback implements Callback {
 
         @Override
-        public void onFailure(Request request, IOException exception) {
+        public void onFailure(Call call, IOException exception) {
             Log.e(TAG, exception.toString());
         }
 
         @Override
-        public void onResponse(final Response response) throws IOException {
+        public void onResponse(Call call, final Response response) throws IOException {
             if (!response.isSuccessful()) {
             } else {
             }
@@ -90,12 +91,12 @@ public class ContentServiceImpl implements ContentService {
     private class IncrViewCountCallback implements Callback {
 
         @Override
-        public void onFailure(Request request, IOException exception) {
+        public void onFailure(Call call, IOException exception) {
             Log.e(TAG, exception.toString());
         }
 
         @Override
-        public void onResponse(final Response response) throws IOException {
+        public void onResponse(Call call, final Response response) throws IOException {
             if (!response.isSuccessful()) {
             } else {
             }

@@ -5,9 +5,6 @@ import android.util.Log;
 import com.humanize.android.data.Content;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 

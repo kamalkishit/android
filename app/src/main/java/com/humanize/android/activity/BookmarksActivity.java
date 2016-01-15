@@ -27,14 +27,14 @@ import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.service.UserServiceImpl;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class BookmarksActivity extends AppCompatActivity {
 
@@ -171,7 +171,7 @@ public class BookmarksActivity extends AppCompatActivity {
     private class BookmarkCallback implements Callback {
 
         @Override
-        public void onFailure(Request request, IOException exception) {
+        public void onFailure(Call call, IOException exception) {
             exception.printStackTrace();
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
@@ -183,7 +183,7 @@ public class BookmarksActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onResponse(final Response response) throws IOException {
+        public void onResponse(Call call, final Response response) throws IOException {
             if (!response.isSuccessful()) {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
@@ -208,7 +208,7 @@ public class BookmarksActivity extends AppCompatActivity {
     private class NewBookmarkCallback implements Callback {
 
         @Override
-        public void onFailure(Request request, IOException exception) {
+        public void onFailure(Call call, IOException exception) {
             exception.printStackTrace();
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
@@ -219,7 +219,7 @@ public class BookmarksActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onResponse(final Response response) throws IOException {
+        public void onResponse(Call call, final Response response) throws IOException {
             if (!response.isSuccessful()) {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
@@ -258,7 +258,7 @@ public class BookmarksActivity extends AppCompatActivity {
     private class MoreBookmarkCallback implements Callback {
 
         @Override
-        public void onFailure(Request request, IOException exception) {
+        public void onFailure(Call call, IOException exception) {
             exception.printStackTrace();
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
@@ -268,7 +268,7 @@ public class BookmarksActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onResponse(final Response response) throws IOException {
+        public void onResponse(Call call, final Response response) throws IOException {
             if (!response.isSuccessful()) {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override

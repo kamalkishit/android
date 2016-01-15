@@ -14,6 +14,8 @@ public class Content {
 
     private String url;
 
+    private String shortUrl;
+
     private String userId;
 
     private String title;
@@ -22,7 +24,7 @@ public class Content {
 
     private String imageURL;
 
-    private String originalImageURL;
+    private String originalImageUrl;
 
     private String source;
 
@@ -76,6 +78,14 @@ public class Content {
         this.url = url;
     }
 
+    public String getShortUrl() {
+        return shortUrl;
+    }
+
+    public void setShortUrl(String shortUrl) {
+        this.shortUrl = shortUrl;
+    }
+
     public String getUserId() {
         return userId;
     }
@@ -108,12 +118,12 @@ public class Content {
         this.imageURL = imageURL;
     }
 
-    public String getOriginalImageURL() {
-        return originalImageURL;
+    public String getOriginalImageUrl() {
+        return originalImageUrl;
     }
 
-    public void setOriginalImageURL(String originalImageURL) {
-        this.originalImageURL = originalImageURL;
+    public void setOriginalImageURL(String originalImageUrl) {
+        this.originalImageUrl = originalImageUrl;
     }
 
     public String getSource() {

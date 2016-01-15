@@ -6,11 +6,11 @@ import android.os.Looper;
 import android.support.design.widget.Snackbar;
 
 import com.humanize.android.common.StringConstants;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
 
 /**
  * Created by kamal on 1/4/16.
@@ -32,12 +32,12 @@ public class UrlShortner {
     private class BookmarkCallback implements Callback {
 
         @Override
-        public void onFailure(com.squareup.okhttp.Request request, IOException exception) {
+        public void onFailure(Call call, IOException exception) {
             exception.printStackTrace();
         }
 
         @Override
-        public void onResponse(final com.squareup.okhttp.Response response) throws IOException {
+        public void onResponse(Call call, final okhttp3.Response response) throws IOException {
             if (!response.isSuccessful()) {
 
             } else {

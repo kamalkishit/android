@@ -23,7 +23,8 @@ public class Config {
 
     // URLS
     //public final static String SERVER_URL = "http://10.0.2.2:8080";
-    public final static String SERVER_URL = "http://188.166.254.151:8080/humanize-1";
+    public final static String SERVER_URL = "http://humannize.com:8080/humanize-1";
+    //public final static String SERVER_URL = "http://188.166.254.151:8080/humanize-1";
     //public final static String SERVER_URL = "http://192.168.1.2:8080";
 
     public final static String USER_SIGNUP_URL = SERVER_URL + "/user/signup";
@@ -61,5 +62,8 @@ public class Config {
     public static int ASPECT_RATIO_HEIGHT = 5;
     public static int IMAGE_WIDTH = 720;
     public static int IMAGE_HEIGHT = 405;
+    public static int SCREEN_WIDTH = 0;
+    public static int SCREEN_HEIGHT = 0;
+    public static int NAV_DRAWER_WIDTH = 0;
     public static boolean isCallDone = false;
 }

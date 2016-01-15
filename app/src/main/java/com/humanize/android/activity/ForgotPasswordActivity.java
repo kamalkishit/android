@@ -22,14 +22,14 @@ import com.humanize.android.common.StringConstants;
 import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
@@ -117,7 +117,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     private class ForgotPasswordCallback implements Callback {
 
         @Override
-        public void onFailure(Request request, IOException exception) {
+        public void onFailure(Call call, IOException exception) {
             Log.e(TAG, exception.toString());
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
@@ -130,7 +130,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onResponse(final Response response) throws IOException {
+        public void onResponse(Call call, final Response response) throws IOException {
             if (!response.isSuccessful()) {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override

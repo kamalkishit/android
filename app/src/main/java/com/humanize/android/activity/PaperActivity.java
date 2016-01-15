@@ -32,9 +32,6 @@ import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
 import com.humanize.android.util.JsonParserImpl;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -43,6 +40,9 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class PaperActivity extends AppCompatActivity {
 
@@ -142,7 +142,7 @@ public class PaperActivity extends AppCompatActivity {
     private class ContentCallback implements Callback {
 
         @Override
-        public void onFailure(Request request, IOException exception) {
+        public void onFailure(Call call, IOException exception) {
             exception.printStackTrace();
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
@@ -154,7 +154,7 @@ public class PaperActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onResponse(final Response response) throws IOException {
+        public void onResponse(Call call, final Response response) throws IOException {
             if (!response.isSuccessful()) {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override

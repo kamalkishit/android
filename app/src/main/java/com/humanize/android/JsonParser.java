@@ -7,6 +7,6 @@ import com.google.gson.Gson;
  */
 public interface JsonParser {
 
-    public <T> T fromJson(String json, Class<T> classOfT) throws Exception;
-    public String toJson(Object src) throws Exception;
+    <T> T fromJson(String json, Class<T> classOfT) throws Exception;
+    String toJson(Object src) throws Exception;
 }

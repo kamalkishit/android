@@ -1,9 +1,5 @@
 package com.humanize.android.activity;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.FragmentManager;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -22,12 +18,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.humanize.android.ApiImpl;
 import com.humanize.android.ContentRecyclerViewAdapter;
+import com.humanize.android.ServerException;
+import com.humanize.android.data.ContentSearchParams;
 import com.humanize.android.fragment.LoginFragment;
 import com.humanize.android.service.ContentService;
 import com.humanize.android.FragmentDrawer;
 import com.humanize.android.JsonParser;
 import com.humanize.android.R;
+import com.humanize.android.util.Api;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.JsonParserImpl;
 import com.humanize.android.common.Constants;
@@ -36,14 +36,15 @@ import com.humanize.android.data.Contents;
 import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class CardActivity extends AppCompatActivity {
 
@@ -60,6 +61,7 @@ public class CardActivity extends AppCompatActivity {
     private ContentRecyclerViewAdapter contentRecyclerViewAdapter;
     private LinearLayoutManager linearLayoutManager;
     private boolean doubleBackToExitPressedOnce;
+    private Api api;
 
     private static String TAG = CardActivity.class.getSimpleName();
 
@@ -97,6 +99,7 @@ public class CardActivity extends AppCompatActivity {
 
     private void initialize() {
         jsonParser = new JsonParserImpl();
+        api = new ApiImpl();
         doubleBackToExitPressedOnce = false;
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
 
@@ -110,6 +113,7 @@ public class CardActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         fragmentDrawer = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragmentNavigationDrawer);
+        fragmentDrawer.getView().getLayoutParams().width = Config.NAV_DRAWER_WIDTH;
         fragmentDrawer.setUp(R.id.fragmentNavigationDrawer, drawerLayout, toolbar);
         fragmentDrawer.setActivity(this);
 
@@ -134,7 +138,7 @@ public class CardActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 if (contentRecyclerViewAdapter.getContents() != null && contentRecyclerViewAdapter.getContents().size() > 0) {
-                    getNewContent(Long.toString(contentRecyclerViewAdapter.getContents().get(0).getCreatedDate()));
+                    getNewContent(contentRecyclerViewAdapter.getContents().get(0).getCreatedDate());
                 } else {
                     getContent();
                 }
@@ -145,7 +149,7 @@ public class CardActivity extends AppCompatActivity {
             @Override
             public void onLoadMore(int current_page) {
                 if (contentRecyclerViewAdapter.getContents().size() > 0) {
-                    getMoreContent(Long.toString(contentRecyclerViewAdapter.getContents().get(contentRecyclerViewAdapter.getContents().size() - 1).getCreatedDate()));
+                    getMoreContent(contentRecyclerViewAdapter.getContents().get(contentRecyclerViewAdapter.getContents().size() - 1).getCreatedDate());
                 }
             }
         });
@@ -182,15 +186,24 @@ public class CardActivity extends AppCompatActivity {
     }
 
     private void getContent() {
-        HttpUtil.getInstance().getContents(new ContentCallback());
+        ContentSearchParams contentSearchParams = new ContentSearchParams();
+        contentSearchParams.setCategories(ApplicationState.getUser().getCategories());
+        api.getContents(contentSearchParams, new ContentCallback());
     }
 
-    private void getNewContent(String endDate) {
-        HttpUtil.getInstance().refreshContents(endDate, new NewContentCallback());
+    private void getNewContent(long endDate) {
+        ContentSearchParams contentSearchParams = new ContentSearchParams();
+        contentSearchParams.setCategories(ApplicationState.getUser().getCategories());
+        contentSearchParams.setCreatedDate(endDate);
+        contentSearchParams.setRefresh(true);
+        api.getContents(contentSearchParams, new NewContentCallback());
     }
 
-    private void getMoreContent(String startDate) {
-        HttpUtil.getInstance().getMoreContents(startDate, new MoreContentCallback());
+    private void getMoreContent(long startDate) {
+        ContentSearchParams contentSearchParams = new ContentSearchParams();
+        contentSearchParams.setCategories(ApplicationState.getUser().getCategories());
+        contentSearchParams.setCreatedDate(startDate);
+        api.getContents(contentSearchParams, new MoreContentCallback());
     }
 
     public abstract class EndlessRecyclerViewOnScrollListener extends RecyclerView.OnScrollListener {
@@ -249,7 +262,7 @@ public class CardActivity extends AppCompatActivity {
     private class ContentCallback implements Callback {
 
         @Override
-        public void onFailure(Request request, IOException exception) {
+        public void onFailure(Call call, IOException exception) {
             exception.printStackTrace();
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
@@ -261,7 +274,7 @@ public class CardActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onResponse(final Response response) throws IOException {
+        public void onResponse(Call call, final Response response) throws IOException {
             if (!response.isSuccessful()) {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
@@ -285,12 +298,12 @@ public class CardActivity extends AppCompatActivity {
 
     private class MoreContentCallback implements Callback {
         @Override
-        public void onFailure(Request request, IOException exception) {
+        public void onFailure(Call call, IOException exception) {
             Log.e(TAG, exception.toString());
         }
 
         @Override
-        public void onResponse(final Response response) throws IOException {
+        public void onResponse(Call call, final Response response) throws IOException {
             if (!response.isSuccessful()) {
 
             } else {
@@ -321,7 +334,7 @@ public class CardActivity extends AppCompatActivity {
 
     private class NewContentCallback implements Callback {
         @Override
-        public void onFailure(Request request, IOException exception) {
+        public void onFailure(Call call, IOException exception) {
             Log.e(TAG, exception.toString());
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
@@ -332,16 +345,22 @@ public class CardActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onResponse(final Response response) throws IOException {
+        public void onResponse(Call call, final Response response) throws IOException {
+            final String responseStr = response.body().string().toString();
             if (!response.isSuccessful()) {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
+                        try {
+                            //ServerException serverException = jsonParser.fromJson(responseStr, ServerException.class);
+                            //System.out.println(serverException);
+                        } catch (Exception exception) {
+                            exception.printStackTrace();
+                        }
                     }
                 });
             } else {
-                final String responseStr = response.body().string().toString();
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
@@ -356,11 +375,7 @@ public class CardActivity extends AppCompatActivity {
 
                             contentRecyclerViewAdapter.notifyDataSetChanged();
 
-                            try {
-                                SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, jsonParser.toJson(new Contents(contentRecyclerViewAdapter.getContents())));
-                            } catch (Exception exception) {
-                                Log.e(TAG, exception.toString());
-                            }
+                            SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, jsonParser.toJson(new Contents(contentRecyclerViewAdapter.getContents())));
                         } catch (Exception exception) {
                             Log.e(TAG, exception.toString());
                         } finally {

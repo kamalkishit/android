@@ -34,9 +34,6 @@ import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import org.w3c.dom.Text;
 
@@ -44,6 +41,9 @@ import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -224,7 +224,7 @@ public class LoginActivity extends AppCompatActivity {
     private class LoginCallback implements Callback {
 
         @Override
-        public void onFailure(Request request, IOException exception) {
+        public void onFailure(Call call, IOException exception) {
             Log.e(TAG, exception.toString());
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
@@ -237,7 +237,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onResponse(final Response response) throws IOException {
+        public void onResponse(Call call, final Response response) throws IOException {
             if (!response.isSuccessful()) {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
@@ -262,7 +262,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private class UserDataCallback implements Callback {
         @Override
-        public void onFailure(Request request, IOException e) {
+        public void onFailure(Call call, IOException e) {
             e.printStackTrace();
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
@@ -273,7 +273,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onResponse(final Response response) throws IOException {
+        public void onResponse(Call call, final Response response) throws IOException {
             if (!response.isSuccessful()) {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override

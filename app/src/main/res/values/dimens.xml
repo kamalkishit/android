@@ -14,6 +14,7 @@
     <dimen name="smallMargin">8dp</dimen>
     <dimen name="mediumMargin">16dp</dimen>
     <dimen name="largeMargin">24dp</dimen>
+    <dimen name="extraLargeMargin">32dp</dimen>
 
     <dimen name="extraSmallIconSize">4dp</dimen>
     <dimen name="smallIconSize">8dp</dimen>
@@ -25,7 +26,7 @@
     <dimen name="mediumSizeFont">16sp</dimen>
     <dimen name="largeSizeFont">24sp</dimen>
 
-    <dimen name="navDrawerWidth">280dp</dimen>
+    <dimen name="navDrawerWidth">270dp</dimen>
     <dimen name="imageButtonWidth">40dp</dimen>
     <dimen name="imageButtonHeight">40dp</dimen>
     <dimen name="fabMargin">16dp</dimen>

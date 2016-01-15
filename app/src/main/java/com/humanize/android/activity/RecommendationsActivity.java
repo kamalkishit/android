@@ -26,14 +26,14 @@ import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.service.UserServiceImpl;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class RecommendationsActivity extends AppCompatActivity {
 
@@ -171,7 +171,7 @@ public class RecommendationsActivity extends AppCompatActivity {
     private class NewRecommendationsCallback implements Callback {
 
         @Override
-        public void onFailure(Request request, IOException exception) {
+        public void onFailure(Call call, IOException exception) {
             exception.printStackTrace();
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
@@ -182,7 +182,7 @@ public class RecommendationsActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onResponse(final Response response) throws IOException {
+        public void onResponse(Call call, final Response response) throws IOException {
             if (!response.isSuccessful()) {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
@@ -225,7 +225,7 @@ public class RecommendationsActivity extends AppCompatActivity {
     private class MoreRecommendationsCallback implements Callback {
 
         @Override
-        public void onFailure(Request request, IOException exception) {
+        public void onFailure(Call call, IOException exception) {
             exception.printStackTrace();
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
@@ -235,7 +235,7 @@ public class RecommendationsActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onResponse(final Response response) throws IOException {
+        public void onResponse(Call call, final Response response) throws IOException {
             if (!response.isSuccessful()) {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
@@ -277,7 +277,7 @@ public class RecommendationsActivity extends AppCompatActivity {
     private class RecommendationsCallback implements Callback {
 
         @Override
-        public void onFailure(Request request, IOException exception) {
+        public void onFailure(Call call, IOException exception) {
             exception.printStackTrace();
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
@@ -289,7 +289,7 @@ public class RecommendationsActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onResponse(final Response response) throws IOException {
+        public void onResponse(Call call, final Response response) throws IOException {
             if (!response.isSuccessful()) {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override

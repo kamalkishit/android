@@ -27,9 +27,6 @@ import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -39,6 +36,9 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class  SelectCategoriesActivity extends AppCompatActivity {
 
@@ -135,14 +135,17 @@ public class  SelectCategoriesActivity extends AppCompatActivity {
     private void configureListeners() {
         submitButton.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
-                if (selectedCategoriesCount < 3) {
-                    Snackbar.make(view, "Select minimum 3 categories", Snackbar.LENGTH_LONG).show();
+                if (selectedCategoriesCount < 1) {
+                    Snackbar.make(view, "Select atleast 1 category", Snackbar.LENGTH_LONG).show();
                 } else {
                     List<String> categoriesList = new ArrayList<>();
                     categoriesList.addAll(categories);
                     ApplicationState.getUser().setCategories(categoriesList);
 
-                    try {
+                    SharedPreferencesService.getInstance().delete(Config.JSON_CONTENTS);
+                    activityLauncher.startCardActivity();
+
+                    /*try {
                         String userdataJson = jsonParser.toJson(ApplicationState.getUser());
                         System.out.println(Config.USER_UPDATE_URL);
                         System.out.println(userdataJson);
@@ -152,7 +155,7 @@ public class  SelectCategoriesActivity extends AppCompatActivity {
                         }
                     } catch (Exception exception) {
 
-                    }
+                    }*/
                 }
             }
         });
@@ -359,6 +362,10 @@ public class  SelectCategoriesActivity extends AppCompatActivity {
                 selectCategory(sports, R.drawable.ic_sports_white);
             }
         }
+
+        if (selectedCategoriesCount == 12) {
+            selectAllCheckbox.setChecked(true);
+        }
     }
 
     private void selectCategory(Category category, int drawableResourceId) {
@@ -368,7 +375,14 @@ public class  SelectCategoriesActivity extends AppCompatActivity {
         category.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop, null, null);
         category.button.setTextColor(getResources().getColor(R.color.colorWhite));
         //category.button.setTypeface(null, Typeface.BOLD);
-        categories.add(category.button.getText().toString());
+        if (category.button.getText().equals("Science & Tech")) {
+            categories.add("Science and Tech");
+        } else if (category.button.getText().equals("Law & Justice")) {
+            categories.add("Law and Justice");
+        } else {
+            categories.add(category.button.getText().toString());
+        }
+
         selectedCategoriesCount++;
     }
 
@@ -379,7 +393,15 @@ public class  SelectCategoriesActivity extends AppCompatActivity {
         category.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop, null, null);
         category.button.setTextColor(getResources().getColor(R.color.colorAccent));
         category.button.setTypeface(null, Typeface.NORMAL);
-        categories.remove(category.button.getText().toString());
+
+        if (category.button.getText().equals("Science & Tech")) {
+            categories.remove("Science and Tech");
+        } else if (category.button.getText().equals("Law & Justice")) {
+            categories.remove("Law and Justice");
+        } else {
+            categories.remove(category.button.getText().toString());
+        }
+
         selectedCategoriesCount--;
     }
 
@@ -436,7 +458,7 @@ public class  SelectCategoriesActivity extends AppCompatActivity {
             this.view = view;
         }
         @Override
-        public void onFailure(Request request, IOException e) {
+        public void onFailure(Call call, IOException e) {
             e.printStackTrace();
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
@@ -447,7 +469,7 @@ public class  SelectCategoriesActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onResponse(final Response response) throws IOException {
+        public void onResponse(Call call, final Response response) throws IOException {
             if (!response.isSuccessful()) {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override

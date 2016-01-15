@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/smallMargin"
-    android:layout_marginLeft="@dimen/mediumMargin"
-    android:layout_marginRight="@dimen/mediumMargin"
+    android:layout_marginLeft="@dimen/smallMargin"
+    android:layout_marginRight="@dimen/smallMargin"
     android:layout_marginTop="@dimen/mediumMargin"
     android:clickable="true"
-    android:elevation="6dp"
+    android:elevation="4dp"
     android:foreground="?android:attr/selectableItemBackground"
     card_view:cardCornerRadius="0dp">
 
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
+        <!--<TextView
             android:id="@+id/contentCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,9 +32,32 @@
             android:background="@drawable/rounded_border_button_green"
             android:text="Category"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/colorAccent" /> -->
 
-        <android.support.v7.widget.CardView
+        <!--<android.support.design.widget.TextInputLayout
+            android:id="@+id/contentCategory1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            >
+
+            <TextView
+                android:id="@+id/contentCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:textColor="@color/colorWhite"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        </android.support.design.widget.TextInputLayout> -->
+
+        <!--<android.support.v7.widget.CardView
             android:id="@+id/cardImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,7 +73,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/background" />
-        </android.support.v7.widget.CardView>
+        </android.support.v7.widget.CardView> -->
+
+        <ImageView
+            android:id="@+id/contentImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/colorGrey"/>
+
+        <TextView
+            android:id="@+id/contentCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@id/contentImage"
+            android:layout_marginBottom="-14dp"
+            android:layout_marginRight="16dp"
+            android:background="@color/colorAccent"
+            android:text="Category"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/colorWhite" />
 
         <!--<RelativeLayout
             android:layout_width="match_parent"
@@ -87,46 +136,90 @@
             android:id="@+id/contentTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/cardImage"
+            android:layout_below="@id/contentImage"
             android:layout_marginBottom="@dimen/smallMargin"
             android:layout_marginLeft="@dimen/mediumMargin"
             android:layout_marginRight="@dimen/mediumMargin"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:text="title "
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/colorAccent"
             android:textStyle="bold" />
 
+        <RelativeLayout
+            android:id="@+id/dateAndSource"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/contentTitle"
+            android:layout_marginLeft="@dimen/mediumMargin"
+            android:layout_marginRight="@dimen/mediumMargin">
+
+            <TextView
+                android:id="@+id/contentDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorBlack" />
+
+            <TextView
+                android:id="@+id/contentSource"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="Source"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorAccent" />
+            </RelativeLayout>
+        
+        <View
+            android:id="@+id/line"
+            android:layout_width="40dp"
+            android:layout_height="3dp"
+            android:layout_marginBottom="@dimen/smallMargin"
+            android:layout_marginLeft="@dimen/mediumMargin"
+            android:layout_below="@id/dateAndSource"
+            android:background="@color/colorAccent" />
+
         <TextView
             android:id="@+id/contentDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/contentTitle"
-            android:layout_marginBottom="@dimen/smallMargin"
+            android:layout_below="@+id/line"
+            android:layout_marginTop="@dimen/smallMargin"
+            android:layout_marginBottom="@dimen/mediumMargin"
             android:layout_marginLeft="@dimen/mediumMargin"
             android:layout_marginRight="@dimen/mediumMargin"
-            android:ellipsize="end"
-            android:maxLines="5"
             android:text="description"
             android:textColor="@color/colorBlack"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
-        <TextView
-            android:id="@+id/contentSource"
+        <Button
+            android:id="@+id/shareButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingTop="@dimen/extraSmallMargin"
+            android:paddingBottom="@dimen/extraSmallMargin"
+            android:paddingRight="@dimen/smallMargin"
+            android:paddingLeft="@dimen/smallMargin"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/smallMargin"
+            android:layout_marginRight="@dimen/mediumMargin"
             android:layout_below="@id/contentDescription"
-            android:layout_marginLeft="16dp"
-            android:layout_marginBottom="8dp"
-            android:text="The Logical Indian"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/colorBlack" />
+            android:background="@drawable/rounded_border_button_green"
+            android:drawableLeft="@drawable/ic_share_small_filled_green"
+            android:text=" Share"
+            android:textColor="@color/colorAccent"
+            android:textAllCaps="false"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <LinearLayout
             android:id="@+id/counts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/contentSource"
+            android:layout_below="@id/contentDescription"
             android:layout_marginBottom="@dimen/smallMargin"
             android:layout_marginLeft="@dimen/mediumMargin"
             android:layout_marginRight="@dimen/mediumMargin"
@@ -174,6 +267,7 @@
         </LinearLayout>
         
         <LinearLayout
+            android:id="@+id/buttons"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="@dimen/smallMargin"
@@ -204,7 +298,7 @@
                 android:src="@drawable/ic_bookmark_filled_grey" />
 
             <ImageButton
-                android:id="@+id/shareButton"
+                android:id="@+id/shareButton2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1.0"

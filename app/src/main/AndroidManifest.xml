@@ -21,7 +21,6 @@
             android:theme="@style/MaterialDesignTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -59,9 +58,14 @@
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
         <activity
+            android:name=".activity.PaperReminderActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/MaterialDesignTheme" />
+        <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.CameraActivity"
             android:noHistory="true"
@@ -124,7 +128,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
         <activity
-            android:name=".activity.RecommendArticleActivity"
+            android:name=".activity.SuggestArticleActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
@@ -189,12 +193,12 @@
         <activity
             android:name=".activity.FacebookLoginActivity"
             android:label="@string/title_activity_facebook_login"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.InviteFriendActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme"></activity>
+            android:theme="@style/MaterialDesignTheme" />
     </application>
 
 </manifest>

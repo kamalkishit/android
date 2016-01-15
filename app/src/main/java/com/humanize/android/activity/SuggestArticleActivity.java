@@ -1,5 +1,6 @@
 package com.humanize.android.activity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -22,12 +23,10 @@ import android.widget.TextView;
 
 import com.humanize.android.R;
 import com.humanize.android.common.StringConstants;
+import com.humanize.android.fragment.SuccessFragment;
 import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -35,8 +34,11 @@ import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
-public class RecommendArticleActivity extends AppCompatActivity {
+public class SuggestArticleActivity extends AppCompatActivity {
 
     @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
     @Bind(R.id.toolbar) Toolbar toolbar;
@@ -44,12 +46,14 @@ public class RecommendArticleActivity extends AppCompatActivity {
     @Bind(R.id.contentUrl) EditText contentURL;
     @Bind(R.id.submitButton) Button submitButton;
 
-    private static String TAG = RecommendArticleActivity.class.getSimpleName();
+    private ProgressDialog progressDialog;
+
+    private static String TAG = SuggestArticleActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recommend_article);
+        setContentView(R.layout.activity_suggest_article);
 
         ButterKnife.bind(this);
 
@@ -58,6 +62,7 @@ public class RecommendArticleActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        progressDialog = new ProgressDialog(this);
         toolbar.setCollapsible(true);
         toolbarText.setText(StringConstants.SUGGEST_ARTICLE);
 
@@ -112,7 +117,10 @@ public class RecommendArticleActivity extends AppCompatActivity {
 
     private void submit() {
         if (validate()) {
-                HttpUtil.getInstance().recommendArticle(Config.RECOMMEND_ARTICLE_URL, contentURL.getText().toString(), new RecommendArticleCallback());
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage(StringConstants.SUBMITTING);
+            progressDialog.show();
+            HttpUtil.getInstance().recommendArticle(Config.RECOMMEND_ARTICLE_URL, contentURL.getText().toString(), new RecommendArticleCallback());
         }
     }
 
@@ -155,22 +163,24 @@ public class RecommendArticleActivity extends AppCompatActivity {
     private class RecommendArticleCallback implements Callback {
 
         @Override
-        public void onFailure(Request request, IOException exception) {
+        public void onFailure(Call call, IOException exception) {
             Log.e(TAG, exception.toString());
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
+                    progressDialog.dismiss();
                     Snackbar.make(coordinatorLayout, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG).show();
                 }
             });
         }
 
         @Override
-        public void onResponse(final Response response) throws IOException {
+        public void onResponse(Call call, final Response response) throws IOException {
             if (!response.isSuccessful()) {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
+                        progressDialog.dismiss();
                         Snackbar.make(coordinatorLayout, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG).show();
                     }
                 });
@@ -178,7 +188,11 @@ public class RecommendArticleActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        Snackbar.make(coordinatorLayout, StringConstants.SUCCESS_STR, Snackbar.LENGTH_LONG).show();
+                        progressDialog.dismiss();
+                        //Snackbar.make(coordinatorLayout, StringConstants.SUCCESS_STR, Snackbar.LENGTH_LONG).show();
+                        SuccessFragment successFragment = new SuccessFragment();
+                        successFragment.show(SuggestArticleActivity.this.getFragmentManager(), "");
+
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -186,7 +200,7 @@ public class RecommendArticleActivity extends AppCompatActivity {
                                 ActivityLauncher activityLauncher = new ActivityLauncher();
                                 returnToMainActivity();
                             }
-                        }, 2000);
+                        }, 3000);
                     }
                 });
             }

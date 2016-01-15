@@ -15,22 +15,27 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.humanize.android.ApiImpl;
+import com.humanize.android.ApiUrls;
 import com.humanize.android.ContentRecyclerViewAdapter;
 import com.humanize.android.JsonParser;
 import com.humanize.android.R;
 import com.humanize.android.common.Constants;
 import com.humanize.android.common.StringConstants;
+import com.humanize.android.data.ContentSearchParams;
 import com.humanize.android.data.Contents;
+import com.humanize.android.util.Api;
 import com.humanize.android.util.JsonParserImpl;
-import com.humanize.android.util.HttpUtil;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class SingleCategoryContent extends AppCompatActivity {
 
@@ -45,6 +50,7 @@ public class SingleCategoryContent extends AppCompatActivity {
     TextView toolbarText;
 
     private JsonParser jsonParser;
+    private Api api;
     private ContentRecyclerViewAdapter contentRecyclerViewAdapter;
     private LinearLayoutManager linearLayoutManager;
 
@@ -63,6 +69,7 @@ public class SingleCategoryContent extends AppCompatActivity {
 
     private void initialize() {
         jsonParser = new JsonParserImpl();
+        api = new ApiImpl();
         toolbarText.setText(getIntent().getStringExtra("Category"));
 
         toolbar.setCollapsible(true);
@@ -89,7 +96,7 @@ public class SingleCategoryContent extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 if (contentRecyclerViewAdapter.getContents() != null && contentRecyclerViewAdapter.getContents().size() > 0) {
-                    getNewContent(Long.toString(contentRecyclerViewAdapter.getContents().get(0).getCreatedDate()));
+                    getNewContent(contentRecyclerViewAdapter.getContents().get(0).getCreatedDate());
                 } else {
                     getContent();
                 }
@@ -100,7 +107,7 @@ public class SingleCategoryContent extends AppCompatActivity {
             @Override
             public void onLoadMore(int current_page) {
                 if (contentRecyclerViewAdapter.getContents().size() > 0) {
-                    getMoreContent(Long.toString(contentRecyclerViewAdapter.getContents().get(contentRecyclerViewAdapter.getContents().size() - 1).getCreatedDate()));
+                    getMoreContent(contentRecyclerViewAdapter.getContents().get(contentRecyclerViewAdapter.getContents().size() - 1).getCreatedDate());
                 }
             }
         });
@@ -129,15 +136,31 @@ public class SingleCategoryContent extends AppCompatActivity {
     }
 
     private void getContent() {
-        HttpUtil.getInstance().getContents(getIntent().getStringExtra("Category"), new ContentCallback());
+        List<String> categories = new ArrayList<String>();
+        categories.add(getIntent().getStringExtra("Category"));
+        ContentSearchParams contentSearchParams = new ContentSearchParams();
+        contentSearchParams.setCategories(categories);
+        api.getContents(contentSearchParams, new ContentCallback());
     }
 
-    private void getNewContent(String endDate) {
-        HttpUtil.getInstance().refreshContents(endDate, getIntent().getStringExtra("Category"), new NewContentCallback());
+    private void getNewContent(long endDate) {
+        List<String> categories = new ArrayList<String>();
+        categories.add(getIntent().getStringExtra("Category"));
+        ContentSearchParams contentSearchParams = new ContentSearchParams();
+        contentSearchParams.setCategories(categories);
+        contentSearchParams.setCreatedDate(endDate);
+        contentSearchParams.setRefresh(true);
+        api.getContents(contentSearchParams, new NewContentCallback());
     }
 
-    private void getMoreContent(String startDate) {
-        HttpUtil.getInstance().getMoreContents(startDate, getIntent().getStringExtra("Category"), new MoreContentCallback());
+    private void getMoreContent(long startDate) {
+        List<String> categories = new ArrayList<String>();
+        categories.add(getIntent().getStringExtra("Category"));
+        ContentSearchParams contentSearchParams = new ContentSearchParams();
+        contentSearchParams.setCategories(categories);
+        contentSearchParams.setCreatedDate(startDate);
+        contentSearchParams.setRefresh(true);
+        api.getContents(contentSearchParams, new MoreContentCallback());
     }
 
     private void success(View view, String response) {
@@ -195,7 +218,7 @@ public class SingleCategoryContent extends AppCompatActivity {
     private class ContentCallback implements Callback {
 
         @Override
-        public void onFailure(Request request, IOException exception) {
+        public void onFailure(Call call, IOException exception) {
             exception.printStackTrace();
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
@@ -207,7 +230,7 @@ public class SingleCategoryContent extends AppCompatActivity {
         }
 
         @Override
-        public void onResponse(final Response response) throws IOException {
+        public void onResponse(Call call, final Response response) throws IOException {
             if (!response.isSuccessful()) {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
@@ -231,12 +254,12 @@ public class SingleCategoryContent extends AppCompatActivity {
 
     private class MoreContentCallback implements Callback {
         @Override
-        public void onFailure(Request request, IOException exception) {
+        public void onFailure(Call call, IOException exception) {
             Log.e(TAG, exception.toString());
         }
 
         @Override
-        public void onResponse(final Response response) throws IOException {
+        public void onResponse(Call call, final Response response) throws IOException {
             if (!response.isSuccessful()) {
 
             } else {
@@ -262,7 +285,7 @@ public class SingleCategoryContent extends AppCompatActivity {
 
     private class NewContentCallback implements Callback {
         @Override
-        public void onFailure(Request request, IOException exception) {
+        public void onFailure(Call call, IOException exception) {
             Log.e(TAG, exception.toString());
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
@@ -273,7 +296,7 @@ public class SingleCategoryContent extends AppCompatActivity {
         }
 
         @Override
-        public void onResponse(final Response response) throws IOException {
+        public void onResponse(Call call, final Response response) throws IOException {
             if (!response.isSuccessful()) {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override

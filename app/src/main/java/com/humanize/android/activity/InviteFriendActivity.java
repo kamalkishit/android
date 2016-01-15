@@ -1,5 +1,6 @@
 package com.humanize.android.activity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -10,26 +11,31 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.humanize.android.ApiImpl;
 import com.humanize.android.R;
 import com.humanize.android.common.StringConstants;
+import com.humanize.android.data.InviteFriend;
+import com.humanize.android.fragment.InviteSuccessFragment;
 import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class InviteFriendActivity extends AppCompatActivity {
 
@@ -39,6 +45,8 @@ public class InviteFriendActivity extends AppCompatActivity {
     @Bind(R.id.emailId) EditText emailId;
     @Bind(R.id.submitButton) Button submitButton;
 
+    private ApiImpl apiImpl;
+    private ProgressDialog progressDialog;
     private static String TAG = InviteFriendActivity.class.getSimpleName();
 
     @Override
@@ -53,11 +61,11 @@ public class InviteFriendActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        apiImpl = new ApiImpl();
+        progressDialog = new ProgressDialog(this);
         toolbar.setCollapsible(true);
         toolbarText.setText(StringConstants.INVITE_FRIEND);
-
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
@@ -74,7 +82,46 @@ public class InviteFriendActivity extends AppCompatActivity {
 
     private void submit() {
         if (validate()) {
-            HttpUtil.getInstance().inviteFriend(Config.USER_INVITE_URL, emailId.getText().toString(), ApplicationState.getUser().getEmailId(), new InviteCallback());
+            InviteFriend inviteFriend = new InviteFriend();
+            inviteFriend.setEmailId(emailId.getText().toString());
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage(StringConstants.INVITING);
+            progressDialog.show();
+
+            apiImpl.inviteFriend(inviteFriend, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressDialog.dismiss();
+                            Snackbar.make(coordinatorLayout, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG).show();
+                        }
+                    });
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (!response.isSuccessful()) {
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressDialog.dismiss();
+                                Snackbar.make(coordinatorLayout, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG).show();
+                            }
+                        });
+                    } else {
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressDialog.dismiss();
+                                InviteSuccessFragment inviteSuccessFragment = new InviteSuccessFragment();
+                                inviteSuccessFragment.show(InviteFriendActivity.this.getFragmentManager(), "");
+                            }
+                        });
+                    }
+                }
+            });
         }
     }
 
@@ -94,10 +141,28 @@ public class InviteFriendActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_recommend_article, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            super.onBackPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private class InviteCallback implements Callback {
 
         @Override
-        public void onFailure(Request request, IOException exception) {
+        public void onFailure(Call call, IOException exception) {
             Log.e(TAG, exception.toString());
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
@@ -108,7 +173,7 @@ public class InviteFriendActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onResponse(final Response response) throws IOException {
+        public void onResponse(Call call, final Response response) throws IOException {
             if (!response.isSuccessful()) {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
@@ -121,14 +186,8 @@ public class InviteFriendActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Snackbar.make(coordinatorLayout, StringConstants.SUCCESS_STR, Snackbar.LENGTH_LONG).show();
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                ActivityLauncher activityLauncher = new ActivityLauncher();
-                                returnToMainActivity();
-                            }
-                        }, 2000);
+                        InviteSuccessFragment inviteSuccessFragment = new InviteSuccessFragment();
+                        inviteSuccessFragment.show(InviteFriendActivity.this.getFragmentManager(), "");
                     }
                 });
             }

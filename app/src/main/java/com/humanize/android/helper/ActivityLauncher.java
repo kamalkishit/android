@@ -1,12 +1,7 @@
 package com.humanize.android.helper;
 
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Looper;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 
-import com.humanize.android.JsonParser;
 import com.humanize.android.activity.AboutUsActivity;
 import com.humanize.android.activity.AppLauncherActivity;
 import com.humanize.android.activity.BookmarksActivity;
@@ -16,8 +11,9 @@ import com.humanize.android.activity.ForgotPasswordActivity;
 import com.humanize.android.activity.InviteFriendActivity;
 import com.humanize.android.activity.LoginActivity;
 import com.humanize.android.activity.PaperActivity;
+import com.humanize.android.activity.PaperReminderActivity;
 import com.humanize.android.activity.PrivacyActivity;
-import com.humanize.android.activity.RecommendArticleActivity;
+import com.humanize.android.activity.SuggestArticleActivity;
 import com.humanize.android.activity.RecommendationsActivity;
 import com.humanize.android.activity.ResetPasswordActivity;
 import com.humanize.android.activity.SelectCategoriesActivity;
@@ -101,7 +97,7 @@ public class ActivityLauncher {
     }
 
     public void startRecommendAnArticleActivity() {
-        Intent intent = new Intent(ApplicationState.getAppContext(), RecommendArticleActivity.class);
+        Intent intent = new Intent(ApplicationState.getAppContext(), SuggestArticleActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ApplicationState.getAppContext().startActivity(intent);
     }
@@ -120,6 +116,12 @@ public class ActivityLauncher {
 
     public void startPaperActivity() {
         Intent intent = new Intent(ApplicationState.getAppContext(), PaperActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ApplicationState.getAppContext().startActivity(intent);
+    }
+
+    public void startPaperReminderActivity() {
+        Intent intent = new Intent(ApplicationState.getAppContext(), PaperReminderActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ApplicationState.getAppContext().startActivity(intent);
     }

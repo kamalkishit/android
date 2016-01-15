@@ -8,12 +8,16 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.humanize.android.activity.WebBrowserActivity;
@@ -31,14 +35,17 @@ import com.humanize.android.service.UserServiceImpl;
 import com.humanize.android.util.ApplicationState;
 import com.humanize.android.util.Config;
 import com.humanize.android.util.HttpUtil;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by kamal on 12/22/15.
@@ -79,8 +86,15 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         Content content = contents.get(index);
         viewHolder.content = content;
         viewHolder.contentId = content.getId();
+        //String text = "<html><body style=\"text-align:justify; margin: 0; padding: 0; color: #00BFA5; background-color: #FFFFFF\"> %s </body></Html>";
+        //webView.loadData(String.format(text, data), "text/html", "utf-8");
+        //viewHolder.contentTitle.loadData(String.format(text, content.getTitle()), "text/html", "utf-8");
+
         viewHolder.contentTitle.setText(content.getTitle());
         viewHolder.contentDescription.setText(content.getDescription());
+        //DateTimeFormatter format = DateTimeFormatter.ofPattern("MMM d yyyy");
+        DateFormat dateFormat = new DateFormat(); //"MMM d yyyy", new java.util.Date());
+        viewHolder.contentDate.setText(dateFormat.format("MMM dd yyyy", new java.sql.Date(new Timestamp(content.getCreatedDate()).getTime())));
         viewHolder.contentSource.setText(content.getSource());
         viewHolder.contentCategory.setText(content.getCategory());
 
@@ -110,7 +124,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             updateDefaultView(viewHolder);
         }
 
-        Picasso.with(ApplicationState.getAppContext()).load(content.getOriginalImageURL()).placeholder(R.drawable.background)
+        Picasso.with(ApplicationState.getAppContext()).load(content.getOriginalImageUrl())
         //System.out.println(Config.IMAGES_URL + content.getImageURL());
         //Picasso.with(ApplicationState.getAppContext()).load(Config.IMAGES_URL + content.getImageURL()).placeholder(R.drawable.background)
                 .fit().into(viewHolder.contentImage);
@@ -149,6 +163,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         protected String contentId;
         protected TextView contentTitle;
         protected TextView contentDescription;
+        protected TextView contentDate;
         protected ImageView contentImage;
         protected TextView contentSource;
         protected TextView contentCategory;
@@ -157,7 +172,9 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         protected TextView contentSharedCount;
         protected ImageButton recommendButton;
         protected ImageButton bookmarkButton;
-        protected ImageButton shareButton;
+        protected Button shareButton;
+        protected LinearLayout counts;
+        protected LinearLayout buttons;
 
         private UserService userService;
         private ContentService contentService;
@@ -172,13 +189,19 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             contentSource = (TextView) view.findViewById(R.id.contentSource);
             contentTitle = (TextView) view.findViewById(R.id.contentTitle);
             contentDescription = (TextView) view.findViewById(R.id.contentDescription);
+            contentDate = (TextView) view.findViewById(R.id.contentDate);
             contentImage = (ImageView) view.findViewById(R.id.contentImage);
             contentViewedCount = (TextView) view.findViewById(R.id.viewsCount);
             contentRecommendedCount = (TextView) view.findViewById(R.id.recommendationsCount);
             contentSharedCount = (TextView) view.findViewById(R.id.sharedCount);
             recommendButton = (ImageButton) view.findViewById(R.id.recommendButton);
             bookmarkButton = (ImageButton) view.findViewById(R.id.bookmarkButton);
-            shareButton = (ImageButton) view.findViewById(R.id.shareButton);
+            shareButton = (Button) view.findViewById(R.id.shareButton);
+            counts = (LinearLayout) view.findViewById(R.id.counts);
+            buttons = (LinearLayout) view.findViewById(R.id.buttons);
+
+            counts.setVisibility(View.GONE);
+            buttons.setVisibility(View.GONE);
 
             //ButterKnife.bind(this);
 
@@ -372,7 +395,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
             shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
-            shareIntent.putExtra(Intent.EXTRA_TEXT, content.getTitle() + "\n" + " -via HUMANIZE");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, content.getTitle() + "\n" + content.getShortUrl() + "\n" + " -via HUMANIZE");
             //shareIntent.putExtra(Intent.EXTRA_TEXT, contents.get(getAdapterPosition()).getUrl());
             ApplicationState.getAppContext().startActivity(shareIntent);
         }
@@ -401,7 +424,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
 
     private class UpdateContentCallback implements Callback {
         @Override
-        public void onFailure(Request request, IOException exception) {
+        public void onFailure(Call call, IOException exception) {
             Log.e(TAG, exception.toString());
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
@@ -412,7 +435,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         }
 
         @Override
-        public void onResponse(final Response response) throws IOException {
+        public void onResponse(Call call, final Response response) throws IOException {
             if (!response.isSuccessful()) {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override

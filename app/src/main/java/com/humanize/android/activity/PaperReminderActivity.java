@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -32,7 +34,7 @@ public class PaperReminderActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbarText) TextView toolbarText;
-    @Bind(R.id.doneButton) Button doneButton;
+    @Bind(R.id.doneButton) Button submitButton;
     @Bind(R.id.timePicker) TimePicker timePicker;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,20 +49,21 @@ public class PaperReminderActivity extends AppCompatActivity {
 
     private void initialize() {
         setSupportActionBar(toolbar);
-        toolbarText.setText(StringConstants.PAPER_TIME_SELECTOR);
+        toolbarText.setText(StringConstants.UPDATE_PAPER_TIME);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbarText.setGravity(1);
-        timePicker.setCurrentHour(Constants.DEFAULT_PAPER_TIME_HOUR);
-        timePicker.setCurrentMinute(Constants.DEFAULT_PAPER_TIME_MINUTE);
+        timePicker.setCurrentHour(ApplicationState.getUser().getPaperTime().getHour());
+        timePicker.setCurrentMinute(ApplicationState.getUser().getPaperTime().getMinute());
     }
 
     private void configureListeners() {
-        doneButton.setOnClickListener(new android.view.View.OnClickListener() {
+        submitButton.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
                 Time time = new Time(timePicker.getCurrentHour().intValue(), timePicker.getCurrentMinute().intValue(), 0);
                 //(new AlarmHelper()).createAlarm(time);
                 ApplicationState.getUser().setPaperTime(new PaperTime(timePicker.getCurrentHour().intValue(), timePicker.getCurrentMinute().intValue()));
 
-                AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 Intent intent = new Intent(PaperReminderActivity.this, AlarmReceiver.class);
                 PendingIntent alarmIntent = PendingIntent.getBroadcast(PaperReminderActivity.this, 0, intent, 0);
                 alarmManager.cancel(alarmIntent);
@@ -71,8 +74,25 @@ public class PaperReminderActivity extends AppCompatActivity {
     }
 
     private void navigatetoMainActivity() {
-        Intent intent = new Intent(getApplicationContext(), AppLauncherActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+        onBackPressed();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            super.onBackPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

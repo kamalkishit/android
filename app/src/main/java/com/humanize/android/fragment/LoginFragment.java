@@ -21,9 +21,9 @@ public class LoginFragment extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LinearLayout linearLayout = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.login_dialog, null);
-        Button loginButton = (Button) linearLayout.findViewById(R.id.login2Button);
+        Button submitButton = (Button) linearLayout.findViewById(R.id.submitButton);
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 login();

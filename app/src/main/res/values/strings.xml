@@ -43,6 +43,8 @@
     <string name="navItemPrivacyPolicy">Privacy Policy</string>
     <string name="navItemLogout">Logout</string>
 
+    <string name="guestUser">Guest User</string>
+
     <!-- navigation drawer item labels  -->
     <string-array name="navDrawerLabels">
         <item>@string/navItemProfile</item>
@@ -120,4 +122,5 @@
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="title_activity_single_category_content">SingleCategoryContent</string>
     <string name="title_activity_invite_friend">InviteFriendActivity</string>
+    <string name="title_activity_temp">TempActivity</string>
 </resources>

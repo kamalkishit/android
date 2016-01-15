@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.humanize.android.activity.LoginActivity;
+import com.humanize.android.common.StringConstants;
 import com.humanize.android.fragment.LoginFragment;
 import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.service.SharedPreferencesService;
@@ -30,24 +31,29 @@ public class FragmentDrawer extends Fragment {
 
     @Bind(R.id.emailId) TextView emailId;
     @Bind(R.id.login) LinearLayout login;
-    @Bind(R.id.preferences) LinearLayout preferences;
+    @Bind(R.id.preferences) LinearLayout settings;
+    @Bind(R.id.updateCategories) LinearLayout updateCategories;
+    @Bind(R.id.updatePaperTime) LinearLayout updatePaperTime;
+    @Bind(R.id.updatePaperNotification) LinearLayout updatePaperNotification;
     @Bind(R.id.bookmarkedArticles) LinearLayout bookmarkedArticles;
     @Bind(R.id.recommendedArticles) LinearLayout recommendedArticles;
     @Bind(R.id.recommendAnArticle) LinearLayout recommendAnArticle;
     @Bind(R.id.contactUs) LinearLayout contactUs;
     @Bind(R.id.inviteFriend) LinearLayout inviteFriend;
-    //@Bind(R.id.aboutUs) LinearLayout aboutUs;
     @Bind(R.id.rateUs) LinearLayout rateUs;
-    //@Bind(R.id.termsOfUsage) LinearLayout termsOfUsage;
-    //@Bind(R.id.privacyPolicy) LinearLayout privacyPolicy;
     @Bind(R.id.line) View line;
     @Bind(R.id.logout) LinearLayout logout;
+
+    //@Bind(R.id.aboutUs) LinearLayout aboutUs;
+    //@Bind(R.id.termsOfUsage) LinearLayout termsOfUsage;
+    //@Bind(R.id.privacyPolicy) LinearLayout privacyPolicy;
 
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private DrawerLayout drawerLayout;
     private View containerView;
     private ActivityLauncher activityLauncher;
     private Activity activity;
+    private boolean isSettingOpened;
 
     private static String TAG = FragmentDrawer.class.getSimpleName();
 
@@ -66,6 +72,12 @@ public class FragmentDrawer extends Fragment {
 
     private void initialize() {
         activityLauncher = new ActivityLauncher();
+        isSettingOpened = false;
+        defaultStateDrawer();
+        bookmarkedArticles.setVisibility(View.GONE);
+        recommendedArticles.setVisibility(View.GONE);
+        logout.setVisibility(View.GONE);
+        login.setVisibility(View.GONE);
 
         if (SharedPreferencesService.getInstance().getBoolean(Config.IS_LOGGED_IN)) {
             login.setVisibility(View.GONE);
@@ -77,42 +89,57 @@ public class FragmentDrawer extends Fragment {
 
         // TBD: to use butterknife and a single method for initializing all side nav bar items
         TextView textViewLogin = (TextView) login.findViewById(R.id.textView);
-        textViewLogin.setText("Login");
+        textViewLogin.setText(StringConstants.LOGIN);
         ImageView imageViewLogin = (ImageView) login.findViewById(R.id.imageView);
-        imageViewLogin.setImageResource(R.drawable.ic_profile_black);
+        imageViewLogin.setImageResource(R.drawable.ic_login_black);
 
-        TextView textViewPreferences = (TextView) preferences.findViewById(R.id.textView);
-        textViewPreferences.setText("Settings");
-        ImageView imageViewPreferences = (ImageView) preferences.findViewById(R.id.imageView);
-        imageViewPreferences.setImageResource(R.drawable.ic_settings_black);
+        TextView textViewSettings = (TextView) settings.findViewById(R.id.textView);
+        textViewSettings.setText(StringConstants.SETTINGS);
+        ImageView imageViewSettings = (ImageView) settings.findViewById(R.id.imageView);
+        imageViewSettings.setImageResource(R.drawable.ic_settings_black);
+
+        TextView textViewUpdateCategories = (TextView) updateCategories.findViewById(R.id.textView);
+        textViewUpdateCategories.setText(StringConstants.UPDATE_CATEGORIES);
+        ImageView imageViewUpdateCategories = (ImageView) updateCategories.findViewById(R.id.imageView);
+        imageViewUpdateCategories.setImageResource(R.drawable.ic_update_categories_black);
+
+        TextView textViewUpdatePaperTime = (TextView) updatePaperTime.findViewById(R.id.textView);
+        textViewUpdatePaperTime.setText(StringConstants.UPDATE_PAPER_TIME);
+        ImageView imageViewUpdatePaperTime = (ImageView) updatePaperTime.findViewById(R.id.imageView);
+        imageViewUpdatePaperTime.setImageResource(R.drawable.ic_paper_time_black);
+
+        TextView textViewUpdatePaperNotification = (TextView) updatePaperNotification.findViewById(R.id.textView);
+        textViewUpdatePaperNotification.setText(StringConstants.UPDATE_PAPER_NOTIFICATION);
+        ImageView imageViewUpdatePaperNotification = (ImageView) updatePaperNotification.findViewById(R.id.imageView);
+        imageViewUpdatePaperNotification.setImageResource(R.drawable.ic_notification_black);
 
         TextView textViewBookmarkedArticles = (TextView) bookmarkedArticles.findViewById(R.id.textView);
-        textViewBookmarkedArticles.setText("Bookmarked Articles");
+        textViewBookmarkedArticles.setText(StringConstants.BOOKMARKED_ARTICLES);
         ImageView imageViewBookmarkedArticles = (ImageView) bookmarkedArticles.findViewById(R.id.imageView);
         imageViewBookmarkedArticles.setImageResource(R.drawable.ic_bookmark_black);
 
         TextView textViewRecommendedArticles = (TextView) recommendedArticles.findViewById(R.id.textView);
-        textViewRecommendedArticles.setText("Recommended Articles");
+        textViewRecommendedArticles.setText(StringConstants.RECOMMENDED_ARTICLES);
         ImageView imageViewRecommendedArticle = (ImageView) recommendedArticles.findViewById(R.id.imageView);
         imageViewRecommendedArticle.setImageResource(R.drawable.ic_recomend_black);
 
         TextView textViewRecommendAnArticle = (TextView) recommendAnArticle.findViewById(R.id.textView);
-        textViewRecommendAnArticle.setText("Suggest an Article");
+        textViewRecommendAnArticle.setText(StringConstants.SUGGEST_ARTICLE);
         ImageView imageViewRecommendAnArticle = (ImageView) recommendAnArticle.findViewById(R.id.imageView);
         imageViewRecommendAnArticle.setImageResource(R.drawable.ic_suggest_article_black);
 
         TextView textViewContactUs = (TextView) contactUs.findViewById(R.id.textView);
-        textViewContactUs.setText("Contact Us");
+        textViewContactUs.setText(StringConstants.CONTACT_US);
         ImageView imageViewContactUs = (ImageView) contactUs.findViewById(R.id.imageView);
         imageViewContactUs.setImageResource(R.drawable.ic_contact_us_black);
 
         TextView textViewInviteFriend = (TextView) inviteFriend.findViewById(R.id.textView);
-        textViewInviteFriend.setText("Invite a Friend");
+        textViewInviteFriend.setText(StringConstants.INVITE_FRIEND);
         ImageView imageViewInviteFriend = (ImageView) inviteFriend.findViewById(R.id.imageView);
         imageViewInviteFriend.setImageResource(R.drawable.ic_invite_user_black);
 
         TextView textViewRateUs = (TextView) rateUs.findViewById(R.id.textView);
-        textViewRateUs.setText("Rate Us");
+        textViewRateUs.setText(StringConstants.RATE_US);
         ImageView imageViewRateUs = (ImageView) rateUs.findViewById(R.id.imageView);
         imageViewRateUs.setImageResource(R.drawable.ic_rate_us_black);
 
@@ -132,9 +159,16 @@ public class FragmentDrawer extends Fragment {
         imageViewPrivacyPolicy.setImageResource(R.drawable.ic_privacy_black);*/
 
         TextView textViewLogout = (TextView) logout.findViewById(R.id.textView);
-        textViewLogout.setText("Logout");
+        textViewLogout.setText(StringConstants.LOGOUT);
         ImageView imageViewLogout = (ImageView) logout.findViewById(R.id.imageView);
         imageViewLogout.setImageResource(R.drawable.ic_logout_black);
+    }
+
+    private void defaultStateDrawer() {
+        updateCategories.setVisibility(View.GONE);
+        updatePaperTime.setVisibility(View.GONE);
+        updatePaperNotification.setVisibility(View.GONE);
+        isSettingOpened = false;
     }
 
     private void configureListeners() {
@@ -150,29 +184,63 @@ public class FragmentDrawer extends Fragment {
             }
         });
 
-        preferences.setOnClickListener(new View.OnClickListener() {
+        settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isLoggedIn()) {
+                //if (isLoggedIn()) {
                     //activityLauncher.startSettingsActivity();
+                    //activityLauncher.startSelectCategoriesActivity();
+                    //drawerLayout.closeDrawer(Gravity.LEFT);
+                    if (isSettingOpened) {
+                        updateCategories.setVisibility(View.GONE);
+                        //updatePaperTime.setVisibility(View.GONE);
+                        //updatePaperNotification.setVisibility(View.GONE);
+                        isSettingOpened = false;
+                    } else {
+                        updateCategories.setVisibility(View.VISIBLE);
+                        //updatePaperTime.setVisibility(View.VISIBLE);
+                        //updatePaperNotification.setVisibility(View.VISIBLE);
+                        isSettingOpened = true;
+                    }
+                /*} else {
+                    loginPrompt();
+                }*/
+            }
+        });
+
+        updateCategories.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //if (isLoggedIn()) {
                     activityLauncher.startSelectCategoriesActivity();
                     drawerLayout.closeDrawer(Gravity.LEFT);
-                } else {
+                /*} else {
                     loginPrompt();
-                }
+                }*/
+            }
+        });
 
+        updatePaperTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //if (isLoggedIn()) {
+                    activityLauncher.startPaperReminderActivity();
+                    drawerLayout.closeDrawer(Gravity.LEFT);
+                /*} else {
+                    loginPrompt();
+                }*/
             }
         });
 
         bookmarkedArticles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isLoggedIn()) {
+                //if (isLoggedIn()) {
                     activityLauncher.startBookmarksActivity();
                     drawerLayout.closeDrawer(Gravity.LEFT);
-                } else {
+                /*} else {
                     loginPrompt();
-                }
+                }*/
             }
         });
 
@@ -180,48 +248,48 @@ public class FragmentDrawer extends Fragment {
         recommendedArticles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isLoggedIn()) {
+                //if (isLoggedIn()) {
                     activityLauncher.startRecommendationsActivity();
                     drawerLayout.closeDrawer(Gravity.LEFT);
-                } else {
+                /*} else {
                     loginPrompt();
-                }
+                }*/
             }
         });
 
         recommendAnArticle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isLoggedIn()) {
+                //if (isLoggedIn()) {
                     activityLauncher.startRecommendAnArticleActivity();
                     drawerLayout.closeDrawer(Gravity.LEFT);
-                } else {
+                /*} else {
                     loginPrompt();
-                }
+                }*/
             }
         });
 
         inviteFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isLoggedIn()) {
+                //if (isLoggedIn()) {
                     activityLauncher.startInviteFriendActivity();
                     drawerLayout.closeDrawer(Gravity.LEFT);
-                } else {
+                /*} else {
                     loginPrompt();
-                }
+                }*/
             }
         });
 
         contactUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isLoggedIn()) {
+                //if (isLoggedIn()) {
                     activityLauncher.startContactUsActivity();
                     drawerLayout.closeDrawer(Gravity.LEFT);
-                } else {
+                /*} else {
                     loginPrompt();
-                }
+                }*/
             }
         });
 
@@ -229,11 +297,11 @@ public class FragmentDrawer extends Fragment {
         rateUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isLoggedIn()) {
+                //if (isLoggedIn()) {
                     drawerLayout.closeDrawer(Gravity.LEFT);
-                } else {
+                /*} else {
                     loginPrompt();
-                }
+                }*/
             }
         });
 
@@ -264,13 +332,13 @@ public class FragmentDrawer extends Fragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isLoggedIn()) {
+                //if (isLoggedIn()) {
                     logoutUser();
                     activityLauncher.startLoginActivityWithClearStack();
                     drawerLayout.closeDrawer(Gravity.LEFT);
-                } else {
+                /*} else {
                     loginPrompt();
-                }
+                }*/
             }
         });
     }
@@ -313,12 +381,14 @@ public class FragmentDrawer extends Fragment {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
+                //defaultStateDrawer();
                 getActivity().invalidateOptionsMenu();
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
+                defaultStateDrawer();
                 getActivity().invalidateOptionsMenu();
             }
 
@@ -336,6 +406,5 @@ public class FragmentDrawer extends Fragment {
                 actionBarDrawerToggle.syncState();
             }
         });
-
     }
 }

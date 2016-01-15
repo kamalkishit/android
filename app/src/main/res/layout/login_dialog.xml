@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/colorPrimary"
-        android:text="Login Required"
+        android:text="LOGIN REQUIRED"
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/colorWhite"/>
@@ -21,10 +21,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="You are required to login to use this feature." />
+        android:text="Please login to use this feature."
+        android:gravity="center"/>
 
     <android.support.v7.widget.AppCompatButton
-        android:id="@+id/login2Button"
+        android:id="@+id/submitButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/mediumMargin"
