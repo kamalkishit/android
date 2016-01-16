@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.humanize.android.ApiImpl;
@@ -40,13 +41,11 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
 
     public static Contents contents = null;
 
-    @Bind(R.id.recyclerView)
-    RecyclerView recyclerView;
-    @Bind(R.id.swipeRefreshLayout)
-    SwipeRefreshLayout swipeRefreshLayout;
+    @Bind(R.id.recyclerView) RecyclerView recyclerView;
+    @Bind(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.toolbarText)
-    TextView toolbarText;
+    @Bind(R.id.toolbarText) TextView toolbarText;
+    @Bind(R.id.circularProgressBar) ProgressBar circularProgressBar;
 
     private JsonParser jsonParser;
     private Api api;
@@ -66,9 +65,21 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
         configureListeners();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            super.onBackPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private void initialize() {
         jsonParser = new GsonParserImpl();
         api = new ApiImpl();
+        circularProgressBar.setVisibility(View.GONE);
         toolbarText.setText(getIntent().getStringExtra("Category"));
 
         toolbar.setCollapsible(true);
@@ -85,6 +96,7 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(this, null);
+        contentRecyclerViewAdapter.disableCategorySelection();
         recyclerView.setAdapter(contentRecyclerViewAdapter);
 
         getContent();
@@ -117,6 +129,7 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
         categories.add(getIntent().getStringExtra("Category"));
         ContentSearchParams contentSearchParams = new ContentSearchParams();
         contentSearchParams.setCategories(categories);
+        circularProgressBar.setVisibility(View.VISIBLE);
         api.getContents(contentSearchParams, new ContentCallback());
     }
 
@@ -201,6 +214,7 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     swipeRefreshLayout.setRefreshing(false);
+                    circularProgressBar.setVisibility(View.GONE);
                     Snackbar.make(recyclerView, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG).show();
                 }
             });
@@ -213,6 +227,7 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
+                        circularProgressBar.setVisibility(View.GONE);
                         Snackbar.make(recyclerView, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG).show();
                     }
                 });
@@ -222,6 +237,7 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
+                        circularProgressBar.setVisibility(View.GONE);
                         success(recyclerView, responseStr);
                     }
                 });

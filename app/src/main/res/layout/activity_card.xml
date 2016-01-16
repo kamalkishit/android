@@ -25,6 +25,14 @@
             </include>
         </android.support.design.widget.AppBarLayout>
 
+        <ProgressBar
+            android:id="@+id/circularProgressBar"
+            android:indeterminate="true"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            style="?android:attr/progressBarStyle"
+            android:layout_gravity="center"/>
+
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"

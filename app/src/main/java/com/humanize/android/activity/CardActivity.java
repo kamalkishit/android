@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.humanize.android.ApiImpl;
 import com.humanize.android.ContentRecyclerViewAdapter;
@@ -45,6 +46,7 @@ public class CardActivity extends AppCompatActivity {
     public static Contents contents = null;
 
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.circularProgressBar) ProgressBar circularProgressBar;
     @Bind(R.id.recyclerView) RecyclerView recyclerView;
     @Bind(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
@@ -94,6 +96,7 @@ public class CardActivity extends AppCompatActivity {
     private void initialize() {
         jsonParser = new GsonParserImpl();
         api = new ApiImpl();
+        circularProgressBar.setVisibility(View.GONE);
         doubleBackToExitPressedOnce = false;
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
 
@@ -155,6 +158,7 @@ public class CardActivity extends AppCompatActivity {
     }
 
     private void getContent() {
+        circularProgressBar.setVisibility(View.VISIBLE);
         ContentSearchParams contentSearchParams = new ContentSearchParams();
         contentSearchParams.setCategories(ApplicationState.getUser().getCategories());
         api.getContents(contentSearchParams, new ContentCallback());
@@ -233,10 +237,12 @@ public class CardActivity extends AppCompatActivity {
         @Override
         public void onFailure(Call call, IOException exception) {
             exception.printStackTrace();
+
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
                     swipeRefreshLayout.setRefreshing(false);
+                    circularProgressBar.setVisibility(View.GONE);
                     Snackbar.make(recyclerView, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG).show();
                 }
             });
@@ -244,11 +250,13 @@ public class CardActivity extends AppCompatActivity {
 
         @Override
         public void onResponse(Call call, final Response response) throws IOException {
+
             if (!response.isSuccessful()) {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
+                        circularProgressBar.setVisibility(View.GONE);
                         Snackbar.make(recyclerView, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG).show();
                     }
                 });
@@ -258,6 +266,7 @@ public class CardActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
+                        circularProgressBar.setVisibility(View.GONE);
                         success(recyclerView, responseStr);
                     }
                 });

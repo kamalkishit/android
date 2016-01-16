@@ -55,6 +55,17 @@ public class InviteFriendActivity extends AppCompatActivity {
         configureListeners();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            super.onBackPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private void initialize() {
         apiImpl = new ApiImpl();
         progressDialog = new ProgressDialog(this);

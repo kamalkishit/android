@@ -41,4 +41,15 @@ public class AboutUsActivity extends AppCompatActivity {
 
         aboutUsHeading.setText(StringConstants.ABOUT_US);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            super.onBackPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 
 public class NavigationDrawerFragment extends Fragment {
 
-    @Bind(R.id.preferences) LinearLayout settings;
+    @Bind(R.id.settings) LinearLayout settings;
     @Bind(R.id.updateCategories) LinearLayout updateCategories;
     @Bind(R.id.suggestArticle) LinearLayout suggestArticle;
     @Bind(R.id.aboutUs) LinearLayout aboutUs;

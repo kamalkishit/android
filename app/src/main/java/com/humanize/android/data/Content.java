@@ -14,6 +14,8 @@ public class Content {
 
     private String url;
 
+    private String originalUrl;
+
     private String shortUrl;
 
     private String userId;
@@ -76,6 +78,14 @@ public class Content {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getOriginalUrl() {
+        return originalUrl;
+    }
+
+    public void setOriginalUrl(String originalUrl) {
+        this.originalUrl = originalUrl;
     }
 
     public String getShortUrl() {

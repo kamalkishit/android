@@ -40,6 +40,17 @@ public class WebBrowserActivity extends AppCompatActivity {
         configureListeners();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            super.onBackPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private void initialize() {
         progressBar.setProgress(0);
 

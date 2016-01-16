@@ -34,6 +34,8 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
     private List<Content> contents = null;
     private Activity activity;
 
+    protected boolean disableCategorySelection;
+
     private static String TAG = ContentRecyclerViewAdapter.class.getSimpleName();
 
     public ContentRecyclerViewAdapter(Activity activity, List<Content> contents) {
@@ -56,6 +58,10 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         }
 
         return 0;
+    }
+
+    public void disableCategorySelection() {
+        disableCategorySelection = true;
     }
 
     @Override
@@ -116,12 +122,16 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         }
 
         private void configureListeners() {
-            contentCategory.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    refineByCategory(contentCategory.getText().toString());
-                }
-            });
+            if (!disableCategorySelection) {
+                contentCategory.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        refineByCategory(contentCategory.getText().toString());
+                    }
+                });
+            } else {
+                contentCategory.setOnClickListener(null);
+            }
 
             shareButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -160,7 +170,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         public void onClick(View view) {
             Intent intent = new Intent(ApplicationState.getAppContext(), WebBrowserActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra(Config.URL, content.getUrl());
+            intent.putExtra(Config.URL, content.getOriginalUrl());
             intent.putExtra(Config.SOURCE, content.getSource());
             ApplicationState.getAppContext().startActivity(intent);
         }
