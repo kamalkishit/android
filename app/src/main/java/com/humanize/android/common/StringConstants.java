@@ -9,6 +9,8 @@ public class StringConstants {
 
     public static String EMAIL_VALIDATION_ERROR_STR = "Email is Null or Invalid";
     public static String URL_VALIDATION_ERROR_STR = "URL is Null or Invalid";
+    public static String SUBJECT_VALIDATION_ERROR_STR = "Subject is null";
+    public static String BODY_VALIDATION_ERROR_STR = "Message body is null";
 
     public static String SETTINGS = "Settings";
     public static String CONTACT_US = "Contact Us";
@@ -17,6 +19,7 @@ public class StringConstants {
 
     public static String SUGGEST_ARTICLE = "Suggest Article";
     public static String INVITE_FRIEND = "Invite Friend";
+    public static String SHARE_APP = "Share App";
     public static String SUBMITTING = "Submitting...";
     public static String INVITING = "Inviting...";
 

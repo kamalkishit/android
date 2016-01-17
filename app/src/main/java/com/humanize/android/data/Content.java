@@ -24,6 +24,8 @@ public class Content {
 
     private String description;
 
+    private String imageId;
+
     private String imageURL;
 
     private String originalImageUrl;
@@ -118,6 +120,14 @@ public class Content {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(String imageId) {
+        this.imageId = imageId;
     }
 
     public String getImageURL() {

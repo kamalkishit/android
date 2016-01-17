@@ -80,7 +80,8 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         viewHolder.contentImage.getLayoutParams().width = Config.IMAGE_WIDTH;
         viewHolder.contentImage.getLayoutParams().height = Config.IMAGE_HEIGHT;
 
-        Picasso.with(ApplicationState.getAppContext()).load(content.getOriginalImageUrl())
+        System.out.println(ApiUrls.URL_IMAGES + content.getImageId());
+        Picasso.with(ApplicationState.getAppContext()).load(ApiUrls.URL_IMAGES + content.getImageId())
                 .fit().into(viewHolder.contentImage);
     }
 

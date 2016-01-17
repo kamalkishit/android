@@ -72,6 +72,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/smallMargin" />
 
+        <include
+            android:id="@+id/shareApp"
+            layout="@layout/nav_drawer_item_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/smallMargin" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -100,7 +107,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="100dp" />
+            android:layout_height="50dp" />
     </LinearLayout>
 
 </ScrollView>

@@ -54,7 +54,7 @@ public class ApiImpl implements Api {
 
     public void refreshContents(ContentSearchParams contentSearchParams, Callback callback) {
         try {
-            post(ApiUrls.URL_REFRESH_CONTENT, toJson(contentSearchParams), callback);
+            post(ApiUrls.URL_CONTENT, toJson(contentSearchParams), callback);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -62,7 +62,7 @@ public class ApiImpl implements Api {
 
     public void getMoreContents(ContentSearchParams contentSearchParams, Callback callback) {
         try {
-            post(ApiUrls.URL_MORE_CONTENT, toJson(contentSearchParams), callback);
+            post(ApiUrls.URL_CONTENT, toJson(contentSearchParams), callback);
         } catch (Exception exception) {
             exception.printStackTrace();
         }

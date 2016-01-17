@@ -1,6 +1,7 @@
 package com.humanize.android;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.humanize.android.common.StringConstants;
 import com.humanize.android.helper.ActivityLauncher;
+import com.humanize.android.util.ApplicationState;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,9 +27,11 @@ public class NavigationDrawerFragment extends Fragment {
     @Bind(R.id.settings) LinearLayout settings;
     @Bind(R.id.updateCategories) LinearLayout updateCategories;
     @Bind(R.id.suggestArticle) LinearLayout suggestArticle;
+    @Bind(R.id.inviteFriend) LinearLayout inviteFriend;
+    @Bind(R.id.shareApp) LinearLayout shareApp;
     @Bind(R.id.aboutUs) LinearLayout aboutUs;
     @Bind(R.id.contactUs) LinearLayout contactUs;
-    @Bind(R.id.inviteFriend) LinearLayout inviteFriend;
+
     @Bind(R.id.rateUs) LinearLayout rateUs;
 
     private ActionBarDrawerToggle actionBarDrawerToggle;
@@ -72,6 +76,16 @@ public class NavigationDrawerFragment extends Fragment {
         ImageView imageViewSuggestArticle = (ImageView) suggestArticle.findViewById(R.id.imageView);
         imageViewSuggestArticle.setImageResource(R.drawable.ic_suggest_article_black);
 
+        TextView textViewInviteFriend = (TextView) inviteFriend.findViewById(R.id.textView);
+        textViewInviteFriend.setText(StringConstants.INVITE_FRIEND);
+        ImageView imageViewInviteFriend = (ImageView) inviteFriend.findViewById(R.id.imageView);
+        imageViewInviteFriend.setImageResource(R.drawable.ic_invite_user_black);
+
+        TextView textViewShareApp = (TextView) shareApp.findViewById(R.id.textView);
+        textViewShareApp.setText(StringConstants.SHARE_APP);
+        ImageView imageViewShareApp = (ImageView) shareApp.findViewById(R.id.imageView);
+        imageViewShareApp.setImageResource(R.drawable.ic_invite_user_black);
+
         TextView textViewAboutUs = (TextView) aboutUs.findViewById(R.id.textView);
         textViewAboutUs.setText(StringConstants.ABOUT_US);
         ImageView imageViewAboutUs = (ImageView) aboutUs.findViewById(R.id.imageView);
@@ -81,11 +95,6 @@ public class NavigationDrawerFragment extends Fragment {
         textViewContactUs.setText(StringConstants.CONTACT_US);
         ImageView imageViewContactUs = (ImageView) contactUs.findViewById(R.id.imageView);
         imageViewContactUs.setImageResource(R.drawable.ic_contact_us_black);
-
-        TextView textViewInviteFriend = (TextView) inviteFriend.findViewById(R.id.textView);
-        textViewInviteFriend.setText(StringConstants.INVITE_FRIEND);
-        ImageView imageViewInviteFriend = (ImageView) inviteFriend.findViewById(R.id.imageView);
-        imageViewInviteFriend.setImageResource(R.drawable.ic_invite_user_black);
 
         TextView textViewRateUs = (TextView) rateUs.findViewById(R.id.textView);
         textViewRateUs.setText(StringConstants.RATE_US);
@@ -136,11 +145,27 @@ public class NavigationDrawerFragment extends Fragment {
             }
         });
 
+        shareApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                share();
+                drawerLayout.closeDrawer(Gravity.LEFT);
+            }
+        });
+
+        aboutUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activityLauncher.startAboutUsActivity();
+                drawerLayout.closeDrawer(Gravity.LEFT);
+            }
+        });
+
         contactUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    activityLauncher.startContactUsActivity();
-                    drawerLayout.closeDrawer(Gravity.LEFT);
+                activityLauncher.startContactUsActivity();
+                drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });
 
@@ -198,5 +223,14 @@ public class NavigationDrawerFragment extends Fragment {
                 actionBarDrawerToggle.syncState();
             }
         });
+    }
+
+    private void share() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("image/*");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "HUMANIZE");
+        shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "abcdef" + "\n" + " -via HUMANIZE");
+        ApplicationState.getAppContext().startActivity(shareIntent);
     }
 }

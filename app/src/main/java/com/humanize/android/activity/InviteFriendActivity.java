@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.humanize.android.ApiImpl;
 import com.humanize.android.R;
+import com.humanize.android.common.Constants;
 import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.InviteFriend;
 import com.humanize.android.fragment.InviteSuccessFragment;
@@ -173,9 +174,15 @@ public class InviteFriendActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        Snackbar.make(coordinatorLayout, StringConstants.SUCCESS_STR, Snackbar.LENGTH_LONG).show();
+                        progressDialog.dismiss();
                         InviteSuccessFragment inviteSuccessFragment = new InviteSuccessFragment();
                         inviteSuccessFragment.show(InviteFriendActivity.this.getFragmentManager(), "");
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                returnToMainActivity();
+                            }
+                        }, Constants.ACTIVITY_START_DELAY_TIME);
                     }
                 });
             }
