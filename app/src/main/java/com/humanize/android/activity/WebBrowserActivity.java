@@ -33,6 +33,7 @@ public class WebBrowserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_browser);
+        overridePendingTransition(R.anim.slide_right_to_left, 0);
 
         ButterKnife.bind(this);
 
@@ -49,6 +50,12 @@ public class WebBrowserActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(0, R.anim.slide_left_to_right);
     }
 
     private void initialize() {

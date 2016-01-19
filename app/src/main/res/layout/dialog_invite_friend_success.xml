@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/colorPrimary"
-        android:text="INVITE SUCCESS"
+        android:text="SUCCESS"
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/colorWhite"/>
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Invited successfully."
+        android:text="User invited successfully."
         android:gravity="center"/>
 
     <android.support.v7.widget.AppCompatButton

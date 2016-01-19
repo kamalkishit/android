@@ -28,31 +28,6 @@
         </android.support.design.widget.AppBarLayout>
 
         <LinearLayout
-            android:id="@+id/linearLayoutEmailId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="36dp"
-            android:layout_marginRight="36dp"
-            android:background="@drawable/border_button_green"
-            android:layout_below="@id/appbarLayout" >
-
-            <EditText
-                android:id="@+id/emailId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/smallMargin"
-                android:layout_marginTop="@dimen/smallMargin"
-                android:layout_marginBottom="@dimen/smallMargin"
-                android:textColor="@color/colorPrimary"
-                android:background="@null"
-                android:hint="Enter Email id"
-                android:textColorHint="@color/colorPrimary"
-                android:inputType="textEmailAddress"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/linearLayoutSubject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -60,7 +35,7 @@
             android:layout_marginLeft="36dp"
             android:layout_marginRight="36dp"
             android:background="@drawable/border_button_green"
-            android:layout_below="@id/linearLayoutEmailId" >
+            android:layout_below="@id/appbarLayout" >
 
             <EditText
                 android:id="@+id/subject"
@@ -71,7 +46,7 @@
                 android:layout_marginBottom="@dimen/smallMargin"
                 android:textColor="@color/colorPrimary"
                 android:background="@null"
-                android:hint="Enter subject"
+                android:hint="Subject"
                 android:textColorHint="@color/colorPrimary"
                 android:inputType="text"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -96,8 +71,10 @@
                 android:layout_marginBottom="@dimen/smallMargin"
                 android:textColor="@color/colorPrimary"
                 android:background="@null"
-                android:hint="Feedback"
-                android:minLines="6"
+                android:gravity="top|left"
+                android:hint="Message"
+                android:lines="3"
+                android:minLines="3"
                 android:inputType="textMultiLine"
                 android:textColorHint="@color/colorPrimary"
                 android:textAppearance="?android:attr/textAppearanceSmall" />

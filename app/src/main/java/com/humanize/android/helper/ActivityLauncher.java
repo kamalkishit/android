@@ -6,6 +6,7 @@ import com.humanize.android.activity.AboutUsActivity;
 import com.humanize.android.activity.CardActivity;
 import com.humanize.android.activity.ContactUsActivity;
 import com.humanize.android.activity.InviteFriendActivity;
+import com.humanize.android.activity.SelectCategoriesActivity;
 import com.humanize.android.activity.SuggestArticleActivity;
 import com.humanize.android.activity.UpdateCategoriesActivity;
 import com.humanize.android.activity.SingleCategoryContentActivity;
@@ -23,7 +24,7 @@ public class ActivityLauncher {
     }
 
     public void startUpdateCategoriesActivity() {
-        Intent intent = new Intent(ApplicationState.getAppContext(), UpdateCategoriesActivity.class);
+        Intent intent = new Intent(ApplicationState.getAppContext(), SelectCategoriesActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ApplicationState.getAppContext().startActivity(intent);
     }

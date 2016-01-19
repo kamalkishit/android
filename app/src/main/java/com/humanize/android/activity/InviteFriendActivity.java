@@ -49,6 +49,7 @@ public class InviteFriendActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invite_friend);
+        overridePendingTransition(R.anim.slide_right_to_left, 0);
 
         ButterKnife.bind(this);
 
@@ -62,9 +63,16 @@ public class InviteFriendActivity extends AppCompatActivity {
 
         if (id == android.R.id.home) {
             super.onBackPressed();
+            overridePendingTransition(0, R.anim.slide_left_to_right);
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(0, R.anim.slide_left_to_right);
     }
 
     private void initialize() {
@@ -124,6 +132,14 @@ public class InviteFriendActivity extends AppCompatActivity {
                                 progressDialog.dismiss();
                                 InviteSuccessFragment inviteSuccessFragment = new InviteSuccessFragment();
                                 inviteSuccessFragment.show(InviteFriendActivity.this.getFragmentManager(), "");
+
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        returnToMainActivity();
+                                    }
+                                }, Constants.ACTIVITY_START_DELAY_TIME);
                             }
                         });
                     }
@@ -146,46 +162,5 @@ public class InviteFriendActivity extends AppCompatActivity {
 
     public void returnToMainActivity() {
         super.onBackPressed();
-    }
-
-    private class InviteCallback implements Callback {
-
-        @Override
-        public void onFailure(Call call, IOException exception) {
-            Log.e(TAG, exception.toString());
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    Snackbar.make(coordinatorLayout, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG).show();
-                }
-            });
-        }
-
-        @Override
-        public void onResponse(Call call, final Response response) throws IOException {
-            if (!response.isSuccessful()) {
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Snackbar.make(coordinatorLayout, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG).show();
-                    }
-                });
-            } else {
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressDialog.dismiss();
-                        InviteSuccessFragment inviteSuccessFragment = new InviteSuccessFragment();
-                        inviteSuccessFragment.show(InviteFriendActivity.this.getFragmentManager(), "");
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                returnToMainActivity();
-                            }
-                        }, Constants.ACTIVITY_START_DELAY_TIME);
-                    }
-                });
-            }
-        }
     }
 }

@@ -241,8 +241,8 @@
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_marginLeft="@dimen/widthlarge"
-                android:layout_marginRight="@dimen/widthlarge"
+                android:layout_marginLeft="@dimen/widthLarge"
+                android:layout_marginRight="@dimen/widthLarge"
                 android:layout_marginTop="60dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

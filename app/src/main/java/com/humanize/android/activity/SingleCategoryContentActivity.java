@@ -58,6 +58,7 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_category_content);
+        overridePendingTransition(R.anim.slide_right_to_left, R.anim.slide_right_to_left);
 
         ButterKnife.bind(this);
 
@@ -74,6 +75,12 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(0, R.anim.slide_left_to_right);
     }
 
     private void initialize() {
@@ -149,7 +156,6 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
         ContentSearchParams contentSearchParams = new ContentSearchParams();
         contentSearchParams.setCategories(categories);
         contentSearchParams.setCreatedDate(startDate);
-        contentSearchParams.setRefresh(true);
         api.getContents(contentSearchParams, new MoreContentCallback());
     }
 

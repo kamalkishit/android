@@ -40,7 +40,6 @@ import okhttp3.Response;
 
 public class UpdateCategoriesActivity extends AppCompatActivity {
 
-    @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
     @Bind(R.id.selectAllCheckbox) CheckBox selectAllCheckbox;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbarText) TextView toolbarText;
@@ -68,7 +67,7 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_categories);
+        setContentView(R.layout.activity_update_categories);
 
         ButterKnife.bind(this);
 
@@ -134,7 +133,7 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
                 if (selectedCategoriesCount < 1) {
-                    Snackbar.make(view, "Select atleast 1 category", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(view, "Select at least 1 category", Snackbar.LENGTH_LONG).show();
                 } else {
                     List<String> categoriesList = new ArrayList<>();
                     categoriesList.addAll(categories);

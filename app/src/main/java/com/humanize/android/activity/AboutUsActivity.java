@@ -28,6 +28,7 @@ public class AboutUsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
+        overridePendingTransition(R.anim.slide_right_to_left, 0);
 
         ButterKnife.bind(this);
 
@@ -48,8 +49,16 @@ public class AboutUsActivity extends AppCompatActivity {
 
         if (id == android.R.id.home) {
             super.onBackPressed();
+            overridePendingTransition(0, R.anim.slide_left_to_right);
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(0, R.anim.slide_left_to_right);
     }
 }

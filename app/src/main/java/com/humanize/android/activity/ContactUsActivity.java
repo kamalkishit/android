@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -45,7 +46,6 @@ public class ContactUsActivity extends AppCompatActivity {
     @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbarText) TextView toolbarText;
-    @Bind(R.id.emailId) EditText emailId;
     @Bind(R.id.subject) EditText subject;
     @Bind(R.id.body) EditText body;
     @Bind(R.id.submitButton) Button submitButton;
@@ -59,10 +59,12 @@ public class ContactUsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_us);
+        overridePendingTransition(R.anim.slide_right_to_left, 0);
 
         ButterKnife.bind(this);
 
         initialize();
+        configureListeners();
     }
 
     private void initialize() {
@@ -74,20 +76,6 @@ public class ContactUsActivity extends AppCompatActivity {
     }
 
     private void configureListeners() {
-        emailId.addTextChangedListener(new TextWatcher() {
-            // after every change has been made to this editText, we would like to check validity
-            public void afterTextChanged(Editable s) {
-                if (emailId.getError() != null) {
-                    emailId.setError(null);
-                }
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-        });
 
         submitButton.setOnTouchListener(new View.OnTouchListener() {
 
@@ -116,9 +104,16 @@ public class ContactUsActivity extends AppCompatActivity {
 
         if (id == android.R.id.home) {
             super.onBackPressed();
+            overridePendingTransition(0, R.anim.slide_left_to_right);
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(0, R.anim.slide_left_to_right);
     }
 
     private void submit() {
@@ -127,7 +122,6 @@ public class ContactUsActivity extends AppCompatActivity {
             progressDialog.setMessage(StringConstants.SUBMITTING);
             progressDialog.show();
             ContactUs contactUs = new ContactUs();
-            contactUs.setEmailId(emailId.getText().toString());
             contactUs.setSubject(subject.getText().toString());
             contactUs.setBody(body.getText().toString());
 
@@ -136,11 +130,6 @@ public class ContactUsActivity extends AppCompatActivity {
     }
 
     private boolean validate() {
-        if (emailId == null || emailId.getText().toString().isEmpty()) {
-            emailId.setError(StringConstants.EMAIL_VALIDATION_ERROR_STR);
-            Snackbar.make(coordinatorLayout, StringConstants.EMAIL_VALIDATION_ERROR_STR, Snackbar.LENGTH_SHORT).show();
-            return false;
-        }
 
         if (subject == null || subject.getText().toString().isEmpty()) {
             subject.setError(StringConstants.SUBJECT_VALIDATION_ERROR_STR);

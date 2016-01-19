@@ -55,7 +55,7 @@
             android:layout_marginTop="16dp"
             android:text="title "
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/colorBlack"
             android:textStyle="bold" />
 
         <RelativeLayout
@@ -81,23 +81,23 @@
                 android:layout_alignParentEnd="true"
                 android:text="Source"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/colorAccent" />
+                android:textColor="@color/colorBlack" />
             </RelativeLayout>
         
-        <View
+        <!--<View
             android:id="@+id/line"
             android:layout_width="40dp"
             android:layout_height="3dp"
             android:layout_marginBottom="@dimen/smallMargin"
             android:layout_marginLeft="@dimen/mediumMargin"
             android:layout_below="@id/dateAndSource"
-            android:background="@color/colorAccent" />
+            android:background="@color/colorDarkGrey" /> -->
 
         <TextView
             android:id="@+id/contentDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/line"
+            android:layout_below="@+id/dateAndSource"
             android:layout_marginTop="@dimen/smallMargin"
             android:layout_marginBottom="@dimen/mediumMargin"
             android:layout_marginLeft="@dimen/mediumMargin"

@@ -33,6 +33,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
 
     private List<Content> contents = null;
     private Activity activity;
+    private ContentViewHolder viewHolder;
 
     protected boolean disableCategorySelection;
 
@@ -49,6 +50,10 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
 
     public void setContents(List<Content> contents) {
         this.contents = contents;
+    }
+
+    public void resetIndex() {
+        bindViewHolder(viewHolder, 0);
     }
 
     @Override
@@ -88,8 +93,8 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
     @Override
     public ContentViewHolder onCreateViewHolder(ViewGroup viewGroup, int index) {
         View cardView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.content_card, viewGroup, false);
-
-        return new ContentRecyclerViewAdapter.ContentViewHolder(cardView);
+        viewHolder = new ContentRecyclerViewAdapter.ContentViewHolder(cardView);
+        return viewHolder;
     }
 
     public class ContentViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

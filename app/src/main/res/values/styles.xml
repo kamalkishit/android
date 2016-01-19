@@ -13,6 +13,7 @@
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:windowBackground">@color/windowBackground</item>
         <item name="android:textViewStyle">@style/CustomTextViewStyle</item>
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">

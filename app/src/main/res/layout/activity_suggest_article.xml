@@ -42,7 +42,7 @@
                 android:layout_marginBottom="@dimen/smallMargin"
                 android:textColor="@color/colorPrimary"
                 android:background="@null"
-                android:hint="Enter URL"
+                android:hint="Enter Article URL"
                 android:textColorHint="@color/colorPrimary"
                 android:inputType="textUri"
                 android:textAppearance="?android:attr/textAppearanceSmall" />

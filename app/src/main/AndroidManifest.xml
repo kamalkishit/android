@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.humanize.android">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -12,7 +11,6 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Humanize">
-
         <activity
             android:name=".activity.AppLauncherActivity"
             android:label="Humanize"
@@ -21,16 +19,15 @@
             android:theme="@style/MaterialDesignTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.CardActivity"
             android:label="HUMANIZE"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
-
         <activity
             android:name=".activity.WebBrowserActivity"
             android:noHistory="true"
@@ -46,34 +43,40 @@
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
-
         <activity
             android:name=".activity.SuggestArticleActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible"
             android:theme="@style/MaterialDesignTheme" />
-
         <activity
             android:name=".activity.AboutUsActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
-
         <activity
             android:name=".activity.ContactUsActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible"
             android:theme="@style/MaterialDesignTheme" />
-
         <activity
             android:name=".activity.SingleCategoryContentActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
-
         <activity
             android:name=".activity.InviteFriendActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible"
             android:theme="@style/MaterialDesignTheme" />
+        <activity
+            android:name=".activity.SelectCategoriesActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/MaterialDesignTheme">
+
+        </activity>
     </application>
+
 </manifest>

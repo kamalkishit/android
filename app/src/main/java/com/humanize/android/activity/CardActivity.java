@@ -1,5 +1,6 @@
 package com.humanize.android.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -16,7 +17,9 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.humanize.android.ApiImpl;
 import com.humanize.android.ContentRecyclerViewAdapter;
@@ -46,6 +49,7 @@ public class CardActivity extends AppCompatActivity {
     public static Contents contents = null;
 
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.toolbarText) TextView toolbarText;
     @Bind(R.id.circularProgressBar) ProgressBar circularProgressBar;
     @Bind(R.id.recyclerView) RecyclerView recyclerView;
     @Bind(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
@@ -65,6 +69,7 @@ public class CardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card);
+        //overridePendingTransition(R.anim.slide_right_to_left, R.anim.slide_right_to_left);
 
         ButterKnife.bind(this);
 
@@ -78,6 +83,7 @@ public class CardActivity extends AppCompatActivity {
 
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
+            //overridePendingTransition(0, R.anim.slide_left_to_right);
             return;
         }
 
@@ -98,6 +104,7 @@ public class CardActivity extends AppCompatActivity {
         api = new ApiImpl();
         circularProgressBar.setVisibility(View.GONE);
         doubleBackToExitPressedOnce = false;
+
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
 
         linearLayoutManager = new LinearLayoutManager(this);
@@ -131,6 +138,15 @@ public class CardActivity extends AppCompatActivity {
     }
 
     private void configureListeners() {
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("hi");
+                contentRecyclerViewAdapter.resetIndex();
+                contentRecyclerViewAdapter.notifyDataSetChanged();
+            }
+        });
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
