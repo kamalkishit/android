@@ -1,6 +1,7 @@
 package com.humanize.android.util;
 
 import com.humanize.android.data.ContactUs;
+import com.humanize.android.data.ContentParams;
 import com.humanize.android.data.ContentSearchParams;
 import com.humanize.android.data.InviteFriend;
 import com.humanize.android.data.SuggestArticle;
@@ -18,4 +19,5 @@ public interface Api {
     void suggestArticle(SuggestArticle suggestArticle, Callback callback);
     void contactUs(ContactUs contactUs, Callback callback);
     void getContents(ContentSearchParams contentSearchParams, Callback callback);
+    void getContent(ContentParams contentParams, Callback callback);
 }

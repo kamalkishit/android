@@ -47,6 +47,7 @@ public class WebBrowserActivity extends AppCompatActivity {
 
         if (id == android.R.id.home) {
             super.onBackPressed();
+            overridePendingTransition(0, R.anim.slide_left_to_right);
         }
 
         return super.onOptionsItemSelected(item);

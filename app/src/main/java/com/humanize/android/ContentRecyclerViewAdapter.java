@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.humanize.android.activity.WebBrowserActivity;
 import com.humanize.android.common.Constants;
+import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.Content;
 import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.util.ApplicationState;
@@ -159,7 +160,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
 
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, Constants.IMAGE_QUALITY_VALUE, byteArrayOutputStream);
-            String path = MediaStore.Images.Media.insertImage(ApplicationState.getAppContext().getContentResolver(), bitmap, "Title", null);
+            String path = MediaStore.Images.Media.insertImage(ApplicationState.getAppContext().getContentResolver(), bitmap, null, null);
             Uri imageUri = Uri.parse(path);
 
             content.setSharedCount(content.getSharedCount() + 1);

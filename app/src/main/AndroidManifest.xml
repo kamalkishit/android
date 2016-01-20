@@ -47,8 +47,8 @@
             android:name=".activity.SuggestArticleActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible"
-            android:theme="@style/MaterialDesignTheme" />
+            android:theme="@style/MaterialDesignTheme"
+            android:windowSoftInputMode="stateVisible" />
         <activity
             android:name=".activity.AboutUsActivity"
             android:noHistory="true"
@@ -58,8 +58,8 @@
             android:name=".activity.ContactUsActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible"
-            android:theme="@style/MaterialDesignTheme" />
+            android:theme="@style/MaterialDesignTheme"
+            android:windowSoftInputMode="stateVisible" />
         <activity
             android:name=".activity.SingleCategoryContentActivity"
             android:screenOrientation="portrait"
@@ -68,14 +68,17 @@
             android:name=".activity.InviteFriendActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible"
-            android:theme="@style/MaterialDesignTheme" />
+            android:theme="@style/MaterialDesignTheme"
+            android:windowSoftInputMode="stateVisible" />
         <activity
             android:name=".activity.SelectCategoriesActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
+            android:theme="@style/MaterialDesignTheme"></activity>
+        <activity
+            android:name=".activity.SingleContentActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme">
-
         </activity>
     </application>
 

@@ -72,6 +72,7 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
 
         if (id == android.R.id.home) {
             super.onBackPressed();
+            overridePendingTransition(0, R.anim.slide_left_to_right);
         }
 
         return super.onOptionsItemSelected(item);
@@ -87,7 +88,7 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
         jsonParser = new GsonParserImpl();
         api = new ApiImpl();
         circularProgressBar.setVisibility(View.GONE);
-        toolbarText.setText(getIntent().getStringExtra("Category"));
+        toolbarText.setText(getIntent().getStringExtra(StringConstants.CATEGORY));
 
         toolbar.setCollapsible(true);
         setSupportActionBar(toolbar);
@@ -133,7 +134,7 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
 
     private void getContent() {
         List<String> categories = new ArrayList<String>();
-        categories.add(getIntent().getStringExtra("Category"));
+        categories.add(getIntent().getStringExtra(StringConstants.CATEGORY));
         ContentSearchParams contentSearchParams = new ContentSearchParams();
         contentSearchParams.setCategories(categories);
         circularProgressBar.setVisibility(View.VISIBLE);
@@ -142,7 +143,7 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
 
     private void getNewContent(long endDate) {
         List<String> categories = new ArrayList<String>();
-        categories.add(getIntent().getStringExtra("Category"));
+        categories.add(getIntent().getStringExtra(StringConstants.CATEGORY));
         ContentSearchParams contentSearchParams = new ContentSearchParams();
         contentSearchParams.setCategories(categories);
         contentSearchParams.setCreatedDate(endDate);
@@ -152,7 +153,7 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
 
     private void getMoreContent(long startDate) {
         List<String> categories = new ArrayList<String>();
-        categories.add(getIntent().getStringExtra("Category"));
+        categories.add(getIntent().getStringExtra(StringConstants.CATEGORY));
         ContentSearchParams contentSearchParams = new ContentSearchParams();
         contentSearchParams.setCategories(categories);
         contentSearchParams.setCreatedDate(startDate);

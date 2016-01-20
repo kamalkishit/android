@@ -10,6 +10,7 @@ import com.humanize.android.activity.SelectCategoriesActivity;
 import com.humanize.android.activity.SuggestArticleActivity;
 import com.humanize.android.activity.UpdateCategoriesActivity;
 import com.humanize.android.activity.SingleCategoryContentActivity;
+import com.humanize.android.common.StringConstants;
 import com.humanize.android.util.ApplicationState;
 
 /**
@@ -51,7 +52,7 @@ public class ActivityLauncher {
     public void startSingleCategoryContentActivity(String category) {
         Intent intent = new Intent(ApplicationState.getAppContext(), SingleCategoryContentActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra("Category", category);
+        intent.putExtra(StringConstants.CATEGORY, category);
         ApplicationState.getAppContext().startActivity(intent);
     }
 

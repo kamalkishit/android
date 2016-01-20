@@ -9,4 +9,5 @@
     <string name="title_activity_single_category_content">SingleCategoryContentActivity</string>
     <string name="title_activity_invite_friend">InviteFriendActivity</string>
     <string name="title_activity_select_categories">SelectCategoriesActivity</string>
+    <string name="title_activity_single_content">SingleContentActivity</string>
 </resources>

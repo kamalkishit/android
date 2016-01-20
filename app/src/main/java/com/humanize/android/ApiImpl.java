@@ -1,12 +1,14 @@
 package com.humanize.android;
 
 import com.humanize.android.data.ContactUs;
+import com.humanize.android.data.ContentParams;
 import com.humanize.android.data.ContentSearchParams;
 import com.humanize.android.data.InviteFriend;
 import com.humanize.android.data.SuggestArticle;
 import com.humanize.android.util.Api;
 import com.humanize.android.util.GsonParserImpl;
 
+import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -52,17 +54,9 @@ public class ApiImpl implements Api {
         }
     }
 
-    public void refreshContents(ContentSearchParams contentSearchParams, Callback callback) {
+    public void getContent(ContentParams contentParams, Callback callback) {
         try {
-            post(ApiUrls.URL_CONTENT, toJson(contentSearchParams), callback);
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-    }
-
-    public void getMoreContents(ContentSearchParams contentSearchParams, Callback callback) {
-        try {
-            post(ApiUrls.URL_CONTENT, toJson(contentSearchParams), callback);
+            post(ApiUrls.URL_SINGLE_CONTENT, toJson(contentParams), callback);
         } catch (Exception exception) {
             exception.printStackTrace();
         }

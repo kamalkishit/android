@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.humanize.android.R;
+import com.humanize.android.common.StringConstants;
 import com.humanize.android.data.User;
 import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.service.SharedPreferencesService;
@@ -85,74 +86,74 @@ public class SelectCategoriesActivity extends AppCompatActivity {
 
         toolbar.setCollapsible(true);
         setSupportActionBar(toolbar);
-        toolbarText.setText("Update Categories");
+        toolbarText.setText(StringConstants.UPDATE_CATEGORIES);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         submitButton = (Button) findViewById(R.id.submitButton);
 
         achievers = new Category();
         achievers.textView = (TextView) findViewById(R.id.achievers);
-        achievers.category = "Achievers";
+        achievers.categoryStr = StringConstants.ACHIEVERS;
 
         beautiful = new Category();
         beautiful.textView = (TextView) findViewById(R.id.beautiful);
-        beautiful.category = "Beautiful";
+        beautiful.categoryStr = StringConstants.BEAUTIFUL;
 
         changemakers = new Category();
         changemakers.textView = (TextView) findViewById(R.id.changemakers);
-        changemakers.category = "Changemakers";
+        changemakers.categoryStr = StringConstants.CHANGEMAKERS;
 
         education = new Category();
         education.textView = (TextView) findViewById(R.id.education);
-        education.category = "Education";
+        education.categoryStr = StringConstants.EDUCATION;
 
         empowerment = new Category();
         empowerment.textView = (TextView) findViewById(R.id.empowerment);
-        empowerment.category = "Empowerment";
+        empowerment.categoryStr = StringConstants.EMPOWERMENT;
 
         environment = new Category();
         environment.textView = (TextView) findViewById(R.id.environment);
-        environment.category = "Environment";
+        environment.categoryStr = StringConstants.ENVIRONMENT;
 
         governance = new Category();
         governance.textView = (TextView) findViewById(R.id.governance);
-        governance.category = "Governance";
+        governance.categoryStr = StringConstants.GOVERNANCE;
 
         health = new Category();
         health.textView = (TextView) findViewById(R.id.health);
-        health.category = "Health";
+        health.categoryStr = StringConstants.HEALTH;
 
         humanity = new Category();
         humanity.textView = (TextView) findViewById(R.id.humanity);
-        humanity.category = "Humanity";
+        humanity.categoryStr = StringConstants.HUMANITY;
 
         inspiring = new Category();
         inspiring.textView = (TextView) findViewById(R.id.inspiring);
-        inspiring.category = "Inspiring";
+        inspiring.categoryStr = StringConstants.INSPIRING;
 
         kindness = new Category();
         kindness.textView = (TextView) findViewById(R.id.kindness);
-        kindness.category = "Kindness";
+        kindness.categoryStr = StringConstants.KINDNESS;
 
         lawAndJustice = new Category();
         lawAndJustice.textView = (TextView) findViewById(R.id.lawAndJustice);
-        lawAndJustice.category = "Law and Justice";
+        lawAndJustice.categoryStr = StringConstants.LAW_AND_JUSTICE;
 
         realHeroes = new Category();
         realHeroes.textView = (TextView) findViewById(R.id.realHeroes);
-        realHeroes.category = "Real Heroes";
+        realHeroes.categoryStr = StringConstants.REAL_HEROES;
 
         scienceAndTech = new Category();
         scienceAndTech.textView = (TextView) findViewById(R.id.scienceAndTech);
-        scienceAndTech.category = "Science and Tech";
+        scienceAndTech.categoryStr = StringConstants.SCIENCE_AND_TECH;
 
         smile = new Category();
         smile.textView = (TextView) findViewById(R.id.smile);
-        smile.category = "Smile";
+        smile.categoryStr = StringConstants.SMILE;
 
         sports = new Category();
         sports.textView = (TextView) findViewById(R.id.sports);
-        sports.category = "Sports";
+        sports.categoryStr = StringConstants.SPORTS;
 
         updateView();
     }
@@ -161,7 +162,7 @@ public class SelectCategoriesActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
                 if (selectedCategoriesCount < 1) {
-                    Snackbar.make(view, "Select at least 1 category", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(view, StringConstants.CATETORY_SELECTION_ERROR_STR, Snackbar.LENGTH_LONG).show();
                 } else {
                     List<String> categoriesList = new ArrayList<>();
                     categoriesList.addAll(categories);
@@ -338,7 +339,7 @@ public class SelectCategoriesActivity extends AppCompatActivity {
         category.isSelected = true;
         category.textView.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         category.textView.setTextColor(getResources().getColor(R.color.colorWhite));
-        categories.add(category.category);
+        categories.add(category.categoryStr);
         selectedCategoriesCount++;
     }
 
@@ -346,7 +347,7 @@ public class SelectCategoriesActivity extends AppCompatActivity {
         category.isSelected = false;
         category.textView.setBackground(getResources().getDrawable(R.drawable.border_button_dark_grey));
         category.textView.setTextColor(getResources().getColor(R.color.colorDarkGrey));
-        categories.remove(category.category);
+        categories.remove(category.categoryStr);
         selectedCategoriesCount--;
     }
 
@@ -354,67 +355,67 @@ public class SelectCategoriesActivity extends AppCompatActivity {
         if (ApplicationState.getUser() != null && ApplicationState.getUser().getCategories() != null) {
             User user = ApplicationState.getUser();
 
-            if (user.getCategories().contains("Achievers")) {
+            if (user.getCategories().contains(StringConstants.ACHIEVERS)) {
                 selectCategory(achievers);
             }
 
-            if (user.getCategories().contains("Beautiful")) {
+            if (user.getCategories().contains(StringConstants.BEAUTIFUL)) {
                 selectCategory(beautiful);
             }
 
-            if (user.getCategories().contains("Changemakers")) {
+            if (user.getCategories().contains(StringConstants.CHANGEMAKERS)) {
                 selectCategory(changemakers);
             }
 
-            if (user.getCategories().contains("Education")) {
+            if (user.getCategories().contains(StringConstants.EDUCATION)) {
                 selectCategory(education);
             }
 
-            if (user.getCategories().contains("Empowerment")) {
+            if (user.getCategories().contains(StringConstants.EMPOWERMENT)) {
                 selectCategory(empowerment);
             }
 
-            if (user.getCategories().contains("Environment")) {
+            if (user.getCategories().contains(StringConstants.ENVIRONMENT)) {
                 selectCategory(environment);
             }
 
-            if (user.getCategories().contains("Governance")) {
+            if (user.getCategories().contains(StringConstants.GOVERNANCE)) {
                 selectCategory(governance);
             }
 
-            if (user.getCategories().contains("Health")) {
+            if (user.getCategories().contains(StringConstants.HEALTH)) {
                 selectCategory(health);
             }
 
-            if (user.getCategories().contains("Humanity")) {
+            if (user.getCategories().contains(StringConstants.HUMANITY)) {
                 selectCategory(humanity);
             }
 
-            if (user.getCategories().contains("Inspiring")) {
+            if (user.getCategories().contains(StringConstants.INSPIRING)) {
                 selectCategory(inspiring);
             }
 
-            if (user.getCategories().contains("Kindness")) {
+            if (user.getCategories().contains(StringConstants.KINDNESS)) {
                 selectCategory(kindness);
             }
 
-            if (user.getCategories().contains("Real Heroes")) {
+            if (user.getCategories().contains(StringConstants.REAL_HEROES)) {
                 selectCategory(realHeroes);
             }
 
-            if (user.getCategories().contains("Law and Justice")) {
+            if (user.getCategories().contains(StringConstants.LAW_AND_JUSTICE)) {
                 selectCategory(lawAndJustice);
             }
 
-            if (user.getCategories().contains("Science and Tech")) {
+            if (user.getCategories().contains(StringConstants.SCIENCE_AND_TECH)) {
                 selectCategory(scienceAndTech);
             }
 
-            if (user.getCategories().contains("Smile")) {
+            if (user.getCategories().contains(StringConstants.SMILE)) {
                 selectCategory(smile);
             }
 
-            if (user.getCategories().contains("Sports")) {
+            if (user.getCategories().contains(StringConstants.SPORTS)) {
                 selectCategory(sports);
             }
         }
@@ -423,12 +424,13 @@ public class SelectCategoriesActivity extends AppCompatActivity {
     class Category {
 
         private TextView textView;
-        private String category;
+        private String categoryStr;
         private boolean isSelected;
 
         protected Category() {
             this.textView = null;
             this.isSelected = false;
+            this.categoryStr = null;
         }
     }
 

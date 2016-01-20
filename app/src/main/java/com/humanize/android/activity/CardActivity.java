@@ -49,7 +49,6 @@ public class CardActivity extends AppCompatActivity {
     public static Contents contents = null;
 
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.toolbarText) TextView toolbarText;
     @Bind(R.id.circularProgressBar) ProgressBar circularProgressBar;
     @Bind(R.id.recyclerView) RecyclerView recyclerView;
     @Bind(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
@@ -69,7 +68,6 @@ public class CardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card);
-        //overridePendingTransition(R.anim.slide_right_to_left, R.anim.slide_right_to_left);
 
         ButterKnife.bind(this);
 
@@ -83,7 +81,6 @@ public class CardActivity extends AppCompatActivity {
 
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
-            //overridePendingTransition(0, R.anim.slide_left_to_right);
             return;
         }
 
@@ -141,7 +138,6 @@ public class CardActivity extends AppCompatActivity {
         toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("hi");
                 contentRecyclerViewAdapter.resetIndex();
                 contentRecyclerViewAdapter.notifyDataSetChanged();
             }
