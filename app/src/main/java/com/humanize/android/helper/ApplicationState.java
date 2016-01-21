@@ -50,7 +50,6 @@ public class ApplicationState extends Application{
 
     private void initialize() {
         ApplicationState.context = getApplicationContext();
-        user = new User();
 
         DisplayMetrics metrics = getResources().getDisplayMetrics();
 
@@ -69,6 +68,12 @@ public class ApplicationState extends Application{
         try {
             if (SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS) != null) {
                 CardActivity.contents = jsonParserService.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS), Contents.class);
+            }
+
+            if (SharedPreferencesService.getInstance().getString(Config.JSON_USER_DATA) != null) {
+                user = jsonParserService.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_USER_DATA), User.class);
+            } else {
+                user = new User();
             }
         } catch (Exception exception) {
             exception.printStackTrace();

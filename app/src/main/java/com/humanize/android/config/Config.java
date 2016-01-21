@@ -10,6 +10,7 @@ public class Config {
     // sharedPreferences data
     public final static String SHARED_PREFERENCES = "sharedPreferences";
     public final static String JSON_CONTENTS = "jsonContents";
+    public final static String JSON_USER_DATA = "jsonUserData";
     public final static String JSON_BOOKMARKED_CONTENTS = "jsonBookmarkedContents";
 
     public final static String URL = "url";
