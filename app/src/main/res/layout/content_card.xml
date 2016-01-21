@@ -27,7 +27,48 @@
             android:layout_marginTop="8dp"
             android:background="@color/colorGrey"/>
 
-        <TextView
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@id/contentImage"
+            android:layout_marginRight="@dimen/mediumMargin"
+            android:layout_marginBottom="-14dp" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/extraSmallMargin"
+                android:background="@color/colorWhite"
+                android:layout_marginRight="@dimen/smallMargin">
+
+                <Button
+                    android:id="@+id/bookmarkButton"
+                    android:layout_width="20dp"
+                    android:layout_height="19dp"
+                    android:background="@drawable/ic_bookmark_filled"
+                     />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/contentCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:background="@color/colorAccent"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:text="Category"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorWhite" />
+
+
+        </LinearLayout>
+
+        <!--<TextView
             android:id="@+id/contentCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,12 +78,20 @@
             android:paddingBottom="4dp"
             android:layout_alignParentRight="true"
             android:layout_alignBottom="@id/contentImage"
-            android:layout_marginBottom="-14dp"
+            android:layout_marginBottom="-12dp"
             android:layout_marginRight="16dp"
             android:background="@color/colorAccent"
             android:text="Category"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/colorWhite" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_bookmark_filled_grey"
+            android:layout_alignBottom="@id/contentImage"
+            android:layout_marginBottom="-14dp"
+            android:layout_alignLeft="@id/contentCategory"/> -->
 
         <TextView
             android:id="@+id/contentTitle"
@@ -52,7 +101,7 @@
             android:layout_marginBottom="@dimen/smallMargin"
             android:layout_marginLeft="@dimen/mediumMargin"
             android:layout_marginRight="@dimen/mediumMargin"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/mediumMargin"
             android:text="title "
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/colorBlack"
@@ -112,6 +161,7 @@
             android:layout_height="wrap_content"
             android:minHeight="0dp"
             android:minWidth="0dp"
+            android:elevation="16dp"
             android:paddingTop="@dimen/extraSmallMargin"
             android:paddingBottom="@dimen/extraSmallMargin"
             android:paddingRight="@dimen/smallMargin"

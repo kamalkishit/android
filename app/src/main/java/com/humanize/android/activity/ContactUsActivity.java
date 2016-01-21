@@ -8,11 +8,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.util.Patterns;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,17 +17,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.humanize.android.ApiImpl;
+import com.humanize.android.service.ApiServiceImpl;
 import com.humanize.android.R;
-import com.humanize.android.common.Constants;
-import com.humanize.android.common.StringConstants;
+import com.humanize.android.config.Constants;
+import com.humanize.android.config.StringConstants;
 import com.humanize.android.data.ContactUs;
-import com.humanize.android.data.SuggestArticle;
 import com.humanize.android.fragment.ContactUsSuccessFragment;
-import com.humanize.android.fragment.InviteSuccessFragment;
-import com.humanize.android.fragment.SuggestArticleSuccessFragment;
-import com.humanize.android.helper.ActivityLauncher;
-import com.humanize.android.util.Api;
+import com.humanize.android.service.ApiService;
 
 import java.io.IOException;
 
@@ -51,7 +43,7 @@ public class ContactUsActivity extends AppCompatActivity {
     @Bind(R.id.submitButton) Button submitButton;
 
     private ProgressDialog progressDialog;
-    private Api api;
+    private ApiService apiService;
 
     private static String TAG = ContactUsActivity.class.getSimpleName();
 
@@ -69,7 +61,7 @@ public class ContactUsActivity extends AppCompatActivity {
 
     private void initialize() {
         progressDialog = new ProgressDialog(this);
-        api = new ApiImpl();
+        apiService = new ApiServiceImpl();
         toolbarText.setText(StringConstants.CONTACT_US);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -125,7 +117,7 @@ public class ContactUsActivity extends AppCompatActivity {
             contactUs.setSubject(subject.getText().toString());
             contactUs.setBody(body.getText().toString());
 
-            api.contactUs(contactUs, new ContactUsCallback());
+            apiService.contactUs(contactUs, new ContactUsCallback());
         }
     }
 

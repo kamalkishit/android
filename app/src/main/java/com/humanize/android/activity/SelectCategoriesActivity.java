@@ -10,12 +10,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.humanize.android.R;
-import com.humanize.android.common.StringConstants;
+import com.humanize.android.config.StringConstants;
 import com.humanize.android.data.User;
 import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.service.SharedPreferencesService;
-import com.humanize.android.util.ApplicationState;
-import com.humanize.android.util.Config;
+import com.humanize.android.helper.ApplicationState;
+import com.humanize.android.config.Config;
 
 import java.util.ArrayList;
 import java.util.HashSet;

@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,15 +15,15 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.humanize.android.JsonParser;
+import com.humanize.android.service.JsonParserService;
 import com.humanize.android.R;
-import com.humanize.android.common.StringConstants;
+import com.humanize.android.config.StringConstants;
 import com.humanize.android.data.User;
 import com.humanize.android.helper.ActivityLauncher;
-import com.humanize.android.util.GsonParserImpl;
+import com.humanize.android.service.GsonParserServiceImpl;
 import com.humanize.android.service.SharedPreferencesService;
-import com.humanize.android.util.ApplicationState;
-import com.humanize.android.util.Config;
+import com.humanize.android.helper.ApplicationState;
+import com.humanize.android.config.Config;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -46,7 +45,7 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
     @Bind(R.id.submitButton) Button submitButton;
 
     private ActivityLauncher activityLauncher;
-    private JsonParser jsonParser;
+    private JsonParserService jsonParserService;
     private Set<String> categories;
     private int selectedCategoriesCount;
 
@@ -77,7 +76,7 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
 
     private void initialize() {
         activityLauncher = new ActivityLauncher();
-        jsonParser = new GsonParserImpl();
+        jsonParserService = new GsonParserServiceImpl();
         categories = new HashSet<>();
         selectedCategoriesCount = 0;
 
@@ -90,7 +89,7 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
 
         categories = new HashSet<>();
 
-        achievers = new Category();
+        /*achievers = new Category();
         achievers.button = (Button)findViewById(R.id.achievers);
 
         beautiful = new Category();
@@ -124,7 +123,7 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
         scienceAndTech.button = (Button)findViewById(R.id.scienceAndTech);
 
         sports = new Category();
-        sports.button = (Button)findViewById(R.id.sports);
+        sports.button = (Button)findViewById(R.id.sports); */
 
         updateView();
     }
@@ -143,7 +142,7 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
                     activityLauncher.startCardActivity();
 
                     /*try {
-                        String userdataJson = jsonParser.toJson(ApplicationState.getUser());
+                        String userdataJson = jsonParserService.toJson(ApplicationState.getUser());
                         System.out.println(Config.USER_UPDATE_URL);
                         System.out.println(userdataJson);
 
@@ -157,7 +156,7 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
             }
         });
 
-        selectAllCheckbox.setOnClickListener(new android.view.View.OnClickListener() {
+        /*selectAllCheckbox.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
                 if (selectAllCheckbox.isChecked()) {
                     selectAllCategories();
@@ -285,7 +284,7 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
                     selectCategory(sports, R.drawable.ic_sports_white);
                 }
             }
-        });
+        }); */
     }
 
     @Override
@@ -311,7 +310,7 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
         if (ApplicationState.getUser() != null && ApplicationState.getUser().getCategories() != null) {
             User user = ApplicationState.getUser();
 
-            if (user.getCategories().contains("Achievers")) {
+            /*if (user.getCategories().contains("Achievers")) {
                 selectCategory(achievers, R.drawable.ic_achievers_white);
             }
 
@@ -357,7 +356,7 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
 
             if (user.getCategories().contains("Sports")) {
                 selectCategory(sports, R.drawable.ic_sports_white);
-            }
+            } */
         }
 
         if (selectedCategoriesCount == 12) {
@@ -402,7 +401,7 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
         selectedCategoriesCount--;
     }
 
-    private void selectAllCategories() {
+    /* private void selectAllCategories() {
         selectCategory(achievers, R.drawable.ic_achievers_white);
         selectCategory(beautiful, R.drawable.ic_beautiful_white);
         selectCategory(education, R.drawable.ic_education_white);
@@ -434,7 +433,7 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
         unselectCategory(sports, R.drawable.ic_sports_green);
 
         selectedCategoriesCount = 0;
-    }
+    } */
 
     class Category {
 
@@ -480,7 +479,7 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            User user = jsonParser.fromJson(responseStr, User.class);
+                            User user = jsonParserService.fromJson(responseStr, User.class);
                             ApplicationState.setUser(user);
                             //startPaperTimeSelectorActivity();
                             SharedPreferencesService.getInstance().delete(Config.JSON_CONTENTS);

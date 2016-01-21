@@ -3,7 +3,6 @@ package com.humanize.android.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -15,17 +14,16 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.humanize.android.ApiImpl;
-import com.humanize.android.ContentRecyclerViewAdapter;
-import com.humanize.android.JsonParser;
+import com.humanize.android.service.ApiServiceImpl;
+import com.humanize.android.helper.ContentRecyclerViewAdapter;
+import com.humanize.android.service.GsonParserServiceImpl;
+import com.humanize.android.service.JsonParserService;
 import com.humanize.android.R;
-import com.humanize.android.common.StringConstants;
+import com.humanize.android.config.StringConstants;
 import com.humanize.android.data.ContentParams;
-import com.humanize.android.data.ContentSearchParams;
 import com.humanize.android.data.Contents;
 import com.humanize.android.helper.ActivityLauncher;
-import com.humanize.android.util.Api;
-import com.humanize.android.util.GsonParserImpl;
+import com.humanize.android.service.ApiService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,8 +45,8 @@ public class SingleContentActivity extends AppCompatActivity {
     @Bind(R.id.toolbarText) TextView toolbarText;
     @Bind(R.id.circularProgressBar) ProgressBar circularProgressBar;
 
-    private JsonParser jsonParser;
-    private Api api;
+    private JsonParserService jsonParserService;
+    private ApiService apiService;
     private ContentRecyclerViewAdapter contentRecyclerViewAdapter;
     private LinearLayoutManager linearLayoutManager;
 
@@ -87,8 +85,8 @@ public class SingleContentActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-        jsonParser = new GsonParserImpl();
-        api = new ApiImpl();
+        jsonParserService = new GsonParserServiceImpl();
+        apiService = new ApiServiceImpl();
         circularProgressBar.setVisibility(View.GONE);
         toolbarText.setText(getIntent().getStringExtra(StringConstants.CATEGORY));
 
@@ -117,13 +115,13 @@ public class SingleContentActivity extends AppCompatActivity {
         ContentParams contentParams = new ContentParams();
         contentParams.setContentId("Know-The-Hero:-An-IAS-Officer-Who-Laid-His-Life-Fighting-Against-Oil-Mafia-1452985167862");
         circularProgressBar.setVisibility(View.VISIBLE);
-        api.getContent(contentParams, new ContentCallback());
+        apiService.getContent(contentParams, new ContentCallback());
     }
 
     private void success(View view, String response) {
         System.out.println(response);
         try {
-            Contents contents = jsonParser.fromJson(response, Contents.class);
+            Contents contents = jsonParserService.fromJson(response, Contents.class);
             SingleContentActivity.contents = contents;
             contentRecyclerViewAdapter.setContents(SingleContentActivity.contents.getContents());
             contentRecyclerViewAdapter.notifyDataSetChanged();

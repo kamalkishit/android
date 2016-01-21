@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".util.ApplicationState"
+        android:name=".helper.ApplicationState"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Humanize">
@@ -44,7 +44,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
         <activity
-            android:name=".activity.SuggestArticleActivity"
+            android:name=".activity.SubmitArticleActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme"
@@ -77,6 +77,24 @@
             android:theme="@style/MaterialDesignTheme"></activity>
         <activity
             android:name=".activity.SingleContentActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MaterialDesignTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="www.humannize.com"
+                    android:pathPrefix="/content/"
+                    android:scheme="http" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activity.BookmarksActivity"
+            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme">
         </activity>

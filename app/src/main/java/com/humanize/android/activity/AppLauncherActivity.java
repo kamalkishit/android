@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.humanize.android.R;
-import com.humanize.android.common.Constants;
+import com.humanize.android.config.Constants;
 import com.humanize.android.helper.ActivityLauncher;
 
 import butterknife.ButterKnife;
@@ -39,11 +39,6 @@ public class AppLauncherActivity extends AppCompatActivity {
     }
 
     private void startCardActivity() {
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
-                    activityLauncher.startCardActivity();
-                    finish();
-                }
-            }, Constants.SPLASH_SCREEN_DELAY_TIME);
+        activityLauncher.startCardActivity();
     }
 }

@@ -10,22 +10,21 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.humanize.android.ApiImpl;
-import com.humanize.android.ContentRecyclerViewAdapter;
-import com.humanize.android.JsonParser;
+import com.humanize.android.service.ApiServiceImpl;
+import com.humanize.android.helper.ContentRecyclerViewAdapter;
+import com.humanize.android.service.GsonParserServiceImpl;
+import com.humanize.android.service.JsonParserService;
 import com.humanize.android.R;
-import com.humanize.android.common.Constants;
-import com.humanize.android.common.StringConstants;
+import com.humanize.android.config.Constants;
+import com.humanize.android.config.StringConstants;
 import com.humanize.android.data.ContentSearchParams;
 import com.humanize.android.data.Contents;
-import com.humanize.android.util.Api;
-import com.humanize.android.util.GsonParserImpl;
+import com.humanize.android.service.ApiService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,8 +46,8 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
     @Bind(R.id.toolbarText) TextView toolbarText;
     @Bind(R.id.circularProgressBar) ProgressBar circularProgressBar;
 
-    private JsonParser jsonParser;
-    private Api api;
+    private JsonParserService jsonParserService;
+    private ApiService apiService;
     private ContentRecyclerViewAdapter contentRecyclerViewAdapter;
     private LinearLayoutManager linearLayoutManager;
 
@@ -85,8 +84,8 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-        jsonParser = new GsonParserImpl();
-        api = new ApiImpl();
+        jsonParserService = new GsonParserServiceImpl();
+        apiService = new ApiServiceImpl();
         circularProgressBar.setVisibility(View.GONE);
         toolbarText.setText(getIntent().getStringExtra(StringConstants.CATEGORY));
 
@@ -138,7 +137,7 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
         ContentSearchParams contentSearchParams = new ContentSearchParams();
         contentSearchParams.setCategories(categories);
         circularProgressBar.setVisibility(View.VISIBLE);
-        api.getContents(contentSearchParams, new ContentCallback());
+        apiService.getContents(contentSearchParams, new ContentCallback());
     }
 
     private void getNewContent(long endDate) {
@@ -148,7 +147,7 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
         contentSearchParams.setCategories(categories);
         contentSearchParams.setCreatedDate(endDate);
         contentSearchParams.setRefresh(true);
-        api.getContents(contentSearchParams, new NewContentCallback());
+        apiService.getContents(contentSearchParams, new NewContentCallback());
     }
 
     private void getMoreContent(long startDate) {
@@ -157,13 +156,13 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
         ContentSearchParams contentSearchParams = new ContentSearchParams();
         contentSearchParams.setCategories(categories);
         contentSearchParams.setCreatedDate(startDate);
-        api.getContents(contentSearchParams, new MoreContentCallback());
+        apiService.getContents(contentSearchParams, new MoreContentCallback());
     }
 
     private void success(View view, String response) {
         System.out.println(response);
         try {
-            Contents contents = jsonParser.fromJson(response, Contents.class);
+            Contents contents = jsonParserService.fromJson(response, Contents.class);
             SingleCategoryContentActivity.contents = contents;
             contentRecyclerViewAdapter.setContents(SingleCategoryContentActivity.contents.getContents());
             contentRecyclerViewAdapter.notifyDataSetChanged();
@@ -268,7 +267,7 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            Contents contents = jsonParser.fromJson(responseStr, Contents.class);
+                            Contents contents = jsonParserService.fromJson(responseStr, Contents.class);
 
                             if (contents != null) {
                                 contentRecyclerViewAdapter.getContents().addAll(contents.getContents());
@@ -310,7 +309,7 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            Contents contents = jsonParser.fromJson(responseStr, Contents.class);
+                            Contents contents = jsonParserService.fromJson(responseStr, Contents.class);
 
                             if (contents != null && contents.getContents().size() >= Constants.DEFAULT_CONTENTS_SIZE) {
                                 contentRecyclerViewAdapter.setContents(contents.getContents());

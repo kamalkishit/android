@@ -49,7 +49,7 @@
 
     <fragment
         android:id="@+id/fragmentNavigationDrawer"
-        android:name="com.humanize.android.NavigationDrawerFragment"
+        android:name="com.humanize.android.fragment.NavigationDrawerFragment"
         android:layout_width="@dimen/navDrawerWidth"
         android:layout_height="match_parent"
         android:layout_gravity="start"

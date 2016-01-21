@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -15,9 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.humanize.android.R;
-import com.humanize.android.common.StringConstants;
-import com.humanize.android.util.ApplicationState;
-import com.humanize.android.util.Config;
+import com.humanize.android.config.Config;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

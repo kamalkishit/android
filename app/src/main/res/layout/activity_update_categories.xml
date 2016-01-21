@@ -239,7 +239,7 @@
                 </LinearLayout>
             </LinearLayout> -->
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:orientation="vertical"
                 android:layout_marginLeft="@dimen/widthLarge"
                 android:layout_marginRight="@dimen/widthLarge"
@@ -439,7 +439,7 @@
                         android:layout_weight="1.0" />
                 </LinearLayout>
 
-            </LinearLayout>
+            </LinearLayout> -->
 
             <CheckBox android:id="@+id/selectAllCheckbox"
                 android:layout_width="wrap_content"

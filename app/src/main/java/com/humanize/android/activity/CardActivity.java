@@ -1,6 +1,5 @@
 package com.humanize.android.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,24 +16,22 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.humanize.android.ApiImpl;
-import com.humanize.android.ContentRecyclerViewAdapter;
+import com.humanize.android.service.ApiServiceImpl;
+import com.humanize.android.helper.ContentRecyclerViewAdapter;
 import com.humanize.android.data.ContentSearchParams;
-import com.humanize.android.NavigationDrawerFragment;
-import com.humanize.android.JsonParser;
+import com.humanize.android.fragment.NavigationDrawerFragment;
+import com.humanize.android.service.JsonParserService;
 import com.humanize.android.R;
-import com.humanize.android.util.Api;
-import com.humanize.android.util.ApplicationState;
-import com.humanize.android.util.GsonParserImpl;
-import com.humanize.android.common.Constants;
-import com.humanize.android.common.StringConstants;
+import com.humanize.android.service.ApiService;
+import com.humanize.android.helper.ApplicationState;
+import com.humanize.android.service.GsonParserServiceImpl;
+import com.humanize.android.config.Constants;
+import com.humanize.android.config.StringConstants;
 import com.humanize.android.data.Contents;
 import com.humanize.android.service.SharedPreferencesService;
-import com.humanize.android.util.Config;
+import com.humanize.android.config.Config;
 
 import java.io.IOException;
 
@@ -55,12 +52,12 @@ public class CardActivity extends AppCompatActivity {
     @Bind(R.id.coordinatorLayout) CoordinatorLayout coordinatorLayout;
     @Bind(R.id.drawerLayout) DrawerLayout drawerLayout;
 
-    private JsonParser jsonParser;
+    private JsonParserService jsonParserService;
     private NavigationDrawerFragment navigationDrawerFragment;
     private ContentRecyclerViewAdapter contentRecyclerViewAdapter;
     private LinearLayoutManager linearLayoutManager;
     private boolean doubleBackToExitPressedOnce;
-    private Api api;
+    private ApiService apiService;
 
     private static String TAG = CardActivity.class.getSimpleName();
 
@@ -97,8 +94,8 @@ public class CardActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-        jsonParser = new GsonParserImpl();
-        api = new ApiImpl();
+        jsonParserService = new GsonParserServiceImpl();
+        apiService = new ApiServiceImpl();
         circularProgressBar.setVisibility(View.GONE);
         doubleBackToExitPressedOnce = false;
 
@@ -123,7 +120,7 @@ public class CardActivity extends AppCompatActivity {
 
         try {
             if (SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS) != null) {
-                CardActivity.contents = jsonParser.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS), Contents.class);
+                CardActivity.contents = jsonParserService.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS), Contents.class);
                 contentRecyclerViewAdapter.setContents(CardActivity.contents.getContents());
                 contentRecyclerViewAdapter.notifyDataSetChanged();
             } else {
@@ -173,7 +170,7 @@ public class CardActivity extends AppCompatActivity {
         circularProgressBar.setVisibility(View.VISIBLE);
         ContentSearchParams contentSearchParams = new ContentSearchParams();
         contentSearchParams.setCategories(ApplicationState.getUser().getCategories());
-        api.getContents(contentSearchParams, new ContentCallback());
+        apiService.getContents(contentSearchParams, new ContentCallback());
     }
 
     private void getNewContent(long endDate) {
@@ -181,14 +178,14 @@ public class CardActivity extends AppCompatActivity {
         contentSearchParams.setCategories(ApplicationState.getUser().getCategories());
         contentSearchParams.setCreatedDate(endDate);
         contentSearchParams.setRefresh(true);
-        api.getContents(contentSearchParams, new NewContentCallback());
+        apiService.getContents(contentSearchParams, new NewContentCallback());
     }
 
     private void getMoreContent(long startDate) {
         ContentSearchParams contentSearchParams = new ContentSearchParams();
         contentSearchParams.setCategories(ApplicationState.getUser().getCategories());
         contentSearchParams.setCreatedDate(startDate);
-        api.getContents(contentSearchParams, new MoreContentCallback());
+        apiService.getContents(contentSearchParams, new MoreContentCallback());
     }
 
     public abstract class EndlessRecyclerViewOnScrollListener extends RecyclerView.OnScrollListener {
@@ -234,7 +231,7 @@ public class CardActivity extends AppCompatActivity {
     private void success(View view, String response) {
         System.out.println(response);
         try {
-            Contents contents = jsonParser.fromJson(response, Contents.class);
+            Contents contents = jsonParserService.fromJson(response, Contents.class);
             SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, response);
             CardActivity.contents = contents;
             contentRecyclerViewAdapter.setContents(CardActivity.contents.getContents());
@@ -302,13 +299,13 @@ public class CardActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            Contents contents = jsonParser.fromJson(responseStr, Contents.class);
+                            Contents contents = jsonParserService.fromJson(responseStr, Contents.class);
 
                             if (contents != null) {
                                 contentRecyclerViewAdapter.getContents().addAll(contents.getContents());
                                 contentRecyclerViewAdapter.notifyDataSetChanged();
                                 try {
-                                    SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, jsonParser.toJson(new Contents(contentRecyclerViewAdapter.getContents())));
+                                    SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, jsonParserService.toJson(new Contents(contentRecyclerViewAdapter.getContents())));
                                 } catch (Exception exception) {
                                     Log.e(TAG, exception.toString());
                                 }
@@ -343,7 +340,7 @@ public class CardActivity extends AppCompatActivity {
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
                         try {
-                            //ServerException serverException = jsonParser.fromJson(responseStr, ServerException.class);
+                            //ServerException serverException = jsonParserService.fromJson(responseStr, ServerException.class);
                             //System.out.println(serverException);
                         } catch (Exception exception) {
                             exception.printStackTrace();
@@ -355,7 +352,7 @@ public class CardActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            Contents contents = jsonParser.fromJson(responseStr, Contents.class);
+                            Contents contents = jsonParserService.fromJson(responseStr, Contents.class);
 
                             if (contents != null && contents.getContents().size() >= Constants.DEFAULT_CONTENTS_SIZE) {
                                 contentRecyclerViewAdapter.setContents(contents.getContents());
@@ -365,7 +362,7 @@ public class CardActivity extends AppCompatActivity {
 
                             contentRecyclerViewAdapter.notifyDataSetChanged();
 
-                            SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, jsonParser.toJson(new Contents(contentRecyclerViewAdapter.getContents())));
+                            SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, jsonParserService.toJson(new Contents(contentRecyclerViewAdapter.getContents())));
                         } catch (Exception exception) {
                             Log.e(TAG, exception.toString());
                         } finally {

@@ -3,15 +3,14 @@ package com.humanize.android.helper;
 import android.content.Intent;
 
 import com.humanize.android.activity.AboutUsActivity;
+import com.humanize.android.activity.BookmarksActivity;
 import com.humanize.android.activity.CardActivity;
 import com.humanize.android.activity.ContactUsActivity;
 import com.humanize.android.activity.InviteFriendActivity;
 import com.humanize.android.activity.SelectCategoriesActivity;
-import com.humanize.android.activity.SuggestArticleActivity;
-import com.humanize.android.activity.UpdateCategoriesActivity;
+import com.humanize.android.activity.SubmitArticleActivity;
 import com.humanize.android.activity.SingleCategoryContentActivity;
-import com.humanize.android.common.StringConstants;
-import com.humanize.android.util.ApplicationState;
+import com.humanize.android.config.StringConstants;
 
 /**
  * Created by kamal on 12/9/15.
@@ -30,6 +29,12 @@ public class ActivityLauncher {
         ApplicationState.getAppContext().startActivity(intent);
     }
 
+    public void startBookmarksActivity() {
+        Intent intent = new Intent(ApplicationState.getAppContext(), BookmarksActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ApplicationState.getAppContext().startActivity(intent);
+    }
+
     public void startCardActivity() {
         Intent intent = new Intent(ApplicationState.getAppContext(), CardActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -38,7 +43,7 @@ public class ActivityLauncher {
     }
 
     public void startSuggestArticleActivity() {
-        Intent intent = new Intent(ApplicationState.getAppContext(), SuggestArticleActivity.class);
+        Intent intent = new Intent(ApplicationState.getAppContext(), SubmitArticleActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ApplicationState.getAppContext().startActivity(intent);
     }
