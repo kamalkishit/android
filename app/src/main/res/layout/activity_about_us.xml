@@ -43,6 +43,15 @@
             android:layout_marginRight="@dimen/mediumMargin"
             android:layout_marginTop="@dimen/mediumMargin"
             android:textColor="@color/colorBlack"
+            android:text="Ever wondered how constant exposure to negative and violent media is draining you?
+And do you feel an urge to feed optimism and positivity to your mind, than HUMANIZE is the platform for you.
+
+At HUMANIZE, read about positive changes happening around you to motivate yourself.
+
+As happiness shared is happiness doubled, relish inspiring others by sharing these stories with them.
+Also, do share motivational stories with us, and help us raise voice for heroes in disguise.
+
+Remember, even slightest of positive influence has power to change a life. "
             android:gravity="left"
             android:textAppearance="?android:attr/textAppearanceSmall" />
     </RelativeLayout>

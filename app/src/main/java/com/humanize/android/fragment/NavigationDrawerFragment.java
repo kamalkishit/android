@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -30,6 +31,7 @@ import butterknife.ButterKnife;
 
 public class NavigationDrawerFragment extends Fragment {
 
+    @Bind(R.id.navHeaderContainer) RelativeLayout navHeaderContainer;
     @Bind(R.id.settings) LinearLayout settings;
     @Bind(R.id.updateCategories) LinearLayout updateCategories;
     @Bind(R.id.updatePaperTime) LinearLayout updatePaperTime;
@@ -75,6 +77,8 @@ public class NavigationDrawerFragment extends Fragment {
 
         paper.setVisibility(View.GONE);
         historicPaper.setVisibility(View.GONE);
+
+        navHeaderContainer.getLayoutParams().height = (Config.SCREEN_HEIGHT*3)/10;
 
         TextView textViewSettings = (TextView) settings.findViewById(R.id.textView);
         textViewSettings.setText(StringConstants.SETTINGS);

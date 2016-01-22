@@ -63,6 +63,7 @@ public class ApplicationState extends Application{
         Config.SCREEN_HEIGHT = metrics.heightPixels;
         Config.NAV_DRAWER_WIDTH = (imageWidth*4)/5;
 
+
         JsonParserService jsonParserService = new GsonParserServiceImpl();
 
         try {
