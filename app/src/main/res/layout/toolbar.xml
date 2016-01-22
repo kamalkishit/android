@@ -15,6 +15,7 @@
         android:id="@+id/toolbarText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:text="HUMANIZE"
         android:textColor="@color/colorWhite"
         android:textAppearance="?android:attr/textAppearanceMedium"/>

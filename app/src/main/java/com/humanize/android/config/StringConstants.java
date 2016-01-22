@@ -21,7 +21,13 @@ public class StringConstants {
     public static String RATE_US = "Rate Us";
 
     public static String SUGGEST_ARTICLE = "Suggest Article";
+    public static String CATEGORIES = "Categories";
     public static String UPDATE_CATEGORIES = "Update Categories";
+    public static String PAPER = "Paper";
+    public static String HISTORIC_PAPER = "Historic Paper";
+    public static String PAPER_TIME = "Paper Time";
+    public static String UPDATE_PAPER_TIME = "UPDATE PAPER TIME";
+    public static String PAPER_NOTIFICATION = "Paper Notification";
     public static String BOOKMARKED_ARTICLES = "Bookmarked Articles";
     public static String INVITE_FRIEND = "Invite Friend";
     public static String SHARE_APP = "Share App";

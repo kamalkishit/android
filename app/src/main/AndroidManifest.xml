@@ -74,7 +74,7 @@
             android:name=".activity.SelectCategoriesActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme"></activity>
+            android:theme="@style/MaterialDesignTheme" />
         <activity
             android:name=".activity.SingleContentActivity"
             android:screenOrientation="portrait"
@@ -91,9 +91,22 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.BookmarksActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/MaterialDesignTheme" />
+        <activity
+            android:name=".activity.PaperActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/MaterialDesignTheme" />
+        <activity
+            android:name=".activity.HistoricPaperActivity"
+            android:label="@string/title_activity_historic_paper"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activity.UpdatePaperTimeActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme">

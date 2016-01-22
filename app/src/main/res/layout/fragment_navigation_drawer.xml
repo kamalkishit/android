@@ -52,6 +52,36 @@
             android:layout_marginLeft="@dimen/extraLargeMargin" />
 
         <include
+            android:id="@+id/updatePaperTime"
+            layout="@layout/nav_drawer_item_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/extraSmallMargin"
+            android:layout_marginLeft="@dimen/extraLargeMargin" />
+
+        <include
+            android:id="@+id/updatePaperNotification"
+            layout="@layout/paper_notification_selector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/extraSmallMargin"
+            android:layout_marginLeft="@dimen/extraLargeMargin" />
+
+        <include
+            android:id="@+id/paper"
+            layout="@layout/nav_drawer_item_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/smallMargin" />
+
+        <include
+            android:id="@+id/historicPaper"
+            layout="@layout/nav_drawer_item_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/smallMargin" />
+
+        <include
             android:id="@+id/bookmarkedArticles"
             layout="@layout/nav_drawer_item_row"
             android:layout_width="match_parent"
@@ -111,10 +141,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/extraSmallMargin" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="50dp" />
     </LinearLayout>
 
 </ScrollView>

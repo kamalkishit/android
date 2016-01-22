@@ -1,5 +1,6 @@
 package com.humanize.android.data;
 
+import com.humanize.android.config.Config;
 import com.humanize.android.config.StringConstants;
 
 import java.util.ArrayList;
@@ -12,10 +13,14 @@ public class User {
 
     private List<String> categories;
     private List<String> bookmarks;
+    private PaperTime paperTime;
+    private boolean paperNotification;
 
     public User() {
         categories = new ArrayList<>();
         bookmarks = new ArrayList<>();
+        paperTime = new PaperTime(Config.PAPER_HOUR, Config.PAPER_MINUTE);
+        paperNotification = true;
 
         categories.add(StringConstants.ACHIEVERS);
         categories.add(StringConstants.BEAUTIFUL);
@@ -49,5 +54,21 @@ public class User {
 
     public void setBookmarks(List<String> bookmarks) {
         this.bookmarks = bookmarks;
+    }
+
+    public PaperTime getPaperTime() {
+        return paperTime;
+    }
+
+    public void setPaperTime(PaperTime paperTime) {
+        this.paperTime = paperTime;
+    }
+
+    public boolean isPaperNotification() {
+        return paperNotification;
+    }
+
+    public void setPaperNotification(boolean paperNotification) {
+        this.paperNotification = paperNotification;
     }
 }

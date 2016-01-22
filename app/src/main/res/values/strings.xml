@@ -10,4 +10,7 @@
     <string name="title_activity_invite_friend">InviteFriendActivity</string>
     <string name="title_activity_select_categories">SelectCategoriesActivity</string>
     <string name="title_activity_single_content">SingleContentActivity</string>
+    <string name="title_activity_paper">PaperActivity</string>
+    <string name="title_activity_historic_paper">HistoricPaperActivity</string>
+    <string name="title_activity_update_paper_time">UpdatePaperTimeActivity</string>
 </resources>

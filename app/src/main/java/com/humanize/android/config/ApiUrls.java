@@ -14,4 +14,5 @@ public class ApiUrls {
     public final static String URL_SUGGEST_ARTICLE = URL_SERVER + "/user/suggest";
     public final static String URL_CONTENT = URL_SERVER + "/content/find";
     public final static String URL_SINGLE_CONTENT = URL_SERVER + "/content";
+    public final static String URL_PAPER = URL_SERVER + "/paper";
 }

@@ -4,6 +4,7 @@ import com.humanize.android.data.ContactUs;
 import com.humanize.android.data.ContentParams;
 import com.humanize.android.data.ContentSearchParams;
 import com.humanize.android.data.InviteFriend;
+import com.humanize.android.data.PaperParams;
 import com.humanize.android.data.SubmitArticle;
 
 import okhttp3.Callback;
@@ -18,4 +19,5 @@ public interface ApiService {
     void contactUs(ContactUs contactUs, Callback callback);
     void getContents(ContentSearchParams contentSearchParams, Callback callback);
     void getContent(ContentParams contentParams, Callback callback);
+    void getPaper(PaperParams paperParams, Callback callback);
 }

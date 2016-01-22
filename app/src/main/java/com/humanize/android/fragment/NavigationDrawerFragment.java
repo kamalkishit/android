@@ -13,12 +13,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.humanize.android.R;
+import com.humanize.android.config.Config;
 import com.humanize.android.config.StringConstants;
+import com.humanize.android.data.User;
 import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.helper.ApplicationState;
+import com.humanize.android.service.GsonParserServiceImpl;
+import com.humanize.android.service.SharedPreferencesService;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,6 +32,10 @@ public class NavigationDrawerFragment extends Fragment {
 
     @Bind(R.id.settings) LinearLayout settings;
     @Bind(R.id.updateCategories) LinearLayout updateCategories;
+    @Bind(R.id.updatePaperTime) LinearLayout updatePaperTime;
+    @Bind(R.id.updatePaperNotification) LinearLayout updatePaperNotification;
+    @Bind(R.id.paper) LinearLayout paper;
+    @Bind(R.id.historicPaper) LinearLayout historicPaper;
     @Bind(R.id.bookmarkedArticles) LinearLayout bookmarkedArticles;
     @Bind(R.id.submitArticle) LinearLayout suggestArticle;
     @Bind(R.id.inviteFriend) LinearLayout inviteFriend;
@@ -36,6 +45,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     @Bind(R.id.rateUs) LinearLayout rateUs;
 
+    Switch paperNotificationSwitch;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private DrawerLayout drawerLayout;
     private View containerView;
@@ -63,15 +73,40 @@ public class NavigationDrawerFragment extends Fragment {
         isSettingOpened = false;
         defaultStateDrawer();
 
+        paper.setVisibility(View.GONE);
+        historicPaper.setVisibility(View.GONE);
+
         TextView textViewSettings = (TextView) settings.findViewById(R.id.textView);
         textViewSettings.setText(StringConstants.SETTINGS);
         ImageView imageViewSettings = (ImageView) settings.findViewById(R.id.imageView);
         imageViewSettings.setImageResource(R.drawable.ic_settings_black);
 
         TextView textViewUpdateCategories = (TextView) updateCategories.findViewById(R.id.textView);
-        textViewUpdateCategories.setText(StringConstants.UPDATE_CATEGORIES);
+        textViewUpdateCategories.setText(StringConstants.CATEGORIES);
         ImageView imageViewUpdateCategories = (ImageView) updateCategories.findViewById(R.id.imageView);
         imageViewUpdateCategories.setImageResource(R.drawable.ic_update_categories_black);
+
+        TextView textViewUpdatePaperTime = (TextView) updatePaperTime.findViewById(R.id.textView);
+        textViewUpdatePaperTime.setText(StringConstants.PAPER_TIME);
+        ImageView imageViewUpdatePaperTime = (ImageView) updatePaperTime.findViewById(R.id.imageView);
+        imageViewUpdatePaperTime.setImageResource(R.drawable.ic_paper_time_black);
+
+        TextView textViewUpdatePaperNotification = (TextView) updatePaperNotification.findViewById(R.id.textView);
+        textViewUpdatePaperNotification.setText(StringConstants.PAPER_NOTIFICATION);
+        ImageView imageViewUpdatePaperNotification = (ImageView) updatePaperNotification.findViewById(R.id.imageView);
+        imageViewUpdatePaperNotification.setImageResource(R.drawable.ic_notification_black);
+        paperNotificationSwitch = (Switch) updatePaperNotification.findViewById(R.id.paperNotificationSwitch);
+        paperNotificationSwitch.setChecked(ApplicationState.getUser().isPaperNotification());
+
+        TextView textViewPaper = (TextView) paper.findViewById(R.id.textView);
+        textViewPaper.setText(StringConstants.PAPER);
+        ImageView imageViewPaper = (ImageView) paper.findViewById(R.id.imageView);
+        imageViewPaper.setImageResource(R.drawable.ic_paper_black);
+
+        TextView textViewHistoricPaper = (TextView) historicPaper.findViewById(R.id.textView);
+        textViewHistoricPaper.setText(StringConstants.HISTORIC_PAPER);
+        ImageView imageViewHistoricPaper = (ImageView) historicPaper.findViewById(R.id.imageView);
+        imageViewHistoricPaper.setImageResource(R.drawable.ic_historic_paper_black);
 
         TextView textViewBookmarkedArticles = (TextView) bookmarkedArticles.findViewById(R.id.textView);
         textViewBookmarkedArticles.setText(StringConstants.BOOKMARKED_ARTICLES);
@@ -111,6 +146,8 @@ public class NavigationDrawerFragment extends Fragment {
 
     private void defaultStateDrawer() {
         updateCategories.setVisibility(View.GONE);
+        updatePaperTime.setVisibility(View.GONE);
+        updatePaperNotification.setVisibility(View.GONE);
         isSettingOpened = false;
     }
 
@@ -120,9 +157,13 @@ public class NavigationDrawerFragment extends Fragment {
             public void onClick(View view) {
                     if (isSettingOpened) {
                         updateCategories.setVisibility(View.GONE);
+                        updatePaperTime.setVisibility(View.GONE);
+                        updatePaperNotification.setVisibility(View.GONE);
                         isSettingOpened = false;
                     } else {
                         updateCategories.setVisibility(View.VISIBLE);
+                        //updatePaperTime.setVisibility(View.VISIBLE);
+                        //updatePaperNotification.setVisibility(View.VISIBLE);
                         isSettingOpened = true;
                     }
             }
@@ -133,6 +174,50 @@ public class NavigationDrawerFragment extends Fragment {
             public void onClick(View view) {
                     activityLauncher.startUpdateCategoriesActivity();
                     drawerLayout.closeDrawer(Gravity.LEFT);
+            }
+        });
+
+        updatePaperTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activityLauncher.startUpdatePaperTimeActivity();
+                drawerLayout.closeDrawer(Gravity.LEFT);
+            }
+        });
+
+        paperNotificationSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                User user = ApplicationState.getUser();
+                if (user.isPaperNotification()) {
+                    paperNotificationSwitch.setChecked(false);
+                    user.setPaperNotification(false);
+                } else {
+                    paperNotificationSwitch.setChecked(true);
+                    user.setPaperNotification(true);
+                }
+
+                try {
+                    SharedPreferencesService.getInstance().putString(Config.JSON_USER_DATA, new GsonParserServiceImpl().toJson(user));
+                } catch (Exception exception) {
+
+                }
+            }
+        });
+
+        paper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activityLauncher.startPaperActivity();
+                drawerLayout.closeDrawer(Gravity.LEFT);
+            }
+        });
+
+        historicPaper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //activityLauncher.startHistoricPaperActivity();
+                drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });
 
@@ -191,7 +276,6 @@ public class NavigationDrawerFragment extends Fragment {
                     drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });
-
     }
 
     @Override

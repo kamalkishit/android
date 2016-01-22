@@ -6,6 +6,7 @@ import com.humanize.android.data.ContactUs;
 import com.humanize.android.data.ContentParams;
 import com.humanize.android.data.ContentSearchParams;
 import com.humanize.android.data.InviteFriend;
+import com.humanize.android.data.PaperParams;
 import com.humanize.android.data.SubmitArticle;
 
 import okhttp3.Callback;
@@ -56,6 +57,14 @@ public class ApiServiceImpl implements ApiService {
     public void getContent(ContentParams contentParams, Callback callback) {
         try {
             post(ApiUrls.URL_SINGLE_CONTENT, toJson(contentParams), callback);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    public void getPaper(PaperParams paperParams, Callback callback) {
+        try {
+            post(ApiUrls.URL_PAPER, toJson(paperParams), callback);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
