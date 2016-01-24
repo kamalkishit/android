@@ -1,5 +1,6 @@
 package com.humanize.android.activity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -28,6 +29,7 @@ import com.humanize.android.service.ApiService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -59,7 +61,7 @@ public class SingleContentActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         initialize();
-        //getContent();
+        configureListeners();
     }
 
     @Override
@@ -106,16 +108,36 @@ public class SingleContentActivity extends AppCompatActivity {
         contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(this, null);
         recyclerView.setAdapter(contentRecyclerViewAdapter);
 
-        getContent();
+        Uri uri = getIntent().getData();
+        if (uri != null) {
+            String path = uri.getPath();
+            System.out.println(path);
+
+            String delims = "/";
+            StringTokenizer stringTokenizer = new StringTokenizer(path, delims);
+            String urlId = "";
+            while(stringTokenizer.hasMoreElements()) {
+                urlId = (String) stringTokenizer.nextElement();
+            }
+
+            getContent(urlId);
+        }
     }
 
-    private void getContent() {
-        List<String> categories = new ArrayList<String>();
-        categories.add(getIntent().getStringExtra(StringConstants.CATEGORY));
+    private void configureListeners() {
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
+
+    private void getContent(String urlId) {
         ContentParams contentParams = new ContentParams();
-        contentParams.setContentId("Know-The-Hero:-An-IAS-Officer-Who-Laid-His-Life-Fighting-Against-Oil-Mafia-1452985167862");
+        contentParams.setContentId(urlId);
         circularProgressBar.setVisibility(View.VISIBLE);
-        apiService.getContent(contentParams, new ContentCallback());
+        apiService.getContent(urlId, new ContentCallback());
     }
 
     private void success(View view, String response) {

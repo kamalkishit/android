@@ -16,7 +16,6 @@ public class AboutUsActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbarText) TextView toolbarText;
-    @Bind(R.id.aboutUsHeading) TextView aboutUsHeading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +32,6 @@ public class AboutUsActivity extends AppCompatActivity {
         toolbarText.setText(StringConstants.ABOUT_US);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        aboutUsHeading.setText(StringConstants.ABOUT_US);
     }
 
     @Override

@@ -23,26 +23,15 @@
         </android.support.design.widget.AppBarLayout>
 
         <TextView
-            android:id="@+id/aboutUsHeading"
+            android:id="@+id/aboutUsText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/appbarLayout"
             android:layout_marginLeft="@dimen/mediumMargin"
             android:layout_marginRight="@dimen/mediumMargin"
             android:layout_marginTop="@dimen/mediumMargin"
-            android:textColor="@color/colorAccent"
-            android:gravity="left"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <TextView
-            android:id="@+id/aboutUsText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/aboutUsHeading"
-            android:layout_marginLeft="@dimen/mediumMargin"
-            android:layout_marginRight="@dimen/mediumMargin"
-            android:layout_marginTop="@dimen/mediumMargin"
             android:textColor="@color/colorBlack"
+            android:textSize="15sp"
             android:text="Ever wondered how constant exposure to negative and violent media is draining you?
 And do you feel an urge to feed optimism and positivity to your mind, than HUMANIZE is the platform for you.
 
@@ -52,7 +41,6 @@ As happiness shared is happiness doubled, relish inspiring others by sharing the
 Also, do share motivational stories with us, and help us raise voice for heroes in disguise.
 
 Remember, even slightest of positive influence has power to change a life. "
-            android:gravity="left"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:gravity="left" />
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

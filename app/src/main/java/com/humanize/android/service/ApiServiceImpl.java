@@ -54,9 +54,9 @@ public class ApiServiceImpl implements ApiService {
         }
     }
 
-    public void getContent(ContentParams contentParams, Callback callback) {
+    public void getContent(String urlId, Callback callback) {
         try {
-            post(ApiUrls.URL_SINGLE_CONTENT, toJson(contentParams), callback);
+            get(ApiUrls.URL_SINGLE_CONTENT + urlId, callback);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -72,6 +72,12 @@ public class ApiServiceImpl implements ApiService {
 
     private String toJson(Object object) throws Exception {
         return new GsonParserServiceImpl().toJson(object);
+    }
+
+    private void get(String url, Callback callback) {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder().url(url).build();
+        okHttpClient.newCall(request).enqueue(callback);
     }
 
     private void post(String url, String json, Callback callback) {
