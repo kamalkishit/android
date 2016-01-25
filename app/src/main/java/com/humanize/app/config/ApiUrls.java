@@ -5,8 +5,7 @@ package com.humanize.app.config;
  */
 public class ApiUrls {
 
-    //public final static String URL_SERVER = "http://humannize.com:8080/humanize-1";
-    public final static String URL_SERVER = "http://192.168.1.2:8080";
+    public final static String URL_SERVER = "http://humannize.com:8080/humanize-1";
     public final static String URL_IMAGES = URL_SERVER + "/images/";
 
     public final static String URL_INVITE_FRIEND = URL_SERVER + "/api/user/invite";
