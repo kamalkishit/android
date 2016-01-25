@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.humanize.android">
+    package="com.humanize.app">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".helper.ApplicationState"
+        android:name="com.humanize.app.helper.ApplicationState"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Humanize">
         <activity
-            android:name=".activity.AppLauncherActivity"
+            android:name="com.humanize.app.activity.AppLauncherActivity"
             android:label="Humanize"
             android:noHistory="true"
             android:screenOrientation="portrait"
@@ -24,12 +24,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.CardActivity"
+            android:name="com.humanize.app.activity.CardActivity"
             android:label="HUMANIZE"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
         <activity
-            android:name=".activity.WebBrowserActivity"
+            android:name="com.humanize.app.activity.WebBrowserActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
@@ -39,44 +39,44 @@
             android:value="03639786c99eae8b1629cad76bcef8cb5ffa2aeb" />
 
         <activity
-            android:name=".activity.UpdateCategoriesActivity"
+            android:name="com.humanize.app.activity.UpdateCategoriesActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
         <activity
-            android:name=".activity.SubmitArticleActivity"
+            android:name="com.humanize.app.activity.SubmitArticleActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme"
             android:windowSoftInputMode="stateVisible" />
         <activity
-            android:name=".activity.AboutUsActivity"
+            android:name="com.humanize.app.activity.AboutUsActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
         <activity
-            android:name=".activity.ContactUsActivity"
+            android:name="com.humanize.app.activity.ContactUsActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme"
             android:windowSoftInputMode="stateVisible" />
         <activity
-            android:name=".activity.SingleCategoryContentActivity"
+            android:name="com.humanize.app.activity.SingleCategoryContentActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
         <activity
-            android:name=".activity.InviteFriendActivity"
+            android:name="com.humanize.app.activity.InviteFriendActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme"
             android:windowSoftInputMode="stateVisible" />
         <activity
-            android:name=".activity.SelectCategoriesActivity"
+            android:name="com.humanize.app.activity.SelectCategoriesActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
         <activity
-            android:name=".activity.SingleContentActivity"
+            android:name="com.humanize.app.activity.SingleContentActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme">
             <intent-filter>
@@ -104,21 +104,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.BookmarksActivity"
+            android:name="com.humanize.app.activity.BookmarksActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
         <activity
-            android:name=".activity.PaperActivity"
+            android:name="com.humanize.app.activity.PaperActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
         <activity
-            android:name=".activity.HistoricPaperActivity"
+            android:name="com.humanize.app.activity.HistoricPaperActivity"
             android:label="@string/title_activity_historic_paper"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".activity.UpdatePaperTimeActivity"
+            android:name="com.humanize.app.activity.UpdatePaperTimeActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme">
