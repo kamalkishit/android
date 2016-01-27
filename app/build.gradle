@@ -23,7 +23,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.humanize.android"
+        applicationId "com.humanize.app"
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
@@ -31,7 +31,12 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "SITENAME", "\"192.168.1.2:8080\"")
+        }
         release {
+            buildConfigField("String", "SITENAME", "\"www.humannize.com\"")
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             zipAlignEnabled true
