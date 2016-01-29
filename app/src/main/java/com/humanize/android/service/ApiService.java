@@ -2,6 +2,7 @@ package com.humanize.android.service;
 
 import com.humanize.android.data.ContactUs;
 import com.humanize.android.data.ContentSearchParams;
+import com.humanize.android.data.ContentUpdateParams;
 import com.humanize.android.data.InviteFriend;
 import com.humanize.android.data.PaperParams;
 import com.humanize.android.data.SubmitArticle;
@@ -19,4 +20,5 @@ public interface ApiService {
     void getContents(ContentSearchParams contentSearchParams, Callback callback);
     void getContent(String urlId, Callback callback);
     void getPaper(PaperParams paperParams, Callback callback);
+    void updateContent(ContentUpdateParams contentUpdateParams, Callback callback);
 }

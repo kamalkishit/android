@@ -93,6 +93,17 @@ public class CardActivity extends AppCompatActivity {
         }, Constants.DOUBLE_EXIT_DELAY_TIME);
     }
 
+    @Override
+    public void onDestroy() {
+        try {
+            SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, jsonParserService.toJson(new Contents(contentRecyclerViewAdapter.getContents())));
+        } catch (Exception exception) {
+
+        }
+
+        super.onDestroy();
+    }
+
     private void initialize() {
         jsonParserService = new GsonParserServiceImpl();
         apiService = new ApiServiceImpl();

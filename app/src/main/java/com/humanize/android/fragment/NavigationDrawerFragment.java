@@ -141,7 +141,7 @@ public class NavigationDrawerFragment extends Fragment {
         TextView textViewShareApp = (TextView) shareApp.findViewById(R.id.textView);
         textViewShareApp.setText(StringConstants.SHARE_APP);
         ImageView imageViewShareApp = (ImageView) shareApp.findViewById(R.id.imageView);
-        imageViewShareApp.setImageResource(R.drawable.ic_share);
+        imageViewShareApp.setImageResource(R.drawable.ic_share_black);
 
         TextView textViewAboutUs = (TextView) aboutUs.findViewById(R.id.textView);
         textViewAboutUs.setText(StringConstants.ABOUT_US);

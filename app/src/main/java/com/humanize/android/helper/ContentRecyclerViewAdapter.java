@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.humanize.android.R;
@@ -27,6 +28,8 @@ import com.humanize.android.config.Constants;
 import com.humanize.android.config.StringConstants;
 import com.humanize.android.data.Content;
 import com.humanize.android.data.Contents;
+import com.humanize.android.service.ContentService;
+import com.humanize.android.service.ContentServiceImpl;
 import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.service.UserService;
 import com.humanize.android.service.UserServiceImpl;
@@ -50,6 +53,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
     private ContentViewHolder viewHolder;
 
     private UserService userService;
+    private ContentService contentService;
 
     protected boolean disableCategorySelection;
 
@@ -59,6 +63,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         this.activity = activity;
         this.contents = contents;
         userService = new UserServiceImpl();
+        contentService = new ContentServiceImpl();
     }
 
     public List<Content> getContents() {
@@ -104,8 +109,20 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
 
         updateBookmarkButton(viewHolder);
 
+        if (content.getViewedCount() > 0) {
+            viewHolder.contentViewedCount.setText("" + content.getViewedCount());
+        } else {
+            viewHolder.contentViewedCount.setText("0");
+        }
+
+        if (content.getSharedCount() > 0) {
+            viewHolder.contentSharedCount.setText("" + content.getSharedCount());
+        } else {
+            viewHolder.contentSharedCount.setText("0");
+        }
+
         Picasso.with(ApplicationState.getAppContext()).load(ApiUrls.URL_IMAGES + content.getImageId())
-                .fit().into(viewHolder.contentImage);
+                .fit().centerCrop().into(viewHolder.contentImage);
     }
 
     @Override
@@ -134,7 +151,11 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         protected TextView contentSource;
         protected TextView contentCategory;
         protected Button bookmarkButton;
+        protected LinearLayout linearLayoutCounts;
+        protected TextView contentViewedCount;
+        protected TextView contentSharedCount;
         protected Button shareButton;
+
 
         public ContentViewHolder(View view) {
             super(view);
@@ -145,8 +166,12 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             contentDate = (TextView) view.findViewById(R.id.contentDate);
             contentImage = (ImageView) view.findViewById(R.id.contentImage);
             bookmarkButton = (Button) view.findViewById(R.id.bookmarkButton);
+            linearLayoutCounts = (LinearLayout) view.findViewById(R.id.counts);
+            contentViewedCount = (TextView) view.findViewById(R.id.viewsCount);
+            contentSharedCount = (TextView) view.findViewById(R.id.sharedCount);
             shareButton = (Button) view.findViewById(R.id.shareButton);
 
+            linearLayoutCounts.setVisibility(View.GONE);
             configureListeners();
 
             view.setOnClickListener(this);
@@ -239,6 +264,8 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         }
 
         public void onClick(View view) {
+            contentService.incrViewedCount(content);
+            updateViewedCount();
             Intent intent = new Intent(ApplicationState.getAppContext(), WebBrowserActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(Config.URL, content.getOriginalUrl());
@@ -271,7 +298,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
 
             Uri imageUri = FileProvider.getUriForFile(ApplicationState.getAppContext(), StringConstants.FILE_PROVIDER_URI, cacheFile);
 
-            content.setSharedCount(content.getSharedCount() + 1);
+            contentService.incrSharedCount(content);
 
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("image/*");
@@ -281,6 +308,14 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             shareIntent.putExtra(Intent.EXTRA_TEXT, content.getTitle() + "\n" + content.getShortUrl() + "\n" + StringConstants.HUMANIZE_SHARE_STR);
             ApplicationState.getAppContext().startActivity(shareIntent);
+        }
+
+        private void updateViewedCount() {
+            if (content.getViewedCount() > 0) {
+                contentViewedCount.setText("" + content.getViewedCount());
+            } else {
+                contentViewedCount.setText("0");
+            }
         }
 
         private void requestPermissions(Activity activity) {

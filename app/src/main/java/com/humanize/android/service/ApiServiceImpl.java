@@ -4,6 +4,7 @@ import com.humanize.android.config.ApiUrls;
 import com.humanize.android.config.StringConstants;
 import com.humanize.android.data.ContactUs;
 import com.humanize.android.data.ContentSearchParams;
+import com.humanize.android.data.ContentUpdateParams;
 import com.humanize.android.data.InviteFriend;
 import com.humanize.android.data.PaperParams;
 import com.humanize.android.data.SubmitArticle;
@@ -64,6 +65,14 @@ public class ApiServiceImpl implements ApiService {
     public void getPaper(PaperParams paperParams, Callback callback) {
         try {
             post(ApiUrls.URL_PAPER, toJson(paperParams), callback);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    public void updateContent(ContentUpdateParams contentUpdateParams, Callback callback) {
+        try {
+            post(ApiUrls.URL_UPDATE_CONTENT, toJson(contentUpdateParams), callback);
         } catch (Exception exception) {
             exception.printStackTrace();
         }

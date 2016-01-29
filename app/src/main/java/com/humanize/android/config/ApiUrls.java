@@ -14,4 +14,5 @@ public class ApiUrls {
     public final static String URL_CONTENT = URL_SERVER + "/api/content/find";
     public final static String URL_SINGLE_CONTENT = URL_SERVER + "/api/content?urlId=";
     public final static String URL_PAPER = URL_SERVER + "/api/paper";
+    public final static String URL_UPDATE_CONTENT = URL_SERVER + "/api/content/update";
 }
