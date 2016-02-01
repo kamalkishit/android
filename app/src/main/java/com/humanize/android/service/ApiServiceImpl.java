@@ -8,6 +8,7 @@ import com.humanize.android.data.ContentUpdateParams;
 import com.humanize.android.data.InviteFriend;
 import com.humanize.android.data.PaperParams;
 import com.humanize.android.data.SubmitArticle;
+import com.humanize.android.data.UserDevice;
 
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -20,13 +21,16 @@ import okhttp3.RequestBody;
  */
 public class ApiServiceImpl implements ApiService {
 
-    public static final MediaType JSON = MediaType.parse(StringConstants.MEDIA_TYPE_JSON);
+    private static MediaType JSON = MediaType.parse(StringConstants.MEDIA_TYPE_JSON);
+
+    private static final LogService logService = new LogServiceImpl();
+    private static final String TAG = ApiServiceImpl.class.getSimpleName();
 
     public void inviteFriend(InviteFriend inviteFriend, Callback callback) {
         try {
             post(ApiUrls.URL_INVITE_FRIEND, toJson(inviteFriend), callback);
         } catch (Exception exception) {
-            exception.printStackTrace();
+            logService.e(TAG, exception.getMessage());
         }
     }
 
@@ -34,7 +38,7 @@ public class ApiServiceImpl implements ApiService {
         try {
             post(ApiUrls.URL_SUGGEST_ARTICLE, toJson(submitArticle), callback);
         } catch (Exception exception) {
-            exception.printStackTrace();
+            logService.e(TAG, exception.getMessage());
         }
     }
 
@@ -42,7 +46,7 @@ public class ApiServiceImpl implements ApiService {
         try {
             post(ApiUrls.URL_CONTACT_US, toJson(contactUs), callback);
         } catch (Exception exception) {
-            exception.printStackTrace();
+            logService.e(TAG, exception.getMessage());
         }
     }
 
@@ -50,7 +54,7 @@ public class ApiServiceImpl implements ApiService {
         try {
             post(ApiUrls.URL_CONTENT, toJson(contentSearchParams), callback);
         } catch (Exception exception) {
-            exception.printStackTrace();
+            logService.e(TAG, exception.getMessage());
         }
     }
 
@@ -58,7 +62,7 @@ public class ApiServiceImpl implements ApiService {
         try {
             get(ApiUrls.URL_SINGLE_CONTENT + urlId, callback);
         } catch (Exception exception) {
-            exception.printStackTrace();
+            logService.e(TAG, exception.getMessage());
         }
     }
 
@@ -66,7 +70,7 @@ public class ApiServiceImpl implements ApiService {
         try {
             post(ApiUrls.URL_PAPER, toJson(paperParams), callback);
         } catch (Exception exception) {
-            exception.printStackTrace();
+            logService.e(TAG, exception.getMessage());
         }
     }
 
@@ -74,7 +78,15 @@ public class ApiServiceImpl implements ApiService {
         try {
             post(ApiUrls.URL_UPDATE_CONTENT, toJson(contentUpdateParams), callback);
         } catch (Exception exception) {
-            exception.printStackTrace();
+            logService.e(TAG, exception.getMessage());
+        }
+    }
+
+    public void registerDevice(UserDevice userDevice, Callback callback) {
+        try {
+            post(ApiUrls.URL_GCM_REGISTER, toJson(userDevice), callback);
+        } catch (Exception exception) {
+            logService.e(TAG, exception.getMessage());
         }
     }
 

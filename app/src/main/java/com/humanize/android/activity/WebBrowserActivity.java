@@ -68,7 +68,6 @@ public class WebBrowserActivity extends AppCompatActivity {
         webView.setWebChromeClient(new MyWebChromeClient());
         webView.setWebViewClient(new MyWebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
-        System.out.println(intent.getStringExtra(Config.URL));
         webView.loadUrl(intent.getStringExtra(Config.URL));
     }
 
@@ -97,7 +96,6 @@ public class WebBrowserActivity extends AppCompatActivity {
     }
 
     public void setValue(int progress) {
-        System.out.println(progress);
         this.progressBar.setProgress(progress);
         if (progress == 100) {
             this.progressBar.setVisibility(View.GONE);

@@ -59,7 +59,6 @@ public class StringConstants {
     
     public static String NETWORK_CONNECTION_ERROR_STR = "Network connection error";
     public static String FAILURE_STR = "Failure";
-    public static String SUCCESS_STR = "Success";
 
     public static String FILE_PROVIDER_URI = "com.humanize.android.fileprovider";
     public static String SHARED_IMAGE_NAME = "shared_image.png";

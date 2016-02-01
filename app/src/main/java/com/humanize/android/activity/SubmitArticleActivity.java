@@ -27,6 +27,8 @@ import com.humanize.android.config.StringConstants;
 import com.humanize.android.data.SubmitArticle;
 import com.humanize.android.fragment.SubmitArticleSuccessFragment;
 import com.humanize.android.service.ApiService;
+import com.humanize.android.service.LogService;
+import com.humanize.android.service.LogServiceImpl;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -49,7 +51,8 @@ public class SubmitArticleActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private ApiService apiService;
 
-    private static String TAG = SubmitArticleActivity.class.getSimpleName();
+    private static final String TAG = SubmitArticleActivity.class.getSimpleName();
+    private static final LogService logService = new LogServiceImpl();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,7 +149,7 @@ public class SubmitArticleActivity extends AppCompatActivity {
             apiService.suggestArticle(submitArticle, new Callback() {
                 @Override
                 public void onFailure(Call call, IOException exception) {
-                    Log.e(TAG, exception.toString());
+                    logService.e(TAG, exception.getMessage());
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {

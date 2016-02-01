@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -30,6 +31,8 @@ import com.humanize.android.service.GsonParserServiceImpl;
 import com.humanize.android.config.Constants;
 import com.humanize.android.config.StringConstants;
 import com.humanize.android.data.Contents;
+import com.humanize.android.service.LogService;
+import com.humanize.android.service.LogServiceImpl;
 import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.config.Config;
 
@@ -59,7 +62,8 @@ public class CardActivity extends AppCompatActivity {
     private boolean doubleBackToExitPressedOnce;
     private ApiService apiService;
 
-    private static String TAG = CardActivity.class.getSimpleName();
+    private static final String TAG = CardActivity.class.getName();
+    private static final LogService logService = new LogServiceImpl();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +131,7 @@ public class CardActivity extends AppCompatActivity {
                 getContent();
             }
         } catch (Exception exception) {
-
+            logService.e(TAG, exception.getMessage());
         }
     }
 
@@ -229,7 +233,6 @@ public class CardActivity extends AppCompatActivity {
     }
 
     private void success(View view, String response) {
-        System.out.println(response);
         try {
             Contents contents = jsonParserService.fromJson(response, Contents.class);
             SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, response);
@@ -237,7 +240,7 @@ public class CardActivity extends AppCompatActivity {
             contentRecyclerViewAdapter.setContents(CardActivity.contents.getContents());
             contentRecyclerViewAdapter.notifyDataSetChanged();
         } catch (Exception exception) {
-            exception.printStackTrace();
+            logService.e(TAG, exception.getMessage());
         }
     }
 
@@ -245,7 +248,7 @@ public class CardActivity extends AppCompatActivity {
 
         @Override
         public void onFailure(Call call, IOException exception) {
-            exception.printStackTrace();
+            logService.e(TAG, exception.getMessage());
 
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
@@ -286,7 +289,7 @@ public class CardActivity extends AppCompatActivity {
     private class MoreContentCallback implements Callback {
         @Override
         public void onFailure(Call call, IOException exception) {
-            Log.e(TAG, exception.toString());
+            logService.e(TAG, exception.getMessage());
         }
 
         @Override
@@ -322,7 +325,7 @@ public class CardActivity extends AppCompatActivity {
     private class NewContentCallback implements Callback {
         @Override
         public void onFailure(Call call, IOException exception) {
-            Log.e(TAG, exception.toString());
+            logService.e(TAG, exception.getMessage());
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
@@ -341,9 +344,8 @@ public class CardActivity extends AppCompatActivity {
                         swipeRefreshLayout.setRefreshing(false);
                         try {
                             //ServerException serverException = jsonParserService.fromJson(responseStr, ServerException.class);
-                            //System.out.println(serverException);
                         } catch (Exception exception) {
-                            exception.printStackTrace();
+                            logService.e(TAG, exception.getMessage());
                         }
                     }
                 });

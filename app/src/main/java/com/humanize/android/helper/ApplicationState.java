@@ -2,6 +2,7 @@ package com.humanize.android.helper;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.util.DisplayMetrics;
 
 import com.crashlytics.android.Crashlytics;
@@ -9,11 +10,13 @@ import com.crashlytics.android.ndk.CrashlyticsNdk;
 
 import com.humanize.android.service.GsonParserServiceImpl;
 import com.humanize.android.service.JsonParserService;
-import com.humanize.android.service.OkHttp3Downloader;
 import com.humanize.android.activity.CardActivity;
 import com.humanize.android.config.Constants;
 import com.humanize.android.data.Contents;
 import com.humanize.android.data.User;
+import com.humanize.android.service.LogService;
+import com.humanize.android.service.LogServiceImpl;
+import com.humanize.android.service.RegistrationIntentServiceImpl;
 import com.humanize.android.service.SharedPreferencesService;
 
 import com.humanize.android.config.Config;
@@ -28,6 +31,9 @@ public class ApplicationState extends Application{
 
     private static Context context = null;
     private static User user = null;
+
+    private static final String TAG = ApplicationState.class.getSimpleName();
+    private static final LogService logService = new LogServiceImpl();
 
     public void onCreate(){
         super.onCreate();
@@ -63,7 +69,6 @@ public class ApplicationState extends Application{
         Config.SCREEN_HEIGHT = metrics.heightPixels;
         Config.NAV_DRAWER_WIDTH = (imageWidth*4)/5;
 
-
         JsonParserService jsonParserService = new GsonParserServiceImpl();
 
         try {
@@ -77,7 +82,7 @@ public class ApplicationState extends Application{
                 user = new User();
             }
         } catch (Exception exception) {
-            exception.printStackTrace();
+            logService.e(TAG, exception.getMessage());
         }
 
         // for disk caching in picasso
@@ -86,5 +91,8 @@ public class ApplicationState extends Application{
         builder.downloader(new OkHttp3Downloader(this));
         Picasso picasso = builder.build();
         Picasso.setSingletonInstance(picasso);
+
+        Intent intent = new Intent(this, RegistrationIntentServiceImpl.class);
+        startService(intent);
     }
 }

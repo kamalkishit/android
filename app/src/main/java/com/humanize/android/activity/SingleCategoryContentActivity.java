@@ -25,6 +25,8 @@ import com.humanize.android.config.StringConstants;
 import com.humanize.android.data.ContentSearchParams;
 import com.humanize.android.data.Contents;
 import com.humanize.android.service.ApiService;
+import com.humanize.android.service.LogService;
+import com.humanize.android.service.LogServiceImpl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,7 +53,8 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
     private ContentRecyclerViewAdapter contentRecyclerViewAdapter;
     private LinearLayoutManager linearLayoutManager;
 
-    private static String TAG = SingleCategoryContentActivity.class.getSimpleName();
+    private static final String TAG = SingleCategoryContentActivity.class.getSimpleName();
+    private static final LogService logService = new LogServiceImpl();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,14 +163,13 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
     }
 
     private void success(View view, String response) {
-        System.out.println(response);
         try {
             Contents contents = jsonParserService.fromJson(response, Contents.class);
             SingleCategoryContentActivity.contents = contents;
             contentRecyclerViewAdapter.setContents(SingleCategoryContentActivity.contents.getContents());
             contentRecyclerViewAdapter.notifyDataSetChanged();
         } catch (Exception exception) {
-            exception.printStackTrace();
+            logService.e(TAG, exception.getMessage());
         }
     }
 
@@ -215,7 +217,7 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
 
         @Override
         public void onFailure(Call call, IOException exception) {
-            exception.printStackTrace();
+            logService.e(TAG, exception.getMessage());
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
@@ -254,7 +256,7 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
     private class MoreContentCallback implements Callback {
         @Override
         public void onFailure(Call call, IOException exception) {
-            Log.e(TAG, exception.toString());
+            logService.e(TAG, exception.getMessage());
         }
 
         @Override
@@ -285,7 +287,7 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
     private class NewContentCallback implements Callback {
         @Override
         public void onFailure(Call call, IOException exception) {
-            Log.e(TAG, exception.toString());
+            logService.e(TAG, exception.getMessage());
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {

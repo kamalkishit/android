@@ -22,6 +22,8 @@ import com.humanize.android.config.Constants;
 import com.humanize.android.config.StringConstants;
 import com.humanize.android.data.InviteFriend;
 import com.humanize.android.fragment.InviteSuccessFragment;
+import com.humanize.android.service.LogService;
+import com.humanize.android.service.LogServiceImpl;
 
 import java.io.IOException;
 
@@ -41,7 +43,9 @@ public class InviteFriendActivity extends AppCompatActivity {
 
     private ApiServiceImpl apiImpl;
     private ProgressDialog progressDialog;
-    private static String TAG = InviteFriendActivity.class.getSimpleName();
+
+    private static final String TAG = InviteFriendActivity.class.getSimpleName();
+    private static LogService logService = new LogServiceImpl();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +107,8 @@ public class InviteFriendActivity extends AppCompatActivity {
 
             apiImpl.inviteFriend(inviteFriend, new Callback() {
                 @Override
-                public void onFailure(Call call, IOException e) {
+                public void onFailure(Call call, IOException exception) {
+                    logService.e(TAG, exception.getMessage());
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {

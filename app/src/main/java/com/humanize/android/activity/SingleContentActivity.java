@@ -25,6 +25,8 @@ import com.humanize.android.data.ContentParams;
 import com.humanize.android.data.Contents;
 import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.service.ApiService;
+import com.humanize.android.service.LogService;
+import com.humanize.android.service.LogServiceImpl;
 
 import java.io.IOException;
 import java.util.StringTokenizer;
@@ -49,6 +51,9 @@ public class SingleContentActivity extends AppCompatActivity {
     private ApiService apiService;
     private ContentRecyclerViewAdapter contentRecyclerViewAdapter;
     private LinearLayoutManager linearLayoutManager;
+
+    private static final String TAG = SingleContentActivity.class.getSimpleName();
+    private static final LogService logService = new LogServiceImpl();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +114,6 @@ public class SingleContentActivity extends AppCompatActivity {
         Uri uri = getIntent().getData();
         if (uri != null) {
             String path = uri.getPath();
-            System.out.println(path);
 
             String delims = "/";
             StringTokenizer stringTokenizer = new StringTokenizer(path, delims);
@@ -139,14 +143,13 @@ public class SingleContentActivity extends AppCompatActivity {
     }
 
     private void success(View view, String response) {
-        System.out.println(response);
         try {
             Contents contents = jsonParserService.fromJson(response, Contents.class);
             SingleContentActivity.contents = contents;
             contentRecyclerViewAdapter.setContents(SingleContentActivity.contents.getContents());
             contentRecyclerViewAdapter.notifyDataSetChanged();
         } catch (Exception exception) {
-            exception.printStackTrace();
+            logService.e(TAG, exception.getMessage());
         }
     }
 
@@ -154,7 +157,7 @@ public class SingleContentActivity extends AppCompatActivity {
 
         @Override
         public void onFailure(Call call, IOException exception) {
-            exception.printStackTrace();
+            logService.e(TAG, exception.getMessage());
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {

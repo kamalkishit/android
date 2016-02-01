@@ -21,6 +21,8 @@ import com.humanize.android.config.StringConstants;
 import com.humanize.android.data.User;
 import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.service.GsonParserServiceImpl;
+import com.humanize.android.service.LogService;
+import com.humanize.android.service.LogServiceImpl;
 import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.helper.ApplicationState;
 import com.humanize.android.config.Config;
@@ -63,6 +65,7 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
     private Category sports;
 
     private static final String TAG = UpdateCategoriesActivity.class.getSimpleName();
+    private static final LogService logService = new LogServiceImpl();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,8 +146,6 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
 
                     /*try {
                         String userdataJson = jsonParserService.toJson(ApplicationState.getUser());
-                        System.out.println(Config.USER_UPDATE_URL);
-                        System.out.println(userdataJson);
 
                         if (userdataJson != null) {
                             HttpUtil.getInstance().updateUser(Config.USER_UPDATE_URL, userdataJson, new UserUpdationCallback(coordinatorLayout));
@@ -454,8 +455,8 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
             this.view = view;
         }
         @Override
-        public void onFailure(Call call, IOException e) {
-            e.printStackTrace();
+        public void onFailure(Call call, IOException exception) {
+            logService.e(TAG, exception.getMessage());
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {

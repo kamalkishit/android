@@ -6,6 +6,7 @@ import com.humanize.android.data.ContentUpdateParams;
 import com.humanize.android.data.InviteFriend;
 import com.humanize.android.data.PaperParams;
 import com.humanize.android.data.SubmitArticle;
+import com.humanize.android.data.UserDevice;
 
 import okhttp3.Callback;
 
@@ -21,4 +22,5 @@ public interface ApiService {
     void getContent(String urlId, Callback callback);
     void getPaper(PaperParams paperParams, Callback callback);
     void updateContent(ContentUpdateParams contentUpdateParams, Callback callback);
+    void registerDevice(UserDevice userDevice, Callback callback);
 }

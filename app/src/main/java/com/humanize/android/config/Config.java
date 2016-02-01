@@ -5,20 +5,19 @@ package com.humanize.android.config;
  */
 public class Config {
 
-    public final static String CONTENTS = "contents";
-
-    // sharedPreferences data
     public final static String SHARED_PREFERENCES = "sharedPreferences";
     public final static String JSON_CONTENTS = "jsonContents";
     public final static String JSON_USER_DATA = "jsonUserData";
     public final static String JSON_PAPER = "jsonPaper";
     public final static String LATEST_DATE = "latestDate";
     public final static String JSON_BOOKMARKED_CONTENTS = "jsonBookmarkedContents";
-    public final static String TEMP_IMAGE_PATH = "tempImagePath";
+
+    public final static String GCM_DEVICE_TOKEN = "gcmDeviceToken";
+    public final static String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
+    public final static String REGISTRATION_COMPLETE = "registrationComplete";
 
     public final static String URL = "url";
     public final static String SOURCE = "source";
-    public final static String SUBMIT_ARTICLE_URL = "Submit Article";
 
     public static int PAPER_HOUR = 8;
     public static int PAPER_MINUTE = 0;

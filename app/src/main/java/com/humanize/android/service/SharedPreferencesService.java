@@ -13,6 +13,8 @@ public class SharedPreferencesService {
     private static SharedPreferencesService sharedPreferencesInstance = null;
     private SharedPreferences sharedPreferences;
 
+    private static final String TAG = SharedPreferencesService.class.getSimpleName();
+
     private SharedPreferencesService() {
         sharedPreferences = ApplicationState.getAppContext().getSharedPreferences(Config.SHARED_PREFERENCES, 0);
     }

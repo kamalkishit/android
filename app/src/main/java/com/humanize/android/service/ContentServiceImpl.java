@@ -25,7 +25,8 @@ public class ContentServiceImpl implements ContentService {
 
     private ApiService apiService;
 
-    private static String TAG = ContentServiceImpl.class.getSimpleName();
+    private static final LogService logService = new LogServiceImpl();
+    private static final String TAG = ContentServiceImpl.class.getSimpleName();
 
     public ContentServiceImpl() {
         apiService = new ApiServiceImpl();
@@ -62,7 +63,7 @@ public class ContentServiceImpl implements ContentService {
 
         @Override
         public void onFailure(Call call, IOException exception) {
-
+            logService.e(TAG, exception.getMessage());
         }
 
         @Override

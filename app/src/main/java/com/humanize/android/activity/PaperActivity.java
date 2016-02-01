@@ -24,6 +24,8 @@ import com.humanize.android.service.ApiService;
 import com.humanize.android.service.ApiServiceImpl;
 import com.humanize.android.service.GsonParserServiceImpl;
 import com.humanize.android.service.JsonParserService;
+import com.humanize.android.service.LogService;
+import com.humanize.android.service.LogServiceImpl;
 import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.service.UserService;
 import com.humanize.android.service.UserServiceImpl;
@@ -51,7 +53,8 @@ public class PaperActivity extends AppCompatActivity {
     private ApiService apiService;
     private ContentRecyclerViewAdapter contentRecyclerViewAdapter;
 
-    private static String TAG = PaperActivity.class.getSimpleName();
+    private static final String TAG = PaperActivity.class.getSimpleName();
+    private static final LogService logService = new LogServiceImpl();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +135,6 @@ public class PaperActivity extends AppCompatActivity {
     }
 
     private void success(View view, String response) {
-        System.out.println(response);
         try {
             Contents contents = jsonParser.fromJson(response, Contents.class);
             SharedPreferencesService.getInstance().putString(Config.JSON_PAPER, response);
@@ -141,7 +143,7 @@ public class PaperActivity extends AppCompatActivity {
             contentRecyclerViewAdapter.setContents(PaperActivity.contents.getContents());
             contentRecyclerViewAdapter.notifyDataSetChanged();
         } catch (Exception exception) {
-            exception.printStackTrace();
+            logService.e(TAG, exception.getMessage());
         }
     }
 
@@ -149,7 +151,7 @@ public class PaperActivity extends AppCompatActivity {
 
         @Override
         public void onFailure(Call call, IOException exception) {
-            exception.printStackTrace();
+            logService.e(TAG, exception.getMessage());
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {

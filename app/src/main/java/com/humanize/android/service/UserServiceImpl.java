@@ -11,6 +11,8 @@ public class UserServiceImpl implements  UserService {
 
     private User user;
 
+    private static final String TAG = UserServiceImpl.class.getSimpleName();
+
     public UserServiceImpl() {
         user = ApplicationState.getUser();
     }

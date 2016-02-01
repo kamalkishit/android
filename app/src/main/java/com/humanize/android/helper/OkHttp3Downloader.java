@@ -1,4 +1,4 @@
-package com.humanize.android.service;
+package com.humanize.android.helper;
 
 import android.content.Context;
 import android.net.Uri;

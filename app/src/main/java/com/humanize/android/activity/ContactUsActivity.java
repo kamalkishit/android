@@ -24,6 +24,8 @@ import com.humanize.android.config.StringConstants;
 import com.humanize.android.data.ContactUs;
 import com.humanize.android.fragment.ContactUsSuccessFragment;
 import com.humanize.android.service.ApiService;
+import com.humanize.android.service.LogService;
+import com.humanize.android.service.LogServiceImpl;
 
 import java.io.IOException;
 
@@ -45,7 +47,8 @@ public class ContactUsActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private ApiService apiService;
 
-    private static String TAG = ContactUsActivity.class.getSimpleName();
+    private static final String TAG = ContactUsActivity.class.getSimpleName();
+    private static final LogService logService = new LogServiceImpl();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +71,6 @@ public class ContactUsActivity extends AppCompatActivity {
     }
 
     private void configureListeners() {
-
         submitButton.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -122,7 +124,6 @@ public class ContactUsActivity extends AppCompatActivity {
     }
 
     private boolean validate() {
-
         if (subject == null || subject.getText().toString().isEmpty()) {
             subject.setError(StringConstants.SUBJECT_VALIDATION_ERROR_STR);
             Snackbar.make(coordinatorLayout, StringConstants.SUBJECT_VALIDATION_ERROR_STR, Snackbar.LENGTH_SHORT).show();
@@ -146,7 +147,7 @@ public class ContactUsActivity extends AppCompatActivity {
 
         @Override
         public void onFailure(Call call, IOException exception) {
-            Log.e(TAG, exception.toString());
+            logService.e(TAG, exception.getMessage());
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
