@@ -14,6 +14,7 @@ import com.humanize.android.R;
  * Created by kamal on 1/14/16.
  */
 public class InviteSuccessFragment extends DialogFragment {
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 

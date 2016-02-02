@@ -1,5 +1,8 @@
 package com.humanize.android.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,9 +20,11 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import com.humanize.android.BuildConfig;
+import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.service.ApiServiceImpl;
 import com.humanize.android.helper.ContentRecyclerViewAdapter;
 import com.humanize.android.data.ContentSearchParams;
@@ -96,6 +101,27 @@ public class CardActivity extends AppCompatActivity {
                 doubleBackToExitPressedOnce = false;
             }
         }, Constants.DOUBLE_EXIT_DELAY_TIME);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_card, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.actionCreate) {
+            new ActivityLauncher().startSubmitArticleActivity();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void initialize() {
@@ -255,7 +281,9 @@ public class CardActivity extends AppCompatActivity {
                 public void run() {
                     swipeRefreshLayout.setRefreshing(false);
                     circularProgressBar.setVisibility(View.GONE);
-                    Snackbar.make(recyclerView, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG).show();
+                    //Snackbar.make(recyclerView, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG).show();
+                    NetworkConnectionFailureFragment networkConnectionFailureFragment = new NetworkConnectionFailureFragment();
+                    networkConnectionFailureFragment.show(CardActivity.this.getFragmentManager(), "");
                 }
             });
         }
@@ -373,6 +401,44 @@ public class CardActivity extends AppCompatActivity {
                     }
                 });
             }
+        }
+    }
+
+    public static class NetworkConnectionFailureFragment extends DialogFragment {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            LinearLayout linearLayout = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.dialog_network_connection_failure, null);
+            Button cancelButton = (Button) linearLayout.findViewById(R.id.cancelButton);
+            Button retryButton = (Button) linearLayout.findViewById(R.id.retryButton);
+
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dismissFragment();
+                }
+            });
+
+            retryButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    retry();
+                }
+            });
+
+            builder.setView(linearLayout);
+            return builder.create();
+        }
+
+        private void dismissFragment() {
+            this.dismiss();
+        }
+
+        private void retry() {
+            this.dismiss();
+            ((CardActivity)getActivity()).getContent();
         }
     }
 }

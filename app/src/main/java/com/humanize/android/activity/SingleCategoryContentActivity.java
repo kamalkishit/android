@@ -1,5 +1,8 @@
 package com.humanize.android.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -12,6 +15,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -223,7 +228,9 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
                 public void run() {
                     swipeRefreshLayout.setRefreshing(false);
                     circularProgressBar.setVisibility(View.GONE);
-                    Snackbar.make(recyclerView, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG).show();
+                    //Snackbar.make(recyclerView, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG).show();
+                    NetworkConnectionFailureFragment networkConnectionFailureFragment = new NetworkConnectionFailureFragment();
+                    networkConnectionFailureFragment.show(SingleCategoryContentActivity.this.getFragmentManager(), "");
                 }
             });
         }
@@ -328,6 +335,44 @@ public class SingleCategoryContentActivity extends AppCompatActivity {
                     }
                 });
             }
+        }
+    }
+
+    public static class NetworkConnectionFailureFragment extends DialogFragment {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            LinearLayout linearLayout = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.dialog_network_connection_failure, null);
+            Button cancelButton = (Button) linearLayout.findViewById(R.id.cancelButton);
+            Button retryButton = (Button) linearLayout.findViewById(R.id.retryButton);
+
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dismissFragment();
+                }
+            });
+
+            retryButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    retry();
+                }
+            });
+
+            builder.setView(linearLayout);
+            return builder.create();
+        }
+
+        private void dismissFragment() {
+            this.dismiss();
+        }
+
+        private void retry() {
+            this.dismiss();
+            ((SingleCategoryContentActivity)getActivity()).getContent();
         }
     }
 }

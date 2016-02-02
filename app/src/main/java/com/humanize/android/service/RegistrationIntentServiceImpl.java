@@ -26,7 +26,7 @@ public class RegistrationIntentServiceImpl extends IntentService {
 
     String token;
 
-    private static final String[] TOPICS = {"local"};
+    private static final String[] TOPICS = {"global"};
     private static final LogService logService = new LogServiceImpl();
     private static final String TAG = RegistrationIntentServiceImpl.class.getName();
 

@@ -57,10 +57,10 @@ public class HumanizeGcmListenerServiceImpl extends GcmListenerService {
         }
 
         Notification notification = new Notification.Builder(ApplicationState.getAppContext())
-                .setContentTitle("")
+                .setContentTitle("HUMANIZE")
                 .setContentText(title)
                 .setSmallIcon(R.drawable.ic_humanize)
-                .setLargeIcon(largeIcon)
+                //.setLargeIcon(largeIcon)
                 .setAutoCancel(true)
                 .setStyle(new Notification.BigPictureStyle()
                         .bigPicture(remotePicture).setBigContentTitle(title))

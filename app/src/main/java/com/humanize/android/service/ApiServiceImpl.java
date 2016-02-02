@@ -36,7 +36,7 @@ public class ApiServiceImpl implements ApiService {
 
     public void submitArticle(SubmitArticle submitArticle, Callback callback) {
         try {
-            post(ApiUrls.URL_SUBMIT_ARTICLE, toJson(submitArticle), callback);
+            post(ApiUrls.URL_SUGGEST_ARTICLE, toJson(submitArticle), callback);
         } catch (Exception exception) {
             logService.e(TAG, exception.getMessage());
         }

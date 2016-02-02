@@ -1,5 +1,8 @@
 package com.humanize.android.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +15,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -55,6 +60,7 @@ public class SingleContentActivity extends AppCompatActivity {
 
     private static final String TAG = SingleContentActivity.class.getSimpleName();
     private static final LogService logService = new LogServiceImpl();
+    private String urlId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,14 +124,14 @@ public class SingleContentActivity extends AppCompatActivity {
 
             String delims = "/";
             StringTokenizer stringTokenizer = new StringTokenizer(path, delims);
-            String urlId = "";
+            urlId = "";
             while(stringTokenizer.hasMoreElements()) {
                 urlId = (String) stringTokenizer.nextElement();
             }
 
             getContent(urlId);
         } else {
-            String urlId = getIntent().getStringExtra(Config.URL);
+            urlId = getIntent().getStringExtra(Config.URL);
             getContent(urlId);
         }
     }
@@ -167,7 +173,10 @@ public class SingleContentActivity extends AppCompatActivity {
                 public void run() {
                     swipeRefreshLayout.setRefreshing(false);
                     circularProgressBar.setVisibility(View.GONE);
-                    Snackbar.make(recyclerView, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG).show();
+                    //Snackbar.make(recyclerView, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG).show();
+                    NetworkConnectionFailureFragment networkConnectionFailureFragment = new NetworkConnectionFailureFragment();
+                    networkConnectionFailureFragment.setUrlId(urlId);
+                    networkConnectionFailureFragment.show(SingleContentActivity.this.getFragmentManager(), "");
                 }
             });
         }
@@ -194,6 +203,54 @@ public class SingleContentActivity extends AppCompatActivity {
                     }
                 });
             }
+        }
+    }
+
+    public static class NetworkConnectionFailureFragment extends DialogFragment {
+
+        private String urlId;
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            LinearLayout linearLayout = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.dialog_network_connection_failure, null);
+            Button cancelButton = (Button) linearLayout.findViewById(R.id.cancelButton);
+            Button retryButton = (Button) linearLayout.findViewById(R.id.retryButton);
+
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dismissFragment();
+                }
+            });
+
+            retryButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    retry();
+                }
+            });
+
+            builder.setView(linearLayout);
+            return builder.create();
+        }
+
+        public String getUrlId() {
+            return urlId;
+        }
+
+        public void setUrlId(String urlId) {
+            this.urlId = urlId;
+        }
+
+        private void dismissFragment() {
+            this.dismiss();
+        }
+
+        private void retry() {
+            this.dismiss();
+            ((SingleContentActivity)getActivity()).getContent(urlId);
         }
     }
 }
