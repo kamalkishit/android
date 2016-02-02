@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/colorPrimary"
-        android:text="SUCCESS"
+        android:text="FAILURE"
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/colorWhite"/>
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/mediumMargin"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Article submitted successfully."
+        android:text="Network connection error. \nPlease check your network settings."
         android:gravity="center"/>
 
     <android.support.v7.widget.AppCompatButton
@@ -28,6 +28,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/mediumMargin"
         android:background="@drawable/button_selector"
-        android:text="DISMISS"
+        android:text="RETRY"
         android:textColor="@color/colorWhite" />
 </LinearLayout>

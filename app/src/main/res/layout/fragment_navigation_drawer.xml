@@ -68,6 +68,14 @@
             android:layout_marginLeft="@dimen/extraLargeMargin" />
 
         <include
+            android:id="@+id/updateNotification"
+            layout="@layout/paper_notification_selector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/extraSmallMargin"
+            android:layout_marginLeft="@dimen/extraLargeMargin" />
+
+        <include
             android:id="@+id/paper"
             layout="@layout/nav_drawer_item_row"
             android:layout_width="match_parent"

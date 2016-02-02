@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="36dp"
             android:layout_marginRight="36dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="@dimen/largeMargin"
             android:layout_below="@id/linearLayoutBody"
             android:foreground="?android:attr/selectableItemBackground"
             android:background="@drawable/button_selector"

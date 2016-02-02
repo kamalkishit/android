@@ -13,5 +13,4 @@ public class HistoricPaperActivity extends AppCompatActivity {
         setContentView(R.layout.activity_historic_paper);
 
     }
-
 }

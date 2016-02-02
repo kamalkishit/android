@@ -16,6 +16,7 @@ import com.humanize.android.config.Config;
 import com.humanize.android.data.PaperTime;
 import com.humanize.android.data.User;
 import com.humanize.android.helper.ApplicationState;
+import com.humanize.android.service.GsonParserServiceImpl;
 import com.humanize.android.service.JsonParserService;
 import com.humanize.android.service.SharedPreferencesService;
 
@@ -53,6 +54,7 @@ public class PaperTimeUpdateFragment extends DialogFragment {
     }
 
     private void initialize() {
+        jsonParserService = new GsonParserServiceImpl();
         timePicker = (TimePicker) linearLayout.findViewById(R.id.timePicker);
         cancelButton = (TextView) linearLayout.findViewById(R.id.cancelButton);
         okButton = (TextView) linearLayout.findViewById(R.id.okButton);

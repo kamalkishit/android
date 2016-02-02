@@ -21,7 +21,6 @@
         android:paddingBottom="@dimen/smallMargin"
         android:paddingLeft="@dimen/mediumMargin"
         android:paddingTop="@dimen/smallMargin"
-        android:text="text"
         android:textColor="@color/colorBlack"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 

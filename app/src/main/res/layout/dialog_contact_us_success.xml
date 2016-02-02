@@ -15,11 +15,9 @@
         android:textColor="@color/colorWhite"/>
 
     <TextView
-        android:id="@+id/emailId"
-        android:inputType="textEmailAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/mediumMargin"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Feedback sent successfully."
         android:gravity="center"/>

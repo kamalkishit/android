@@ -1,75 +1,61 @@
 package com.humanize.android.activity;
 
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.humanize.android.service.JsonParserService;
 import com.humanize.android.R;
 import com.humanize.android.config.StringConstants;
 import com.humanize.android.data.User;
 import com.humanize.android.helper.ActivityLauncher;
-import com.humanize.android.service.GsonParserServiceImpl;
-import com.humanize.android.service.LogService;
-import com.humanize.android.service.LogServiceImpl;
 import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.helper.ApplicationState;
 import com.humanize.android.config.Config;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
 public class UpdateCategoriesActivity extends AppCompatActivity {
 
-    @Bind(R.id.selectAllCheckbox) CheckBox selectAllCheckbox;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbarText) TextView toolbarText;
-    @Bind(R.id.submitButton) Button submitButton;
 
-    private ActivityLauncher activityLauncher;
-    private JsonParserService jsonParserService;
-    private Set<String> categories;
     private int selectedCategoriesCount;
+    private Set<String> categories;
 
     private Category achievers;
     private Category beautiful;
+    private Category changemakers;
     private Category education;
     private Category empowerment;
     private Category environment;
     private Category governance;
     private Category health;
     private Category humanity;
+    private Category inspiring;
+    private Category kindness;
     private Category lawAndJustice;
     private Category realHeroes;
     private Category scienceAndTech;
+    private Category smile;
     private Category sports;
+    private Button submitButton;
 
-    private static final String TAG = UpdateCategoriesActivity.class.getSimpleName();
-    private static final LogService logService = new LogServiceImpl();
-
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_categories);
+        setContentView(R.layout.activity_select_categories2);
+        overridePendingTransition(R.anim.slide_right_to_left, R.anim.slide_right_to_left);
 
         ButterKnife.bind(this);
 
@@ -77,56 +63,97 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
         configureListeners();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            super.onBackPressed();
+            overridePendingTransition(0, R.anim.slide_left_to_right);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(0, R.anim.slide_left_to_right);
+    }
+
     private void initialize() {
-        activityLauncher = new ActivityLauncher();
-        jsonParserService = new GsonParserServiceImpl();
         categories = new HashSet<>();
-        selectedCategoriesCount = 0;
 
         toolbar.setCollapsible(true);
         setSupportActionBar(toolbar);
-
-        toolbarText.setText("Update Categories");
-        submitButton.setText("UPDATE");
+        toolbarText.setText(StringConstants.UPDATE_CATEGORIES);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        categories = new HashSet<>();
+        submitButton = (Button) findViewById(R.id.submitButton);
 
-        /*achievers = new Category();
-        achievers.button = (Button)findViewById(R.id.achievers);
+        achievers = new Category();
+        achievers.textView = (TextView) findViewById(R.id.achievers);
+        achievers.categoryStr = StringConstants.ACHIEVERS;
 
         beautiful = new Category();
-        beautiful.button = (Button)findViewById(R.id.beautiful);
+        beautiful.textView = (TextView) findViewById(R.id.beautiful);
+        beautiful.categoryStr = StringConstants.BEAUTIFUL;
+
+        changemakers = new Category();
+        changemakers.textView = (TextView) findViewById(R.id.changemakers);
+        changemakers.categoryStr = StringConstants.CHANGEMAKERS;
 
         education = new Category();
-        education.button = (Button)findViewById(R.id.education);
+        education.textView = (TextView) findViewById(R.id.education);
+        education.categoryStr = StringConstants.EDUCATION;
 
         empowerment = new Category();
-        empowerment.button = (Button)findViewById(R.id.empowerment);
+        empowerment.textView = (TextView) findViewById(R.id.empowerment);
+        empowerment.categoryStr = StringConstants.EMPOWERMENT;
 
         environment = new Category();
-        environment.button = (Button)findViewById(R.id.environment);
+        environment.textView = (TextView) findViewById(R.id.environment);
+        environment.categoryStr = StringConstants.ENVIRONMENT;
 
         governance = new Category();
-        governance.button = (Button)findViewById(R.id.governance);
+        governance.textView = (TextView) findViewById(R.id.governance);
+        governance.categoryStr = StringConstants.GOVERNANCE;
 
         health = new Category();
-        health.button = (Button)findViewById(R.id.health);
+        health.textView = (TextView) findViewById(R.id.health);
+        health.categoryStr = StringConstants.HEALTH;
 
         humanity = new Category();
-        humanity.button = (Button)findViewById(R.id.humanity);
+        humanity.textView = (TextView) findViewById(R.id.humanity);
+        humanity.categoryStr = StringConstants.HUMANITY;
+
+        inspiring = new Category();
+        inspiring.textView = (TextView) findViewById(R.id.inspiring);
+        inspiring.categoryStr = StringConstants.INSPIRING;
+
+        kindness = new Category();
+        kindness.textView = (TextView) findViewById(R.id.kindness);
+        kindness.categoryStr = StringConstants.KINDNESS;
 
         lawAndJustice = new Category();
-        lawAndJustice.button = (Button)findViewById(R.id.lawAndJustice);
+        lawAndJustice.textView = (TextView) findViewById(R.id.lawAndJustice);
+        lawAndJustice.categoryStr = StringConstants.LAW_AND_JUSTICE;
 
         realHeroes = new Category();
-        realHeroes.button = (Button)findViewById(R.id.realHeroes);
+        realHeroes.textView = (TextView) findViewById(R.id.realHeroes);
+        realHeroes.categoryStr = StringConstants.REAL_HEROES;
 
         scienceAndTech = new Category();
-        scienceAndTech.button = (Button)findViewById(R.id.scienceAndTech);
+        scienceAndTech.textView = (TextView) findViewById(R.id.scienceAndTech);
+        scienceAndTech.categoryStr = StringConstants.SCIENCE_AND_TECH;
+
+        smile = new Category();
+        smile.textView = (TextView) findViewById(R.id.smile);
+        smile.categoryStr = StringConstants.SMILE;
 
         sports = new Category();
-        sports.button = (Button)findViewById(R.id.sports); */
+        sports.textView = (TextView) findViewById(R.id.sports);
+        sports.categoryStr = StringConstants.SPORTS;
 
         updateView();
     }
@@ -134,363 +161,276 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
     private void configureListeners() {
         submitButton.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
-                if (selectedCategoriesCount < 1) {
-                    Snackbar.make(view, "Select at least 1 category", Snackbar.LENGTH_LONG).show();
+                if (selectedCategoriesCount < Config.MINIMUM_CATEGORY_COUNT) {
+                    Snackbar.make(view, StringConstants.CATETORY_SELECTION_ERROR_STR, Snackbar.LENGTH_LONG).show();
                 } else {
                     List<String> categoriesList = new ArrayList<>();
                     categoriesList.addAll(categories);
                     ApplicationState.getUser().setCategories(categoriesList);
 
                     SharedPreferencesService.getInstance().delete(Config.JSON_CONTENTS);
-                    activityLauncher.startCardActivity();
-
-                    /*try {
-                        String userdataJson = jsonParserService.toJson(ApplicationState.getUser());
-
-                        if (userdataJson != null) {
-                            HttpUtil.getInstance().updateUser(Config.USER_UPDATE_URL, userdataJson, new UserUpdationCallback(coordinatorLayout));
-                        }
-                    } catch (Exception exception) {
-
-                    }*/
+                    new ActivityLauncher().startCardActivity();
                 }
             }
         });
 
-        /*selectAllCheckbox.setOnClickListener(new android.view.View.OnClickListener() {
-            public void onClick(View view) {
-                if (selectAllCheckbox.isChecked()) {
-                    selectAllCategories();
-                } else {
-                    unselectAllCategories();
-                }
-            }
-        });
-
-        achievers.button.setOnClickListener(new android.view.View.OnClickListener() {
+        achievers.textView.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
                 if (achievers.isSelected) {
-                    unselectCategory(achievers, R.drawable.ic_achievers_green);
+                    unselectCategory(achievers);
                 } else {
-                    selectCategory(achievers, R.drawable.ic_achievers_white);
+                    selectCategory(achievers);
                 }
             }
         });
 
-        beautiful.button.setOnClickListener(new android.view.View.OnClickListener() {
+        beautiful.textView.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
                 if (beautiful.isSelected) {
-                    unselectCategory(beautiful, R.drawable.ic_beautiful_green);
+                    unselectCategory(beautiful);
                 } else {
-                    selectCategory(beautiful, R.drawable.ic_beautiful_white);
+                    selectCategory(beautiful);
                 }
             }
         });
 
-        education.button.setOnClickListener(new android.view.View.OnClickListener() {
+        changemakers.textView.setOnClickListener(new android.view.View.OnClickListener() {
+            public void onClick(View view) {
+                if (changemakers.isSelected) {
+                    unselectCategory(changemakers);
+                } else {
+                    selectCategory(changemakers);
+                }
+            }
+        });
+
+        education.textView.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
                 if (education.isSelected) {
-                    unselectCategory(education, R.drawable.ic_education_green);
+                    unselectCategory(education);
                 } else {
-                    selectCategory(education, R.drawable.ic_education_white);
+                    selectCategory(education);
                 }
             }
         });
 
-        empowerment.button.setOnClickListener(new android.view.View.OnClickListener() {
+        empowerment.textView.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
                 if (empowerment.isSelected) {
-                    unselectCategory(empowerment, R.drawable.ic_empowerment_green);
+                    unselectCategory(empowerment);
                 } else {
-                    selectCategory(empowerment, R.drawable.ic_empowerment_white);
+                    selectCategory(empowerment);
                 }
             }
         });
 
-        environment.button.setOnClickListener(new android.view.View.OnClickListener() {
+        environment.textView.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
                 if (environment.isSelected) {
-                    unselectCategory(environment, R.drawable.ic_environment_green);
+                    unselectCategory(environment);
                 } else {
-                    selectCategory(environment, R.drawable.ic_environment_white);
+                    selectCategory(environment);
                 }
             }
         });
 
-        governance.button.setOnClickListener(new android.view.View.OnClickListener() {
+        governance.textView.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
                 if (governance.isSelected) {
-                    unselectCategory(governance, R.drawable.ic_governance_green);
+                    unselectCategory(governance);
                 } else {
-                    selectCategory(governance, R.drawable.ic_governance_white);
+                    selectCategory(governance);
                 }
             }
         });
 
-        health.button.setOnClickListener(new android.view.View.OnClickListener() {
+        health.textView.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
                 if (health.isSelected) {
-                    unselectCategory(health, R.drawable.ic_health_green);
+                    unselectCategory(health);
                 } else {
-                    selectCategory(health, R.drawable.ic_health_white);
+                    selectCategory(health);
                 }
             }
         });
 
-        humanity.button.setOnClickListener(new android.view.View.OnClickListener() {
+        humanity.textView.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
                 if (humanity.isSelected) {
-                    unselectCategory(humanity, R.drawable.ic_humanity_green);
+                    unselectCategory(humanity);
                 } else {
-                    selectCategory(humanity, R.drawable.ic_humanity_white);
+                    selectCategory(humanity);
                 }
             }
         });
 
-        lawAndJustice.button.setOnClickListener(new android.view.View.OnClickListener() {
+        inspiring.textView.setOnClickListener(new android.view.View.OnClickListener() {
+            public void onClick(View view) {
+                if (inspiring.isSelected) {
+                    unselectCategory(inspiring);
+                } else {
+                    selectCategory(inspiring);
+                }
+            }
+        });
+
+        kindness.textView.setOnClickListener(new android.view.View.OnClickListener() {
+            public void onClick(View view) {
+                if (kindness.isSelected) {
+                    unselectCategory(kindness);
+                } else {
+                    selectCategory(kindness);
+                }
+            }
+        });
+
+        lawAndJustice.textView.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
                 if (lawAndJustice.isSelected) {
-                    unselectCategory(lawAndJustice, R.drawable.ic_law_justice_green);
+                    unselectCategory(lawAndJustice);
                 } else {
-                    selectCategory(lawAndJustice, R.drawable.ic_law_justice_white);
+                    selectCategory(lawAndJustice);
                 }
             }
         });
 
-        realHeroes.button.setOnClickListener(new android.view.View.OnClickListener() {
+        realHeroes.textView.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
                 if (realHeroes.isSelected) {
-                    unselectCategory(realHeroes, R.drawable.ic_real_heros_green);
+                    unselectCategory(realHeroes);
                 } else {
-                    selectCategory(realHeroes, R.drawable.ic_real_heros_white);
+                    selectCategory(realHeroes);
                 }
             }
         });
 
-        scienceAndTech.button.setOnClickListener(new android.view.View.OnClickListener() {
+        scienceAndTech.textView.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
                 if (scienceAndTech.isSelected) {
-                    unselectCategory(scienceAndTech, R.drawable.ic_science_tech_green);
+                    unselectCategory(scienceAndTech);
                 } else {
-                    selectCategory(scienceAndTech, R.drawable.ic_science_tech_white);
+                    selectCategory(scienceAndTech);
                 }
             }
         });
 
-        sports.button.setOnClickListener(new android.view.View.OnClickListener() {
+        smile.textView.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
-                if (sports.isSelected) {
-                    unselectCategory(sports, R.drawable.ic_sports_green);
+                if (smile.isSelected) {
+                    unselectCategory(smile);
                 } else {
-                    selectCategory(sports, R.drawable.ic_sports_white);
+                    selectCategory(smile);
                 }
             }
-        }); */
+        });
+
+        sports.textView.setOnClickListener(new android.view.View.OnClickListener() {
+            public void onClick(View view) {
+                if (sports.isSelected) {
+                    unselectCategory(sports);
+                } else {
+                    selectCategory(sports);
+                }
+            }
+        });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
+    private void selectCategory(Category category) {
+        category.isSelected = true;
+        category.textView.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        category.textView.setTextColor(getResources().getColor(R.color.colorWhite));
+        categories.add(category.categoryStr);
+        selectedCategoriesCount++;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        if (id == android.R.id.home) {
-            super.onBackPressed();
-        }
-
-        return super.onOptionsItemSelected(item);
+    private void unselectCategory(Category category) {
+        category.isSelected = false;
+        category.textView.setBackground(getResources().getDrawable(R.drawable.border_button_dark_grey));
+        category.textView.setTextColor(getResources().getColor(R.color.colorDarkGrey));
+        categories.remove(category.categoryStr);
+        selectedCategoriesCount--;
     }
 
     private void updateView() {
         if (ApplicationState.getUser() != null && ApplicationState.getUser().getCategories() != null) {
             User user = ApplicationState.getUser();
 
-            /*if (user.getCategories().contains("Achievers")) {
-                selectCategory(achievers, R.drawable.ic_achievers_white);
+            if (user.getCategories().contains(StringConstants.ACHIEVERS)) {
+                selectCategory(achievers);
             }
 
-            if (user.getCategories().contains("Beautiful")) {
-                selectCategory(beautiful, R.drawable.ic_beautiful_white);
+            if (user.getCategories().contains(StringConstants.BEAUTIFUL)) {
+                selectCategory(beautiful);
             }
 
-            if (user.getCategories().contains("Education")) {
-                selectCategory(education, R.drawable.ic_education_white);
+            if (user.getCategories().contains(StringConstants.CHANGEMAKERS)) {
+                selectCategory(changemakers);
             }
 
-            if (user.getCategories().contains("Empowerment")) {
-                selectCategory(empowerment, R.drawable.ic_empowerment_white);
+            if (user.getCategories().contains(StringConstants.EDUCATION)) {
+                selectCategory(education);
             }
 
-            if (user.getCategories().contains("Environment")) {
-                selectCategory(environment, R.drawable.ic_environment_white);
+            if (user.getCategories().contains(StringConstants.EMPOWERMENT)) {
+                selectCategory(empowerment);
             }
 
-            if (user.getCategories().contains("Governance")) {
-                selectCategory(governance, R.drawable.ic_governance_white);
+            if (user.getCategories().contains(StringConstants.ENVIRONMENT)) {
+                selectCategory(environment);
             }
 
-            if (user.getCategories().contains("Health")) {
-                selectCategory(health, R.drawable.ic_health_white);
+            if (user.getCategories().contains(StringConstants.GOVERNANCE)) {
+                selectCategory(governance);
             }
 
-            if (user.getCategories().contains("Humanity")) {
-                selectCategory(humanity, R.drawable.ic_humanity_white);
+            if (user.getCategories().contains(StringConstants.HEALTH)) {
+                selectCategory(health);
             }
 
-            if (user.getCategories().contains("Real Heroes")) {
-                selectCategory(realHeroes, R.drawable.ic_real_heros_white);
+            if (user.getCategories().contains(StringConstants.HUMANITY)) {
+                selectCategory(humanity);
             }
 
-            if (user.getCategories().contains("Law and Justice")) {
-                selectCategory(lawAndJustice, R.drawable.ic_law_justice_white);
+            if (user.getCategories().contains(StringConstants.INSPIRING)) {
+                selectCategory(inspiring);
             }
 
-            if (user.getCategories().contains("Science and Tech")) {
-                selectCategory(scienceAndTech, R.drawable.ic_science_tech_white);
+            if (user.getCategories().contains(StringConstants.KINDNESS)) {
+                selectCategory(kindness);
             }
 
-            if (user.getCategories().contains("Sports")) {
-                selectCategory(sports, R.drawable.ic_sports_white);
-            } */
-        }
+            if (user.getCategories().contains(StringConstants.REAL_HEROES)) {
+                selectCategory(realHeroes);
+            }
 
-        if (selectedCategoriesCount == 12) {
-            selectAllCheckbox.setChecked(true);
+            if (user.getCategories().contains(StringConstants.LAW_AND_JUSTICE)) {
+                selectCategory(lawAndJustice);
+            }
+
+            if (user.getCategories().contains(StringConstants.SCIENCE_AND_TECH)) {
+                selectCategory(scienceAndTech);
+            }
+
+            if (user.getCategories().contains(StringConstants.SMILE)) {
+                selectCategory(smile);
+            }
+
+            if (user.getCategories().contains(StringConstants.SPORTS)) {
+                selectCategory(sports);
+            }
         }
     }
-
-    private void selectCategory(Category category, int drawableResourceId) {
-        category.isSelected = true;
-        Drawable drawableTop = getResources().getDrawable(drawableResourceId);
-        category.button.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-        category.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop, null, null);
-        category.button.setTextColor(getResources().getColor(R.color.colorWhite));
-        //category.button.setTypeface(null, Typeface.BOLD);
-        if (category.button.getText().equals("Science & Tech")) {
-            categories.add("Science and Tech");
-        } else if (category.button.getText().equals("Law & Justice")) {
-            categories.add("Law and Justice");
-        } else {
-            categories.add(category.button.getText().toString());
-        }
-
-        selectedCategoriesCount++;
-    }
-
-    private void unselectCategory(Category category, int drawableResourceId) {
-        category.isSelected = false;
-        Drawable drawableTop = getResources().getDrawable(drawableResourceId);
-        category.button.setBackgroundResource(R.drawable.border_button_selector);
-        category.button.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop, null, null);
-        category.button.setTextColor(getResources().getColor(R.color.colorAccent));
-        category.button.setTypeface(null, Typeface.NORMAL);
-
-        if (category.button.getText().equals("Science & Tech")) {
-            categories.remove("Science and Tech");
-        } else if (category.button.getText().equals("Law & Justice")) {
-            categories.remove("Law and Justice");
-        } else {
-            categories.remove(category.button.getText().toString());
-        }
-
-        selectedCategoriesCount--;
-    }
-
-    /* private void selectAllCategories() {
-        selectCategory(achievers, R.drawable.ic_achievers_white);
-        selectCategory(beautiful, R.drawable.ic_beautiful_white);
-        selectCategory(education, R.drawable.ic_education_white);
-        selectCategory(empowerment, R.drawable.ic_empowerment_white);
-        selectCategory(environment, R.drawable.ic_environment_white);
-        selectCategory(governance, R.drawable.ic_governance_white);
-        selectCategory(health, R.drawable.ic_health_white);
-        selectCategory(humanity, R.drawable.ic_humanity_white);
-        selectCategory(lawAndJustice, R.drawable.ic_law_justice_white);
-        selectCategory(realHeroes, R.drawable.ic_real_heros_white);
-        selectCategory(scienceAndTech, R.drawable.ic_science_tech_white);
-        selectCategory(sports, R.drawable.ic_sports_white);
-
-        selectedCategoriesCount = 12;
-    }
-
-    private void unselectAllCategories() {
-        unselectCategory(achievers, R.drawable.ic_achivers_green);
-        unselectCategory(beautiful, R.drawable.ic_beautiful_green);
-        unselectCategory(education, R.drawable.ic_education_green);
-        unselectCategory(empowerment, R.drawable.ic_empowerment_green);
-        unselectCategory(environment, R.drawable.ic_environment_green);
-        unselectCategory(governance, R.drawable.ic_governance_green);
-        unselectCategory(health, R.drawable.ic_health_green);
-        unselectCategory(humanity, R.drawable.ic_humanity_green);
-        unselectCategory(lawAndJustice, R.drawable.ic_law_justice_green);
-        unselectCategory(realHeroes, R.drawable.ic_real_heros_green);
-        unselectCategory(scienceAndTech, R.drawable.ic_science_tech_green);
-        unselectCategory(sports, R.drawable.ic_sports_green);
-
-        selectedCategoriesCount = 0;
-    } */
 
     class Category {
 
-        private Button button;
+        private TextView textView;
+        private String categoryStr;
         private boolean isSelected;
 
         protected Category() {
-            this.button = null;
+            this.textView = null;
             this.isSelected = false;
-        }
-    }
-
-    private class UserUpdationCallback implements Callback {
-
-        private View view;
-
-        public UserUpdationCallback(View view) {
-            this.view = view;
-        }
-        @Override
-        public void onFailure(Call call, IOException exception) {
-            logService.e(TAG, exception.getMessage());
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    Snackbar.make(view, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG).show();
-                }
-            });
-        }
-
-        @Override
-        public void onResponse(Call call, final Response response) throws IOException {
-            if (!response.isSuccessful()) {
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Snackbar.make(view, StringConstants.FAILURE_STR, Snackbar.LENGTH_LONG).show();
-                    }
-                });
-            } else {
-                final String responseStr = response.body().string().toString();
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            User user = jsonParserService.fromJson(responseStr, User.class);
-                            ApplicationState.setUser(user);
-                            //startPaperTimeSelectorActivity();
-                            SharedPreferencesService.getInstance().delete(Config.JSON_CONTENTS);
-                            activityLauncher.startCardActivity();
-                        } catch (Exception exception) {
-
-                        }
-                    }
-                });
-            }
+            this.categoryStr = null;
         }
     }
 }

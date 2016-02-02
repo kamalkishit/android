@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.humanize.android.service.ApiService;
 import com.humanize.android.service.ApiServiceImpl;
 import com.humanize.android.R;
 import com.humanize.android.config.Constants;
@@ -41,7 +42,7 @@ public class InviteFriendActivity extends AppCompatActivity {
     @Bind(R.id.emailId) EditText emailId;
     @Bind(R.id.submitButton) Button submitButton;
 
-    private ApiServiceImpl apiImpl;
+    private ApiService apiService;
     private ProgressDialog progressDialog;
 
     private static final String TAG = InviteFriendActivity.class.getSimpleName();
@@ -78,7 +79,7 @@ public class InviteFriendActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-        apiImpl = new ApiServiceImpl();
+        apiService = new ApiServiceImpl();
         progressDialog = new ProgressDialog(this);
         toolbar.setCollapsible(true);
         toolbarText.setText(StringConstants.INVITE_FRIEND);
@@ -105,7 +106,7 @@ public class InviteFriendActivity extends AppCompatActivity {
             progressDialog.setMessage(StringConstants.INVITING);
             progressDialog.show();
 
-            apiImpl.inviteFriend(inviteFriend, new Callback() {
+            apiService.inviteFriend(inviteFriend, new Callback() {
                 @Override
                 public void onFailure(Call call, IOException exception) {
                     logService.e(TAG, exception.getMessage());

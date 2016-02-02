@@ -5,7 +5,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
-    <permission android:name="com.humanize.android.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <permission android:name="com.humanize.android.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
     <uses-permission android:name="com.humanize.android.permission.C2D_MESSAGE" />
 
     <application
@@ -41,11 +43,6 @@
             android:value="03639786c99eae8b1629cad76bcef8cb5ffa2aeb" />
 
         <activity
-            android:name="com.humanize.android.activity.UpdateCategoriesActivity"
-            android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme" />
-        <activity
             android:name="com.humanize.android.activity.SubmitArticleActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
@@ -73,7 +70,7 @@
             android:theme="@style/MaterialDesignTheme"
             android:windowSoftInputMode="stateVisible" />
         <activity
-            android:name="com.humanize.android.activity.SelectCategoriesActivity"
+            android:name=".activity.UpdateCategoriesActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
@@ -142,7 +139,7 @@
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="com.example.gcm" />
+                <category android:name="com.humanize.android" />
             </intent-filter>
         </receiver>
         <service

@@ -27,16 +27,17 @@ android {
         applicationId "com.humanize.app"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 3
+        versionCode 4
         versionName "1.0.0"
     }
 
     buildTypes {
         debug {
-            buildConfigField("String", "SITENAME", "\"192.168.1.2:8080\"")
+            //buildConfigField("String", "URL_SERVER", "\"http://192.168.1.2:8080\"")
+            buildConfigField("String", "URL_SERVER", "\"http://www.humannize.com:8080/humanize-1\"")
         }
         release {
-            buildConfigField("String", "SITENAME", "\"www.humannize.com:8080/humanize-1\"")
+            buildConfigField("String", "URL_SERVER", "\"http://www.humannize.com:8080/humanize-1\"")
 
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

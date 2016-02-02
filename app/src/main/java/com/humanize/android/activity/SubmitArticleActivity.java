@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -57,7 +56,7 @@ public class SubmitArticleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_suggest_article);
+        setContentView(R.layout.activity_submit_article);
         overridePendingTransition(R.anim.slide_right_to_left, 0);
 
         ButterKnife.bind(this);
@@ -88,7 +87,7 @@ public class SubmitArticleActivity extends AppCompatActivity {
         apiService = new ApiServiceImpl();
         progressDialog = new ProgressDialog(this);
         toolbar.setCollapsible(true);
-        toolbarText.setText(StringConstants.SUGGEST_ARTICLE);
+        toolbarText.setText(StringConstants.SUBMIT_ARTICLE);
 
         setSupportActionBar(toolbar);
 
@@ -146,7 +145,7 @@ public class SubmitArticleActivity extends AppCompatActivity {
             progressDialog.show();
             SubmitArticle submitArticle = new SubmitArticle();
             submitArticle.setArticleUrl(contentURL.getText().toString());
-            apiService.suggestArticle(submitArticle, new Callback() {
+            apiService.submitArticle(submitArticle, new Callback() {
                 @Override
                 public void onFailure(Call call, IOException exception) {
                     logService.e(TAG, exception.getMessage());

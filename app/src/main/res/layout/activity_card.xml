@@ -28,8 +28,8 @@
         <ProgressBar
             android:id="@+id/circularProgressBar"
             android:indeterminate="true"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/largeMargin"
+            android:layout_height="@dimen/largeMargin"
             style="?android:attr/progressBarStyle"
             android:layout_gravity="center"/>
 

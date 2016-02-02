@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.humanize.android.config.Config;
 import com.humanize.android.service.ApiServiceImpl;
 import com.humanize.android.helper.ContentRecyclerViewAdapter;
 import com.humanize.android.service.GsonParserServiceImpl;
@@ -122,6 +123,9 @@ public class SingleContentActivity extends AppCompatActivity {
                 urlId = (String) stringTokenizer.nextElement();
             }
 
+            getContent(urlId);
+        } else {
+            String urlId = getIntent().getStringExtra(Config.URL);
             getContent(urlId);
         }
     }

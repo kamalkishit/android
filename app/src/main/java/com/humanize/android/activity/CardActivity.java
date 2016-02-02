@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.humanize.android.BuildConfig;
 import com.humanize.android.service.ApiServiceImpl;
 import com.humanize.android.helper.ContentRecyclerViewAdapter;
 import com.humanize.android.data.ContentSearchParams;
@@ -249,7 +250,6 @@ public class CardActivity extends AppCompatActivity {
         @Override
         public void onFailure(Call call, IOException exception) {
             logService.e(TAG, exception.getMessage());
-
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {

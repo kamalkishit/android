@@ -35,7 +35,6 @@ public class WebBrowserActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         initialize();
-        configureListeners();
     }
 
     @Override
@@ -71,11 +70,14 @@ public class WebBrowserActivity extends AppCompatActivity {
         webView.loadUrl(intent.getStringExtra(Config.URL));
     }
 
-    private void configureListeners() {
-
+    public void setValue(int progress) {
+        this.progressBar.setProgress(progress);
+        if (progress == 100) {
+            this.progressBar.setVisibility(View.GONE);
+        }
     }
 
-    private class MyWebChromeClient extends WebChromeClient {
+    class MyWebChromeClient extends WebChromeClient {
 
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
@@ -84,7 +86,8 @@ public class WebBrowserActivity extends AppCompatActivity {
         }
     }
 
-    public class MyWebViewClient extends WebViewClient {
+    class MyWebViewClient extends WebViewClient {
+
         public boolean shuldOverrideKeyEvent (WebView view, KeyEvent event) {
             // Do something with the event here
             return true;
@@ -92,13 +95,6 @@ public class WebBrowserActivity extends AppCompatActivity {
 
         public boolean shouldOverrideUrlLoading (WebView view, String url) {
             return true;
-        }
-    }
-
-    public void setValue(int progress) {
-        this.progressBar.setProgress(progress);
-        if (progress == 100) {
-            this.progressBar.setVisibility(View.GONE);
         }
     }
 }

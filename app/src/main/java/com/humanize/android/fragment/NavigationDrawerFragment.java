@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v4.widget.DrawerLayout;
@@ -47,10 +46,11 @@ public class NavigationDrawerFragment extends Fragment {
     @Bind(R.id.updateCategories) LinearLayout updateCategories;
     @Bind(R.id.updatePaperTime) LinearLayout updatePaperTime;
     @Bind(R.id.updatePaperNotification) LinearLayout updatePaperNotification;
+    @Bind(R.id.updateNotification) LinearLayout updateNotification;
     @Bind(R.id.paper) LinearLayout paper;
     @Bind(R.id.historicPaper) LinearLayout historicPaper;
     @Bind(R.id.bookmarkedArticles) LinearLayout bookmarkedArticles;
-    @Bind(R.id.submitArticle) LinearLayout suggestArticle;
+    @Bind(R.id.submitArticle) LinearLayout submitArticle;
     @Bind(R.id.inviteFriend) LinearLayout inviteFriend;
     @Bind(R.id.shareApp) LinearLayout shareApp;
     @Bind(R.id.aboutUs) LinearLayout aboutUs;
@@ -59,6 +59,7 @@ public class NavigationDrawerFragment extends Fragment {
     @Bind(R.id.rateUs) LinearLayout rateUs;
 
     Switch paperNotificationSwitch;
+    Switch notificationSwitch;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private DrawerLayout drawerLayout;
     private View containerView;
@@ -111,7 +112,14 @@ public class NavigationDrawerFragment extends Fragment {
         ImageView imageViewUpdatePaperNotification = (ImageView) updatePaperNotification.findViewById(R.id.imageView);
         imageViewUpdatePaperNotification.setImageResource(R.drawable.ic_notification_black);
         paperNotificationSwitch = (Switch) updatePaperNotification.findViewById(R.id.paperNotificationSwitch);
-        paperNotificationSwitch.setChecked(ApplicationState.getUser().isPaperNotification());
+        paperNotificationSwitch.setChecked(ApplicationState.getUser().getPaperNotification());
+
+        TextView textViewUpdateNotification = (TextView) updateNotification.findViewById(R.id.textView);
+        textViewUpdateNotification.setText(StringConstants.NOTIFICATION);
+        ImageView imageViewUpdateNotification = (ImageView) updateNotification.findViewById(R.id.imageView);
+        imageViewUpdateNotification.setImageResource(R.drawable.ic_notification_black);
+        notificationSwitch = (Switch) updateNotification.findViewById(R.id.paperNotificationSwitch);
+        notificationSwitch.setChecked(ApplicationState.getUser().getNotification());
 
         TextView textViewPaper = (TextView) paper.findViewById(R.id.textView);
         textViewPaper.setText(StringConstants.PAPER);
@@ -128,10 +136,10 @@ public class NavigationDrawerFragment extends Fragment {
         ImageView imageViewBookmarkedArticles = (ImageView) bookmarkedArticles.findViewById(R.id.imageView);
         imageViewBookmarkedArticles.setImageResource(R.drawable.ic_bookmark_black);
 
-        TextView textViewSuggestArticle = (TextView) suggestArticle.findViewById(R.id.textView);
-        textViewSuggestArticle.setText(StringConstants.SUGGEST_ARTICLE);
-        ImageView imageViewSuggestArticle = (ImageView) suggestArticle.findViewById(R.id.imageView);
-        imageViewSuggestArticle.setImageResource(R.drawable.ic_suggest_article_black);
+        TextView textViewSubmitArticle = (TextView) submitArticle.findViewById(R.id.textView);
+        textViewSubmitArticle.setText(StringConstants.SUBMIT_ARTICLE);
+        ImageView imageViewSubmitArticle = (ImageView) submitArticle.findViewById(R.id.imageView);
+        imageViewSubmitArticle.setImageResource(R.drawable.ic_submit_article_black);
 
         TextView textViewInviteFriend = (TextView) inviteFriend.findViewById(R.id.textView);
         textViewInviteFriend.setText(StringConstants.INVITE_FRIEND);
@@ -163,6 +171,7 @@ public class NavigationDrawerFragment extends Fragment {
         updateCategories.setVisibility(View.GONE);
         updatePaperTime.setVisibility(View.GONE);
         updatePaperNotification.setVisibility(View.GONE);
+        updateNotification.setVisibility(View.GONE);
         isSettingOpened = false;
     }
 
@@ -174,11 +183,13 @@ public class NavigationDrawerFragment extends Fragment {
                         updateCategories.setVisibility(View.GONE);
                         updatePaperTime.setVisibility(View.GONE);
                         updatePaperNotification.setVisibility(View.GONE);
+                        updateNotification.setVisibility(View.GONE);
                         isSettingOpened = false;
                     } else {
                         updateCategories.setVisibility(View.VISIBLE);
                         //updatePaperTime.setVisibility(View.VISIBLE);
                         //updatePaperNotification.setVisibility(View.VISIBLE);
+                        updateNotification.setVisibility(View.VISIBLE);
                         isSettingOpened = true;
                     }
             }
@@ -204,12 +215,32 @@ public class NavigationDrawerFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 User user = ApplicationState.getUser();
-                if (user.isPaperNotification()) {
+                if (user.getPaperNotification()) {
                     paperNotificationSwitch.setChecked(false);
                     user.setPaperNotification(false);
                 } else {
                     paperNotificationSwitch.setChecked(true);
                     user.setPaperNotification(true);
+                }
+
+                try {
+                    SharedPreferencesService.getInstance().putString(Config.JSON_USER_DATA, new GsonParserServiceImpl().toJson(user));
+                } catch (Exception exception) {
+
+                }
+            }
+        });
+
+        notificationSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                User user = ApplicationState.getUser();
+                if (user.getNotification()) {
+                    notificationSwitch.setChecked(false);
+                    user.setNotification(false);
+                } else {
+                    notificationSwitch.setChecked(true);
+                    user.setNotification(true);
                 }
 
                 try {
@@ -244,10 +275,10 @@ public class NavigationDrawerFragment extends Fragment {
             }
         });
 
-        suggestArticle.setOnClickListener(new View.OnClickListener() {
+        submitArticle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    activityLauncher.startSuggestArticleActivity();
+                    activityLauncher.startSubmitArticleActivity();
                     drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });

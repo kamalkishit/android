@@ -16,7 +16,7 @@ import okhttp3.Callback;
 public interface ApiService {
 
     void inviteFriend(InviteFriend inviteFriend, Callback callback);
-    void suggestArticle(SubmitArticle submitArticle, Callback callback);
+    void submitArticle(SubmitArticle submitArticle, Callback callback);
     void contactUs(ContactUs contactUs, Callback callback);
     void getContents(ContentSearchParams contentSearchParams, Callback callback);
     void getContent(String urlId, Callback callback);

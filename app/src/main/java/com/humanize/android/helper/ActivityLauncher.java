@@ -9,7 +9,7 @@ import com.humanize.android.activity.ContactUsActivity;
 import com.humanize.android.activity.HistoricPaperActivity;
 import com.humanize.android.activity.InviteFriendActivity;
 import com.humanize.android.activity.PaperActivity;
-import com.humanize.android.activity.SelectCategoriesActivity;
+import com.humanize.android.activity.UpdateCategoriesActivity;
 import com.humanize.android.activity.SubmitArticleActivity;
 import com.humanize.android.activity.SingleCategoryContentActivity;
 import com.humanize.android.activity.UpdatePaperTimeActivity;
@@ -27,7 +27,7 @@ public class ActivityLauncher {
     }
 
     public void startUpdateCategoriesActivity() {
-        Intent intent = new Intent(ApplicationState.getAppContext(), SelectCategoriesActivity.class);
+        Intent intent = new Intent(ApplicationState.getAppContext(), UpdateCategoriesActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ApplicationState.getAppContext().startActivity(intent);
     }
@@ -63,7 +63,7 @@ public class ActivityLauncher {
         ApplicationState.getAppContext().startActivity(intent);
     }
 
-    public void startSuggestArticleActivity() {
+    public void startSubmitArticleActivity() {
         Intent intent = new Intent(ApplicationState.getAppContext(), SubmitArticleActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ApplicationState.getAppContext().startActivity(intent);

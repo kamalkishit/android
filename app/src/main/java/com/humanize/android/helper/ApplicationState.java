@@ -92,7 +92,9 @@ public class ApplicationState extends Application{
         Picasso picasso = builder.build();
         Picasso.setSingletonInstance(picasso);
 
-        Intent intent = new Intent(this, RegistrationIntentServiceImpl.class);
-        startService(intent);
+        if (!SharedPreferencesService.getInstance().getBoolean(Config.TOKEN_SENT_TO_SERVER)) {
+            Intent intent = new Intent(this, RegistrationIntentServiceImpl.class);
+            startService(intent);
+        }
     }
 }

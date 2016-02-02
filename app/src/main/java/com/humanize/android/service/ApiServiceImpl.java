@@ -24,7 +24,7 @@ public class ApiServiceImpl implements ApiService {
     private static MediaType JSON = MediaType.parse(StringConstants.MEDIA_TYPE_JSON);
 
     private static final LogService logService = new LogServiceImpl();
-    private static final String TAG = ApiServiceImpl.class.getSimpleName();
+    private static final String TAG = ApiServiceImpl.class.getName();
 
     public void inviteFriend(InviteFriend inviteFriend, Callback callback) {
         try {
@@ -34,9 +34,9 @@ public class ApiServiceImpl implements ApiService {
         }
     }
 
-    public void suggestArticle(SubmitArticle submitArticle, Callback callback) {
+    public void submitArticle(SubmitArticle submitArticle, Callback callback) {
         try {
-            post(ApiUrls.URL_SUGGEST_ARTICLE, toJson(submitArticle), callback);
+            post(ApiUrls.URL_SUBMIT_ARTICLE, toJson(submitArticle), callback);
         } catch (Exception exception) {
             logService.e(TAG, exception.getMessage());
         }

@@ -20,7 +20,7 @@ public class StringConstants {
     public static String ABOUT_US = "About Us";
     public static String RATE_US = "Rate Us";
 
-    public static String SUGGEST_ARTICLE = "Suggest Article";
+    public static String SUBMIT_ARTICLE = "Submit Article";
     public static String CATEGORIES = "Categories";
     public static String UPDATE_CATEGORIES = "Update Categories";
     public static String PAPER = "Paper";
@@ -28,6 +28,7 @@ public class StringConstants {
     public static String PAPER_TIME = "Paper Time";
     public static String UPDATE_PAPER_TIME = "UPDATE PAPER TIME";
     public static String PAPER_NOTIFICATION = "Paper Notification";
+    public static String NOTIFICATION = "Notifications";
     public static String BOOKMARKED_ARTICLES = "Bookmarked Articles";
     public static String INVITE_FRIEND = "Invite Friend";
     public static String SHARE_APP = "Share App";
@@ -62,4 +63,8 @@ public class StringConstants {
 
     public static String FILE_PROVIDER_URI = "com.humanize.android.fileprovider";
     public static String SHARED_IMAGE_NAME = "shared_image.png";
+
+    public static String TITLE = "title";
+    public static String IMAGE_URL = "imageUrl";
+    public static String URL_ID = "urlId";
 }

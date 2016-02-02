@@ -15,12 +15,14 @@ public class User {
     private List<String> bookmarks;
     private PaperTime paperTime;
     private boolean paperNotification;
+    private boolean notification;
 
     public User() {
         categories = new ArrayList<>();
         bookmarks = new ArrayList<>();
         paperTime = new PaperTime(Config.PAPER_HOUR, Config.PAPER_MINUTE);
         paperNotification = true;
+        notification = true;
 
         categories.add(StringConstants.ACHIEVERS);
         categories.add(StringConstants.BEAUTIFUL);
@@ -64,11 +66,19 @@ public class User {
         this.paperTime = paperTime;
     }
 
-    public boolean isPaperNotification() {
+    public boolean getPaperNotification() {
         return paperNotification;
     }
 
     public void setPaperNotification(boolean paperNotification) {
         this.paperNotification = paperNotification;
+    }
+
+    public boolean getNotification() {
+        return notification;
+    }
+
+    public void setNotification(boolean notification) {
+        this.notification = notification;
     }
 }

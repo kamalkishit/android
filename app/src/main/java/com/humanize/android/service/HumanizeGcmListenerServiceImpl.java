@@ -1,62 +1,74 @@
 package com.humanize.android.service;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
-import com.humanize.android.data.ClientMessage;
+import com.humanize.android.R;
+import com.humanize.android.activity.SingleContentActivity;
+import com.humanize.android.config.Config;
+import com.humanize.android.config.StringConstants;
+import com.humanize.android.helper.ApplicationState;
+
+import java.io.InputStream;
+import java.net.URL;
 
 /**
  * Created by kamal on 1/31/16.
  */
 public class HumanizeGcmListenerServiceImpl extends GcmListenerService {
 
+    private static final LogService logService = new LogServiceImpl();
     private static final String TAG = HumanizeGcmListenerServiceImpl.class.getName();
 
-    /**
-     * Called when message is received.
-     *
-     * @param from SenderID of the sender.
-     * @param data Data bundle containing message data as key/value pairs.
-     *             For Set of keys use data.keySet().
-     */
-    // [START receive_message]
     @Override
     public void onMessageReceived(String from, Bundle data) {
-        String msg = data.getString("message");
-        String id = data.getString("id");
-        String entityId = data.getString("entityId");
-        String entityType = data.getString("entityType");
-        String localId = data.getString("localId");
+        String title = data.getString(StringConstants.TITLE);
+        String imageUrl = data.getString(StringConstants.IMAGE_URL);
+        String urlId = data.getString(StringConstants.URL_ID);
 
-        String tripName = data.getString("tripName");
-        String tripId = data.getString("tripId");
-        String tripIdNew = data.getString("tripIdNew");
-
-
-
-        sendNotification(null, entityType, entityId, 0, 0);
+        if (ApplicationState.getUser().getNotification()) {
+            sendNotification(title, imageUrl, urlId);
+        }
     }
-    // [END receive_message]
 
-    /**
-     * Create and show a simple notification containing the received GCM message.
-     *
-     * @param message GCM message received.
-     */
-    private void sendNotification(ClientMessage message, String entityType, String entityId, int localId, long serverId) {
-        if (message == null) {
-            Log.e(TAG, "Message is null");
-            return;
+    private void sendNotification(String title, String imageUrl, String urlId) {
+        NotificationManager notificationManager = (NotificationManager) this.getApplicationContext().getSystemService(this.getApplicationContext().NOTIFICATION_SERVICE);
+
+        Intent intent = new Intent(ApplicationState.getAppContext(), SingleContentActivity.class);
+        intent.putExtra(Config.URL, urlId);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(ApplicationState.getAppContext(), 0, intent, 0);
+
+        Bitmap remotePicture = null;
+        Bitmap largeIcon = null;
+
+        try {
+            remotePicture = BitmapFactory.decodeStream((InputStream) new URL(imageUrl).getContent());
+            largeIcon = BitmapFactory.decodeResource(ApplicationState.getAppContext().getResources(), R.drawable.ic_launcher);
+        } catch (Exception exception) {
+            logService.e(TAG, exception.getMessage());
         }
 
-        PendingIntent pendingIntent = null;
-        PendingIntent cancelPendingIntent = null;
-        Intent intent, cancelIntent;
+        Notification notification = new Notification.Builder(ApplicationState.getAppContext())
+                .setContentTitle("")
+                .setContentText(title)
+                .setSmallIcon(R.drawable.ic_humanize)
+                .setLargeIcon(largeIcon)
+                .setAutoCancel(true)
+                .setStyle(new Notification.BigPictureStyle()
+                        .bigPicture(remotePicture).setBigContentTitle(title))
+                .build();
 
-
+        notification.contentIntent = pendingIntent;
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        notificationManager.notify(0, notification);
     }
 }
 
