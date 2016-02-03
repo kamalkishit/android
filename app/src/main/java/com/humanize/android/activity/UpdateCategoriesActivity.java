@@ -43,18 +43,16 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
     private Category health;
     private Category humanity;
     private Category inspiring;
-    private Category kindness;
     private Category lawAndJustice;
     private Category realHeroes;
     private Category scienceAndTech;
-    private Category smile;
     private Category sports;
     private Button submitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_categories2);
+        setContentView(R.layout.activity_update_categories);
         overridePendingTransition(R.anim.slide_right_to_left, R.anim.slide_right_to_left);
 
         ButterKnife.bind(this);
@@ -131,10 +129,6 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
         inspiring.textView = (TextView) findViewById(R.id.inspiring);
         inspiring.categoryStr = StringConstants.INSPIRING;
 
-        kindness = new Category();
-        kindness.textView = (TextView) findViewById(R.id.kindness);
-        kindness.categoryStr = StringConstants.KINDNESS;
-
         lawAndJustice = new Category();
         lawAndJustice.textView = (TextView) findViewById(R.id.lawAndJustice);
         lawAndJustice.categoryStr = StringConstants.LAW_AND_JUSTICE;
@@ -146,10 +140,6 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
         scienceAndTech = new Category();
         scienceAndTech.textView = (TextView) findViewById(R.id.scienceAndTech);
         scienceAndTech.categoryStr = StringConstants.SCIENCE_AND_TECH;
-
-        smile = new Category();
-        smile.textView = (TextView) findViewById(R.id.smile);
-        smile.categoryStr = StringConstants.SMILE;
 
         sports = new Category();
         sports.textView = (TextView) findViewById(R.id.sports);
@@ -274,16 +264,6 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
             }
         });
 
-        kindness.textView.setOnClickListener(new android.view.View.OnClickListener() {
-            public void onClick(View view) {
-                if (kindness.isSelected) {
-                    unselectCategory(kindness);
-                } else {
-                    selectCategory(kindness);
-                }
-            }
-        });
-
         lawAndJustice.textView.setOnClickListener(new android.view.View.OnClickListener() {
             public void onClick(View view) {
                 if (lawAndJustice.isSelected) {
@@ -310,16 +290,6 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
                     unselectCategory(scienceAndTech);
                 } else {
                     selectCategory(scienceAndTech);
-                }
-            }
-        });
-
-        smile.textView.setOnClickListener(new android.view.View.OnClickListener() {
-            public void onClick(View view) {
-                if (smile.isSelected) {
-                    unselectCategory(smile);
-                } else {
-                    selectCategory(smile);
                 }
             }
         });
@@ -395,10 +365,6 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
                 selectCategory(inspiring);
             }
 
-            if (user.getCategories().contains(StringConstants.KINDNESS)) {
-                selectCategory(kindness);
-            }
-
             if (user.getCategories().contains(StringConstants.REAL_HEROES)) {
                 selectCategory(realHeroes);
             }
@@ -409,10 +375,6 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
 
             if (user.getCategories().contains(StringConstants.SCIENCE_AND_TECH)) {
                 selectCategory(scienceAndTech);
-            }
-
-            if (user.getCategories().contains(StringConstants.SMILE)) {
-                selectCategory(smile);
             }
 
             if (user.getCategories().contains(StringConstants.SPORTS)) {

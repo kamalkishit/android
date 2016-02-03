@@ -42,9 +42,9 @@ public class HumanizeGcmListenerServiceImpl extends GcmListenerService {
 
         Intent intent = new Intent(ApplicationState.getAppContext(), SingleContentActivity.class);
         intent.putExtra(Config.URL, urlId);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(ApplicationState.getAppContext(), 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(ApplicationState.getAppContext(), 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
         Bitmap remotePicture = null;
         Bitmap largeIcon = null;
@@ -57,7 +57,7 @@ public class HumanizeGcmListenerServiceImpl extends GcmListenerService {
         }
 
         Notification notification = new Notification.Builder(ApplicationState.getAppContext())
-                .setContentTitle("HUMANIZE")
+                .setContentTitle(StringConstants.HUMANIZE)
                 .setContentText(title)
                 .setSmallIcon(R.drawable.ic_humanize)
                 //.setLargeIcon(largeIcon)

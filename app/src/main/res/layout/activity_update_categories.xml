@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorGrey"
     android:fitsSystemWindows="true">
 
     <ScrollView
@@ -28,446 +28,276 @@
                 </include>
             </android.support.design.widget.AppBarLayout>
 
-            <!--<LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginLeft="@dimen/widthlarge"
-                android:layout_marginRight="@dimen/widthlarge">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <Button
-                        android:id="@+id/achievers"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/border_button_selector"
-                        android:layout_marginRight="@dimen/widthMedium"
-                        android:paddingBottom="4dp"
-                        android:text="Achievers"
-                        android:textColor="@color/colorBlack"
-                        android:drawableLeft="@drawable/ic_achivers_black"
-                        android:textAllCaps="false"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1.0" />
-
-                    <Button
-                        android:id="@+id/beautiful"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="4dp"
-                        android:background="@drawable/border_button_selector"
-                        android:layout_marginRight="@dimen/widthMedium"
-                        android:text="Beautiful"
-                        android:textColor="@color/colorBlack"
-                        android:drawableLeft="@drawable/ic_beautiful_black"
-                        android:textAllCaps="false"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1.0" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <Button
-                        android:id="@+id/education"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/border_button_selector"
-                        android:paddingBottom="4dp"
-                        android:text="Education"
-                        android:textColor="@color/colorBlack"
-                        android:drawableLeft="@drawable/ic_education_black"
-                        android:textAllCaps="false"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1.0" />
-
-                    <Button
-                        android:id="@+id/empowerment"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/border_button_green"
-                        android:layout_marginRight="@dimen/widthMedium"
-                        android:paddingBottom="4dp"
-                        android:text="Empowerment"
-                        android:textColor="@color/colorBlack"
-                        android:drawableLeft="@drawable/ic_empowerment_black"
-                        android:textAllCaps="false"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1.0" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <Button
-                        android:id="@+id/environment"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/border_button_green"
-                        android:layout_marginRight="@dimen/widthMedium"
-                        android:paddingBottom="4dp"
-                        android:text="Environment"
-                        android:textColor="@color/colorBlack"
-                        android:drawableLeft="@drawable/ic_environment_black"
-                        android:textAllCaps="false"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1.0" />
-
-                    <Button
-                        android:id="@+id/governance"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/border_button_green"
-                        android:paddingBottom="4dp"
-                        android:text="Governance"
-                        android:textColor="@color/colorBlack"
-                        android:drawableLeft="@drawable/ic_governance_black"
-                        android:textAllCaps="false"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1.0" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <Button
-                        android:id="@+id/health"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/border_button_green"
-                        android:layout_marginRight="@dimen/widthMedium"
-                        android:paddingBottom="4dp"
-                        android:text="Health"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:textColor="@color/colorBlack"
-                        android:drawableLeft="@drawable/ic_health_black"
-                        android:textAllCaps="false"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1.0" />
-
-                    <Button
-                        android:id="@+id/humanity"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/border_button_green"
-                        android:layout_marginRight="@dimen/widthMedium"
-                        android:paddingBottom="4dp"
-                        android:text="Humanity"
-                        android:textColor="@color/colorBlack"
-                        android:drawableLeft="@drawable/ic_health_black"
-                        android:textAllCaps="false"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1.0" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <Button
-                        android:id="@+id/lawAndJustice"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/border_button_green"
-                        android:paddingBottom="4dp"
-                        android:text="Law and Justice"
-                        android:textColor="@color/colorBlack"
-                        android:drawableLeft="@drawable/ic_law_justice_black"
-                        android:textAllCaps="false"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1.0" />
-
-                    <Button
-                        android:id="@+id/realHeroes"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/border_button_green"
-                        android:layout_marginRight="@dimen/widthMedium"
-                        android:paddingBottom="4dp"
-                        android:text="Real Heroes"
-                        android:textColor="@color/colorBlack"
-                        android:drawableLeft="@drawable/ic_real_heroes_black"
-                        android:textAllCaps="false"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1.0" />
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <Button
-                        android:id="@+id/scienceAndTech"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/border_button_green"
-                        android:layout_marginRight="@dimen/widthMedium"
-                        android:paddingBottom="4dp"
-                        android:text="Science and Tech"
-                        android:textColor="@color/colorBlack"
-                        android:drawableLeft="@drawable/ic_science_tech_black"
-                        android:textAllCaps="false"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1.0" />
-
-                    <Button
-                        android:id="@+id/sports"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/border_button_green"
-                        android:paddingBottom="4dp"
-                        android:text="Sports"
-                        android:textColor="@color/colorBlack"
-                        android:drawableLeft="@drawable/ic_sports_black"
-                        android:textAllCaps="false"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1.0" />
-                </LinearLayout>
-            </LinearLayout> -->
-
-            <!--<LinearLayout
+            <LinearLayout
                 android:orientation="vertical"
                 android:layout_marginLeft="@dimen/widthLarge"
                 android:layout_marginRight="@dimen/widthLarge"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="40dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:orientation="horizontal"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <Button
+                    <TextView
                         android:id="@+id/achievers"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/border_button_selector"
-                        android:layout_marginRight="@dimen/widthMedium"
+                        android:layout_marginLeft="@dimen/largeMargin"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="4dp"
                         android:paddingBottom="4dp"
-                        android:text="Achievers"
-                        android:textColor="@color/colorAccent"
-                        android:drawableTop="@drawable/ic_achivers_green"
-                        android:textAllCaps="false"
+                        android:background="@drawable/border_button_dark_grey"
+                        android:text="ACHIEVERS"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1.0" />
+                        android:textColor="@color/colorDarkGrey" />
 
-                    <Button
+                    <TextView
                         android:id="@+id/beautiful"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/largeMargin"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="4dp"
                         android:paddingBottom="4dp"
-                        android:background="@drawable/border_button_selector"
-                        android:layout_marginRight="@dimen/widthMedium"
-                        android:text="Beautiful"
-                        android:textColor="@color/colorAccent"
-                        android:drawableTop="@drawable/ic_beautiful_green"
-                        android:textAllCaps="false"
+                        android:background="@drawable/border_button_dark_grey"
+                        android:text="BEAUTIFUL"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1.0" />
+                        android:textColor="@color/colorDarkGrey" />
 
-                    <Button
+                    </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/mediumMargin">
+
+                    <TextView
+                        android:id="@+id/changemakers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/largeMargin"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:background="@drawable/border_button_dark_grey"
+                        android:text="CHANGEMAKERS"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/colorDarkGrey" />
+
+                    <TextView
                         android:id="@+id/education"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/border_button_selector"
+                        android:layout_marginLeft="@dimen/largeMargin"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="4dp"
                         android:paddingBottom="4dp"
-                        android:text="Education"
-                        android:textColor="@color/colorAccent"
-                        android:drawableTop="@drawable/ic_education_green"
-                        android:textAllCaps="false"
+                        android:background="@drawable/border_button_dark_grey"
+                        android:text="EDUCATION"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1.0" />
-                </LinearLayout>
+                        android:textColor="@color/colorDarkGrey" />
+
+                    </LinearLayout>
 
                 <LinearLayout
                     android:orientation="horizontal"
-                    android:layout_marginTop="@dimen/widthMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/mediumMargin">
 
-                    <Button
+                    <TextView
                         android:id="@+id/empowerment"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/border_button_green"
-                        android:layout_marginRight="@dimen/widthMedium"
+                        android:layout_marginLeft="@dimen/largeMargin"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="4dp"
                         android:paddingBottom="4dp"
-                        android:text="Empowerment"
-                        android:textColor="@color/colorAccent"
-                        android:drawableTop="@drawable/ic_empowerment_green"
-                        android:textAllCaps="false"
+                        android:background="@drawable/border_button_dark_grey"
+                        android:text="EMPOWERMENT"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1.0" />
+                        android:textColor="@color/colorDarkGrey" />
 
-                    <Button
+                    <TextView
                         android:id="@+id/environment"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/border_button_green"
-                        android:layout_marginRight="@dimen/widthMedium"
+                        android:layout_marginLeft="@dimen/largeMargin"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="4dp"
                         android:paddingBottom="4dp"
-                        android:text="Environment"
-                        android:textColor="@color/colorAccent"
-                        android:drawableTop="@drawable/ic_environment_green"
-                        android:textAllCaps="false"
+                        android:background="@drawable/border_button_dark_grey"
+                        android:text="ENVIRONMENT"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1.0" />
+                        android:textColor="@color/colorDarkGrey" />
+                    </LinearLayout>
 
-                    <Button
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/mediumMargin">
+
+                    <TextView
                         android:id="@+id/governance"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/border_button_green"
+                        android:layout_marginLeft="@dimen/largeMargin"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="4dp"
                         android:paddingBottom="4dp"
-                        android:text="Governance"
-                        android:textColor="@color/colorAccent"
-                        android:drawableTop="@drawable/ic_governance_green"
-                        android:textAllCaps="false"
+                        android:background="@drawable/border_button_dark_grey"
+                        android:text="GOVERNANCE"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1.0" />
-                </LinearLayout>
+                        android:textColor="@color/colorDarkGrey" />
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_marginTop="@dimen/widthMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <android.support.v7.widget.AppCompatButton
+                    <TextView
                         android:id="@+id/health"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/border_button_green"
-                        android:layout_marginRight="@dimen/widthMedium"
+                        android:layout_marginLeft="@dimen/largeMargin"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="4dp"
                         android:paddingBottom="4dp"
-                        android:text="Health"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:textColor="@color/colorAccent"
-                        android:drawableTop="@drawable/ic_health_green"
-                        android:textAllCaps="false"
+                        android:background="@drawable/border_button_dark_grey"
+                        android:text="HEALTH"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1.0" />
-
-                    <Button
-                        android:id="@+id/humanity"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/border_button_green"
-                        android:layout_marginRight="@dimen/widthMedium"
-                        android:paddingBottom="4dp"
-                        android:text="Humanity"
-                        android:textColor="@color/colorAccent"
-                        android:drawableTop="@drawable/ic_humanity_green"
-                        android:textAllCaps="false"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1.0" />
-
-                    <Button
-                        android:id="@+id/lawAndJustice"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/border_button_green"
-                        android:paddingBottom="4dp"
-                        android:text="Law \u0026 Justice"
-                        android:textColor="@color/colorAccent"
-                        android:drawableTop="@drawable/ic_law_justice_green"
-                        android:textAllCaps="false"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1.0" />
+                        android:textColor="@color/colorDarkGrey" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="@dimen/widthMedium"
-                    android:layout_height="wrap_content">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/mediumMargin">
 
-                    <Button
-                        android:id="@+id/realHeroes"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/humanity"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/border_button_green"
-                        android:layout_marginRight="@dimen/widthMedium"
+                        android:layout_marginLeft="@dimen/largeMargin"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="4dp"
                         android:paddingBottom="4dp"
-                        android:text="Real Heroes"
-                        android:textColor="@color/colorAccent"
-                        android:drawableTop="@drawable/ic_real_heros_green"
-                        android:textAllCaps="false"
+                        android:background="@drawable/border_button_dark_grey"
+                        android:text="HUMANITY"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1.0" />
+                        android:textColor="@color/colorDarkGrey" />
 
-                    <Button
-                        android:id="@+id/scienceAndTech"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/inspiring"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/border_button_green"
-                        android:layout_marginRight="@dimen/widthMedium"
+                        android:layout_marginLeft="@dimen/largeMargin"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="4dp"
                         android:paddingBottom="4dp"
-                        android:text="Science \u0026 Tech"
-                        android:textColor="@color/colorAccent"
-                        android:drawableTop="@drawable/ic_science_tech_green"
-                        android:textAllCaps="false"
+                        android:background="@drawable/border_button_dark_grey"
+                        android:text="INSPIRING"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1.0" />
-
-                    <Button
-                        android:id="@+id/sports"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/border_button_green"
-                        android:paddingBottom="4dp"
-                        android:text="Sports"
-                        android:textColor="@color/colorAccent"
-                        android:drawableTop="@drawable/ic_sports_green"
-                        android:textAllCaps="false"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_weight="1.0" />
+                        android:textColor="@color/colorDarkGrey" />
                 </LinearLayout>
 
-            </LinearLayout> -->
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/mediumMargin">
 
-            <CheckBox android:id="@+id/selectAllCheckbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="32dp"
-                android:buttonTint="@color/colorAccent"
-                android:onClick="onCheckboxClicked"
-                android:scaleX=".8"
-                android:scaleY=".8"
-                android:text="Select all"
-                android:textColor="@color/colorAccent" />
+                    <TextView
+                        android:id="@+id/lawAndJustice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/largeMargin"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:background="@drawable/border_button_dark_grey"
+                        android:text="KINDNESS"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/colorDarkGrey" />
 
-            <android.support.v7.widget.AppCompatButton
-                android:textAppearance="?android:textAppearanceMedium"
-                android:textStyle="normal"
-                android:textColor="@color/colorWhite"
-                android:id="@+id/submitButton"
-                android:clickable="false"
-                android:background="@drawable/button_selector"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:layout_marginLeft="@dimen/largeMargin"
-                android:layout_marginRight="@dimen/largeMargin"
-                android:layout_marginBottom="40dp"
-                android:text="SAVE" />
+                    <TextView
+                        android:id="@+id/realHeroes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/largeMargin"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:background="@drawable/border_button_dark_grey"
+                        android:text="LAW \u0026 JUSTICE"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/colorDarkGrey" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/mediumMargin">
+
+                    <TextView
+                        android:id="@+id/scienceAndTech"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/largeMargin"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:background="@drawable/border_button_dark_grey"
+                        android:text="REAL HEROES"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/colorDarkGrey" />
+
+                    <TextView
+                        android:id="@+id/sports"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/largeMargin"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:background="@drawable/border_button_dark_grey"
+                        android:text="SCIENCE \u0026 TECH"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/colorDarkGrey" />
+                </LinearLayout>
+
+                <android.support.v7.widget.AppCompatButton
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textStyle="normal"
+                    android:textColor="@color/colorWhite"
+                    android:id="@+id/submitButton"
+                    android:clickable="false"
+                    android:background="@drawable/button_selector"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginLeft="@dimen/largeMargin"
+                    android:layout_marginRight="@dimen/largeMargin"
+                    android:layout_marginBottom="40dp"
+                    android:text="UPDATE" >
+                    </android.support.v7.widget.AppCompatButton>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
 </android.support.design.widget.CoordinatorLayout>

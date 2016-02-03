@@ -171,7 +171,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             contentSharedCount = (TextView) view.findViewById(R.id.sharedCount);
             shareButton = (Button) view.findViewById(R.id.shareButton);
 
-            //linearLayoutCounts.setVisibility(View.GONE);
+            linearLayoutCounts.setVisibility(View.GONE);
             configureListeners();
 
             view.setOnClickListener(this);

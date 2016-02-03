@@ -27,7 +27,7 @@ android {
         applicationId "com.humanize.app"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 4
+        versionCode 5
         versionName "1.0.0"
     }
 
