@@ -23,8 +23,11 @@ import java.net.URL;
  */
 public class HumanizeGcmListenerServiceImpl extends GcmListenerService {
 
+    private static int notificationId = 0;
+
     private static final LogService logService = new LogServiceImpl();
     private static final String TAG = HumanizeGcmListenerServiceImpl.class.getName();
+
 
     @Override
     public void onMessageReceived(String from, Bundle data) {
@@ -44,7 +47,9 @@ public class HumanizeGcmListenerServiceImpl extends GcmListenerService {
         intent.putExtra(Config.URL, urlId);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(ApplicationState.getAppContext(), 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        notificationId++;
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(ApplicationState.getAppContext(), notificationId, intent, PendingIntent.FLAG_ONE_SHOT);
 
         Bitmap remotePicture = null;
         Bitmap largeIcon = null;
@@ -68,7 +73,7 @@ public class HumanizeGcmListenerServiceImpl extends GcmListenerService {
 
         notification.contentIntent = pendingIntent;
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
-        notificationManager.notify(0, notification);
+        notificationManager.notify(notificationId, notification);
     }
 }
 
