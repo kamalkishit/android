@@ -228,7 +228,7 @@
                         android:paddingTop="4dp"
                         android:paddingBottom="4dp"
                         android:background="@drawable/border_button_dark_grey"
-                        android:text="KINDNESS"
+                        android:text="LAW \u0026 JUSTICE"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/colorDarkGrey" />
 
@@ -242,7 +242,7 @@
                         android:paddingTop="4dp"
                         android:paddingBottom="4dp"
                         android:background="@drawable/border_button_dark_grey"
-                        android:text="LAW \u0026 JUSTICE"
+                        android:text="Real Heroes"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/colorDarkGrey" />
                 </LinearLayout>
@@ -263,7 +263,7 @@
                         android:paddingTop="4dp"
                         android:paddingBottom="4dp"
                         android:background="@drawable/border_button_dark_grey"
-                        android:text="REAL HEROES"
+                        android:text="SCIENCE \u0026 TECH"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/colorDarkGrey" />
 
@@ -277,7 +277,7 @@
                         android:paddingTop="4dp"
                         android:paddingBottom="4dp"
                         android:background="@drawable/border_button_dark_grey"
-                        android:text="SCIENCE \u0026 TECH"
+                        android:text="Sports"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/colorDarkGrey" />
                 </LinearLayout>

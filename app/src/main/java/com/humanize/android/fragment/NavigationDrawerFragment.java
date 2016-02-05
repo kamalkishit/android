@@ -139,7 +139,7 @@ public class NavigationDrawerFragment extends Fragment {
         TextView textViewSubmitArticle = (TextView) submitArticle.findViewById(R.id.textView);
         textViewSubmitArticle.setText(StringConstants.SUBMIT_ARTICLE);
         ImageView imageViewSubmitArticle = (ImageView) submitArticle.findViewById(R.id.imageView);
-        imageViewSubmitArticle.setImageResource(R.drawable.ic_submit_article_black);
+        imageViewSubmitArticle.setImageResource(R.drawable.ic_edit_black);
 
         TextView textViewInviteFriend = (TextView) inviteFriend.findViewById(R.id.textView);
         textViewInviteFriend.setText(StringConstants.INVITE_FRIEND);
