@@ -17,7 +17,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/mediumMargin"
+        android:layout_marginTop="@dimen/extraLargeMargin"
+        android:layout_marginBottom="@dimen/largeMargin"
+        android:layout_marginLeft="@dimen/mediumMargin"
+        android:layout_marginRight="@dimen/mediumMargin"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Feedback sent successfully."
         android:gravity="center"/>

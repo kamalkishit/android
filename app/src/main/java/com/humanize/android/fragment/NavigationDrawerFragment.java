@@ -388,37 +388,11 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     private void share() {
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.humanize_share);
-
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, Constants.IMAGE_QUALITY_VALUE, byteArrayOutputStream);
-
-        String filename = StringConstants.SHARED_IMAGE_NAME;
-        File cacheFile = new File(ApplicationState.getAppContext().getCacheDir() + File.separator + filename);
-
-        try {
-            if (!cacheFile.exists()) {
-                cacheFile.createNewFile();
-            }
-
-            byte[] bytes = byteArrayOutputStream.toByteArray();
-            FileOutputStream fileOutputStream = new FileOutputStream(cacheFile);
-            fileOutputStream.write(bytes);
-            fileOutputStream.flush();
-            fileOutputStream.close();
-        } catch (Exception exception) {
-
-        }
-
-        Uri imageUri = FileProvider.getUriForFile(ApplicationState.getAppContext(), StringConstants.FILE_PROVIDER_URI, cacheFile);
-
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("image/*");
-        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+        shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Join HUMANIZE");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id=com.humanize.app");
         shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out HUMANIZE app to know what good is happening around" + "\n" + "https://play.google.com/store/apps/details?id=com.humanize.app");
         ApplicationState.getAppContext().startActivity(shareIntent);
     }
 }

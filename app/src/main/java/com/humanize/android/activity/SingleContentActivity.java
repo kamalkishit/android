@@ -23,6 +23,8 @@ import android.widget.TextView;
 import com.humanize.android.config.Config;
 import com.humanize.android.service.ApiServiceImpl;
 import com.humanize.android.helper.ContentRecyclerViewAdapter;
+import com.humanize.android.service.ContentService;
+import com.humanize.android.service.ContentServiceImpl;
 import com.humanize.android.service.GsonParserServiceImpl;
 import com.humanize.android.service.JsonParserService;
 import com.humanize.android.R;
@@ -55,6 +57,7 @@ public class SingleContentActivity extends AppCompatActivity {
 
     private JsonParserService jsonParserService;
     private ApiService apiService;
+    private ContentService contentService;
     private ContentRecyclerViewAdapter contentRecyclerViewAdapter;
     private LinearLayoutManager linearLayoutManager;
 
@@ -99,6 +102,7 @@ public class SingleContentActivity extends AppCompatActivity {
     private void initialize() {
         jsonParserService = new GsonParserServiceImpl();
         apiService = new ApiServiceImpl();
+        contentService = new ContentServiceImpl();
         circularProgressBar.setVisibility(View.GONE);
         toolbarText.setText(getIntent().getStringExtra(StringConstants.CATEGORY));
 
@@ -157,6 +161,7 @@ public class SingleContentActivity extends AppCompatActivity {
             Contents contents = jsonParserService.fromJson(response, Contents.class);
             SingleContentActivity.contents = contents;
             contentRecyclerViewAdapter.setContents(SingleContentActivity.contents.getContents());
+            contentService.incrViewedCount(contents.getContents().get(0));
             contentRecyclerViewAdapter.notifyDataSetChanged();
         } catch (Exception exception) {
             logService.e(TAG, exception.getMessage());

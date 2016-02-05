@@ -193,7 +193,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             shareButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    share(activity);
+                    share();
                 }
             });
 
@@ -252,17 +252,6 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             }
         }
 
-        private void share(Activity activity) {
-            contentImage.setDrawingCacheEnabled(true);
-            /*if (ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(activity);
-            } else {
-                share();
-            }*/
-
-            share();
-        }
-
         public void onClick(View view) {
             contentService.incrViewedCount(content);
             updateViewedCount();
@@ -274,39 +263,13 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         }
 
         private void share() {
-            Bitmap bitmap = Bitmap.createBitmap(contentImage.getDrawingCache());
-
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, Constants.IMAGE_QUALITY_VALUE, byteArrayOutputStream);
-
-            String filename = StringConstants.SHARED_IMAGE_NAME;
-            File cacheFile = new File(ApplicationState.getAppContext().getCacheDir() + File.separator + filename);
-
-            try {
-                if (!cacheFile.exists()) {
-                    cacheFile.createNewFile();
-                }
-
-                byte[] bytes = byteArrayOutputStream.toByteArray();
-                FileOutputStream fileOutputStream = new FileOutputStream(cacheFile);
-                fileOutputStream.write(bytes);
-                fileOutputStream.flush();
-                fileOutputStream.close();
-            } catch (Exception exception) {
-
-            }
-
-            Uri imageUri = FileProvider.getUriForFile(ApplicationState.getAppContext(), StringConstants.FILE_PROVIDER_URI, cacheFile);
-
             contentService.incrSharedCount(content);
 
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
-            shareIntent.setType("image/*");
+            shareIntent.setType("text/plain");
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, StringConstants.HUMANIZE);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, content.getUrl());
             shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
-            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            shareIntent.putExtra(Intent.EXTRA_TEXT, content.getTitle() + "\n" + content.getShortUrl() + "\n" + StringConstants.HUMANIZE_SHARE_STR);
             ApplicationState.getAppContext().startActivity(shareIntent);
         }
 
