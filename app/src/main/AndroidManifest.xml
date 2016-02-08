@@ -4,36 +4,37 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    <permission android:name="com.humanize.android.permission.C2D_MESSAGE"
+
+    <permission
+        android:name="com.humanize.android.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="com.humanize.android.permission.C2D_MESSAGE" />
 
     <application
-        android:name="com.humanize.android.helper.ApplicationState"
+        android:name=".helper.ApplicationState"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Humanize">
         <activity
-            android:name="com.humanize.android.activity.AppLauncherActivity"
+            android:name=".activity.AppLauncherActivity"
             android:label="Humanize"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.humanize.android.activity.CardActivity"
+            android:name=".activity.CardActivity"
             android:label="HUMANIZE"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
         <activity
-            android:name="com.humanize.android.activity.WebBrowserActivity"
+            android:name=".activity.WebBrowserActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
@@ -43,28 +44,28 @@
             android:value="03639786c99eae8b1629cad76bcef8cb5ffa2aeb" />
 
         <activity
-            android:name="com.humanize.android.activity.SubmitArticleActivity"
+            android:name=".activity.SubmitArticleActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme"
             android:windowSoftInputMode="stateVisible" />
         <activity
-            android:name="com.humanize.android.activity.AboutUsActivity"
+            android:name=".activity.AboutUsActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
         <activity
-            android:name="com.humanize.android.activity.ContactUsActivity"
+            android:name=".activity.ContactUsActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme"
             android:windowSoftInputMode="stateVisible" />
         <activity
-            android:name="com.humanize.android.activity.SingleCategoryContentActivity"
+            android:name=".activity.SingleCategoryContentActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
         <activity
-            android:name="com.humanize.android.activity.InviteFriendActivity"
+            android:name=".activity.InviteFriendActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme"
@@ -75,7 +76,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
         <activity
-            android:name="com.humanize.android.activity.SingleContentActivity"
+            android:name=".activity.SingleContentActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme">
             <intent-filter>
@@ -89,7 +90,6 @@
                     android:pathPrefix="/content/"
                     android:scheme="http" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -103,31 +103,38 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.humanize.android.activity.BookmarksActivity"
+            android:name=".activity.BookmarksActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
         <activity
-            android:name="com.humanize.android.activity.PaperActivity"
+            android:name=".activity.PaperActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
         <activity
-            android:name="com.humanize.android.activity.HistoricPaperActivity"
+            android:name=".activity.HistoricPaperActivity"
             android:label="@string/title_activity_historic_paper"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="com.humanize.android.activity.UpdatePaperTimeActivity"
+            android:name=".activity.UpdatePaperTimeActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/MaterialDesignTheme"></activity>
+
+        <activity
+            android:name=".activity.UserProfileActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme">
+
         </activity>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.humanize.android.fileprovider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
@@ -136,33 +143,34 @@
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
                 <category android:name="com.humanize.android" />
             </intent-filter>
         </receiver>
+
         <service
-            android:name="com.humanize.android.service.HumanizeGcmListenerServiceImpl"
-            android:exported="false" >
+            android:name=".service.HumanizeGcmListenerServiceImpl"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
         <service
-            android:name="com.humanize.android.service.HumanizeInstanceIDListenerServiceImpl"
+            android:name=".service.HumanizeInstanceIDListenerServiceImpl"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
-        <service
-            android:name="com.humanize.android.service.RegistrationIntentServiceImpl">
+        <service android:name=".service.RegistrationIntentServiceImpl">
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
-
     </application>
+
 </manifest>

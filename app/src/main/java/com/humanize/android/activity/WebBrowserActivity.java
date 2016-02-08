@@ -67,6 +67,7 @@ public class WebBrowserActivity extends AppCompatActivity {
         webView.setWebChromeClient(new MyWebChromeClient());
         webView.setWebViewClient(new MyWebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(false);
         webView.loadUrl(intent.getStringExtra(Config.URL));
     }
 

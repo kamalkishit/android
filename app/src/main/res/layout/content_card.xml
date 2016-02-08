@@ -116,7 +116,6 @@
                 android:id="@+id/contentDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Date"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorBlack" />
 
@@ -125,7 +124,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:text="Source"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorBlack" />
             </RelativeLayout>
@@ -171,6 +169,19 @@
 
             <TextView
                 android:id="@+id/viewsCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/mediumMargin"
+                android:text="0" />
+
+            <ImageView
+                android:layout_width="@dimen/mediumMargin"
+                android:layout_height="@dimen/mediumMargin"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/ic_recomend_filled_grey" />
+
+            <TextView
+                android:id="@+id/recommendationsCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/mediumMargin"

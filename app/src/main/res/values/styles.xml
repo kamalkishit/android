@@ -1,5 +1,7 @@
 <resources>
+
     <style name="MaterialDesignTheme" parent="MaterialDesignTheme.Base"></style>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar"></style>
 
     <style name="MaterialDesignTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
@@ -23,5 +25,6 @@
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
