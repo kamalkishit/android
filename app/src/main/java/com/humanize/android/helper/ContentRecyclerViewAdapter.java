@@ -117,6 +117,12 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             viewHolder.contentViewedCount.setText("0");
         }
 
+        if (content.getUpvotedCount() > 0) {
+            viewHolder.contentUpvotedCount.setText("" + content.getUpvotedCount());
+        } else {
+            viewHolder.contentUpvotedCount.setText("0");
+        }
+
         if (content.getSharedCount() > 0) {
             viewHolder.contentSharedCount.setText("" + content.getSharedCount());
         } else {
@@ -232,7 +238,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
 
         private void bookmark() {
             if (userService.isBookmarked(content.getId())) {
-                userService.bookmark(contentId);
+                userService.unbookmark(contentId);
                 updateJson(Config.JSON_BOOKMARKED_CONTENTS, content, false);
                 bookmarkButton.setImageDrawable(ApplicationState.getAppContext().getResources().getDrawable(R.drawable.ic_bookmark_filled_grey));
             } else {
@@ -252,7 +258,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
 
         private void upvote() {
             if (userService.isUpvoted(content.getId())) {
-                userService.upvote(contentId);
+                userService.downvote(contentId);
                 contentService.decrUpvotedCount(content);
                 updateJson(Config.JSON_UPVOTED_CONTENTS, content, false);
                 upvoteButton.setImageDrawable(ApplicationState.getAppContext().getResources().getDrawable(R.drawable.ic_recomend_filled_grey));
@@ -290,8 +296,10 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
                     contents.removeContent(content);
                 }
 
-                json = new GsonParserServiceImpl().toJson(contents);
-                SharedPreferencesService.getInstance().putString(jsonKey, json);
+                String contentJson = new GsonParserServiceImpl().toJson(contents);
+                SharedPreferencesService.getInstance().putString(jsonKey, contentJson);
+                String userDataJson = new GsonParserServiceImpl().toJson(ApplicationState.getUser());
+                SharedPreferencesService.getInstance().putString(Config.JSON_USER_DATA, userDataJson);
             } catch (Exception exception) {
 
             }

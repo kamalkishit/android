@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.humanize.android.data.Content;
 import com.humanize.android.helper.ContentRecyclerViewAdapter;
 import com.humanize.android.service.JsonParserService;
 import com.humanize.android.R;
@@ -18,6 +19,10 @@ import com.humanize.android.config.StringConstants;
 import com.humanize.android.data.Contents;
 import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.config.Config;
+import com.humanize.android.service.UserService;
+import com.humanize.android.service.UserServiceImpl;
+
+import java.util.Iterator;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,6 +37,7 @@ public class BookmarksActivity extends AppCompatActivity {
     @Bind(R.id.toolbarText) TextView toolbarText;
 
     private JsonParserService jsonParserService;
+    private UserService userService;
     private ContentRecyclerViewAdapter contentRecyclerViewAdapter;
 
     private static String TAG = BookmarksActivity.class.getSimpleName();
@@ -72,6 +78,7 @@ public class BookmarksActivity extends AppCompatActivity {
 
     private void initialize() {
         jsonParserService = new GsonParserServiceImpl();
+        userService = new UserServiceImpl();
         toolbarText.setText(StringConstants.BOOKMARKED_ARTICLES);
 
         toolbar.setCollapsible(true);
@@ -92,7 +99,17 @@ public class BookmarksActivity extends AppCompatActivity {
 
         try {
             if (SharedPreferencesService.getInstance().getString(Config.JSON_BOOKMARKED_CONTENTS) != null) {
-                BookmarksActivity.contents = jsonParserService.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_BOOKMARKED_CONTENTS), Contents.class);
+                Contents contents = jsonParserService.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_BOOKMARKED_CONTENTS), Contents.class);
+
+                Iterator<Content> iterator = contents.getContents().iterator();
+                while(iterator.hasNext()) {
+                    Content content = iterator.next();
+                    if (!userService.isBookmarked(content.getId())) {
+                        iterator.remove();
+                    }
+                }
+
+                BookmarksActivity.contents = contents;
                 contentRecyclerViewAdapter.setContents(BookmarksActivity.contents.getContents());
                 contentRecyclerViewAdapter.notifyDataSetChanged();
             }

@@ -52,7 +52,7 @@ public class ContentServiceImpl implements ContentService {
     public void decrUpvotedCount(Content content) {
         content.setUpvotedCount(content.getUpvotedCount() - 1);
         content.setViewedCount(content.getViewedCount() + 1);
-        //decrUpvotedCount(content.getId());
+        decrUpvotedCount(content.getId());
     }
 
     private void incrViewedCount(String contentId) {

@@ -22,10 +22,14 @@ public class UserServiceImpl implements  UserService {
     }
 
     public void bookmark(String contentId) {
+        if (!user.getBookmarks().contains(contentId)) {
+            user.getBookmarks().add(0, contentId);
+        }
+    }
+
+    public void unbookmark(String contentId) {
         if (user.getBookmarks().contains(contentId)) {
             user.getBookmarks().remove(contentId);
-        } else {
-            user.getBookmarks().add(0, contentId);
         }
     }
 
@@ -34,10 +38,14 @@ public class UserServiceImpl implements  UserService {
     }
 
     public void upvote(String contentId) {
+        if (!user.getUpvotes().contains(contentId)) {
+            user.getUpvotes().add(0, contentId);
+        }
+    }
+
+    public void downvote(String contentId) {
         if (user.getUpvotes().contains(contentId)) {
             user.getUpvotes().remove(contentId);
-        } else {
-            user.getUpvotes().add(0, contentId);
         }
     }
 }

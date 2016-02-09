@@ -12,11 +12,16 @@ import android.widget.TextView;
 import com.humanize.android.R;
 import com.humanize.android.config.Config;
 import com.humanize.android.config.StringConstants;
+import com.humanize.android.data.Content;
 import com.humanize.android.data.Contents;
 import com.humanize.android.helper.ContentRecyclerViewAdapter;
 import com.humanize.android.service.GsonParserServiceImpl;
 import com.humanize.android.service.JsonParserService;
 import com.humanize.android.service.SharedPreferencesService;
+import com.humanize.android.service.UserService;
+import com.humanize.android.service.UserServiceImpl;
+
+import java.util.Iterator;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -31,6 +36,7 @@ public class UpvotedActivity extends AppCompatActivity {
     @Bind(R.id.toolbarText) TextView toolbarText;
 
     private JsonParserService jsonParserService;
+    private UserService userService;
     private ContentRecyclerViewAdapter contentRecyclerViewAdapter;
 
     private static String TAG = UpvotedActivity.class.getSimpleName();
@@ -71,6 +77,7 @@ public class UpvotedActivity extends AppCompatActivity {
 
     private void initialize() {
         jsonParserService = new GsonParserServiceImpl();
+        userService = new UserServiceImpl();
         toolbarText.setText(StringConstants.UPVOTED_ARTICLES);
 
         toolbar.setCollapsible(true);
@@ -91,12 +98,22 @@ public class UpvotedActivity extends AppCompatActivity {
 
         try {
             if (SharedPreferencesService.getInstance().getString(Config.JSON_UPVOTED_CONTENTS) != null) {
-                UpvotedActivity.contents = jsonParserService.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_UPVOTED_CONTENTS), Contents.class);
+                Contents contents = jsonParserService.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_UPVOTED_CONTENTS), Contents.class);
+
+                Iterator<Content> iterator = contents.getContents().iterator();
+                while(iterator.hasNext()) {
+                    Content content = iterator.next();
+                    if (!userService.isUpvoted(content.getId())) {
+                        iterator.remove();
+                    }
+                }
+
+                UpvotedActivity.contents = contents;
                 contentRecyclerViewAdapter.setContents(UpvotedActivity.contents.getContents());
                 contentRecyclerViewAdapter.notifyDataSetChanged();
             }
         } catch (Exception exception) {
-
+            exception.printStackTrace();
         }
     }
 
