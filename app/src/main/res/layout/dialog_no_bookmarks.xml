@@ -13,7 +13,7 @@
         android:layout_marginLeft="@dimen/mediumMargin"
         android:layout_marginRight="@dimen/mediumMargin"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="You do not have bookmarked any article."
+        android:text="You have not bookmarked any article."
         android:gravity="center"/>
 
     <android.support.v7.widget.AppCompatButton
