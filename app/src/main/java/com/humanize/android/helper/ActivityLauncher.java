@@ -13,6 +13,7 @@ import com.humanize.android.activity.UpdateCategoriesActivity;
 import com.humanize.android.activity.SubmitArticleActivity;
 import com.humanize.android.activity.SingleCategoryContentActivity;
 import com.humanize.android.activity.UpdatePaperTimeActivity;
+import com.humanize.android.activity.UpvotedActivity;
 import com.humanize.android.config.StringConstants;
 
 /**
@@ -34,6 +35,12 @@ public class ActivityLauncher {
 
     public void startBookmarksActivity() {
         Intent intent = new Intent(ApplicationState.getAppContext(), BookmarksActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ApplicationState.getAppContext().startActivity(intent);
+    }
+
+    public void startUpvotedActivity() {
+        Intent intent = new Intent(ApplicationState.getAppContext(), UpvotedActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ApplicationState.getAppContext().startActivity(intent);
     }

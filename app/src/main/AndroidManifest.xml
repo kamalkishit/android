@@ -25,6 +25,7 @@
             android:theme="@style/MaterialDesignTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -120,15 +121,18 @@
             android:name=".activity.UpdatePaperTimeActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme"></activity>
-
+            android:theme="@style/MaterialDesignTheme" />
         <activity
             android:name=".activity.UserProfileActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme">
+            android:theme="@style/MaterialDesignTheme"></activity>
 
-        </activity>
+        <activity
+            android:name=".activity.UpvotedActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/MaterialDesignTheme"></activity>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -171,6 +175,8 @@
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
+
+
     </application>
 
 </manifest>

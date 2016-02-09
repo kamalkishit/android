@@ -9,6 +9,6 @@ public enum ContentUpdateOperations {
     SHARE,
     BOOKMARK,
     UNBOOKMARK,
-    RECOMMEND,
-    UNRECOMMEND;
+    UPVOTE,
+    DOWNVOTE;
 }

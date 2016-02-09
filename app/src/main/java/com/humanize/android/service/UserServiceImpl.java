@@ -21,19 +21,23 @@ public class UserServiceImpl implements  UserService {
         return user.getBookmarks().contains(contentId);
     }
 
-    public void bookmark(Content content) {
-        if (user.getBookmarks().contains(content.getId())) {
-            user.getBookmarks().remove(content.getId());
-        } else {
-            user.getBookmarks().add(0, content.getId());
-        }
-    }
-
     public void bookmark(String contentId) {
         if (user.getBookmarks().contains(contentId)) {
             user.getBookmarks().remove(contentId);
         } else {
             user.getBookmarks().add(0, contentId);
+        }
+    }
+
+    public boolean isUpvoted(String contentId) {
+        return user.getUpvotes().contains(contentId);
+    }
+
+    public void upvote(String contentId) {
+        if (user.getUpvotes().contains(contentId)) {
+            user.getUpvotes().remove(contentId);
+        } else {
+            user.getUpvotes().add(0, contentId);
         }
     }
 }

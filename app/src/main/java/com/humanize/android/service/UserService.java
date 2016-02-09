@@ -7,4 +7,6 @@ public interface UserService {
 
     boolean isBookmarked(String contentId);
     void bookmark(String contentId);
+    boolean isUpvoted(String contentId);
+    void upvote(String contentId);
 }

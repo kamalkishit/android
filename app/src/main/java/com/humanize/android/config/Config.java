@@ -11,6 +11,7 @@ public class Config {
     public final static String JSON_PAPER = "jsonPaper";
     public final static String LATEST_DATE = "latestDate";
     public final static String JSON_BOOKMARKED_CONTENTS = "jsonBookmarkedContents";
+    public final static String JSON_UPVOTED_CONTENTS = "jsonUpvotedContents";
 
     public final static String GCM_DEVICE_TOKEN = "gcmDeviceToken";
     public final static String TOKEN_SENT_TO_SERVER = "tokenSentToServer";

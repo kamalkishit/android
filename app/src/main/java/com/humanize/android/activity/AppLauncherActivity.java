@@ -2,11 +2,15 @@ package com.humanize.android.activity;
 
 import android.os.Bundle;
 
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.humanize.android.R;
 import com.humanize.android.config.Config;
+import com.humanize.android.config.Constants;
 import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.helper.ApplicationState;
 import com.humanize.android.service.GsonParserServiceImpl;
@@ -24,8 +28,11 @@ public class AppLauncherActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_launcher);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         ButterKnife.bind(this);
 
@@ -50,7 +57,12 @@ public class AppLauncherActivity extends AppCompatActivity {
     }
 
     private void startNextActivity() {
-            startCardActivity();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startCardActivity();
+            }
+        }, Constants.SPLASH_SCREEN_DELAY_TIME);
     }
 
     private void startCardActivity() {

@@ -14,4 +14,5 @@
     <string name="title_activity_historic_paper">HistoricPaperActivity</string>
     <string name="title_activity_update_paper_time">UpdatePaperTimeActivity</string>
     <string name="title_activity_user_profile">UserProfileActivity</string>
+    <string name="title_activity_upvoted">UpvotedActivity</string>
 </resources>

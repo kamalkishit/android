@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -108,6 +109,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         viewHolder.contentImage.getLayoutParams().height = Config.IMAGE_HEIGHT;
 
         updateBookmarkButton(viewHolder);
+        updateUpvoteButton(viewHolder);
 
         if (content.getViewedCount() > 0) {
             viewHolder.contentViewedCount.setText("" + content.getViewedCount());
@@ -134,9 +136,17 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
 
     private void updateBookmarkButton(ContentViewHolder viewHolder) {
         if (userService.isBookmarked(viewHolder.contentId)) {
-            viewHolder.bookmarkButton.setBackground(ApplicationState.getAppContext().getResources().getDrawable(R.drawable.ic_bookmark_filled_green));
+            viewHolder.bookmarkButton.setImageDrawable(ApplicationState.getAppContext().getResources().getDrawable(R.drawable.ic_bookmark_filled_green));
         } else {
-            viewHolder.bookmarkButton.setBackground(ApplicationState.getAppContext().getResources().getDrawable(R.drawable.ic_bookmark_filled));
+            viewHolder.bookmarkButton.setImageDrawable(ApplicationState.getAppContext().getResources().getDrawable(R.drawable.ic_bookmark_filled_grey));
+        }
+    }
+
+    private void updateUpvoteButton(ContentViewHolder viewHolder) {
+        if (userService.isUpvoted(viewHolder.contentId)) {
+            viewHolder.upvoteButton.setImageDrawable(ApplicationState.getAppContext().getResources().getDrawable(R.drawable.ic_recomend_filled_green));
+        } else {
+            viewHolder.upvoteButton.setImageDrawable(ApplicationState.getAppContext().getResources().getDrawable(R.drawable.ic_recomend_filled_grey));
         }
     }
 
@@ -150,12 +160,13 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         protected ImageView contentImage;
         protected TextView contentSource;
         protected TextView contentCategory;
-        protected Button bookmarkButton;
         protected LinearLayout linearLayoutCounts;
         protected TextView contentViewedCount;
+        protected TextView contentUpvotedCount;
         protected TextView contentSharedCount;
-        protected Button shareButton;
-
+        protected ImageButton bookmarkButton;
+        protected ImageButton upvoteButton;
+        protected ImageButton shareButton;
 
         public ContentViewHolder(View view) {
             super(view);
@@ -165,17 +176,20 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             contentDescription = (TextView) view.findViewById(R.id.contentDescription);
             contentDate = (TextView) view.findViewById(R.id.contentDate);
             contentImage = (ImageView) view.findViewById(R.id.contentImage);
-            bookmarkButton = (Button) view.findViewById(R.id.bookmarkButton);
             linearLayoutCounts = (LinearLayout) view.findViewById(R.id.counts);
             contentViewedCount = (TextView) view.findViewById(R.id.viewsCount);
+            contentUpvotedCount = (TextView) view.findViewById(R.id.upvotesCount);
             contentSharedCount = (TextView) view.findViewById(R.id.sharedCount);
-            shareButton = (Button) view.findViewById(R.id.shareButton);
+            bookmarkButton = (ImageButton) view.findViewById(R.id.bookmarkButton);
+            upvoteButton = (ImageButton) view.findViewById(R.id.upvoteButton);
+            shareButton = (ImageButton) view.findViewById(R.id.shareButton);
 
-            //linearLayoutCounts.setVisibility(View.GONE);
+            linearLayoutCounts.setVisibility(View.GONE);
             configureListeners();
 
             view.setOnClickListener(this);
             updateBookmarkButton();
+            updateUpvotebutton();
         }
 
         private void configureListeners() {
@@ -190,17 +204,24 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
                 contentCategory.setOnClickListener(null);
             }
 
-            shareButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    share();
-                }
-            });
-
             bookmarkButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     bookmark();
+                }
+            });
+
+            upvoteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    upvote();
+                }
+            });
+
+            shareButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    share();
                 }
             });
         }
@@ -213,19 +234,43 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             if (userService.isBookmarked(content.getId())) {
                 userService.bookmark(contentId);
                 updateJson(Config.JSON_BOOKMARKED_CONTENTS, content, false);
-                bookmarkButton.setBackground(ApplicationState.getAppContext().getResources().getDrawable(R.drawable.ic_bookmark_filled));
+                bookmarkButton.setImageDrawable(ApplicationState.getAppContext().getResources().getDrawable(R.drawable.ic_bookmark_filled_grey));
             } else {
                 updateJson(Config.JSON_BOOKMARKED_CONTENTS, content, true);
                 userService.bookmark(contentId);
-                bookmarkButton.setBackground(ApplicationState.getAppContext().getResources().getDrawable(R.drawable.ic_bookmark_filled_green));
+                bookmarkButton.setImageDrawable(ApplicationState.getAppContext().getResources().getDrawable(R.drawable.ic_bookmark_filled_green));
             }
         }
 
         private void updateBookmarkButton() {
             if (userService.isBookmarked(contentId)) {
-                bookmarkButton.setBackground(ApplicationState.getAppContext().getResources().getDrawable(R.drawable.ic_bookmark_filled_green));
+                bookmarkButton.setImageDrawable(ApplicationState.getAppContext().getResources().getDrawable(R.drawable.ic_bookmark_filled_green));
             } else {
-                bookmarkButton.setBackground(ApplicationState.getAppContext().getResources().getDrawable(R.drawable.ic_bookmark_filled));
+                bookmarkButton.setImageDrawable(ApplicationState.getAppContext().getResources().getDrawable(R.drawable.ic_bookmark_filled_grey));
+            }
+        }
+
+        private void upvote() {
+            if (userService.isUpvoted(content.getId())) {
+                userService.upvote(contentId);
+                contentService.decrUpvotedCount(content);
+                updateJson(Config.JSON_UPVOTED_CONTENTS, content, false);
+                upvoteButton.setImageDrawable(ApplicationState.getAppContext().getResources().getDrawable(R.drawable.ic_recomend_filled_grey));
+            } else {
+                updateJson(Config.JSON_UPVOTED_CONTENTS, content, true);
+                userService.upvote(contentId);
+                contentService.incrUpvotedCount(content);
+                upvoteButton.setImageDrawable(ApplicationState.getAppContext().getResources().getDrawable(R.drawable.ic_recomend_filled_green));
+            }
+
+            updateUpvotedCount();
+        }
+
+        private void updateUpvotebutton() {
+            if (userService.isUpvoted(contentId)) {
+                upvoteButton.setImageDrawable(ApplicationState.getAppContext().getResources().getDrawable(R.drawable.ic_recomend_filled_green));
+            } else {
+                upvoteButton.setImageDrawable(ApplicationState.getAppContext().getResources().getDrawable(R.drawable.ic_recomend_filled_grey));
             }
         }
 
@@ -278,6 +323,14 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
                 contentViewedCount.setText("" + content.getViewedCount());
             } else {
                 contentViewedCount.setText("0");
+            }
+        }
+
+        private void updateUpvotedCount() {
+            if (content.getUpvotedCount() > 0) {
+                contentUpvotedCount.setText("" + content.getUpvotedCount());
+            } else {
+                contentUpvotedCount.setText("0");
             }
         }
 

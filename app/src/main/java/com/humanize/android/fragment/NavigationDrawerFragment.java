@@ -50,6 +50,7 @@ public class NavigationDrawerFragment extends Fragment {
     @Bind(R.id.paper) LinearLayout paper;
     @Bind(R.id.historicPaper) LinearLayout historicPaper;
     @Bind(R.id.bookmarkedArticles) LinearLayout bookmarkedArticles;
+    @Bind(R.id.upvotedArticles) LinearLayout upvotedArticles;
     @Bind(R.id.submitArticle) LinearLayout submitArticle;
     @Bind(R.id.inviteFriend) LinearLayout inviteFriend;
     @Bind(R.id.shareApp) LinearLayout shareApp;
@@ -135,6 +136,11 @@ public class NavigationDrawerFragment extends Fragment {
         textViewBookmarkedArticles.setText(StringConstants.BOOKMARKED_ARTICLES);
         ImageView imageViewBookmarkedArticles = (ImageView) bookmarkedArticles.findViewById(R.id.imageView);
         imageViewBookmarkedArticles.setImageResource(R.drawable.ic_bookmark_black);
+
+        TextView textViewUpvotedArticles = (TextView) upvotedArticles.findViewById(R.id.textView);
+        textViewUpvotedArticles.setText(StringConstants.UPVOTED_ARTICLES);
+        ImageView imageViewUpvotedArticles = (ImageView) upvotedArticles.findViewById(R.id.imageView);
+        imageViewUpvotedArticles.setImageResource(R.drawable.ic_recomend_black);
 
         TextView textViewSubmitArticle = (TextView) submitArticle.findViewById(R.id.textView);
         textViewSubmitArticle.setText(StringConstants.SUBMIT_ARTICLE);
@@ -263,6 +269,14 @@ public class NavigationDrawerFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //activityLauncher.startHistoricPaperActivity();
+                drawerLayout.closeDrawer(Gravity.LEFT);
+            }
+        });
+
+        upvotedArticles.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activityLauncher.startUpvotedActivity();
                 drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });

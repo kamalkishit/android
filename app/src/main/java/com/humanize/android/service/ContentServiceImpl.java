@@ -43,8 +43,28 @@ public class ContentServiceImpl implements ContentService {
         incrViewedCount(content.getId());
     }
 
+    public void incrUpvotedCount(Content content) {
+        content.setUpvotedCount(content.getUpvotedCount() + 1);
+        content.setViewedCount(content.getViewedCount() + 1);
+        incrUpvotedCount(content.getId());
+    }
+
+    public void decrUpvotedCount(Content content) {
+        content.setUpvotedCount(content.getUpvotedCount() - 1);
+        content.setViewedCount(content.getViewedCount() + 1);
+        //decrUpvotedCount(content.getId());
+    }
+
     private void incrViewedCount(String contentId) {
         apiService.updateContent(createContentUpdateParams(contentId, ContentUpdateOperations.VIEW), new ContentUpdateCallback());
+    }
+
+    private void incrUpvotedCount(String contentId) {
+        apiService.updateContent(createContentUpdateParams(contentId, ContentUpdateOperations.UPVOTE), new ContentUpdateCallback());
+    }
+
+    private void decrUpvotedCount(String contentId) {
+        apiService.updateContent(createContentUpdateParams(contentId, ContentUpdateOperations.DOWNVOTE), new ContentUpdateCallback());
     }
 
     private void incrSharedCount(String contentId) {

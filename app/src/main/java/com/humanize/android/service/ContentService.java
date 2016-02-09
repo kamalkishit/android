@@ -11,4 +11,6 @@ public interface ContentService {
 
     void incrSharedCount(Content content);
     void incrViewedCount(Content content);
+    void incrUpvotedCount(Content content);
+    void decrUpvotedCount(Content content);
 }

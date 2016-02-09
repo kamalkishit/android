@@ -13,6 +13,7 @@ public class User {
 
     private List<String> categories;
     private List<String> bookmarks;
+    private List<String> upvotes;
     private PaperTime paperTime;
     private boolean paperNotification;
     private boolean notification;
@@ -20,6 +21,7 @@ public class User {
     public User() {
         categories = new ArrayList<>();
         bookmarks = new ArrayList<>();
+        upvotes = new ArrayList<>();
         paperTime = new PaperTime(Config.PAPER_HOUR, Config.PAPER_MINUTE);
         paperNotification = true;
         notification = true;
@@ -56,6 +58,14 @@ public class User {
 
     public void setBookmarks(List<String> bookmarks) {
         this.bookmarks = bookmarks;
+    }
+
+    public List<String> getUpvotes() {
+        return upvotes;
+    }
+
+    public void setUpvotes(List<String> upvotes) {
+        this.upvotes = upvotes;
     }
 
     public PaperTime getPaperTime() {

@@ -40,7 +40,7 @@ public class Content {
 
     private String videoURL;
 
-    private int recommendedCount;
+    private int upvotedCount;
 
     private int viewedCount;
 
@@ -186,12 +186,12 @@ public class Content {
         this.videoURL = videoURL;
     }
 
-    public int getRecommendedCount() {
-        return recommendedCount;
+    public int getUpvotedCount() {
+        return upvotedCount;
     }
 
-    public void setRecommendedCount(int recommendedCount) {
-        this.recommendedCount = recommendedCount;
+    public void setUpvotedCount(int upvotedCount) {
+        this.upvotedCount = upvotedCount;
     }
 
     public int getViewedCount() {
