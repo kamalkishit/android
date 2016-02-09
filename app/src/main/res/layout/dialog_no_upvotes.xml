@@ -7,22 +7,13 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/colorPrimary"
-        android:text="SUCCESS"
-        android:gravity="center"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/colorWhite"/>
-
-    <TextView
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/extraLargeMargin"
         android:layout_marginBottom="@dimen/largeMargin"
         android:layout_marginLeft="@dimen/mediumMargin"
         android:layout_marginRight="@dimen/mediumMargin"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="User invited successfully."
+        android:text="You do not have upvoted any article."
         android:gravity="center"/>
 
     <android.support.v7.widget.AppCompatButton

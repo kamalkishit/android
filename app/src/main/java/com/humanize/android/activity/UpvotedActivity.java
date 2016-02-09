@@ -1,5 +1,8 @@
 package com.humanize.android.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +10,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.humanize.android.R;
@@ -108,9 +114,17 @@ public class UpvotedActivity extends AppCompatActivity {
                     }
                 }
 
+                if (contents.getContents().size() == 0) {
+                    NoUpvotesFragment noUpvotesFragment = new NoUpvotesFragment();
+                    noUpvotesFragment.show(UpvotedActivity.this.getFragmentManager(), "");
+                }
+
                 UpvotedActivity.contents = contents;
                 contentRecyclerViewAdapter.setContents(UpvotedActivity.contents.getContents());
                 contentRecyclerViewAdapter.notifyDataSetChanged();
+            } else {
+                NoUpvotesFragment noUpvotesFragment = new NoUpvotesFragment();
+                noUpvotesFragment.show(UpvotedActivity.this.getFragmentManager(), "");
             }
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -124,5 +138,31 @@ public class UpvotedActivity extends AppCompatActivity {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+    }
+
+    public static class NoUpvotesFragment extends DialogFragment {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            LinearLayout linearLayout = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.dialog_no_upvotes, null);
+            Button submitButton = (Button) linearLayout.findViewById(R.id.submitButton);
+
+            submitButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dismissFragment();
+                }
+            });
+
+            builder.setView(linearLayout);
+            return builder.create();
+        }
+
+        private void dismissFragment() {
+            this.dismiss();
+            (getActivity()).onBackPressed();
+        }
     }
 }
