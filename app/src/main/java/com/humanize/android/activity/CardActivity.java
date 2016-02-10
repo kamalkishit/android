@@ -8,7 +8,12 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 
@@ -25,6 +30,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.humanize.android.fragment.OneFragment;
 import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.service.ApiServiceImpl;
 import com.humanize.android.helper.ContentRecyclerViewAdapter;
@@ -44,6 +50,8 @@ import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.config.Config;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -56,6 +64,8 @@ public class CardActivity extends AppCompatActivity {
     public static Contents contents = null;
 
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.tabs) TabLayout tabLayout;
+    @Bind(R.id.viewpager) ViewPager viewPager;
     @Bind(R.id.circularProgressBar) ProgressBar circularProgressBar;
     @Bind(R.id.recyclerView) RecyclerView recyclerView;
     @Bind(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
@@ -144,6 +154,12 @@ public class CardActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
+
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+
         navigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentNavigationDrawer);
         navigationDrawerFragment.getView().getLayoutParams().width = Config.NAV_DRAWER_WIDTH;
         navigationDrawerFragment.setUp(R.id.fragmentNavigationDrawer, drawerLayout, toolbar);
@@ -152,17 +168,31 @@ public class CardActivity extends AppCompatActivity {
         contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(this, null);
         recyclerView.setAdapter(contentRecyclerViewAdapter);
 
+        tabLayout.setVisibility(View.GONE);
+
         try {
             if (SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS) != null) {
                 CardActivity.contents = jsonParserService.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS), Contents.class);
                 contentRecyclerViewAdapter.setContents(CardActivity.contents.getContents());
                 contentRecyclerViewAdapter.notifyDataSetChanged();
+
+                if (contentRecyclerViewAdapter.getContents() != null && contentRecyclerViewAdapter.getContents().size() > 0) {
+                    swipeRefreshLayout.setRefreshing(true);
+                    getNewContent(contentRecyclerViewAdapter.getContents().get(0).getCreatedDate());
+                }
             } else {
                 getContent();
             }
         } catch (Exception exception) {
             logService.e(TAG, exception.getMessage());
         }
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new OneFragment(), "HOME");
+        adapter.addFragment(new OneFragment(), "TRENDING");
+        viewPager.setAdapter(adapter);
     }
 
     private void configureListeners() {
@@ -442,6 +472,35 @@ public class CardActivity extends AppCompatActivity {
         private void retry() {
             this.dismiss();
             ((CardActivity)getActivity()).getContent();
+        }
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> fragmentList = new ArrayList<>();
+        private final List<String> fragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return fragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            fragmentList.add(fragment);
+            fragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return fragmentTitleList.get(position);
         }
     }
 }
