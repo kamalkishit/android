@@ -48,6 +48,7 @@ import com.humanize.android.service.LogService;
 import com.humanize.android.service.LogServiceImpl;
 import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.config.Config;
+import com.humanize.android.utils.AppUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -59,7 +60,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class CardActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     public static Contents contents = null;
 
@@ -79,13 +80,13 @@ public class CardActivity extends AppCompatActivity {
     private boolean doubleBackToExitPressedOnce;
     private ApiService apiService;
 
-    private static final String TAG = CardActivity.class.getName();
+    private static final String TAG = HomeActivity.class.getName();
     private static final LogService logService = new LogServiceImpl();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_card);
+        setContentView(R.layout.activity_home);
 
         ButterKnife.bind(this);
 
@@ -168,17 +169,22 @@ public class CardActivity extends AppCompatActivity {
         contentRecyclerViewAdapter = new ContentRecyclerViewAdapter(this, null);
         recyclerView.setAdapter(contentRecyclerViewAdapter);
 
-        tabLayout.setVisibility(View.GONE);
+        //tabLayout.setVisibility(View.GONE);
 
         try {
             if (SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS) != null) {
-                CardActivity.contents = jsonParserService.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS), Contents.class);
-                contentRecyclerViewAdapter.setContents(CardActivity.contents.getContents());
+                HomeActivity.contents = jsonParserService.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS), Contents.class);
+                contentRecyclerViewAdapter.setContents(HomeActivity.contents.getContents());
                 contentRecyclerViewAdapter.notifyDataSetChanged();
 
-                if (contentRecyclerViewAdapter.getContents() != null && contentRecyclerViewAdapter.getContents().size() > 0) {
-                    swipeRefreshLayout.setRefreshing(true);
-                    getNewContent(contentRecyclerViewAdapter.getContents().get(0).getCreatedDate());
+                if (contentRecyclerViewAdapter.getContents() != null && contentRecyclerViewAdapter.getContents().size() > 0 && AppUtils.isNetworkAvailable()) {
+                    swipeRefreshLayout.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            swipeRefreshLayout.setRefreshing(true);
+                            getNewContent(contentRecyclerViewAdapter.getContents().get(0).getCreatedDate());
+                        }
+                    });
                 }
             } else {
                 getContent();
@@ -296,8 +302,8 @@ public class CardActivity extends AppCompatActivity {
         try {
             Contents contents = jsonParserService.fromJson(response, Contents.class);
             SharedPreferencesService.getInstance().putString(Config.JSON_CONTENTS, response);
-            CardActivity.contents = contents;
-            contentRecyclerViewAdapter.setContents(CardActivity.contents.getContents());
+            HomeActivity.contents = contents;
+            contentRecyclerViewAdapter.setContents(HomeActivity.contents.getContents());
             contentRecyclerViewAdapter.notifyDataSetChanged();
         } catch (Exception exception) {
             logService.e(TAG, exception.getMessage());
@@ -316,7 +322,7 @@ public class CardActivity extends AppCompatActivity {
                     circularProgressBar.setVisibility(View.GONE);
                     //Snackbar.make(recyclerView, StringConstants.NETWORK_CONNECTION_ERROR_STR, Snackbar.LENGTH_LONG).show();
                     NetworkConnectionFailureFragment networkConnectionFailureFragment = new NetworkConnectionFailureFragment();
-                    networkConnectionFailureFragment.show(CardActivity.this.getFragmentManager(), "");
+                    networkConnectionFailureFragment.show(HomeActivity.this.getFragmentManager(), "");
                 }
             });
         }
@@ -471,7 +477,7 @@ public class CardActivity extends AppCompatActivity {
 
         private void retry() {
             this.dismiss();
-            ((CardActivity)getActivity()).getContent();
+            ((HomeActivity)getActivity()).getContent();
         }
     }
 

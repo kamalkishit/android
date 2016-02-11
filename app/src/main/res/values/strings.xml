@@ -15,4 +15,5 @@
     <string name="title_activity_update_paper_time">UpdatePaperTimeActivity</string>
     <string name="title_activity_user_profile">UserProfileActivity</string>
     <string name="title_activity_upvoted">UpvotedActivity</string>
+    <string name="title_activity_trending">TrendingActivity</string>
 </resources>

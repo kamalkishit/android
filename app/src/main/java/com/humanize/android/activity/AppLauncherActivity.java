@@ -66,6 +66,6 @@ public class AppLauncherActivity extends AppCompatActivity {
     }
 
     private void startCardActivity() {
-        activityLauncher.startCardActivity();
+        activityLauncher.startHomeActivity();
     }
 }

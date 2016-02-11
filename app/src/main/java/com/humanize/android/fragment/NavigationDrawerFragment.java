@@ -41,7 +41,7 @@ import butterknife.ButterKnife;
 
 public class NavigationDrawerFragment extends Fragment {
 
-    @Bind(R.id.navHeaderContainer) RelativeLayout navHeaderContainer;
+    @Bind(R.id.userProfile) RelativeLayout userProfile;
     @Bind(R.id.settings) LinearLayout settings;
     @Bind(R.id.updateCategories) LinearLayout updateCategories;
     @Bind(R.id.updatePaperTime) LinearLayout updatePaperTime;
@@ -91,7 +91,7 @@ public class NavigationDrawerFragment extends Fragment {
         paper.setVisibility(View.GONE);
         historicPaper.setVisibility(View.GONE);
 
-        navHeaderContainer.getLayoutParams().height = (Config.SCREEN_HEIGHT*3)/10;
+        userProfile.getLayoutParams().height = (Config.SCREEN_HEIGHT*3)/10;
 
         TextView textViewSettings = (TextView) settings.findViewById(R.id.textView);
         textViewSettings.setText(StringConstants.SETTINGS);
@@ -182,6 +182,14 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     private void configureListeners() {
+        userProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activityLauncher.startUserProfileActivity();
+                drawerLayout.closeDrawer(Gravity.LEFT);
+            }
+        });
+
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

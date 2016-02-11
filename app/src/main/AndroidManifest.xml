@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.CardActivity"
+            android:name=".activity.HomeActivity"
             android:label="HUMANIZE"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
@@ -126,13 +126,12 @@
             android:name=".activity.UserProfileActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme"></activity>
-
+            android:theme="@style/MaterialDesignTheme" />
         <activity
             android:name=".activity.UpvotedActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/MaterialDesignTheme"></activity>
+            android:theme="@style/MaterialDesignTheme" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -176,7 +175,10 @@
             </intent-filter>
         </service>
 
-
+        <activity
+            android:name=".activity.TrendingActivity"
+            android:label="@string/title_activity_trending"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

@@ -4,7 +4,7 @@ import android.content.Intent;
 
 import com.humanize.android.activity.AboutUsActivity;
 import com.humanize.android.activity.BookmarksActivity;
-import com.humanize.android.activity.CardActivity;
+import com.humanize.android.activity.HomeActivity;
 import com.humanize.android.activity.ContactUsActivity;
 import com.humanize.android.activity.HistoricPaperActivity;
 import com.humanize.android.activity.InviteFriendActivity;
@@ -14,6 +14,7 @@ import com.humanize.android.activity.SubmitArticleActivity;
 import com.humanize.android.activity.SingleCategoryContentActivity;
 import com.humanize.android.activity.UpdatePaperTimeActivity;
 import com.humanize.android.activity.UpvotedActivity;
+import com.humanize.android.activity.UserProfileActivity;
 import com.humanize.android.config.StringConstants;
 
 /**
@@ -23,6 +24,12 @@ public class ActivityLauncher {
 
     public void startAboutUsActivity() {
         Intent intent = new Intent(ApplicationState.getAppContext(), AboutUsActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ApplicationState.getAppContext().startActivity(intent);
+    }
+
+    public void startUserProfileActivity() {
+        Intent intent = new Intent(ApplicationState.getAppContext(), UserProfileActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ApplicationState.getAppContext().startActivity(intent);
     }
@@ -51,8 +58,8 @@ public class ActivityLauncher {
         ApplicationState.getAppContext().startActivity(intent);
     }
 
-    public void startCardActivity() {
-        Intent intent = new Intent(ApplicationState.getAppContext(), CardActivity.class);
+    public void startHomeActivity() {
+        Intent intent = new Intent(ApplicationState.getAppContext(), HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ApplicationState.getAppContext().startActivity(intent);

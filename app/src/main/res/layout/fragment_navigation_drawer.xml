@@ -10,7 +10,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/navHeaderContainer"
+            android:id="@+id/userProfile"
             android:layout_width="match_parent"
             android:layout_height="170dp"
             android:layout_alignParentTop="true"

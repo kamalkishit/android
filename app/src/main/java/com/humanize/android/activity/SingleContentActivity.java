@@ -85,7 +85,7 @@ public class SingleContentActivity extends AppCompatActivity {
             super.onBackPressed();
 
             overridePendingTransition(0, R.anim.slide_left_to_right);
-            new ActivityLauncher().startCardActivity();
+            new ActivityLauncher().startHomeActivity();
         }
 
         return super.onOptionsItemSelected(item);
@@ -96,7 +96,7 @@ public class SingleContentActivity extends AppCompatActivity {
         super.onBackPressed();
 
         overridePendingTransition(0, R.anim.slide_left_to_right);
-        new ActivityLauncher().startCardActivity();
+        new ActivityLauncher().startHomeActivity();
     }
 
     private void initialize() {

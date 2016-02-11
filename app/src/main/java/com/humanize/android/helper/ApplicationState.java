@@ -10,7 +10,7 @@ import com.crashlytics.android.ndk.CrashlyticsNdk;
 
 import com.humanize.android.service.GsonParserServiceImpl;
 import com.humanize.android.service.JsonParserService;
-import com.humanize.android.activity.CardActivity;
+import com.humanize.android.activity.HomeActivity;
 import com.humanize.android.config.Constants;
 import com.humanize.android.data.Contents;
 import com.humanize.android.data.User;
@@ -73,7 +73,7 @@ public class ApplicationState extends Application{
 
         try {
             if (SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS) != null) {
-                CardActivity.contents = jsonParserService.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS), Contents.class);
+                HomeActivity.contents = jsonParserService.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS), Contents.class);
             }
 
             if (SharedPreferencesService.getInstance().getString(Config.JSON_USER_DATA) != null) {
