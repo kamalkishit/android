@@ -13,7 +13,7 @@
         android:layout_marginLeft="@dimen/mediumMargin"
         android:layout_marginRight="@dimen/mediumMargin"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="You have not bookmarked any article."
+        android:text="@string/noBookmarks"
         android:gravity="center"/>
 
     <android.support.v7.widget.AppCompatButton
@@ -22,6 +22,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/mediumMargin"
         android:background="@drawable/button_selector"
-        android:text="DISMISS"
+        android:text="@string/dismiss"
         android:textColor="@color/colorWhite" />
 </LinearLayout>

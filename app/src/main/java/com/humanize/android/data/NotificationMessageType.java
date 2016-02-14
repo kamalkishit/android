@@ -3,7 +3,7 @@ package com.humanize.android.data;
 /**
  * Created by kamal on 1/31/16.
  */
-public enum ClientMessageType {
+public enum NotificationMessageType {
 
     CONTENT("content");
 
@@ -13,7 +13,7 @@ public enum ClientMessageType {
         return type;
     }
 
-    ClientMessageType(String type){
+    NotificationMessageType(String type){
 
         this.type = type;
     }

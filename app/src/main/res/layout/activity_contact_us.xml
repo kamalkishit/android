@@ -46,7 +46,7 @@
                 android:layout_marginBottom="@dimen/smallMargin"
                 android:textColor="@color/colorPrimary"
                 android:background="@null"
-                android:hint="Subject"
+                android:hint="@string/subject"
                 android:textColorHint="@color/colorPrimary"
                 android:inputType="text"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -72,7 +72,7 @@
                 android:textColor="@color/colorPrimary"
                 android:background="@null"
                 android:gravity="top|left"
-                android:hint="Message"
+                android:hint="@string/message"
                 android:lines="3"
                 android:minLines="3"
                 android:inputType="textMultiLine"
@@ -92,7 +92,7 @@
             android:background="@drawable/button_selector"
             android:clickable="true"
             android:textColor="@color/colorWhite"
-            android:text="SUBMIT"
+            android:text="@string/submit"
             android:textStyle="normal"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textAlignment="center"/>

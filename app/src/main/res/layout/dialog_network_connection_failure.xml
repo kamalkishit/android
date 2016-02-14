@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/colorPrimary"
-        android:text="FAILURE"
+        android:text="@string/failure"
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/colorWhite"/>
@@ -22,7 +22,7 @@
         android:layout_marginLeft="@dimen/mediumMargin"
         android:layout_marginRight="@dimen/mediumMargin"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Network connection error. \nPlease check your network settings."
+        android:text="@string/networkConnectionError"
         android:gravity="center"/>
 
     <LinearLayout
@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/button_selector"
-            android:text="CANCEL"
+            android:text="@string/cancel"
             android:textColor="@color/colorWhite"
             android:layout_weight="1"/>
 
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
             android:background="@drawable/button_selector"
-            android:text="RETRY"
+            android:text="@string/retry"
             android:textColor="@color/colorWhite"
             android:layout_weight="1"/>
     </LinearLayout>

@@ -1,7 +1,28 @@
 <resources>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
-    <string name="guestUser">Guest</string>
+    <string name="guest">Guest</string>
+    <string name="upvotes">Upvotes</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="posts">Posts</string>
+    <string name="humanize">HUMANIZE</string>
+    <string name="subject">Subject</string>
+    <string name="message">Message</string>
+    <string name="submit">SUBMIT</string>
+    <string name="emailHint">Enter Email</string>
+    <string name="invite">INVITE</string>
+    <string name="articleHint">Enter Article URL</string>
+    <string name="success">SUCCESS</string>
+    <string name="feedbackSuccess">Feedback sent successfully.</string>
+    <string name="dismiss">DISMISS</string>
+    <string name="inviteUserSuccess">User invited successfully.</string>
+    <string name="failure">FAILURE</string>
+    <string name="networkConnectionError">Network connection error. \nPlease check your network settings.</string>
+    <string name="cancel">CANCEL</string>
+    <string name="retry">RETRY</string>
+    <string name="noBookmarks">You have not bookmarked any article.</string>
+    <string name="noUpvotes">You have not upvoted any article.</string>
+    <string name="thanks">Thanks for contributing.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="title_activity_about_us">AboutUsActivity</string>
@@ -16,4 +37,5 @@
     <string name="title_activity_user_profile">UserProfileActivity</string>
     <string name="title_activity_upvoted">UpvotedActivity</string>
     <string name="title_activity_trending">TrendingActivity</string>
+    <string name="title_activity_user_profile_creation">UserProfileCreationActivity</string>
 </resources>

@@ -4,9 +4,15 @@ import android.os.Bundle;;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.humanize.android.R;
+import com.humanize.android.helper.ApplicationState;
+import com.humanize.android.utils.CircleTransformation;
+import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -15,6 +21,10 @@ public class UserProfileActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbarText) TextView toolbarText;
+    /*@Bind(R.id.bookmarksCount) TextView bookmarksCount;
+    @Bind(R.id.bookmarkedContent) TextView bookmarkedContent;
+    @Bind(R.id.upvotesCount) TextView upvotesCount;
+    @Bind(R.id.upvotedContent) TextView upvotedContent;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +35,16 @@ public class UserProfileActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         initialize();
+
+        /*String profilePhoto = "http://igcdn-photos-f-a.akamaihd.net/hphotos-ak-xpa1/t51.2885-19/929118_455075441302693_1605108410_a.jpg";
+
+        Picasso.with(this)
+                .load(profilePhoto)
+                .placeholder(R.drawable.profile_image)
+                .resize(80, 80)
+                .centerCrop()
+                .transform(new CircleTransformation())
+                .into(profileImageView); */
     }
 
     @Override
@@ -46,9 +66,20 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void initialize() {
-        toolbarText.setText("");
+        toolbarText.setText("Profile");
         toolbar.setCollapsible(true);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        /*if (ApplicationState.getUser().getBookmarks().size() == 1) {
+            bookmarkedContent.setText("Bookmark");
+        }
+
+        if (ApplicationState.getUser().getUpvotes().size() == 1) {
+            upvotedContent.setText("Upvote");
+        }
+
+        bookmarksCount.setText("" + ApplicationState.getUser().getBookmarks().size());
+        upvotesCount.setText("" + ApplicationState.getUser().getUpvotes().size());*/
     }
 }

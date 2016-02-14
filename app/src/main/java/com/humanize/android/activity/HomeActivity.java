@@ -354,6 +354,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private class MoreContentCallback implements Callback {
+
         @Override
         public void onFailure(Call call, IOException exception) {
             logService.e(TAG, exception.getMessage());
@@ -390,6 +391,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private class NewContentCallback implements Callback {
+
         @Override
         public void onFailure(Call call, IOException exception) {
             logService.e(TAG, exception.getMessage());
@@ -482,6 +484,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
+
         private final List<Fragment> fragmentList = new ArrayList<>();
         private final List<String> fragmentTitleList = new ArrayList<>();
 

@@ -1,5 +1,6 @@
 package com.humanize.android.service;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.humanize.android.helper.ApplicationState;
@@ -16,7 +17,7 @@ public class SharedPreferencesService {
     private static final String TAG = SharedPreferencesService.class.getSimpleName();
 
     private SharedPreferencesService() {
-        sharedPreferences = ApplicationState.getAppContext().getSharedPreferences(Config.SHARED_PREFERENCES, 0);
+        sharedPreferences = ApplicationState.getAppContext().getSharedPreferences(Config.SHARED_PREFERENCES, Context.MODE_PRIVATE);
     }
 
     public static SharedPreferencesService getInstance() {

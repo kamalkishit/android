@@ -9,11 +9,11 @@ import android.view.View;
 
 import com.humanize.android.R;
 
-public class TrendingActivity extends AppCompatActivity {
+public class UserProfileCreationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trending);
+        setContentView(R.layout.activity_user_profile_creation);
     }
 }

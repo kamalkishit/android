@@ -42,7 +42,7 @@
                 android:layout_marginBottom="@dimen/smallMargin"
                 android:textColor="@color/colorPrimary"
                 android:background="@null"
-                android:hint="Enter Article URL"
+                android:hint="@string/articleHint"
                 android:textColorHint="@color/colorPrimary"
                 android:inputType="textUri"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -60,7 +60,7 @@
             android:background="@drawable/button_selector"
             android:clickable="true"
             android:textColor="@color/colorWhite"
-            android:text="SUBMIT"
+            android:text="@string/submit"
             android:textStyle="normal"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textAlignment="center"/>

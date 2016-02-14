@@ -12,7 +12,7 @@
         android:layout_centerInParent="true"
         android:transitionName="loginTransition"
         android:gravity="center"
-        android:text="HUMANIZE"
+        android:text="@string/humanize"
         android:textColor="@color/colorWhite"
         android:textAppearance="?android:attr/textAppearanceLarge"/>
 </RelativeLayout>

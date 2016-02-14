@@ -5,16 +5,16 @@ import java.util.Map;
 /**
  * Created by kamal on 1/31/16.
  */
-public class ClientMessage {
+public class NotificationMessage {
 
     private String title;
     private String body;
     private String imageUrl;
     private String contentUrl;
-    private ClientMessageType type;
+    private NotificationMessageType type;
     private Map<String,String> notificationActionMap;
 
-    public ClientMessageType getType() {
+    public NotificationMessageType getType() {
         return type;
     }
 
@@ -30,7 +30,7 @@ public class ClientMessage {
         return imageUrl;
     }
 
-    public void setType(ClientMessageType type) {
+    public void setType(NotificationMessageType type) {
         this.type = type;
     }
 
