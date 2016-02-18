@@ -66,6 +66,14 @@ public class ApiServiceImpl implements ApiService {
         }
     }
 
+    public void getTrends(Callback callback) {
+        try {
+            get(ApiUrls.URL_TRENDS, callback);
+        } catch (Exception exception) {
+            logService.e(TAG, exception.getMessage());
+        }
+    }
+
     public void getPaper(PaperParams paperParams, Callback callback) {
         try {
             post(ApiUrls.URL_PAPER, toJson(paperParams), callback);

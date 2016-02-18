@@ -20,6 +20,7 @@ public interface ApiService {
     void contactUs(ContactUs contactUs, Callback callback);
     void getContents(ContentSearchParams contentSearchParams, Callback callback);
     void getContent(String urlId, Callback callback);
+    void getTrends(Callback callback);
     void getPaper(PaperParams paperParams, Callback callback);
     void updateContent(ContentUpdateParams contentUpdateParams, Callback callback);
     void registerDevice(UserDevice userDevice, Callback callback);

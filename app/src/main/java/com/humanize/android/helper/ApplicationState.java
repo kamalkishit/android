@@ -8,6 +8,8 @@ import android.util.DisplayMetrics;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.ndk.CrashlyticsNdk;
 
+import com.humanize.android.fragment.HomeFragment;
+import com.humanize.android.fragment.TrendingFragment;
 import com.humanize.android.service.GsonParserServiceImpl;
 import com.humanize.android.service.JsonParserService;
 import com.humanize.android.activity.HomeActivity;
@@ -72,8 +74,12 @@ public class ApplicationState extends Application{
         JsonParserService jsonParserService = new GsonParserServiceImpl();
 
         try {
-            if (SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS) != null) {
-                HomeActivity.contents = jsonParserService.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_CONTENTS), Contents.class);
+            if (SharedPreferencesService.getInstance().getString(Config.JSON_HOME_CONTENTS) != null) {
+                HomeFragment.contents = jsonParserService.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_HOME_CONTENTS), Contents.class);
+            }
+
+            if (SharedPreferencesService.getInstance().getString(Config.JSON_TRENDING_CONTENTS) != null) {
+                TrendingFragment.contents = jsonParserService.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_TRENDING_CONTENTS), Contents.class);
             }
 
             if (SharedPreferencesService.getInstance().getString(Config.JSON_USER_DATA) != null) {

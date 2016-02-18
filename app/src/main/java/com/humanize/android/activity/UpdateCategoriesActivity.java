@@ -158,7 +158,7 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
                     categoriesList.addAll(categories);
                     ApplicationState.getUser().setCategories(categoriesList);
 
-                    SharedPreferencesService.getInstance().delete(Config.JSON_CONTENTS);
+                    SharedPreferencesService.getInstance().delete(Config.JSON_HOME_CONTENTS);
                     new ActivityLauncher().startHomeActivity();
                 }
             }

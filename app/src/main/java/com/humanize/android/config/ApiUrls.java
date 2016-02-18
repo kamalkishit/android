@@ -15,6 +15,7 @@ public class ApiUrls {
     public final static String URL_SUGGEST_ARTICLE = URL_SERVER + "/api/user/suggest";
     public final static String URL_SUBMIT_ARTICLE = URL_SERVER + "/api/user/submit";
     public final static String URL_CONTENT = URL_SERVER + "/api/content/find";
+    public final static String URL_TRENDS = URL_SERVER + "/api/content/trends";
     public final static String URL_SINGLE_CONTENT = URL_SERVER + "/api/content?urlId=";
     public final static String URL_PAPER = URL_SERVER + "/api/paper";
     public final static String URL_UPDATE_CONTENT = URL_SERVER + "/api/content/update";

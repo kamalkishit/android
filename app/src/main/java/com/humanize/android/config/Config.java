@@ -6,7 +6,8 @@ package com.humanize.android.config;
 public class Config {
 
     public final static String SHARED_PREFERENCES = "sharedPreferences";
-    public final static String JSON_CONTENTS = "jsonContents";
+    public final static String JSON_HOME_CONTENTS = "jsonHomeContents";
+    public final static String JSON_TRENDING_CONTENTS = "jsonTrendingContents";
     public final static String JSON_USER_DATA = "jsonUserData";
     public final static String JSON_PAPER = "jsonPaper";
     public final static String LATEST_DATE = "latestDate";
