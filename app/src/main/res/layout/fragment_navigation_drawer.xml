@@ -9,32 +9,40 @@
         android:background="@color/colorWhite"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/userProfile"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="170dp"
-            android:layout_alignParentTop="true"
+            android:layout_height="wrap_content"
             android:background="@color/colorPrimary">
 
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_alignParentLeft="true"
-                android:layout_marginTop="60dp"
-                android:layout_marginLeft="4dp"
-                android:src="@drawable/ic_profile_white" />
+            <RelativeLayout
+                android:id="@+id/userProfile"
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:layout_alignParentTop="true"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true">
 
-            <TextView
-                android:id="@+id/emailId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:text="@string/guest"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/colorWhite"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="16dp" />
-        </RelativeLayout>
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginLeft="4dp"
+                    android:src="@drawable/ic_profile_white" />
+
+                <TextView
+                    android:id="@+id/emailId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:text="@string/guest"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/colorWhite"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="16dp" />
+            </RelativeLayout>
+
+        </LinearLayout>
 
         <include
             android:id="@+id/settings"

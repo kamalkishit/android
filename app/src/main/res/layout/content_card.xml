@@ -208,7 +208,7 @@
             android:layout_marginBottom="@dimen/smallMargin"
             android:orientation="horizontal"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/contentDescription">
+            android:layout_below="@id/counts">
 
             <ImageButton
                 android:id="@+id/bookmarkButton"

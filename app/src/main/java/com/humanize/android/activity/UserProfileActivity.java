@@ -21,10 +21,10 @@ public class UserProfileActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbarText) TextView toolbarText;
-    /*@Bind(R.id.bookmarksCount) TextView bookmarksCount;
+    @Bind(R.id.bookmarksCount) TextView bookmarksCount;
     @Bind(R.id.bookmarkedContent) TextView bookmarkedContent;
     @Bind(R.id.upvotesCount) TextView upvotesCount;
-    @Bind(R.id.upvotedContent) TextView upvotedContent;*/
+    @Bind(R.id.upvotedContent) TextView upvotedContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,7 @@ public class UserProfileActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        /*if (ApplicationState.getUser().getBookmarks().size() == 1) {
+        if (ApplicationState.getUser().getBookmarks().size() == 1) {
             bookmarkedContent.setText("Bookmark");
         }
 
@@ -80,6 +80,6 @@ public class UserProfileActivity extends AppCompatActivity {
         }
 
         bookmarksCount.setText("" + ApplicationState.getUser().getBookmarks().size());
-        upvotesCount.setText("" + ApplicationState.getUser().getUpvotes().size());*/
+        upvotesCount.setText("" + ApplicationState.getUser().getUpvotes().size());
     }
 }
