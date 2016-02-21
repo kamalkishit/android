@@ -132,6 +132,25 @@
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
+        <activity
+            android:name=".activity.LoginActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/MaterialDesignTheme"
+            android:windowSoftInputMode="stateVisible" />
+        <activity
+            android:name=".activity.SignupActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/MaterialDesignTheme"
+            android:windowSoftInputMode="stateVisible" />
+
+        <activity
+            android:name=".activity.ForgotPasswordActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/MaterialDesignTheme"
+            android:windowSoftInputMode="stateVisible" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -182,7 +201,13 @@
         <activity
             android:name=".activity.UserProfileCreationActivity"
             android:label="@string/title_activity_user_profile_creation"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activity.CreateArticleActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/MaterialDesignTheme" />
+
     </application>
 
 </manifest>

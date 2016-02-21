@@ -110,7 +110,7 @@ public class HomeActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.actionCreate) {
-            new ActivityLauncher().startSubmitArticleActivity();
+            new ActivityLauncher().startCreateArticleActivity();
         }
 
         return super.onOptionsItemSelected(item);

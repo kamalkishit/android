@@ -10,6 +10,10 @@
     <string name="message">Message</string>
     <string name="submit">SUBMIT</string>
     <string name="emailHint">Enter Email</string>
+    <string name="passwordHint">Enter Password</string>
+    <string name="confirmPasswordHint">Confirm Password</string>
+    <string name="forgotPasswordString"><u>Forgot Password?</u></string>
+    <string name="signupString"><u>Signup</u></string>
     <string name="invite">INVITE</string>
     <string name="articleHint">Enter Article URL</string>
     <string name="success">SUCCESS</string>
@@ -20,6 +24,10 @@
     <string name="networkConnectionError">Network connection error. \nPlease check your network settings.</string>
     <string name="cancel">CANCEL</string>
     <string name="retry">RETRY</string>
+    <string name="login">LOGIN</string>
+    <string name="signup">SIGNUP</string>
+    <string name="forgotPassword">FORGOT PASSWORD</string>
+    <string name="resetPassword">RESET PASSWORD</string>
     <string name="noBookmarks">You have not bookmarked any article.</string>
     <string name="noUpvotes">You have not upvoted any article.</string>
     <string name="thanks">Thanks for contributing.</string>
@@ -38,4 +46,8 @@
     <string name="title_activity_upvoted">UpvotedActivity</string>
     <string name="title_activity_trending">TrendingActivity</string>
     <string name="title_activity_user_profile_creation">UserProfileCreationActivity</string>
+    <string name="title_activity_create_article">CreateArticleActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_signup">SignupActivity</string>
+    <string name="title_activity_forgot_password">ForgotPasswordActivity</string>
 </resources>

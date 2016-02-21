@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite">
+
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar">
+            </include>
+        </android.support.design.widget.AppBarLayout>
+
+        <LinearLayout
+            android:id="@+id/emailLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
+            android:background="@drawable/border_button_green"
+            android:layout_below="@id/appbarLayout" >
+
+            <EditText
+                android:id="@+id/emailId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/smallMargin"
+                android:layout_marginTop="@dimen/smallMargin"
+                android:layout_marginBottom="@dimen/smallMargin"
+                android:textColor="@color/colorPrimary"
+                android:background="@null"
+                android:hint="@string/emailHint"
+                android:textColorHint="@color/colorPrimary"
+                android:inputType="textEmailAddress"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/passwordLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/largeMargin"
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
+            android:background="@drawable/border_button_green"
+            android:layout_below="@id/emailLinearLayout" >
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/smallMargin"
+                android:layout_marginTop="@dimen/smallMargin"
+                android:layout_marginBottom="@dimen/smallMargin"
+                android:textColor="@color/colorPrimary"
+                android:background="@null"
+                android:hint="@string/passwordHint"
+                android:textColorHint="@color/colorPrimary"
+                android:inputType="textEmailAddress"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/forgotPasswordLink"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/smallMargin"
+            android:layout_marginTop="@dimen/smallMargin"
+            android:layout_below="@id/passwordLinearLayout"
+            android:gravity="right"
+            android:layout_marginRight="36dp"
+            android:text="@string/forgotPasswordString"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/colorPrimary" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/submitButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
+            android:layout_marginTop="44dp"
+            android:layout_below="@id/passwordLinearLayout"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:background="@drawable/button_selector"
+            android:clickable="true"
+            android:textColor="@color/colorWhite"
+            android:text="@string/login"
+            android:textStyle="normal"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/signupLink"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/smallMargin"
+            android:layout_marginTop="@dimen/smallMargin"
+            android:layout_below="@id/submitButton"
+            android:gravity="center_horizontal"
+            android:layout_marginRight="36dp"
+            android:layout_marginLeft="36dp"
+            android:text="@string/signupString"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/colorPrimary" />
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

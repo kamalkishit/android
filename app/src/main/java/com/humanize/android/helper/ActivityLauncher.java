@@ -4,11 +4,15 @@ import android.content.Intent;
 
 import com.humanize.android.activity.AboutUsActivity;
 import com.humanize.android.activity.BookmarksActivity;
+import com.humanize.android.activity.CreateArticleActivity;
+import com.humanize.android.activity.ForgotPasswordActivity;
 import com.humanize.android.activity.HomeActivity;
 import com.humanize.android.activity.ContactUsActivity;
 import com.humanize.android.activity.HistoricPaperActivity;
 import com.humanize.android.activity.InviteFriendActivity;
+import com.humanize.android.activity.LoginActivity;
 import com.humanize.android.activity.PaperActivity;
+import com.humanize.android.activity.SignupActivity;
 import com.humanize.android.activity.UpdateCategoriesActivity;
 import com.humanize.android.activity.SubmitArticleActivity;
 import com.humanize.android.activity.SingleCategoryContentActivity;
@@ -30,6 +34,24 @@ public class ActivityLauncher {
 
     public void startUserProfileActivity() {
         Intent intent = new Intent(ApplicationState.getAppContext(), UserProfileActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ApplicationState.getAppContext().startActivity(intent);
+    }
+
+    public void startLoginActivity() {
+        Intent intent = new Intent(ApplicationState.getAppContext(), LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ApplicationState.getAppContext().startActivity(intent);
+    }
+
+    public void startSignupActivity() {
+        Intent intent = new Intent(ApplicationState.getAppContext(), SignupActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ApplicationState.getAppContext().startActivity(intent);
+    }
+
+    public void startForgotPasswordActivity() {
+        Intent intent = new Intent(ApplicationState.getAppContext(), ForgotPasswordActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ApplicationState.getAppContext().startActivity(intent);
     }
@@ -79,6 +101,12 @@ public class ActivityLauncher {
 
     public void startSubmitArticleActivity() {
         Intent intent = new Intent(ApplicationState.getAppContext(), SubmitArticleActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ApplicationState.getAppContext().startActivity(intent);
+    }
+
+    public void startCreateArticleActivity() {
+        Intent intent = new Intent(ApplicationState.getAppContext(), CreateArticleActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ApplicationState.getAppContext().startActivity(intent);
     }

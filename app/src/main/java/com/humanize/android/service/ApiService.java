@@ -1,5 +1,6 @@
 package com.humanize.android.service;
 
+import com.humanize.android.data.Article;
 import com.humanize.android.data.ContactUs;
 import com.humanize.android.data.ContentSearchParams;
 import com.humanize.android.data.ContentUpdateParams;
@@ -24,4 +25,5 @@ public interface ApiService {
     void getPaper(PaperParams paperParams, Callback callback);
     void updateContent(ContentUpdateParams contentUpdateParams, Callback callback);
     void registerDevice(UserDevice userDevice, Callback callback);
+    void createArticle(Article article, Callback callback);
 }

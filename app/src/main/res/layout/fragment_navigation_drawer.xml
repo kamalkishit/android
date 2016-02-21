@@ -45,6 +45,13 @@
         </LinearLayout>
 
         <include
+            android:id="@+id/login"
+            layout="@layout/nav_drawer_item_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/extraSmallMargin" />
+
+        <include
             android:id="@+id/settings"
             layout="@layout/nav_drawer_item_row"
             android:layout_width="match_parent"
@@ -160,6 +167,13 @@
 
         <include
             android:id="@+id/contactUs"
+            layout="@layout/nav_drawer_item_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/extraSmallMargin" />
+
+        <include
+            android:id="@+id/logout"
             layout="@layout/nav_drawer_item_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

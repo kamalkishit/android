@@ -190,7 +190,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             upvoteButton = (ImageButton) view.findViewById(R.id.upvoteButton);
             shareButton = (ImageButton) view.findViewById(R.id.shareButton);
 
-            linearLayoutCounts.setVisibility(View.GONE);
+            //linearLayoutCounts.setVisibility(View.GONE);
             configureListeners();
 
             view.setOnClickListener(this);

@@ -9,12 +9,19 @@ public class StringConstants {
 
     public static String EMAIL_VALIDATION_ERROR_STR = "Email is empty or invalid";
     public static String URL_VALIDATION_ERROR_STR = "URL is empty or invalid";
+    public static String CATEGORY_NOT_SELECTED = "Please select category";
+    public static String URL_NOT_VERIFIED = "Please verify url";
     public static String SUBJECT_VALIDATION_ERROR_STR = "Subject is empty";
     public static String BODY_VALIDATION_ERROR_STR = "Message body is empty";
     public static String CATETORY_SELECTION_ERROR_STR = "Select at least one category";
 
     public static String CATEGORY = "Category";
 
+    public static String LOGIN_SIGNUP = "Login/Signup";
+    public static String LOGIN = "Login";
+    public static String LOGOUT = "Logout";
+    public static String SIGNUP = "Signup";
+    public static String FORGOT_PASSWORD = "Forgot Password";
     public static String SETTINGS = "Settings";
     public static String CONTACT_US = "Contact Us";
     public static String ABOUT_US = "About Us";
@@ -42,6 +49,7 @@ public class StringConstants {
     public static String MEDIA_TYPE_JSON = "application/json; charset=utf-8";
     public static String DATE_FORMAT_STR = "MMM dd yyyy";
 
+    public static String SELECT_CATEGORY = "Select Category";
     public static String ACHIEVERS = "Achievers";
     public static String BEAUTIFUL = "Beautiful";
     public static String CHANGEMAKERS = "Changemakers";

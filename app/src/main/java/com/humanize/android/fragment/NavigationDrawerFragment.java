@@ -42,6 +42,7 @@ import butterknife.ButterKnife;
 public class NavigationDrawerFragment extends Fragment {
 
     @Bind(R.id.userProfile) RelativeLayout userProfile;
+    @Bind(R.id.login) LinearLayout login;
     @Bind(R.id.settings) LinearLayout settings;
     @Bind(R.id.updateCategories) LinearLayout updateCategories;
     @Bind(R.id.updatePaperTime) LinearLayout updatePaperTime;
@@ -56,6 +57,7 @@ public class NavigationDrawerFragment extends Fragment {
     @Bind(R.id.shareApp) LinearLayout shareApp;
     @Bind(R.id.aboutUs) LinearLayout aboutUs;
     @Bind(R.id.contactUs) LinearLayout contactUs;
+    @Bind(R.id.logout) LinearLayout logout;
 
     @Bind(R.id.rateUs) LinearLayout rateUs;
 
@@ -92,6 +94,11 @@ public class NavigationDrawerFragment extends Fragment {
         historicPaper.setVisibility(View.GONE);
 
         userProfile.getLayoutParams().height = (Config.SCREEN_HEIGHT*3)/10;
+
+        TextView textViewLogin = (TextView) login.findViewById(R.id.textView);
+        textViewLogin.setText(StringConstants.LOGIN_SIGNUP);
+        ImageView imageViewLogin = (ImageView) login.findViewById(R.id.imageView);
+        imageViewLogin.setImageResource(R.drawable.ic_login_black);
 
         TextView textViewSettings = (TextView) settings.findViewById(R.id.textView);
         textViewSettings.setText(StringConstants.SETTINGS);
@@ -171,6 +178,11 @@ public class NavigationDrawerFragment extends Fragment {
         textViewRateUs.setText(StringConstants.RATE_US);
         ImageView imageViewRateUs = (ImageView) rateUs.findViewById(R.id.imageView);
         imageViewRateUs.setImageResource(R.drawable.ic_rate_us_black);
+
+        TextView textViewLogout = (TextView) logout.findViewById(R.id.textView);
+        textViewLogout.setText(StringConstants.LOGOUT);
+        ImageView imageViewLogout = (ImageView) logout.findViewById(R.id.imageView);
+        imageViewLogout.setImageResource(R.drawable.ic_logout_black);
     }
 
     private void defaultStateDrawer() {
@@ -186,6 +198,14 @@ public class NavigationDrawerFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 activityLauncher.startUserProfileActivity();
+                drawerLayout.closeDrawer(Gravity.LEFT);
+            }
+        });
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activityLauncher.startLoginActivity();
                 drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });
@@ -337,12 +357,19 @@ public class NavigationDrawerFragment extends Fragment {
             }
         });
 
-
         rateUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                     rateApp();
                     drawerLayout.closeDrawer(Gravity.LEFT);
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //logout();
+                drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });
     }

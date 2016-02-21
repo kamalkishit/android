@@ -2,6 +2,7 @@ package com.humanize.android.service;
 
 import com.humanize.android.config.ApiUrls;
 import com.humanize.android.config.StringConstants;
+import com.humanize.android.data.Article;
 import com.humanize.android.data.ContactUs;
 import com.humanize.android.data.ContentSearchParams;
 import com.humanize.android.data.ContentUpdateParams;
@@ -93,6 +94,14 @@ public class ApiServiceImpl implements ApiService {
     public void registerDevice(UserDevice userDevice, Callback callback) {
         try {
             post(ApiUrls.URL_GCM_REGISTER, toJson(userDevice), callback);
+        } catch (Exception exception) {
+            logService.e(TAG, exception.getMessage());
+        }
+    }
+
+    public void createArticle(Article article, Callback callback) {
+        try {
+            post(ApiUrls.URL_CREATE_ARTICLE, toJson(article), callback);
         } catch (Exception exception) {
             logService.e(TAG, exception.getMessage());
         }
