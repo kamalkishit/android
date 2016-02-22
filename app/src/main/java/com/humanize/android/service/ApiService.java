@@ -5,10 +5,14 @@ import com.humanize.android.data.ContactUs;
 import com.humanize.android.data.ContentSearchParams;
 import com.humanize.android.data.ContentUpdateParams;
 import com.humanize.android.data.InviteFriend;
+import com.humanize.android.data.LoginObj;
 import com.humanize.android.data.PaperParams;
+import com.humanize.android.data.ResetPasswordObj;
+import com.humanize.android.data.SignupObj;
 import com.humanize.android.data.SubmitArticle;
 import com.humanize.android.data.UserDevice;
 
+import okhttp3.Call;
 import okhttp3.Callback;
 
 /**
@@ -26,4 +30,8 @@ public interface ApiService {
     void updateContent(ContentUpdateParams contentUpdateParams, Callback callback);
     void registerDevice(UserDevice userDevice, Callback callback);
     void createArticle(Article article, Callback callback);
+
+    void signup(SignupObj signupObj, Callback callback);
+    void login(LoginObj loginObj, Callback callback);
+    void resetPassword(ResetPasswordObj resetPasswordObj, Callback callback);
 }

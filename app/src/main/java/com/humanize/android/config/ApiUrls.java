@@ -22,4 +22,9 @@ public class ApiUrls {
     public final static String URL_UPDATE_CONTENT = URL_SERVER + "/api/content/update";
 
     public final static String URL_GCM_REGISTER = URL_SERVER + "/api/gcm/register";
+
+    public final static String URL_SIGNUP = URL_SERVER + "/api/user/signup";
+    public final static String URL_LOGIN = URL_SERVER + "/api/user/login";
+    public final static String URL_FORGOT_PASSWORD = URL_SERVER + "/api/user/forgot";
+    public final static String URL_RESET_PASSWORD = URL_SERVER + "/api/user/reset";
 }

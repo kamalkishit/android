@@ -3,8 +3,10 @@ package com.humanize.android.activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,7 +16,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.humanize.android.R;
+import com.humanize.android.config.Config;
 import com.humanize.android.config.StringConstants;
+import com.humanize.android.data.SignupObj;
 import com.humanize.android.service.ApiService;
 import com.humanize.android.service.ApiServiceImpl;
 import com.humanize.android.service.LogService;
@@ -92,8 +96,46 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View view) {
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-                //submit();
+                signup();
             }
         });
+    }
+
+    private boolean validate() {
+        String emailStr = emailId.getText().toString();
+        String passwordStr = password.getText().toString();
+
+        if (emailStr.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(emailStr).matches()) {
+            emailId.setError(StringConstants.EMAIL_VALIDATION_ERROR_STR);
+            Snackbar.make(coordinatorLayout, StringConstants.EMAIL_VALIDATION_ERROR_STR, Snackbar.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (passwordStr.isEmpty() || passwordStr.length() < Config.PASSWORD_MIN_LENGTH || password.length() > Config.PASSWORD_MAX_LENGTH) {
+            password.setError(StringConstants.INVALID_PASSWORD_LENGTH);
+            Snackbar.make(coordinatorLayout, StringConstants.INVALID_PASSWORD_LENGTH, Snackbar.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
+    private void signup() {
+        if (validate()) {
+            submitButton.setEnabled(false);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage(StringConstants.REGISTERING);
+            progressDialog.show();
+
+            if (getIntent().getData() != null) {
+                SignupObj signupObj = new SignupObj();
+                signupObj.setEmailId(emailId.getText().toString());
+                signupObj.setPassword(password.getText().toString());
+
+            } else {
+                // TBD:
+            }
+
+        }
     }
 }

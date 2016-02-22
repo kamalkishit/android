@@ -8,6 +8,7 @@ public class StringConstants {
     public static String DOUBLE_BACK_EXIT_STR = "Please click back again to exit";
 
     public static String EMAIL_VALIDATION_ERROR_STR = "Email is empty or invalid";
+    public static String INVALID_PASSWORD_LENGTH = "Password length must be between 8 to 16 characters";
     public static String URL_VALIDATION_ERROR_STR = "URL is empty or invalid";
     public static String CATEGORY_NOT_SELECTED = "Please select category";
     public static String URL_NOT_VERIFIED = "Please verify url";
@@ -40,8 +41,13 @@ public class StringConstants {
     public static String UPVOTED_ARTICLES = "Upvoted Articles";
     public static String INVITE_FRIEND = "Invite Friend";
     public static String SHARE_APP = "Share App";
+    public static String REGISTERING = "Registering...";
+    public static String AUTHENTICATING = "Authenticating...";
     public static String SUBMITTING = "Submitting...";
     public static String INVITING = "Inviting...";
+    public static String RESETTING_PASSWORD = "Resetting password...";
+
+    public static String LOGIN_FAILURE_STR = "Invalid Username or Password";
 
     public static String HUMANIZE = "HUMANIZE";
     public static String HUMANIZE_SHARE_STR = " -via HUMANIZE";

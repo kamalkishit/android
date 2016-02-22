@@ -21,6 +21,9 @@ public class Config {
     public final static String URL = "url";
     public final static String SOURCE = "source";
 
+    public final static int PASSWORD_MIN_LENGTH = 8;
+    public final static int PASSWORD_MAX_LENGTH = 16;
+
     public static int PAPER_HOUR = 8;
     public static int PAPER_MINUTE = 0;
     public static int ASPECT_RATIO_WIDTH = 3;

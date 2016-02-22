@@ -7,7 +7,10 @@ import com.humanize.android.data.ContactUs;
 import com.humanize.android.data.ContentSearchParams;
 import com.humanize.android.data.ContentUpdateParams;
 import com.humanize.android.data.InviteFriend;
+import com.humanize.android.data.LoginObj;
 import com.humanize.android.data.PaperParams;
+import com.humanize.android.data.ResetPasswordObj;
+import com.humanize.android.data.SignupObj;
 import com.humanize.android.data.SubmitArticle;
 import com.humanize.android.data.UserDevice;
 
@@ -102,6 +105,31 @@ public class ApiServiceImpl implements ApiService {
     public void createArticle(Article article, Callback callback) {
         try {
             post(ApiUrls.URL_CREATE_ARTICLE, toJson(article), callback);
+        } catch (Exception exception) {
+            logService.e(TAG, exception.getMessage());
+        }
+    }
+
+
+    public void signup(SignupObj signupObj, Callback callback) {
+        try {
+            post(ApiUrls.URL_SIGNUP, toJson(signupObj), callback);
+        } catch (Exception exception) {
+            logService.e(TAG, exception.getMessage());
+        }
+    }
+
+    public void login(LoginObj loginObj, Callback callback) {
+        try {
+            post(ApiUrls.URL_LOGIN, toJson(loginObj), callback);
+        } catch (Exception exception) {
+            logService.e(TAG, exception.getMessage());
+        }
+    }
+
+    public void resetPassword(ResetPasswordObj resetPasswordObj, Callback callback) {
+        try {
+            post(ApiUrls.URL_RESET_PASSWORD, toJson(resetPasswordObj), callback);
         } catch (Exception exception) {
             logService.e(TAG, exception.getMessage());
         }

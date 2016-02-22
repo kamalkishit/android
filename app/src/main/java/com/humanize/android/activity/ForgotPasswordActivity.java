@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,7 +17,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.humanize.android.R;
+import com.humanize.android.config.Config;
 import com.humanize.android.config.StringConstants;
+import com.humanize.android.data.SignupObj;
 import com.humanize.android.service.ApiService;
 import com.humanize.android.service.ApiServiceImpl;
 import com.humanize.android.service.LogService;
@@ -93,10 +96,29 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             public void onClick(View view) {
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-                //submit();
-
+                submit();
             }
         });
     }
 
+    private boolean validate() {
+        String emailStr = emailId.getText().toString();
+
+        if (emailStr.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(emailStr).matches()) {
+            emailId.setError(StringConstants.EMAIL_VALIDATION_ERROR_STR);
+            Snackbar.make(coordinatorLayout, StringConstants.EMAIL_VALIDATION_ERROR_STR, Snackbar.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
+    private void submit() {
+        if (validate()) {
+            submitButton.setEnabled(false);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage(StringConstants.REGISTERING);
+            progressDialog.show();
+        }
+    }
 }
