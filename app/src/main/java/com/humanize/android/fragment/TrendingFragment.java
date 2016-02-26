@@ -7,13 +7,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +20,6 @@ import android.widget.ProgressBar;
 
 import com.humanize.android.R;
 import com.humanize.android.config.Config;
-import com.humanize.android.config.Constants;
 import com.humanize.android.config.StringConstants;
 import com.humanize.android.data.ContentSearchParams;
 import com.humanize.android.data.Contents;
@@ -140,7 +136,7 @@ public class TrendingFragment extends Fragment {
     private void getTrends() {
         circularProgressBar.setVisibility(View.VISIBLE);
         ContentSearchParams contentSearchParams = new ContentSearchParams();
-        contentSearchParams.setCategories(ApplicationState.getUser().getCategories());
+        contentSearchParams.setCategories(ApplicationState.getGuestUser().getCategories());
         apiService.getTrends(new ContentCallback());
     }
 

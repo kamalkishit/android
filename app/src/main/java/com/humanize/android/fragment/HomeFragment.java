@@ -7,9 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -139,13 +137,13 @@ public class HomeFragment extends Fragment {
     private void getContent() {
         circularProgressBar.setVisibility(View.VISIBLE);
         ContentSearchParams contentSearchParams = new ContentSearchParams();
-        contentSearchParams.setCategories(ApplicationState.getUser().getCategories());
+        contentSearchParams.setCategories(ApplicationState.getGuestUser().getCategories());
         apiService.getContents(contentSearchParams, new ContentCallback());
     }
 
     private void getNewContent(long endDate) {
         ContentSearchParams contentSearchParams = new ContentSearchParams();
-        contentSearchParams.setCategories(ApplicationState.getUser().getCategories());
+        contentSearchParams.setCategories(ApplicationState.getGuestUser().getCategories());
         contentSearchParams.setCreatedDate(endDate);
         contentSearchParams.setRefresh(true);
         apiService.getContents(contentSearchParams, new NewContentCallback());
@@ -153,7 +151,7 @@ public class HomeFragment extends Fragment {
 
     private void getMoreContent(long startDate) {
         ContentSearchParams contentSearchParams = new ContentSearchParams();
-        contentSearchParams.setCategories(ApplicationState.getUser().getCategories());
+        contentSearchParams.setCategories(ApplicationState.getGuestUser().getCategories());
         contentSearchParams.setCreatedDate(startDate);
         apiService.getContents(contentSearchParams, new MoreContentCallback());
     }

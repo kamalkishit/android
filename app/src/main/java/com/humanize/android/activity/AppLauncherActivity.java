@@ -42,7 +42,7 @@ public class AppLauncherActivity extends AppCompatActivity {
 
     public void onDestroy() {
         try {
-            SharedPreferencesService.getInstance().putString(Config.JSON_USER_DATA, jsonParserService.toJson(ApplicationState.getUser()));
+            SharedPreferencesService.getInstance().putString(Config.JSON_GUEST_USER_DATA, jsonParserService.toJson(ApplicationState.getGuestUser()));
         } catch (Exception exception) {
 
         }

@@ -11,8 +11,9 @@ import android.widget.TextView;
 
 import com.humanize.android.R;
 import com.humanize.android.config.StringConstants;
-import com.humanize.android.data.User;
+import com.humanize.android.data.GuestUser;
 import com.humanize.android.helper.ActivityLauncher;
+import com.humanize.android.service.GsonParserServiceImpl;
 import com.humanize.android.service.SharedPreferencesService;
 import com.humanize.android.helper.ApplicationState;
 import com.humanize.android.config.Config;
@@ -156,7 +157,13 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
                 } else {
                     List<String> categoriesList = new ArrayList<>();
                     categoriesList.addAll(categories);
-                    ApplicationState.getUser().setCategories(categoriesList);
+                    ApplicationState.getGuestUser().setCategories(categoriesList);
+
+                    try {
+                        SharedPreferencesService.getInstance().putString(Config.JSON_GUEST_USER_DATA, new GsonParserServiceImpl().toJson(ApplicationState.getGuestUser()));
+                    } catch (Exception exception) {
+
+                    }
 
                     SharedPreferencesService.getInstance().delete(Config.JSON_HOME_CONTENTS);
                     new ActivityLauncher().startHomeActivity();
@@ -322,62 +329,62 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
     }
 
     private void updateView() {
-        if (ApplicationState.getUser() != null && ApplicationState.getUser().getCategories() != null) {
-            User user = ApplicationState.getUser();
+        if (ApplicationState.getGuestUser() != null && ApplicationState.getGuestUser().getCategories() != null) {
+            GuestUser guestUser = ApplicationState.getGuestUser();
 
-            if (user.getCategories().contains(StringConstants.ACHIEVERS)) {
+            if (guestUser.getCategories().contains(StringConstants.ACHIEVERS)) {
                 selectCategory(achievers);
             }
 
-            if (user.getCategories().contains(StringConstants.BEAUTIFUL)) {
+            if (guestUser.getCategories().contains(StringConstants.BEAUTIFUL)) {
                 selectCategory(beautiful);
             }
 
-            if (user.getCategories().contains(StringConstants.CHANGEMAKERS)) {
+            if (guestUser.getCategories().contains(StringConstants.CHANGEMAKERS)) {
                 selectCategory(changemakers);
             }
 
-            if (user.getCategories().contains(StringConstants.EDUCATION)) {
+            if (guestUser.getCategories().contains(StringConstants.EDUCATION)) {
                 selectCategory(education);
             }
 
-            if (user.getCategories().contains(StringConstants.EMPOWERMENT)) {
+            if (guestUser.getCategories().contains(StringConstants.EMPOWERMENT)) {
                 selectCategory(empowerment);
             }
 
-            if (user.getCategories().contains(StringConstants.ENVIRONMENT)) {
+            if (guestUser.getCategories().contains(StringConstants.ENVIRONMENT)) {
                 selectCategory(environment);
             }
 
-            if (user.getCategories().contains(StringConstants.GOVERNANCE)) {
+            if (guestUser.getCategories().contains(StringConstants.GOVERNANCE)) {
                 selectCategory(governance);
             }
 
-            if (user.getCategories().contains(StringConstants.HEALTH)) {
+            if (guestUser.getCategories().contains(StringConstants.HEALTH)) {
                 selectCategory(health);
             }
 
-            if (user.getCategories().contains(StringConstants.HUMANITY)) {
+            if (guestUser.getCategories().contains(StringConstants.HUMANITY)) {
                 selectCategory(humanity);
             }
 
-            if (user.getCategories().contains(StringConstants.INSPIRING)) {
+            if (guestUser.getCategories().contains(StringConstants.INSPIRING)) {
                 selectCategory(inspiring);
             }
 
-            if (user.getCategories().contains(StringConstants.REAL_HEROES)) {
+            if (guestUser.getCategories().contains(StringConstants.REAL_HEROES)) {
                 selectCategory(realHeroes);
             }
 
-            if (user.getCategories().contains(StringConstants.LAW_AND_JUSTICE)) {
+            if (guestUser.getCategories().contains(StringConstants.LAW_AND_JUSTICE)) {
                 selectCategory(lawAndJustice);
             }
 
-            if (user.getCategories().contains(StringConstants.SCIENCE_AND_TECH)) {
+            if (guestUser.getCategories().contains(StringConstants.SCIENCE_AND_TECH)) {
                 selectCategory(scienceAndTech);
             }
 
-            if (user.getCategories().contains(StringConstants.SPORTS)) {
+            if (guestUser.getCategories().contains(StringConstants.SPORTS)) {
                 selectCategory(sports);
             }
         }

@@ -3,7 +3,6 @@ package com.humanize.android.activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,9 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.humanize.android.R;
-import com.humanize.android.config.Config;
 import com.humanize.android.config.StringConstants;
-import com.humanize.android.data.SignupObj;
 import com.humanize.android.service.ApiService;
 import com.humanize.android.service.ApiServiceImpl;
 import com.humanize.android.service.LogService;

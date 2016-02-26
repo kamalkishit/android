@@ -4,15 +4,10 @@ import android.os.Bundle;;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.humanize.android.R;
 import com.humanize.android.helper.ApplicationState;
-import com.humanize.android.utils.CircleTransformation;
-import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -71,15 +66,15 @@ public class UserProfileActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if (ApplicationState.getUser().getBookmarks().size() == 1) {
+        if (ApplicationState.getGuestUser().getBookmarks().size() == 1) {
             bookmarkedContent.setText("Bookmark");
         }
 
-        if (ApplicationState.getUser().getUpvotes().size() == 1) {
+        if (ApplicationState.getGuestUser().getUpvotes().size() == 1) {
             upvotedContent.setText("Upvote");
         }
 
-        bookmarksCount.setText("" + ApplicationState.getUser().getBookmarks().size());
-        upvotesCount.setText("" + ApplicationState.getUser().getUpvotes().size());
+        bookmarksCount.setText("" + ApplicationState.getGuestUser().getBookmarks().size());
+        upvotesCount.setText("" + ApplicationState.getGuestUser().getUpvotes().size());
     }
 }

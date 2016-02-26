@@ -35,7 +35,7 @@ public class HumanizeGcmListenerServiceImpl extends GcmListenerService {
         String imageUrl = data.getString(StringConstants.IMAGE_URL);
         String urlId = data.getString(StringConstants.URL_ID);
 
-        if (ApplicationState.getUser().getNotification()) {
+        if (ApplicationState.getGuestUser().getNotification()) {
             sendNotification(title, imageUrl, urlId);
         }
     }

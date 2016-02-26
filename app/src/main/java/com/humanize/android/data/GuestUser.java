@@ -7,27 +7,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by kamal on 2/24/16.
+ * Created by kamal on 1/15/16.
  */
-public class User {
-
-    private String emailId;
-    private String firstName;
-    private String lastName;
-    private String originalCity;
-    private String currentCity;
+public class GuestUser {
 
     private List<String> categories;
     private List<String> bookmarks;
     private List<String> upvotes;
     private PaperTime paperTime;
+    private boolean paperNotification;
     private boolean notification;
 
-    public User() {
+    public GuestUser() {
         categories = new ArrayList<>();
         bookmarks = new ArrayList<>();
         upvotes = new ArrayList<>();
         paperTime = new PaperTime(Config.PAPER_HOUR, Config.PAPER_MINUTE);
+        paperNotification = true;
         notification = true;
 
         categories.add(StringConstants.ACHIEVERS);
@@ -46,38 +42,6 @@ public class User {
         categories.add(StringConstants.SCIENCE_AND_TECH);
         categories.add(StringConstants.SMILE);
         categories.add(StringConstants.SPORTS);
-    }
-
-    public String getEmailId() {
-        return emailId;
-    }
-
-    public void setEmailId(String emailId) {
-        this.emailId = emailId;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getCurrentCity() {
-        return currentCity;
-    }
-
-    public void setCurrentCity(String currentCity) {
-        this.currentCity = currentCity;
     }
 
     public List<String> getCategories() {
@@ -112,19 +76,19 @@ public class User {
         this.paperTime = paperTime;
     }
 
-    public boolean isNotification() {
+    public boolean getPaperNotification() {
+        return paperNotification;
+    }
+
+    public void setPaperNotification(boolean paperNotification) {
+        this.paperNotification = paperNotification;
+    }
+
+    public boolean getNotification() {
         return notification;
     }
 
     public void setNotification(boolean notification) {
         this.notification = notification;
-    }
-
-    public String getOriginalCity() {
-        return originalCity;
-    }
-
-    public void setOriginalCity(String originalCity) {
-        this.originalCity = originalCity;
     }
 }

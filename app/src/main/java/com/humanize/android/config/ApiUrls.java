@@ -7,7 +7,7 @@ import com.humanize.android.BuildConfig;
  */
 public class ApiUrls {
 
-    public final static String URL_SERVER = BuildConfig.URL_SERVER;
+    public final static String URL_SERVER = /*"http://192.168.0.3";*/ BuildConfig.URL_SERVER;
     public final static String URL_IMAGES = URL_SERVER + "/images/";
 
     public final static String URL_INVITE_FRIEND = URL_SERVER + "/api/user/invite";

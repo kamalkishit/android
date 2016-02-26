@@ -3,7 +3,7 @@ package com.humanize.android.data;
 /**
  * Created by kamal on 2/22/16.
  */
-public class ResetPasswordObj {
+public class ResetPasswordUser {
 
     private String emailId;
     private String verificationCode;

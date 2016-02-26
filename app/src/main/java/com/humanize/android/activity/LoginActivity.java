@@ -19,16 +19,13 @@ import android.widget.TextView;
 
 import com.humanize.android.R;
 import com.humanize.android.config.Config;
-import com.humanize.android.config.Constants;
 import com.humanize.android.config.StringConstants;
-import com.humanize.android.data.LoginObj;
-import com.humanize.android.fragment.ContactUsSuccessFragment;
+import com.humanize.android.data.LoginUser;
 import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.service.ApiService;
 import com.humanize.android.service.ApiServiceImpl;
 import com.humanize.android.service.LogService;
 import com.humanize.android.service.LogServiceImpl;
-import com.humanize.android.service.SharedPreferencesService;
 
 import java.io.IOException;
 
@@ -138,9 +135,9 @@ public class LoginActivity extends AppCompatActivity {
             progressDialog.setMessage(StringConstants.AUTHENTICATING);
             progressDialog.show();
 
-            LoginObj loginObj = new LoginObj();
-            loginObj.setEmailId(emailId.getText().toString());
-            loginObj.setPassword(password.getText().toString());
+            LoginUser loginUser = new LoginUser();
+            loginUser.setEmailId(emailId.getText().toString());
+            loginUser.setPassword(password.getText().toString());
         }
     }
 

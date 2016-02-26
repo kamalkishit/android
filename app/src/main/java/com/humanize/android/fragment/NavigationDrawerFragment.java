@@ -3,12 +3,9 @@ package com.humanize.android.fragment;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -24,17 +21,12 @@ import android.widget.TextView;
 
 import com.humanize.android.R;
 import com.humanize.android.config.Config;
-import com.humanize.android.config.Constants;
 import com.humanize.android.config.StringConstants;
-import com.humanize.android.data.User;
+import com.humanize.android.data.GuestUser;
 import com.humanize.android.helper.ActivityLauncher;
 import com.humanize.android.helper.ApplicationState;
 import com.humanize.android.service.GsonParserServiceImpl;
 import com.humanize.android.service.SharedPreferencesService;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -120,14 +112,14 @@ public class NavigationDrawerFragment extends Fragment {
         ImageView imageViewUpdatePaperNotification = (ImageView) updatePaperNotification.findViewById(R.id.imageView);
         imageViewUpdatePaperNotification.setImageResource(R.drawable.ic_notification_black);
         paperNotificationSwitch = (Switch) updatePaperNotification.findViewById(R.id.paperNotificationSwitch);
-        paperNotificationSwitch.setChecked(ApplicationState.getUser().getPaperNotification());
+        paperNotificationSwitch.setChecked(ApplicationState.getGuestUser().getPaperNotification());
 
         TextView textViewUpdateNotification = (TextView) updateNotification.findViewById(R.id.textView);
         textViewUpdateNotification.setText(StringConstants.NOTIFICATION);
         ImageView imageViewUpdateNotification = (ImageView) updateNotification.findViewById(R.id.imageView);
         imageViewUpdateNotification.setImageResource(R.drawable.ic_notification_black);
         notificationSwitch = (Switch) updateNotification.findViewById(R.id.paperNotificationSwitch);
-        notificationSwitch.setChecked(ApplicationState.getUser().getNotification());
+        notificationSwitch.setChecked(ApplicationState.getGuestUser().getNotification());
 
         TextView textViewPaper = (TextView) paper.findViewById(R.id.textView);
         textViewPaper.setText(StringConstants.PAPER);
@@ -248,17 +240,17 @@ public class NavigationDrawerFragment extends Fragment {
         paperNotificationSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                User user = ApplicationState.getUser();
-                if (user.getPaperNotification()) {
+                GuestUser guestUser = ApplicationState.getGuestUser();
+                if (guestUser.getPaperNotification()) {
                     paperNotificationSwitch.setChecked(false);
-                    user.setPaperNotification(false);
+                    guestUser.setPaperNotification(false);
                 } else {
                     paperNotificationSwitch.setChecked(true);
-                    user.setPaperNotification(true);
+                    guestUser.setPaperNotification(true);
                 }
 
                 try {
-                    SharedPreferencesService.getInstance().putString(Config.JSON_USER_DATA, new GsonParserServiceImpl().toJson(user));
+                    SharedPreferencesService.getInstance().putString(Config.JSON_GUEST_USER_DATA, new GsonParserServiceImpl().toJson(guestUser));
                 } catch (Exception exception) {
 
                 }
@@ -268,17 +260,17 @@ public class NavigationDrawerFragment extends Fragment {
         notificationSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                User user = ApplicationState.getUser();
-                if (user.getNotification()) {
+                GuestUser guestUser = ApplicationState.getGuestUser();
+                if (guestUser.getNotification()) {
                     notificationSwitch.setChecked(false);
-                    user.setNotification(false);
+                    guestUser.setNotification(false);
                 } else {
                     notificationSwitch.setChecked(true);
-                    user.setNotification(true);
+                    guestUser.setNotification(true);
                 }
 
                 try {
-                    SharedPreferencesService.getInstance().putString(Config.JSON_USER_DATA, new GsonParserServiceImpl().toJson(user));
+                    SharedPreferencesService.getInstance().putString(Config.JSON_GUEST_USER_DATA, new GsonParserServiceImpl().toJson(guestUser));
                 } catch (Exception exception) {
 
                 }

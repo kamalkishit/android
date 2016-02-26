@@ -8,14 +8,14 @@ import android.util.DisplayMetrics;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.ndk.CrashlyticsNdk;
 
+import com.humanize.android.data.User;
 import com.humanize.android.fragment.HomeFragment;
 import com.humanize.android.fragment.TrendingFragment;
 import com.humanize.android.service.GsonParserServiceImpl;
 import com.humanize.android.service.JsonParserService;
-import com.humanize.android.activity.HomeActivity;
 import com.humanize.android.config.Constants;
 import com.humanize.android.data.Contents;
-import com.humanize.android.data.User;
+import com.humanize.android.data.GuestUser;
 import com.humanize.android.service.LogService;
 import com.humanize.android.service.LogServiceImpl;
 import com.humanize.android.service.RegistrationIntentServiceImpl;
@@ -32,6 +32,7 @@ import io.fabric.sdk.android.Fabric;
 public class ApplicationState extends Application{
 
     private static Context context = null;
+    private static GuestUser guestUser = null;
     private static User user = null;
 
     private static final String TAG = ApplicationState.class.getSimpleName();
@@ -44,12 +45,20 @@ public class ApplicationState extends Application{
         initialize();
     }
 
-    public static void setUser(User user) {
-        ApplicationState.user = user;
+    public static void setGuestUser(GuestUser guestUser) {
+        ApplicationState.guestUser = guestUser;
+    }
+
+    public static GuestUser getGuestUser() {
+        return ApplicationState.guestUser;
     }
 
     public static User getUser() {
-        return ApplicationState.user;
+        return user;
+    }
+
+    public static void setUser(User user) {
+        ApplicationState.user = user;
     }
 
     public static Context getAppContext() {
@@ -82,10 +91,16 @@ public class ApplicationState extends Application{
                 TrendingFragment.contents = jsonParserService.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_TRENDING_CONTENTS), Contents.class);
             }
 
-            if (SharedPreferencesService.getInstance().getString(Config.JSON_USER_DATA) != null) {
-                user = jsonParserService.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_USER_DATA), User.class);
+            if (SharedPreferencesService.getInstance().getString(Config.JSON_GUEST_USER_DATA) != null) {
+                guestUser = jsonParserService.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_GUEST_USER_DATA), GuestUser.class);
             } else {
-                user = new User();
+                guestUser = new GuestUser();
+            }
+
+            if (SharedPreferencesService.getInstance().getString(Config.JSON_USER_DATA) != null) {
+                guestUser = jsonParserService.fromJson(SharedPreferencesService.getInstance().getString(Config.JSON_USER_DATA), GuestUser.class);
+            } else {
+                guestUser = new GuestUser();
             }
         } catch (Exception exception) {
             logService.e(TAG, exception.getMessage());

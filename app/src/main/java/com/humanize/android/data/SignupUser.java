@@ -3,7 +3,7 @@ package com.humanize.android.data;
 /**
  * Created by kamal on 2/22/16.
  */
-public class SignupObj {
+public class SignupUser {
 
     private String emailId;
     private String password;

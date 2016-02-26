@@ -14,7 +14,7 @@ import android.widget.TimePicker;
 import com.humanize.android.R;
 import com.humanize.android.config.Config;
 import com.humanize.android.data.PaperTime;
-import com.humanize.android.data.User;
+import com.humanize.android.data.GuestUser;
 import com.humanize.android.helper.ApplicationState;
 import com.humanize.android.service.GsonParserServiceImpl;
 import com.humanize.android.service.JsonParserService;
@@ -58,18 +58,18 @@ public class PaperTimeUpdateFragment extends DialogFragment {
         timePicker = (TimePicker) linearLayout.findViewById(R.id.timePicker);
         cancelButton = (TextView) linearLayout.findViewById(R.id.cancelButton);
         okButton = (TextView) linearLayout.findViewById(R.id.okButton);
-        timePicker.setCurrentHour(ApplicationState.getUser().getPaperTime().getHour());
-        timePicker.setCurrentMinute(ApplicationState.getUser().getPaperTime().getMinute());
+        timePicker.setCurrentHour(ApplicationState.getGuestUser().getPaperTime().getHour());
+        timePicker.setCurrentMinute(ApplicationState.getGuestUser().getPaperTime().getMinute());
     }
 
     private void configureListeners() {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                User user = ApplicationState.getUser();
-                user.setPaperTime(new PaperTime(timePicker.getCurrentHour().intValue(), timePicker.getCurrentMinute().intValue()));
+                GuestUser guestUser = ApplicationState.getGuestUser();
+                guestUser.setPaperTime(new PaperTime(timePicker.getCurrentHour().intValue(), timePicker.getCurrentMinute().intValue()));
                 try {
-                    SharedPreferencesService.getInstance().putString(Config.JSON_USER_DATA, jsonParserService.toJson(user));
+                    SharedPreferencesService.getInstance().putString(Config.JSON_GUEST_USER_DATA, jsonParserService.toJson(guestUser));
                 } catch (Exception exception) {
 
                 }

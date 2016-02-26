@@ -7,10 +7,10 @@ import com.humanize.android.data.ContactUs;
 import com.humanize.android.data.ContentSearchParams;
 import com.humanize.android.data.ContentUpdateParams;
 import com.humanize.android.data.InviteFriend;
-import com.humanize.android.data.LoginObj;
+import com.humanize.android.data.LoginUser;
 import com.humanize.android.data.PaperParams;
-import com.humanize.android.data.ResetPasswordObj;
-import com.humanize.android.data.SignupObj;
+import com.humanize.android.data.ResetPasswordUser;
+import com.humanize.android.data.SignupUser;
 import com.humanize.android.data.SubmitArticle;
 import com.humanize.android.data.UserDevice;
 
@@ -111,25 +111,41 @@ public class ApiServiceImpl implements ApiService {
     }
 
 
-    public void signup(SignupObj signupObj, Callback callback) {
+    public void signup(SignupUser signupUser, Callback callback) {
         try {
-            post(ApiUrls.URL_SIGNUP, toJson(signupObj), callback);
+            post(ApiUrls.URL_SIGNUP, toJson(signupUser), callback);
         } catch (Exception exception) {
             logService.e(TAG, exception.getMessage());
         }
     }
 
-    public void login(LoginObj loginObj, Callback callback) {
+    public void login(LoginUser loginUser, Callback callback) {
         try {
-            post(ApiUrls.URL_LOGIN, toJson(loginObj), callback);
+            post(ApiUrls.URL_LOGIN, toJson(loginUser), callback);
         } catch (Exception exception) {
             logService.e(TAG, exception.getMessage());
         }
     }
 
-    public void resetPassword(ResetPasswordObj resetPasswordObj, Callback callback) {
+    public void forgotPassword(String emailId, Callback callback) {
         try {
-            post(ApiUrls.URL_RESET_PASSWORD, toJson(resetPasswordObj), callback);
+            post(ApiUrls.URL_LOGIN, toJson(emailId), callback);
+        } catch (Exception exception) {
+            logService.e(TAG, exception.getMessage());
+        }
+    }
+
+    public void resetPassword(ResetPasswordUser resetPasswordUser, Callback callback) {
+        try {
+            post(ApiUrls.URL_RESET_PASSWORD, toJson(resetPasswordUser), callback);
+        } catch (Exception exception) {
+            logService.e(TAG, exception.getMessage());
+        }
+    }
+
+    public void getUserData(String token, Callback callback) {
+        try {
+            post(ApiUrls.URL_LOGIN, toJson(token), callback);
         } catch (Exception exception) {
             logService.e(TAG, exception.getMessage());
         }

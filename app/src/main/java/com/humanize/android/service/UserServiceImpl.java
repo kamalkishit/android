@@ -1,7 +1,6 @@
 package com.humanize.android.service;
 
-import com.humanize.android.data.Content;
-import com.humanize.android.data.User;
+import com.humanize.android.data.GuestUser;
 import com.humanize.android.helper.ApplicationState;
 
 /**
@@ -9,43 +8,43 @@ import com.humanize.android.helper.ApplicationState;
  */
 public class UserServiceImpl implements  UserService {
 
-    private User user;
+    private GuestUser guestUser;
 
     private static final String TAG = UserServiceImpl.class.getSimpleName();
 
     public UserServiceImpl() {
-        user = ApplicationState.getUser();
+        guestUser = ApplicationState.getGuestUser();
     }
 
     public boolean isBookmarked(String contentId) {
-        return user.getBookmarks().contains(contentId);
+        return guestUser.getBookmarks().contains(contentId);
     }
 
     public void bookmark(String contentId) {
-        if (!user.getBookmarks().contains(contentId)) {
-            user.getBookmarks().add(0, contentId);
+        if (!guestUser.getBookmarks().contains(contentId)) {
+            guestUser.getBookmarks().add(0, contentId);
         }
     }
 
     public void unbookmark(String contentId) {
-        if (user.getBookmarks().contains(contentId)) {
-            user.getBookmarks().remove(contentId);
+        if (guestUser.getBookmarks().contains(contentId)) {
+            guestUser.getBookmarks().remove(contentId);
         }
     }
 
     public boolean isUpvoted(String contentId) {
-        return user.getUpvotes().contains(contentId);
+        return guestUser.getUpvotes().contains(contentId);
     }
 
     public void upvote(String contentId) {
-        if (!user.getUpvotes().contains(contentId)) {
-            user.getUpvotes().add(0, contentId);
+        if (!guestUser.getUpvotes().contains(contentId)) {
+            guestUser.getUpvotes().add(0, contentId);
         }
     }
 
     public void downvote(String contentId) {
-        if (user.getUpvotes().contains(contentId)) {
-            user.getUpvotes().remove(contentId);
+        if (guestUser.getUpvotes().contains(contentId)) {
+            guestUser.getUpvotes().remove(contentId);
         }
     }
 }

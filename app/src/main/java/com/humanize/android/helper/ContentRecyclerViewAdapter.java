@@ -2,21 +2,13 @@ package com.humanize.android.helper;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,7 +17,6 @@ import android.widget.TextView;
 import com.humanize.android.R;
 import com.humanize.android.activity.WebBrowserActivity;
 import com.humanize.android.config.ApiUrls;
-import com.humanize.android.config.Constants;
 import com.humanize.android.config.StringConstants;
 import com.humanize.android.data.Content;
 import com.humanize.android.data.Contents;
@@ -38,9 +29,6 @@ import com.humanize.android.config.Config;
 import com.humanize.android.service.GsonParserServiceImpl;
 import com.squareup.picasso.Picasso;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -298,8 +286,8 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
 
                 String contentJson = new GsonParserServiceImpl().toJson(contents);
                 SharedPreferencesService.getInstance().putString(jsonKey, contentJson);
-                String userDataJson = new GsonParserServiceImpl().toJson(ApplicationState.getUser());
-                SharedPreferencesService.getInstance().putString(Config.JSON_USER_DATA, userDataJson);
+                String userDataJson = new GsonParserServiceImpl().toJson(ApplicationState.getGuestUser());
+                SharedPreferencesService.getInstance().putString(Config.JSON_GUEST_USER_DATA, userDataJson);
             } catch (Exception exception) {
 
             }

@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.humanize.android.R;
 import com.humanize.android.config.Config;
 import com.humanize.android.config.StringConstants;
-import com.humanize.android.data.SignupObj;
+import com.humanize.android.data.SignupUser;
 import com.humanize.android.service.ApiService;
 import com.humanize.android.service.ApiServiceImpl;
 import com.humanize.android.service.LogService;
@@ -128,9 +128,9 @@ public class SignupActivity extends AppCompatActivity {
             progressDialog.show();
 
             if (getIntent().getData() != null) {
-                SignupObj signupObj = new SignupObj();
-                signupObj.setEmailId(emailId.getText().toString());
-                signupObj.setPassword(password.getText().toString());
+                SignupUser signupUser = new SignupUser();
+                signupUser.setEmailId(emailId.getText().toString());
+                signupUser.setPassword(password.getText().toString());
 
             } else {
                 // TBD:

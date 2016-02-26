@@ -9,10 +9,16 @@ public class Config {
     public final static String JSON_HOME_CONTENTS = "jsonHomeContents";
     public final static String JSON_TRENDING_CONTENTS = "jsonTrendingContents";
     public final static String JSON_USER_DATA = "jsonUserData";
+    public final static String JSON_GUEST_USER_DATA = "jsonGuestUserData";
     public final static String JSON_PAPER = "jsonPaper";
     public final static String LATEST_DATE = "latestDate";
     public final static String JSON_BOOKMARKED_CONTENTS = "jsonBookmarkedContents";
     public final static String JSON_UPVOTED_CONTENTS = "jsonUpvotedContents";
+
+    public final static String EMAIL_ID = "emailId";
+    public final static String PASSWORD = "password";
+    public final static String IS_LOGGED_IN = "isLoggedIn";
+    public final static String TOKEN = "token";
 
     public final static String GCM_DEVICE_TOKEN = "gcmDeviceToken";
     public final static String TOKEN_SENT_TO_SERVER = "tokenSentToServer";
