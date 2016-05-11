@@ -128,6 +128,27 @@
                         android:textColor="@color/colorDarkGrey" />
 
                     <TextView
+                        android:id="@+id/encouraging"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/largeMargin"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:background="@drawable/border_button_dark_grey"
+                        android:text="ENCOURAGING"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/colorDarkGrey" />
+                    </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/mediumMargin">
+
+                    <TextView
                         android:id="@+id/environment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -140,13 +161,6 @@
                         android:text="ENVIRONMENT"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/colorDarkGrey" />
-                    </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/mediumMargin">
 
                     <TextView
                         android:id="@+id/governance"
@@ -161,6 +175,13 @@
                         android:text="GOVERNANCE"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/colorDarkGrey" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/mediumMargin">
 
                     <TextView
                         android:id="@+id/health"
@@ -175,13 +196,6 @@
                         android:text="HEALTH"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/colorDarkGrey" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/mediumMargin">
 
                     <TextView
                         android:id="@+id/humanity"
@@ -196,6 +210,13 @@
                         android:text="HUMANITY"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/colorDarkGrey" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/mediumMargin">
 
                     <TextView
                         android:id="@+id/inspiring"
@@ -210,13 +231,6 @@
                         android:text="INSPIRING"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/colorDarkGrey" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/mediumMargin">
 
                     <TextView
                         android:id="@+id/lawAndJustice"
@@ -231,6 +245,13 @@
                         android:text="LAW \u0026 JUSTICE"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/colorDarkGrey" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/mediumMargin">
 
                     <TextView
                         android:id="@+id/realHeroes"
@@ -242,16 +263,9 @@
                         android:paddingTop="4dp"
                         android:paddingBottom="4dp"
                         android:background="@drawable/border_button_dark_grey"
-                        android:text="Real Heroes"
+                        android:text="REAL HEROES"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/colorDarkGrey" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/mediumMargin">
 
                     <TextView
                         android:id="@+id/scienceAndTech"
@@ -266,6 +280,13 @@
                         android:text="SCIENCE \u0026 TECH"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/colorDarkGrey" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/mediumMargin">
 
                     <TextView
                         android:id="@+id/sports"
@@ -277,7 +298,7 @@
                         android:paddingTop="4dp"
                         android:paddingBottom="4dp"
                         android:background="@drawable/border_button_dark_grey"
-                        android:text="Sports"
+                        android:text="SPORTS"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@color/colorDarkGrey" />
                 </LinearLayout>

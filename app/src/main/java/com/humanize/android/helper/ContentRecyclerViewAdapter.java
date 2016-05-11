@@ -91,7 +91,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         DateFormat dateFormat = new DateFormat();
         viewHolder.contentDate.setText(dateFormat.format(StringConstants.DATE_FORMAT_STR, new java.sql.Date(new Timestamp(content.getCreatedDate()).getTime())));
         viewHolder.contentSource.setText(content.getSource());
-        viewHolder.contentCategory.setText(content.getCategory());
+        viewHolder.contentCategory.setText(content.getCategory().toUpperCase());
 
         viewHolder.contentImage.getLayoutParams().width = Config.IMAGE_WIDTH;
         viewHolder.contentImage.getLayoutParams().height = Config.IMAGE_HEIGHT;
@@ -178,7 +178,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             upvoteButton = (ImageButton) view.findViewById(R.id.upvoteButton);
             shareButton = (ImageButton) view.findViewById(R.id.shareButton);
 
-            //linearLayoutCounts.setVisibility(View.GONE);
+            linearLayoutCounts.setVisibility(View.GONE);
             configureListeners();
 
             view.setOnClickListener(this);
@@ -191,7 +191,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
                 contentCategory.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        refineByCategory(contentCategory.getText().toString());
+                        refineByCategory(toOriginalCategory(contentCategory.getText().toString()));
                     }
                 });
             } else {
@@ -218,6 +218,42 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
                     share();
                 }
             });
+        }
+
+        private String toOriginalCategory(String category) {
+            if (category.equals("ACHIEVERS")) {
+                return new String("Achievers");
+            } else if (category.equals("BEAUTIFUL")) {
+                return new String("Beautiful");
+            } else if (category.equals("CHANGEMAKERS")) {
+                return new String("Changemakers");
+            } else if (category.equals("EDUCATION")) {
+                return new String("Education");
+            } else if (category.equals("EMPOWERMENT")) {
+                return new String("Empowerment");
+            } else if (category.equals("ENCOURAGING")) {
+                return new String("Encouraging");
+            } else if (category.equals("ENVIRONMENT")) {
+                return new String("Environment");
+            } else if (category.equals("GOVERNANCE")) {
+                return new String("Governance");
+            } else if (category.equals("HEALTH")) {
+                return new String("Health");
+            } else if (category.equals("HUMANITY")) {
+                return new String("Humanity");
+            } else if (category.equals("INSPIRING")) {
+                return new String("Inspiring");
+            } else if (category.equals("LAW AND JUSTICE")) {
+                return new String("Law and Justice");
+            } else if (category.equals("REAL HEROES")) {
+                return new String("Real Heroes");
+            } else if (category.equals("SCIENCE AND TECH")) {
+                return new String("Science and Tech");
+            } else if (category.equals("SPORTS")) {
+                return new String("Sports");
+            }
+
+            return category;
         }
 
         private void refineByCategory(String category) {
@@ -309,7 +345,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, StringConstants.HUMANIZE);
-            shareIntent.putExtra(Intent.EXTRA_TEXT, content.getUrl());
+            shareIntent.putExtra(Intent.EXTRA_TEXT, content.getShortUrl());
             shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             ApplicationState.getAppContext().startActivity(shareIntent);
         }

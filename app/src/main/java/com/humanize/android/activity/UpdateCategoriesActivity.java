@@ -39,6 +39,7 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
     private Category changemakers;
     private Category education;
     private Category empowerment;
+    private Category encouraging;
     private Category environment;
     private Category governance;
     private Category health;
@@ -109,6 +110,10 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
         empowerment = new Category();
         empowerment.textView = (TextView) findViewById(R.id.empowerment);
         empowerment.categoryStr = StringConstants.EMPOWERMENT;
+
+        encouraging = new Category();
+        encouraging.textView = (TextView) findViewById(R.id.encouraging);
+        encouraging.categoryStr = StringConstants.ENCOURAGING;
 
         environment = new Category();
         environment.textView = (TextView) findViewById(R.id.environment);
@@ -217,6 +222,16 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
                     unselectCategory(empowerment);
                 } else {
                     selectCategory(empowerment);
+                }
+            }
+        });
+
+        encouraging.textView.setOnClickListener(new android.view.View.OnClickListener() {
+            public void onClick(View view) {
+                if (encouraging.isSelected) {
+                    unselectCategory(encouraging);
+                } else {
+                    selectCategory(encouraging);
                 }
             }
         });
@@ -350,6 +365,10 @@ public class UpdateCategoriesActivity extends AppCompatActivity {
 
             if (guestUser.getCategories().contains(StringConstants.EMPOWERMENT)) {
                 selectCategory(empowerment);
+            }
+
+            if (guestUser.getCategories().contains(StringConstants.ENCOURAGING)) {
+                selectCategory(encouraging);
             }
 
             if (guestUser.getCategories().contains(StringConstants.ENVIRONMENT)) {

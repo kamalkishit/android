@@ -1,4 +1,4 @@
-<android.support.v7.widget.CardView
+<!--<android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/contentCard"
@@ -11,9 +11,14 @@
     android:clickable="true"
     android:elevation="@dimen/cardElevation"
     android:foreground="?android:attr/selectableItemBackground"
-    card_view:cardCornerRadius="0dp">
+    card_view:cardCornerRadius="0dp"> -->
 
     <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/contentCard"
+        android:clickable="true"
+        android:background="?android:attr/selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -24,85 +29,37 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/smallMargin"
             android:layout_marginRight="@dimen/smallMargin"
-            android:layout_marginTop="@dimen/smallMargin"
+            android:layout_marginTop="24dp"
             android:background="@color/colorGrey"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_alignParentRight="true"
-            android:layout_alignBottom="@id/contentImage"
-            android:layout_marginRight="@dimen/mediumMargin"
-            android:layout_marginBottom="-14dp" >
-
-            <!--<LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/extraSmallMargin"
-                android:background="@color/colorWhite"
-                android:layout_marginRight="@dimen/smallMargin">
-
-                <Button
-                    android:id="@+id/bookmarkButton"
-                    android:layout_width="20dp"
-                    android:layout_height="19dp"
-                    android:background="@drawable/ic_bookmark_filled" />
-            </LinearLayout> -->
-
-            <TextView
-                android:id="@+id/contentCategory"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/smallMargin"
-                android:paddingRight="@dimen/smallMargin"
-                android:paddingTop="@dimen/extraSmallMargin"
-                android:paddingBottom="@dimen/extraSmallMargin"
-                android:background="@color/colorAccent"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:text="Category"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/colorWhite" />
-        </LinearLayout>
-
-        <!--<TextView
+        <TextView
             android:id="@+id/contentCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
+            android:layout_marginTop="@dimen/mediumMargin"
+            android:layout_marginLeft="@dimen/mediumMargin"
+            android:layout_below="@id/contentImage"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignBottom="@id/contentImage"
-            android:layout_marginBottom="-12dp"
-            android:layout_marginRight="16dp"
-            android:background="@color/colorAccent"
-            android:text="Category"
+            android:background="@drawable/border_button_dark_grey"
+            android:text="category"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/colorWhite" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_bookmark_filled_grey"
-            android:layout_alignBottom="@id/contentImage"
-            android:layout_marginBottom="-14dp"
-            android:layout_alignLeft="@id/contentCategory"/> -->
+            android:textColor="@color/colorDarkGrey" />
 
         <TextView
             android:id="@+id/contentTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/contentImage"
+            android:layout_below="@id/contentCategory"
             android:layout_marginBottom="@dimen/smallMargin"
             android:layout_marginLeft="@dimen/mediumMargin"
             android:layout_marginRight="@dimen/mediumMargin"
-            android:layout_marginTop="@dimen/mediumMargin"
-            android:text="title "
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/colorBlack"
-            android:textStyle="bold" />
+            android:layout_marginTop="12dp"
+            android:text="title"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/colorBlack" />
 
         <RelativeLayout
             android:id="@+id/dateAndSource"
@@ -113,21 +70,21 @@
             android:layout_marginRight="@dimen/mediumMargin">
 
             <TextView
-                android:id="@+id/contentDate"
+                android:id="@+id/contentSource"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/colorBlack" />
+                android:textColor="@color/colorDarkGrey" />
 
             <TextView
-                android:id="@+id/contentSource"
+                android:id="@+id/contentDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/colorBlack" />
+                android:textColor="@color/colorDarkGrey" />
             </RelativeLayout>
-        
+
         <!--<View
             android:id="@+id/line"
             android:layout_width="40dp"
@@ -146,8 +103,9 @@
             android:layout_marginBottom="@dimen/mediumMargin"
             android:layout_marginLeft="@dimen/mediumMargin"
             android:layout_marginRight="@dimen/mediumMargin"
+            android:maxLines="5"
             android:text="description"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/colorDarkGrey"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <LinearLayout
@@ -202,6 +160,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/mediumMargin"
@@ -212,31 +171,40 @@
 
             <ImageButton
                 android:id="@+id/bookmarkButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="20dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="16dp"
                 android:src="@drawable/ic_bookmark_filled_grey"
-                android:background="?android:attr/selectableItemBackground"
+                android:background="@drawable/circle_button"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:layout_weight="1"/>
 
             <ImageButton
                 android:id="@+id/upvoteButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginRight="@dimen/mediumMargin"
                 android:src="@drawable/ic_recomend_filled_grey"
-                android:background="?android:attr/selectableItemBackground"
+                android:background="@drawable/circle_button"
                 android:layout_weight="1"/>
 
             <ImageButton
                 android:id="@+id/shareButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/ic_share_filled_grey"
-                android:background="?android:attr/selectableItemBackground"
+                android:background="@drawable/circle_button"
                 android:layout_weight="1"/>
         </LinearLayout>
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="@dimen/smallMargin"
+            android:layout_marginRight="@dimen/smallMargin"
+            android:layout_height="1dp"
+            android:layout_below="@id/buttons"
+            android:background="#cecccc" />
 
         <!--<Button
             android:id="@+id/shareButton"
@@ -260,4 +228,4 @@
             android:textAllCaps="false"
             android:textAppearance="?android:attr/textAppearanceSmall" /> -->
     </RelativeLayout>
-</android.support.v7.widget.CardView>
+<!--</android.support.v7.widget.CardView> -->

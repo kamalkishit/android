@@ -32,8 +32,8 @@ public class Config {
 
     public static int PAPER_HOUR = 8;
     public static int PAPER_MINUTE = 0;
-    public static int ASPECT_RATIO_WIDTH = 3;
-    public static int ASPECT_RATIO_HEIGHT = 5;
+    public static int ASPECT_RATIO_WIDTH = 13;
+    public static int ASPECT_RATIO_HEIGHT = 20;
     public static int IMAGE_WIDTH = 720;
     public static int IMAGE_HEIGHT = 405;
     public static int SCREEN_WIDTH = 0;

@@ -31,7 +31,7 @@
             android:layout_marginTop="@dimen/mediumMargin"
             android:textColor="@color/colorBlack"
             android:textSize="15sp"
-            android:text="Ever wondered how constant exposure to negative and violent content is draining you?\nAnd do you feel an urge to feed optimism and positivity to your mind, then HUMANIZE is the platform for you.\n\nAt HUMANIZE, read about good things happening around you to motivate and inspire yourself.\nMotivate others by sharing positive stories with them. Also share with us good content and help us be the voice for heroes in disguise."
+            android:text="A lot of good things are happening around us all the time, Humanize helps you to know what good is happening around."
             android:gravity="left" />
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

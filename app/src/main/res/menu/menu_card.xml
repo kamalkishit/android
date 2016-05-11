@@ -2,10 +2,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
+    <!--<item
         android:id="@+id/actionCreate"
         android:icon="@drawable/ic_create_white_24dp"
         android:title="Submit Article"
         android:orderInCategory="100"
-        app:showAsAction="always" />
+        app:showAsAction="always" /> -->
 </menu>

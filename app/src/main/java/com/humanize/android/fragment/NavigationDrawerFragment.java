@@ -91,6 +91,7 @@ public class NavigationDrawerFragment extends Fragment {
         textViewLogin.setText(StringConstants.LOGIN_SIGNUP);
         ImageView imageViewLogin = (ImageView) login.findViewById(R.id.imageView);
         imageViewLogin.setImageResource(R.drawable.ic_login_black);
+        login.setVisibility(View.GONE);
 
         TextView textViewSettings = (TextView) settings.findViewById(R.id.textView);
         textViewSettings.setText(StringConstants.SETTINGS);
@@ -175,6 +176,7 @@ public class NavigationDrawerFragment extends Fragment {
         textViewLogout.setText(StringConstants.LOGOUT);
         ImageView imageViewLogout = (ImageView) logout.findViewById(R.id.imageView);
         imageViewLogout.setImageResource(R.drawable.ic_logout_black);
+        logout.setVisibility(View.GONE);
     }
 
     private void defaultStateDrawer() {

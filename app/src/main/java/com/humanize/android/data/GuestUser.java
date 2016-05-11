@@ -31,6 +31,7 @@ public class GuestUser {
         categories.add(StringConstants.CHANGEMAKERS);
         categories.add(StringConstants.EDUCATION);
         categories.add(StringConstants.EMPOWERMENT);
+        categories.add(StringConstants.ENCOURAGING);
         categories.add(StringConstants.ENVIRONMENT);
         categories.add(StringConstants.GOVERNANCE);
         categories.add(StringConstants.HEALTH);

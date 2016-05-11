@@ -72,7 +72,7 @@ public class ApplicationState extends Application{
 
         // total pixel width of screen - margin on both side for content card
         int sidePixels = Math.round(Constants.SMALL_MARGIN * 2 * (metrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-        int imageWidth = metrics.widthPixels - sidePixels;
+        int imageWidth = metrics.widthPixels;
         int imageHeight = (imageWidth* Config.ASPECT_RATIO_WIDTH)/Config.ASPECT_RATIO_HEIGHT;
         Config.IMAGE_WIDTH = imageWidth;
         Config.IMAGE_HEIGHT = imageHeight;

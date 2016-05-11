@@ -61,6 +61,7 @@ public class StringConstants {
     public static String CHANGEMAKERS = "Changemakers";
     public static String EDUCATION = "Education";
     public static String EMPOWERMENT = "Empowerment";
+    public static String ENCOURAGING = "Encouraging";
     public static String ENVIRONMENT = "Environment";
     public static String GOVERNANCE = "Governance";
     public static String HEALTH = "Health";
