@@ -28,6 +28,8 @@ import com.humanize.android.service.UserServiceImpl;
 import com.humanize.android.config.Config;
 import com.humanize.android.service.GsonParserServiceImpl;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Callback;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -81,8 +83,8 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
     }
 
     @Override
-    public void onBindViewHolder(ContentViewHolder viewHolder, int index) {
-        Content content = contents.get(index);
+    public void onBindViewHolder(final ContentViewHolder viewHolder, int index) {
+        final Content content = contents.get(index);
         viewHolder.content = content;
         viewHolder.contentId = content.getId();
 
@@ -118,8 +120,23 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         }
 
         Picasso.with(ApplicationState.getAppContext()).load(ApiUrls.URL_IMAGES + content.getImageId())
-                .fit().centerCrop().into(viewHolder.contentImage);
-    }
+                .networkPolicy(NetworkPolicy.OFFLINE)
+                .fit().centerCrop()
+                .into(viewHolder.contentImage, new Callback() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError() {
+                        // Try again online if cache failed
+                        Picasso.with(ApplicationState.getAppContext()).load(ApiUrls.URL_IMAGES + content.getImageId())
+                                .fit().centerCrop()
+                                .into(viewHolder.contentImage);
+                    }
+                });
+            }
 
     @Override
     public ContentViewHolder onCreateViewHolder(ViewGroup viewGroup, int index) {
