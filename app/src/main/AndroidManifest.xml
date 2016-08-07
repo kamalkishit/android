@@ -49,7 +49,15 @@
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme"
-            android:windowSoftInputMode="stateVisible" />
+            android:windowSoftInputMode="stateVisible">
+            <!--<intent-filter android:label="Humanize">
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+            </intent-filter> -->
+        </activity>
         <activity
             android:name=".activity.AboutUsActivity"
             android:noHistory="true"
@@ -144,7 +152,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme"
             android:windowSoftInputMode="stateVisible" />
-
         <activity
             android:name=".activity.ForgotPasswordActivity"
             android:noHistory="true"
@@ -207,7 +214,11 @@
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialDesignTheme" />
-
+        <activity
+            android:name=".activity.SharedActivity"
+            android:label="@string/title_activity_shared"
+            android:screenOrientation="portrait"
+            android:theme="@style/MaterialDesignTheme" />
     </application>
 
 </manifest>

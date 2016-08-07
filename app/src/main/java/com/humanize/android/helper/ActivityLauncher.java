@@ -12,6 +12,7 @@ import com.humanize.android.activity.HistoricPaperActivity;
 import com.humanize.android.activity.InviteFriendActivity;
 import com.humanize.android.activity.LoginActivity;
 import com.humanize.android.activity.PaperActivity;
+import com.humanize.android.activity.SharedActivity;
 import com.humanize.android.activity.SignupActivity;
 import com.humanize.android.activity.UpdateCategoriesActivity;
 import com.humanize.android.activity.SubmitArticleActivity;
@@ -70,6 +71,12 @@ public class ActivityLauncher {
 
     public void startUpvotedActivity() {
         Intent intent = new Intent(ApplicationState.getAppContext(), UpvotedActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ApplicationState.getAppContext().startActivity(intent);
+    }
+
+    public void startSharedActivity() {
+        Intent intent = new Intent(ApplicationState.getAppContext(), SharedActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ApplicationState.getAppContext().startActivity(intent);
     }

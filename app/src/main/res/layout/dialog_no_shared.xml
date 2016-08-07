@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/extraLargeMargin"
+        android:layout_marginBottom="@dimen/largeMargin"
+        android:layout_marginLeft="@dimen/mediumMargin"
+        android:layout_marginRight="@dimen/mediumMargin"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/noShared"
+        android:gravity="center"/>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/submitButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/mediumMargin"
+        android:background="@drawable/button_selector"
+        android:text="@string/dismiss"
+        android:textColor="@color/colorWhite" />
+</LinearLayout>

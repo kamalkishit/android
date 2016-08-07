@@ -42,8 +42,9 @@ public class NavigationDrawerFragment extends Fragment {
     @Bind(R.id.updateNotification) LinearLayout updateNotification;
     @Bind(R.id.paper) LinearLayout paper;
     @Bind(R.id.historicPaper) LinearLayout historicPaper;
-    @Bind(R.id.bookmarkedArticles) LinearLayout bookmarkedArticles;
-    @Bind(R.id.upvotedArticles) LinearLayout upvotedArticles;
+    //@Bind(R.id.bookmarkedArticles) LinearLayout bookmarkedArticles;
+    //@Bind(R.id.upvotedArticles) LinearLayout upvotedArticles;
+    @Bind(R.id.sharedArticles) LinearLayout sharedArticles;
     @Bind(R.id.submitArticle) LinearLayout submitArticle;
     @Bind(R.id.inviteFriend) LinearLayout inviteFriend;
     @Bind(R.id.shareApp) LinearLayout shareApp;
@@ -132,7 +133,7 @@ public class NavigationDrawerFragment extends Fragment {
         ImageView imageViewHistoricPaper = (ImageView) historicPaper.findViewById(R.id.imageView);
         imageViewHistoricPaper.setImageResource(R.drawable.ic_historic_paper_black);
 
-        TextView textViewBookmarkedArticles = (TextView) bookmarkedArticles.findViewById(R.id.textView);
+        /*TextView textViewBookmarkedArticles = (TextView) bookmarkedArticles.findViewById(R.id.textView);
         textViewBookmarkedArticles.setText(StringConstants.BOOKMARKED_ARTICLES);
         ImageView imageViewBookmarkedArticles = (ImageView) bookmarkedArticles.findViewById(R.id.imageView);
         imageViewBookmarkedArticles.setImageResource(R.drawable.ic_bookmark_black);
@@ -140,7 +141,12 @@ public class NavigationDrawerFragment extends Fragment {
         TextView textViewUpvotedArticles = (TextView) upvotedArticles.findViewById(R.id.textView);
         textViewUpvotedArticles.setText(StringConstants.UPVOTED_ARTICLES);
         ImageView imageViewUpvotedArticles = (ImageView) upvotedArticles.findViewById(R.id.imageView);
-        imageViewUpvotedArticles.setImageResource(R.drawable.ic_recomend_black);
+        imageViewUpvotedArticles.setImageResource(R.drawable.ic_recomend_black); */
+
+        TextView textViewSharedArticles = (TextView) sharedArticles.findViewById(R.id.textView);
+        textViewSharedArticles.setText(StringConstants.SHARED_ARTICLES);
+        ImageView imageViewSharedArticles = (ImageView) sharedArticles.findViewById(R.id.imageView);
+        imageViewSharedArticles.setImageResource(R.drawable.ic_share_unfilled_black);
 
         TextView textViewSubmitArticle = (TextView) submitArticle.findViewById(R.id.textView);
         textViewSubmitArticle.setText(StringConstants.SUBMIT_ARTICLE);
@@ -295,7 +301,7 @@ public class NavigationDrawerFragment extends Fragment {
             }
         });
 
-        upvotedArticles.setOnClickListener(new View.OnClickListener() {
+        /*upvotedArticles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 activityLauncher.startUpvotedActivity();
@@ -307,6 +313,14 @@ public class NavigationDrawerFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 activityLauncher.startBookmarksActivity();
+                drawerLayout.closeDrawer(Gravity.LEFT);
+            }
+        }); */
+
+        sharedArticles.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activityLauncher.startSharedActivity();
                 drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });

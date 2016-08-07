@@ -38,6 +38,7 @@ public class StringConstants {
     public static String PAPER_NOTIFICATION = "Paper Notification";
     public static String NOTIFICATION = "Notifications";
     public static String BOOKMARKED_ARTICLES = "Bookmarked Articles";
+    public static String SHARED_ARTICLES = "Shared Articles";
     public static String UPVOTED_ARTICLES = "Upvoted Articles";
     public static String INVITE_FRIEND = "Invite Friend";
     public static String SHARE_APP = "Share App";

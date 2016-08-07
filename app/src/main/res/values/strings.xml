@@ -30,6 +30,7 @@
     <string name="resetPassword">RESET PASSWORD</string>
     <string name="noBookmarks">You have not bookmarked any article.</string>
     <string name="noUpvotes">You have not upvoted any article.</string>
+    <string name="noShared">You have not shared any article.</string>
     <string name="thanks">Thanks for contributing.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -50,4 +51,5 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_signup">SignupActivity</string>
     <string name="title_activity_forgot_password">ForgotPasswordActivity</string>
+    <string name="title_activity_shared">SharedActivity</string>
 </resources>

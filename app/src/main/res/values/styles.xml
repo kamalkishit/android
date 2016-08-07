@@ -2,6 +2,8 @@
 
     <style name="MaterialDesignTheme" parent="MaterialDesignTheme.Base"></style>
 
+    <style name="SecondaryTheme" parent="SecondaryTheme.Base"></style>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar"></style>
 
     <style name="MaterialDesignTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
@@ -10,6 +12,18 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="android:textViewStyle">@style/CustomTextViewStyle</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="SecondaryTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@color/colorWhite</item>
+        <item name="colorPrimaryDark">@color/colorDarkGrey</item>
+        <item name="colorAccent">@color/colorDarkGrey</item>
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:windowBackground">@color/windowBackground</item>
         <item name="android:textViewStyle">@style/CustomTextViewStyle</item>

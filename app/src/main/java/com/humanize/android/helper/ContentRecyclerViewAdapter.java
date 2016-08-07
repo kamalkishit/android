@@ -98,8 +98,8 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         viewHolder.contentImage.getLayoutParams().width = Config.IMAGE_WIDTH;
         viewHolder.contentImage.getLayoutParams().height = Config.IMAGE_HEIGHT;
 
-        updateBookmarkButton(viewHolder);
-        updateUpvoteButton(viewHolder);
+        //updateBookmarkButton(viewHolder);
+        //updateUpvoteButton(viewHolder);
 
         if (content.getViewedCount() > 0) {
             viewHolder.contentViewedCount.setText("" + content.getViewedCount());
@@ -145,7 +145,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         return viewHolder;
     }
 
-    private void updateBookmarkButton(ContentViewHolder viewHolder) {
+    /*private void updateBookmarkButton(ContentViewHolder viewHolder) {
         if (userService.isBookmarked(viewHolder.contentId)) {
             viewHolder.bookmarkButton.setImageDrawable(ApplicationState.getAppContext().getResources().getDrawable(R.drawable.ic_bookmark_filled_green));
         } else {
@@ -159,7 +159,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
         } else {
             viewHolder.upvoteButton.setImageDrawable(ApplicationState.getAppContext().getResources().getDrawable(R.drawable.ic_recomend_filled_grey));
         }
-    }
+    } */
 
     public class ContentViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -191,16 +191,16 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             contentViewedCount = (TextView) view.findViewById(R.id.viewsCount);
             contentUpvotedCount = (TextView) view.findViewById(R.id.upvotesCount);
             contentSharedCount = (TextView) view.findViewById(R.id.sharedCount);
-            bookmarkButton = (ImageButton) view.findViewById(R.id.bookmarkButton);
-            upvoteButton = (ImageButton) view.findViewById(R.id.upvoteButton);
+            //bookmarkButton = (ImageButton) view.findViewById(R.id.bookmarkButton);
+            //upvoteButton = (ImageButton) view.findViewById(R.id.upvoteButton);
             shareButton = (ImageButton) view.findViewById(R.id.shareButton);
 
             linearLayoutCounts.setVisibility(View.GONE);
             configureListeners();
 
             view.setOnClickListener(this);
-            updateBookmarkButton();
-            updateUpvotebutton();
+            //updateBookmarkButton();
+            //updateUpvotebutton();
         }
 
         private void configureListeners() {
@@ -215,7 +215,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
                 contentCategory.setOnClickListener(null);
             }
 
-            bookmarkButton.setOnClickListener(new View.OnClickListener() {
+            /*bookmarkButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     bookmark();
@@ -227,7 +227,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
                 public void onClick(View view) {
                     upvote();
                 }
-            });
+            }); */
 
             shareButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -277,7 +277,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             new ActivityLauncher().startSingleCategoryContentActivity(category);
         }
 
-        private void bookmark() {
+        /*private void bookmark() {
             if (userService.isBookmarked(content.getId())) {
                 userService.unbookmark(contentId);
                 updateJson(Config.JSON_BOOKMARKED_CONTENTS, content, false);
@@ -319,7 +319,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
             } else {
                 upvoteButton.setImageDrawable(ApplicationState.getAppContext().getResources().getDrawable(R.drawable.ic_recomend_filled_grey));
             }
-        }
+        } */
 
         private void updateJson(String jsonKey, Content content, boolean add) {
             try {
@@ -358,6 +358,7 @@ public class ContentRecyclerViewAdapter extends RecyclerView.Adapter<ContentRecy
 
         private void share() {
             contentService.incrSharedCount(content);
+            updateJson(Config.JSON_SHARED_CONTENTS, content, true);
 
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");

@@ -169,13 +169,12 @@
             android:layout_alignParentRight="true"
             android:layout_below="@id/counts">
 
-            <ImageButton
+            <!--<ImageButton
                 android:id="@+id/bookmarkButton"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginRight="16dp"
                 android:src="@drawable/ic_bookmark_filled_grey"
-                android:background="@drawable/circle_button"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:layout_weight="1"/>
 
@@ -186,13 +185,13 @@
                 android:layout_marginRight="@dimen/mediumMargin"
                 android:src="@drawable/ic_recomend_filled_grey"
                 android:background="@drawable/circle_button"
-                android:layout_weight="1"/>
+                android:layout_weight="1"/> -->
 
             <ImageButton
                 android:id="@+id/shareButton"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/ic_share_filled_grey"
+                android:src="@drawable/ic_share_small_filled_green"
                 android:background="@drawable/circle_button"
                 android:layout_weight="1"/>
         </LinearLayout>

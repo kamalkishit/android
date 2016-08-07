@@ -104,7 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/extraSmallMargin" />
 
-        <include
+        <!--<include
             android:id="@+id/bookmarkedArticles"
             layout="@layout/nav_drawer_item_row"
             android:layout_width="match_parent"
@@ -113,6 +113,13 @@
 
         <include
             android:id="@+id/upvotedArticles"
+            layout="@layout/nav_drawer_item_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/extraSmallMargin" /> -->
+
+        <include
+            android:id="@+id/sharedArticles"
             layout="@layout/nav_drawer_item_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
